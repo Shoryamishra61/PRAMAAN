@@ -1,0 +1,35 @@
+profile_id: refund_not_processed_v1
+purpose: >-
+  Verify internal supportability of evidence for refund/credit-not-processed disputes.
+  This profile does not predict network outcome.
+external_alignment:
+  razorpay_reason_family: RZP04 Refund not Processed
+  visa_analogue: 13.6 Credit Not Processed
+suggested_evidence:
+  - refund_generation_or_ledger_state
+  - customer_refund_communication
+  - refund_policy_if_relevant
+  - transaction_reversal_or_credit_state_if_available
+review_if_missing: true
+material_rules:
+  - code: REFUND_CLAIMED_PROCESSED_NO_LEDGER_MATCH
+    condition: grounded communication asserts credit processed AND complete trusted refund ledger has no matching credit
+    action: BLOCK
+  - code: REFUND_AMOUNT_MISMATCH
+    condition: grounded full-refund amount materially differs from final trusted refund amount for same payment/currency
+    action: BLOCK
+  - code: PAYMENT_OR_CURRENCY_LINK_MISMATCH
+    condition: evidence/refund references a different payment or currency than the disputed transaction
+    action: BLOCK
+  - code: REFUND_STATE_INCOMPLETE
+    condition: structured refund state is pending, partial, missing, stale, or otherwise insufficient to establish conflict
+    action: REVIEW
+  - code: FUTURE_REFUND_PROMISE_NOT_YET_DUE
+    condition: communication promises future refund and commitment window has not elapsed
+    action: REVIEW
+  - code: CUSTOMER_NON_RECEIPT_VS_PROCESSED_LEDGER
+    condition: customer says refund not received but trusted ledger says processed
+    action: REVIEW
+notes:
+  - Suggested evidence is not treated as universally mandatory network evidence.
+  - Policy prose is not converted into a hard BLOCK unless the rule is explicitly structured and validated for the case.

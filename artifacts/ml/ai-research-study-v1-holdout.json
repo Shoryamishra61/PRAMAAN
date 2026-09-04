@@ -1,0 +1,1058 @@
+{
+  "artifact_version": "ai-research-study-v1-holdout",
+  "boundary": {
+    "gate_authority": false,
+    "holdout_accessed": true,
+    "runtime_selection_changed": false,
+    "split": "FROZEN_HOLDOUT",
+    "synthetic": true
+  },
+  "claim_extraction": {
+    "embedding_logistic": {
+      "calibration": {
+        "bins": [
+          {
+            "count": 15,
+            "lower": 0.2,
+            "mean_probability": 0.268182,
+            "positive_rate": 0.0,
+            "upper": 0.4
+          },
+          {
+            "count": 5,
+            "lower": 0.4,
+            "mean_probability": 0.526435,
+            "positive_rate": 0.0,
+            "upper": 0.6
+          },
+          {
+            "count": 50,
+            "lower": 0.8,
+            "mean_probability": 0.92203,
+            "positive_rate": 0.8,
+            "upper": 1.0
+          }
+        ],
+        "brier": 0.158055,
+        "ece_5": 0.182234,
+        "nll": 0.509293
+      },
+      "exact_quote_grounding_rate": 1.0,
+      "metrics": {
+        "confusion": {
+          "fn": 0,
+          "fp": 15,
+          "tn": 15,
+          "tp": 40
+        },
+        "counts": {
+          "examples": 70,
+          "positive": 40
+        },
+        "f1": 0.842105,
+        "precision": 0.727273,
+        "recall": 1.0
+      },
+      "model_id": "sentence-transformers/all-MiniLM-L6-v2",
+      "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+      "risk_coverage": {
+        "aurc": 0.109511,
+        "points": [
+          {
+            "accepted": 35,
+            "coverage": 0.5,
+            "risk": 0.114286
+          },
+          {
+            "accepted": 49,
+            "coverage": 0.7,
+            "risk": 0.204082
+          },
+          {
+            "accepted": 56,
+            "coverage": 0.8,
+            "risk": 0.178571
+          },
+          {
+            "accepted": 63,
+            "coverage": 0.9,
+            "risk": 0.15873
+          },
+          {
+            "accepted": 70,
+            "coverage": 1.0,
+            "risk": 0.214286
+          }
+        ]
+      },
+      "status": "MEASURED"
+    },
+    "regex_baseline": {
+      "exact_quote_grounding_rate": 1.0,
+      "metrics": {
+        "confusion": {
+          "fn": 30,
+          "fp": 0,
+          "tn": 30,
+          "tp": 10
+        },
+        "counts": {
+          "examples": 70,
+          "positive": 40
+        },
+        "f1": 0.4,
+        "precision": 1.0,
+        "recall": 0.25
+      }
+    },
+    "tfidf_combined": {
+      "calibration": {
+        "bins": [
+          {
+            "count": 15,
+            "lower": 0.2,
+            "mean_probability": 0.251784,
+            "positive_rate": 0.0,
+            "upper": 0.4
+          },
+          {
+            "count": 5,
+            "lower": 0.4,
+            "mean_probability": 0.403926,
+            "positive_rate": 0.0,
+            "upper": 0.6
+          },
+          {
+            "count": 10,
+            "lower": 0.6,
+            "mean_probability": 0.655586,
+            "positive_rate": 1.0,
+            "upper": 0.8
+          },
+          {
+            "count": 40,
+            "lower": 0.8,
+            "mean_probability": 0.928339,
+            "positive_rate": 0.75,
+            "upper": 1.0
+          }
+        ],
+        "brier": 0.155361,
+        "ece_5": 0.233916,
+        "nll": 0.488596
+      },
+      "exact_quote_grounding_rate": 1.0,
+      "metrics": {
+        "confusion": {
+          "fn": 0,
+          "fp": 10,
+          "tn": 20,
+          "tp": 40
+        },
+        "counts": {
+          "examples": 70,
+          "positive": 40
+        },
+        "f1": 0.888889,
+        "precision": 0.8,
+        "recall": 1.0
+      },
+      "risk_coverage": {
+        "aurc": 0.100518,
+        "points": [
+          {
+            "accepted": 35,
+            "coverage": 0.5,
+            "risk": 0.142857
+          },
+          {
+            "accepted": 49,
+            "coverage": 0.7,
+            "risk": 0.204082
+          },
+          {
+            "accepted": 56,
+            "coverage": 0.8,
+            "risk": 0.178571
+          },
+          {
+            "accepted": 63,
+            "coverage": 0.9,
+            "risk": 0.15873
+          },
+          {
+            "accepted": 70,
+            "coverage": 1.0,
+            "risk": 0.142857
+          }
+        ]
+      }
+    }
+  },
+  "created_at": "2026-09-01T02:40:55.775329Z",
+  "dataset": {
+    "families": [
+      "approved_full_vs_partial",
+      "negated_processed",
+      "processed_after_message",
+      "reference_mismatch",
+      "repeated_quote_ambiguity",
+      "unsupported_language"
+    ],
+    "positive_sentences": 40,
+    "sentence_examples": 70
+  },
+  "dev_artifact_sha256": "7fc51f5c206ad1d15539f2ea6e165783009f2b972ce07e484e2d62f0c0587c62",
+  "freeze_artifact_sha256": "99c2d3beae7adae89cf3eef7407fb4dcb6aff4b17a853344cc80d11305b246a9",
+  "holdout_manifest_sha256": "1c285947c38bd0623b56cfb156dcc2eb3157505e5b8fc8bca45c089158ab3681",
+  "predictions": [
+    {
+      "case_id": "case_holdout_001",
+      "embedding_probability": 0.383483,
+      "example_id": "case_holdout_001:sentence:0",
+      "family": "negated_processed",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "negation_hard_negative",
+      "text": "We have not processed a refund.",
+      "tfidf_probability": 0.336715
+    },
+    {
+      "case_id": "case_holdout_002",
+      "embedding_probability": 0.526435,
+      "example_id": "case_holdout_002:sentence:0",
+      "family": "negated_processed",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "negation_hard_negative",
+      "text": "The refund should have been processed by now.",
+      "tfidf_probability": 0.403926
+    },
+    {
+      "case_id": "case_holdout_003",
+      "embedding_probability": 0.383483,
+      "example_id": "case_holdout_003:sentence:0",
+      "family": "negated_processed",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "negation_hard_negative",
+      "text": "We have not processed a refund.",
+      "tfidf_probability": 0.336715
+    },
+    {
+      "case_id": "case_holdout_004",
+      "embedding_probability": 0.526435,
+      "example_id": "case_holdout_004:sentence:0",
+      "family": "negated_processed",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "negation_hard_negative",
+      "text": "The refund should have been processed by now.",
+      "tfidf_probability": 0.403926
+    },
+    {
+      "case_id": "case_holdout_005",
+      "embedding_probability": 0.383483,
+      "example_id": "case_holdout_005:sentence:0",
+      "family": "negated_processed",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "negation_hard_negative",
+      "text": "We have not processed a refund.",
+      "tfidf_probability": 0.336715
+    },
+    {
+      "case_id": "case_holdout_006",
+      "embedding_probability": 0.526435,
+      "example_id": "case_holdout_006:sentence:0",
+      "family": "negated_processed",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "negation_hard_negative",
+      "text": "The refund should have been processed by now.",
+      "tfidf_probability": 0.403926
+    },
+    {
+      "case_id": "case_holdout_007",
+      "embedding_probability": 0.383483,
+      "example_id": "case_holdout_007:sentence:0",
+      "family": "negated_processed",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "negation_hard_negative",
+      "text": "We have not processed a refund.",
+      "tfidf_probability": 0.336715
+    },
+    {
+      "case_id": "case_holdout_008",
+      "embedding_probability": 0.526435,
+      "example_id": "case_holdout_008:sentence:0",
+      "family": "negated_processed",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "negation_hard_negative",
+      "text": "The refund should have been processed by now.",
+      "tfidf_probability": 0.403926
+    },
+    {
+      "case_id": "case_holdout_009",
+      "embedding_probability": 0.383483,
+      "example_id": "case_holdout_009:sentence:0",
+      "family": "negated_processed",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "negation_hard_negative",
+      "text": "We have not processed a refund.",
+      "tfidf_probability": 0.336715
+    },
+    {
+      "case_id": "case_holdout_010",
+      "embedding_probability": 0.526435,
+      "example_id": "case_holdout_010:sentence:0",
+      "family": "negated_processed",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "negation_hard_negative",
+      "text": "The refund should have been processed by now.",
+      "tfidf_probability": 0.403926
+    },
+    {
+      "case_id": "case_holdout_011",
+      "embedding_probability": 0.905402,
+      "example_id": "case_holdout_011:sentence:0",
+      "family": "processed_after_message",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "claimed_processed_match",
+      "text": "The refund has now been processed for \u20b91,000.",
+      "tfidf_probability": 0.650114
+    },
+    {
+      "case_id": "case_holdout_012",
+      "embedding_probability": 0.896265,
+      "example_id": "case_holdout_012:sentence:0",
+      "family": "processed_after_message",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "claimed_processed_match",
+      "text": "The refund has now been processed for \u20b92,500.",
+      "tfidf_probability": 0.641909
+    },
+    {
+      "case_id": "case_holdout_013",
+      "embedding_probability": 0.909241,
+      "example_id": "case_holdout_013:sentence:0",
+      "family": "processed_after_message",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "claimed_processed_match",
+      "text": "The refund has now been processed for \u20b94,999.",
+      "tfidf_probability": 0.624019
+    },
+    {
+      "case_id": "case_holdout_014",
+      "embedding_probability": 0.908159,
+      "example_id": "case_holdout_014:sentence:0",
+      "family": "processed_after_message",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "claimed_processed_match",
+      "text": "The refund has now been processed for \u20b912,500.",
+      "tfidf_probability": 0.715879
+    },
+    {
+      "case_id": "case_holdout_015",
+      "embedding_probability": 0.905402,
+      "example_id": "case_holdout_015:sentence:0",
+      "family": "processed_after_message",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "claimed_processed_match",
+      "text": "The refund has now been processed for \u20b91,000.",
+      "tfidf_probability": 0.650114
+    },
+    {
+      "case_id": "case_holdout_016",
+      "embedding_probability": 0.896265,
+      "example_id": "case_holdout_016:sentence:0",
+      "family": "processed_after_message",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "claimed_processed_match",
+      "text": "The refund has now been processed for \u20b92,500.",
+      "tfidf_probability": 0.641909
+    },
+    {
+      "case_id": "case_holdout_017",
+      "embedding_probability": 0.909241,
+      "example_id": "case_holdout_017:sentence:0",
+      "family": "processed_after_message",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "claimed_processed_match",
+      "text": "The refund has now been processed for \u20b94,999.",
+      "tfidf_probability": 0.624019
+    },
+    {
+      "case_id": "case_holdout_018",
+      "embedding_probability": 0.908159,
+      "example_id": "case_holdout_018:sentence:0",
+      "family": "processed_after_message",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "claimed_processed_match",
+      "text": "The refund has now been processed for \u20b912,500.",
+      "tfidf_probability": 0.715879
+    },
+    {
+      "case_id": "case_holdout_019",
+      "embedding_probability": 0.905402,
+      "example_id": "case_holdout_019:sentence:0",
+      "family": "processed_after_message",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "claimed_processed_match",
+      "text": "The refund has now been processed for \u20b91,000.",
+      "tfidf_probability": 0.650114
+    },
+    {
+      "case_id": "case_holdout_020",
+      "embedding_probability": 0.896265,
+      "example_id": "case_holdout_020:sentence:0",
+      "family": "processed_after_message",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "claimed_processed_match",
+      "text": "The refund has now been processed for \u20b92,500.",
+      "tfidf_probability": 0.641909
+    },
+    {
+      "case_id": "case_holdout_021",
+      "embedding_probability": 0.920827,
+      "example_id": "case_holdout_021:sentence:0",
+      "family": "repeated_quote_ambiguity",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "provider_grounding_failure",
+      "text": "Your refund of \u20b91,000 was processed.",
+      "tfidf_probability": 0.92862
+    },
+    {
+      "case_id": "case_holdout_021",
+      "embedding_probability": 0.920827,
+      "example_id": "case_holdout_021:sentence:1",
+      "family": "repeated_quote_ambiguity",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "provider_grounding_failure",
+      "text": "Your refund of \u20b91,000 was processed.",
+      "tfidf_probability": 0.92862
+    },
+    {
+      "case_id": "case_holdout_022",
+      "embedding_probability": 0.91861,
+      "example_id": "case_holdout_022:sentence:0",
+      "family": "repeated_quote_ambiguity",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "provider_grounding_failure",
+      "text": "Your refund of \u20b92,500 was processed.",
+      "tfidf_probability": 0.92971
+    },
+    {
+      "case_id": "case_holdout_022",
+      "embedding_probability": 0.91861,
+      "example_id": "case_holdout_022:sentence:1",
+      "family": "repeated_quote_ambiguity",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "provider_grounding_failure",
+      "text": "Your refund of \u20b92,500 was processed.",
+      "tfidf_probability": 0.92971
+    },
+    {
+      "case_id": "case_holdout_023",
+      "embedding_probability": 0.923533,
+      "example_id": "case_holdout_023:sentence:0",
+      "family": "repeated_quote_ambiguity",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "provider_grounding_failure",
+      "text": "Your refund of \u20b94,999 was processed.",
+      "tfidf_probability": 0.928432
+    },
+    {
+      "case_id": "case_holdout_023",
+      "embedding_probability": 0.923533,
+      "example_id": "case_holdout_023:sentence:1",
+      "family": "repeated_quote_ambiguity",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "provider_grounding_failure",
+      "text": "Your refund of \u20b94,999 was processed.",
+      "tfidf_probability": 0.928432
+    },
+    {
+      "case_id": "case_holdout_024",
+      "embedding_probability": 0.928767,
+      "example_id": "case_holdout_024:sentence:0",
+      "family": "repeated_quote_ambiguity",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "provider_grounding_failure",
+      "text": "Your refund of \u20b912,500 was processed.",
+      "tfidf_probability": 0.934838
+    },
+    {
+      "case_id": "case_holdout_024",
+      "embedding_probability": 0.928767,
+      "example_id": "case_holdout_024:sentence:1",
+      "family": "repeated_quote_ambiguity",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "provider_grounding_failure",
+      "text": "Your refund of \u20b912,500 was processed.",
+      "tfidf_probability": 0.934838
+    },
+    {
+      "case_id": "case_holdout_025",
+      "embedding_probability": 0.920827,
+      "example_id": "case_holdout_025:sentence:0",
+      "family": "repeated_quote_ambiguity",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "provider_grounding_failure",
+      "text": "Your refund of \u20b91,000 was processed.",
+      "tfidf_probability": 0.92862
+    },
+    {
+      "case_id": "case_holdout_025",
+      "embedding_probability": 0.920827,
+      "example_id": "case_holdout_025:sentence:1",
+      "family": "repeated_quote_ambiguity",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "provider_grounding_failure",
+      "text": "Your refund of \u20b91,000 was processed.",
+      "tfidf_probability": 0.92862
+    },
+    {
+      "case_id": "case_holdout_026",
+      "embedding_probability": 0.91861,
+      "example_id": "case_holdout_026:sentence:0",
+      "family": "repeated_quote_ambiguity",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "provider_grounding_failure",
+      "text": "Your refund of \u20b92,500 was processed.",
+      "tfidf_probability": 0.92971
+    },
+    {
+      "case_id": "case_holdout_026",
+      "embedding_probability": 0.91861,
+      "example_id": "case_holdout_026:sentence:1",
+      "family": "repeated_quote_ambiguity",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "provider_grounding_failure",
+      "text": "Your refund of \u20b92,500 was processed.",
+      "tfidf_probability": 0.92971
+    },
+    {
+      "case_id": "case_holdout_027",
+      "embedding_probability": 0.923533,
+      "example_id": "case_holdout_027:sentence:0",
+      "family": "repeated_quote_ambiguity",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "provider_grounding_failure",
+      "text": "Your refund of \u20b94,999 was processed.",
+      "tfidf_probability": 0.928432
+    },
+    {
+      "case_id": "case_holdout_027",
+      "embedding_probability": 0.923533,
+      "example_id": "case_holdout_027:sentence:1",
+      "family": "repeated_quote_ambiguity",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "provider_grounding_failure",
+      "text": "Your refund of \u20b94,999 was processed.",
+      "tfidf_probability": 0.928432
+    },
+    {
+      "case_id": "case_holdout_028",
+      "embedding_probability": 0.928767,
+      "example_id": "case_holdout_028:sentence:0",
+      "family": "repeated_quote_ambiguity",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "provider_grounding_failure",
+      "text": "Your refund of \u20b912,500 was processed.",
+      "tfidf_probability": 0.934838
+    },
+    {
+      "case_id": "case_holdout_028",
+      "embedding_probability": 0.928767,
+      "example_id": "case_holdout_028:sentence:1",
+      "family": "repeated_quote_ambiguity",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "provider_grounding_failure",
+      "text": "Your refund of \u20b912,500 was processed.",
+      "tfidf_probability": 0.934838
+    },
+    {
+      "case_id": "case_holdout_029",
+      "embedding_probability": 0.920827,
+      "example_id": "case_holdout_029:sentence:0",
+      "family": "repeated_quote_ambiguity",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "provider_grounding_failure",
+      "text": "Your refund of \u20b91,000 was processed.",
+      "tfidf_probability": 0.92862
+    },
+    {
+      "case_id": "case_holdout_029",
+      "embedding_probability": 0.920827,
+      "example_id": "case_holdout_029:sentence:1",
+      "family": "repeated_quote_ambiguity",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "provider_grounding_failure",
+      "text": "Your refund of \u20b91,000 was processed.",
+      "tfidf_probability": 0.92862
+    },
+    {
+      "case_id": "case_holdout_030",
+      "embedding_probability": 0.91861,
+      "example_id": "case_holdout_030:sentence:0",
+      "family": "repeated_quote_ambiguity",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "provider_grounding_failure",
+      "text": "Your refund of \u20b92,500 was processed.",
+      "tfidf_probability": 0.92971
+    },
+    {
+      "case_id": "case_holdout_030",
+      "embedding_probability": 0.91861,
+      "example_id": "case_holdout_030:sentence:1",
+      "family": "repeated_quote_ambiguity",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 0,
+      "slice": "provider_grounding_failure",
+      "text": "Your refund of \u20b92,500 was processed.",
+      "tfidf_probability": 0.92971
+    },
+    {
+      "case_id": "case_holdout_031",
+      "embedding_probability": 0.210531,
+      "example_id": "case_holdout_031:sentence:0",
+      "family": "unsupported_language",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "unsupported_ood",
+      "text": "\u0939\u092e\u0928\u0947 \u0906\u092a\u0915\u0940 \u0927\u0928\u0935\u093e\u092a\u0938\u0940 \u0938\u0902\u0938\u093e\u0927\u093f\u0924 \u0915\u0930 \u0926\u0940 \u0939\u0948\u0964",
+      "tfidf_probability": 0.209319
+    },
+    {
+      "case_id": "case_holdout_032",
+      "embedding_probability": 0.210531,
+      "example_id": "case_holdout_032:sentence:0",
+      "family": "unsupported_language",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "unsupported_ood",
+      "text": "\u0939\u092e\u0928\u0947 \u0906\u092a\u0915\u0940 \u0927\u0928\u0935\u093e\u092a\u0938\u0940 \u0938\u0902\u0938\u093e\u0927\u093f\u0924 \u0915\u0930 \u0926\u0940 \u0939\u0948\u0964",
+      "tfidf_probability": 0.209319
+    },
+    {
+      "case_id": "case_holdout_033",
+      "embedding_probability": 0.210531,
+      "example_id": "case_holdout_033:sentence:0",
+      "family": "unsupported_language",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "unsupported_ood",
+      "text": "\u0939\u092e\u0928\u0947 \u0906\u092a\u0915\u0940 \u0927\u0928\u0935\u093e\u092a\u0938\u0940 \u0938\u0902\u0938\u093e\u0927\u093f\u0924 \u0915\u0930 \u0926\u0940 \u0939\u0948\u0964",
+      "tfidf_probability": 0.209319
+    },
+    {
+      "case_id": "case_holdout_034",
+      "embedding_probability": 0.210531,
+      "example_id": "case_holdout_034:sentence:0",
+      "family": "unsupported_language",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "unsupported_ood",
+      "text": "\u0939\u092e\u0928\u0947 \u0906\u092a\u0915\u0940 \u0927\u0928\u0935\u093e\u092a\u0938\u0940 \u0938\u0902\u0938\u093e\u0927\u093f\u0924 \u0915\u0930 \u0926\u0940 \u0939\u0948\u0964",
+      "tfidf_probability": 0.209319
+    },
+    {
+      "case_id": "case_holdout_035",
+      "embedding_probability": 0.210531,
+      "example_id": "case_holdout_035:sentence:0",
+      "family": "unsupported_language",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "unsupported_ood",
+      "text": "\u0939\u092e\u0928\u0947 \u0906\u092a\u0915\u0940 \u0927\u0928\u0935\u093e\u092a\u0938\u0940 \u0938\u0902\u0938\u093e\u0927\u093f\u0924 \u0915\u0930 \u0926\u0940 \u0939\u0948\u0964",
+      "tfidf_probability": 0.209319
+    },
+    {
+      "case_id": "case_holdout_036",
+      "embedding_probability": 0.210531,
+      "example_id": "case_holdout_036:sentence:0",
+      "family": "unsupported_language",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "unsupported_ood",
+      "text": "\u0939\u092e\u0928\u0947 \u0906\u092a\u0915\u0940 \u0927\u0928\u0935\u093e\u092a\u0938\u0940 \u0938\u0902\u0938\u093e\u0927\u093f\u0924 \u0915\u0930 \u0926\u0940 \u0939\u0948\u0964",
+      "tfidf_probability": 0.209319
+    },
+    {
+      "case_id": "case_holdout_037",
+      "embedding_probability": 0.210531,
+      "example_id": "case_holdout_037:sentence:0",
+      "family": "unsupported_language",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "unsupported_ood",
+      "text": "\u0939\u092e\u0928\u0947 \u0906\u092a\u0915\u0940 \u0927\u0928\u0935\u093e\u092a\u0938\u0940 \u0938\u0902\u0938\u093e\u0927\u093f\u0924 \u0915\u0930 \u0926\u0940 \u0939\u0948\u0964",
+      "tfidf_probability": 0.209319
+    },
+    {
+      "case_id": "case_holdout_038",
+      "embedding_probability": 0.210531,
+      "example_id": "case_holdout_038:sentence:0",
+      "family": "unsupported_language",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "unsupported_ood",
+      "text": "\u0939\u092e\u0928\u0947 \u0906\u092a\u0915\u0940 \u0927\u0928\u0935\u093e\u092a\u0938\u0940 \u0938\u0902\u0938\u093e\u0927\u093f\u0924 \u0915\u0930 \u0926\u0940 \u0939\u0948\u0964",
+      "tfidf_probability": 0.209319
+    },
+    {
+      "case_id": "case_holdout_039",
+      "embedding_probability": 0.210531,
+      "example_id": "case_holdout_039:sentence:0",
+      "family": "unsupported_language",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "unsupported_ood",
+      "text": "\u0939\u092e\u0928\u0947 \u0906\u092a\u0915\u0940 \u0927\u0928\u0935\u093e\u092a\u0938\u0940 \u0938\u0902\u0938\u093e\u0927\u093f\u0924 \u0915\u0930 \u0926\u0940 \u0939\u0948\u0964",
+      "tfidf_probability": 0.209319
+    },
+    {
+      "case_id": "case_holdout_040",
+      "embedding_probability": 0.210531,
+      "example_id": "case_holdout_040:sentence:0",
+      "family": "unsupported_language",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "unsupported_ood",
+      "text": "\u0939\u092e\u0928\u0947 \u0906\u092a\u0915\u0940 \u0927\u0928\u0935\u093e\u092a\u0938\u0940 \u0938\u0902\u0938\u093e\u0927\u093f\u0924 \u0915\u0930 \u0926\u0940 \u0939\u0948\u0964",
+      "tfidf_probability": 0.209319
+    },
+    {
+      "case_id": "case_holdout_041",
+      "embedding_probability": 0.905391,
+      "example_id": "case_holdout_041:sentence:0",
+      "family": "approved_full_vs_partial",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "partial_full_amount",
+      "text": "Your full refund of \u20b91,000 has been approved.",
+      "tfidf_probability": 0.878429
+    },
+    {
+      "case_id": "case_holdout_042",
+      "embedding_probability": 0.901328,
+      "example_id": "case_holdout_042:sentence:0",
+      "family": "approved_full_vs_partial",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "partial_full_amount",
+      "text": "Your full refund of \u20b92,500 has been approved.",
+      "tfidf_probability": 0.877382
+    },
+    {
+      "case_id": "case_holdout_043",
+      "embedding_probability": 0.909822,
+      "example_id": "case_holdout_043:sentence:0",
+      "family": "approved_full_vs_partial",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "partial_full_amount",
+      "text": "Your full refund of \u20b94,999 has been approved.",
+      "tfidf_probability": 0.878419
+    },
+    {
+      "case_id": "case_holdout_044",
+      "embedding_probability": 0.925113,
+      "example_id": "case_holdout_044:sentence:0",
+      "family": "approved_full_vs_partial",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "partial_full_amount",
+      "text": "Your full refund of \u20b912,500 has been approved.",
+      "tfidf_probability": 0.890372
+    },
+    {
+      "case_id": "case_holdout_045",
+      "embedding_probability": 0.905391,
+      "example_id": "case_holdout_045:sentence:0",
+      "family": "approved_full_vs_partial",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "partial_full_amount",
+      "text": "Your full refund of \u20b91,000 has been approved.",
+      "tfidf_probability": 0.878429
+    },
+    {
+      "case_id": "case_holdout_046",
+      "embedding_probability": 0.901328,
+      "example_id": "case_holdout_046:sentence:0",
+      "family": "approved_full_vs_partial",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "partial_full_amount",
+      "text": "Your full refund of \u20b92,500 has been approved.",
+      "tfidf_probability": 0.877382
+    },
+    {
+      "case_id": "case_holdout_047",
+      "embedding_probability": 0.909822,
+      "example_id": "case_holdout_047:sentence:0",
+      "family": "approved_full_vs_partial",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "partial_full_amount",
+      "text": "Your full refund of \u20b94,999 has been approved.",
+      "tfidf_probability": 0.878419
+    },
+    {
+      "case_id": "case_holdout_048",
+      "embedding_probability": 0.925113,
+      "example_id": "case_holdout_048:sentence:0",
+      "family": "approved_full_vs_partial",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "partial_full_amount",
+      "text": "Your full refund of \u20b912,500 has been approved.",
+      "tfidf_probability": 0.890372
+    },
+    {
+      "case_id": "case_holdout_049",
+      "embedding_probability": 0.905391,
+      "example_id": "case_holdout_049:sentence:0",
+      "family": "approved_full_vs_partial",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "partial_full_amount",
+      "text": "Your full refund of \u20b91,000 has been approved.",
+      "tfidf_probability": 0.878429
+    },
+    {
+      "case_id": "case_holdout_050",
+      "embedding_probability": 0.901328,
+      "example_id": "case_holdout_050:sentence:0",
+      "family": "approved_full_vs_partial",
+      "is_exact_ground_truth_quote": false,
+      "label": 0,
+      "regex": 0,
+      "slice": "partial_full_amount",
+      "text": "Your full refund of \u20b92,500 has been approved.",
+      "tfidf_probability": 0.877382
+    },
+    {
+      "case_id": "case_holdout_051",
+      "embedding_probability": 0.949195,
+      "example_id": "case_holdout_051:sentence:0",
+      "family": "reference_mismatch",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 1,
+      "slice": "claimed_processed_no_ledger",
+      "text": "Your \u20b91,000 refund was processed; reference RF-HOLDOUT-051.",
+      "tfidf_probability": 0.970944
+    },
+    {
+      "case_id": "case_holdout_052",
+      "embedding_probability": 0.9494,
+      "example_id": "case_holdout_052:sentence:0",
+      "family": "reference_mismatch",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 1,
+      "slice": "claimed_processed_no_ledger",
+      "text": "Your \u20b92,500 refund was processed; reference RF-HOLDOUT-052.",
+      "tfidf_probability": 0.973541
+    },
+    {
+      "case_id": "case_holdout_053",
+      "embedding_probability": 0.953683,
+      "example_id": "case_holdout_053:sentence:0",
+      "family": "reference_mismatch",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 1,
+      "slice": "claimed_processed_no_ledger",
+      "text": "Your \u20b94,999 refund was processed; reference RF-HOLDOUT-053.",
+      "tfidf_probability": 0.970582
+    },
+    {
+      "case_id": "case_holdout_054",
+      "embedding_probability": 0.958483,
+      "example_id": "case_holdout_054:sentence:0",
+      "family": "reference_mismatch",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 1,
+      "slice": "claimed_processed_no_ledger",
+      "text": "Your \u20b912,500 refund was processed; reference RF-HOLDOUT-054.",
+      "tfidf_probability": 0.974638
+    },
+    {
+      "case_id": "case_holdout_055",
+      "embedding_probability": 0.949871,
+      "example_id": "case_holdout_055:sentence:0",
+      "family": "reference_mismatch",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 1,
+      "slice": "claimed_processed_no_ledger",
+      "text": "Your \u20b91,000 refund was processed; reference RF-HOLDOUT-055.",
+      "tfidf_probability": 0.970623
+    },
+    {
+      "case_id": "case_holdout_056",
+      "embedding_probability": 0.951175,
+      "example_id": "case_holdout_056:sentence:0",
+      "family": "reference_mismatch",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 1,
+      "slice": "claimed_processed_no_ledger",
+      "text": "Your \u20b92,500 refund was processed; reference RF-HOLDOUT-056.",
+      "tfidf_probability": 0.973624
+    },
+    {
+      "case_id": "case_holdout_057",
+      "embedding_probability": 0.952662,
+      "example_id": "case_holdout_057:sentence:0",
+      "family": "reference_mismatch",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 1,
+      "slice": "claimed_processed_no_ledger",
+      "text": "Your \u20b94,999 refund was processed; reference RF-HOLDOUT-057.",
+      "tfidf_probability": 0.970587
+    },
+    {
+      "case_id": "case_holdout_058",
+      "embedding_probability": 0.957046,
+      "example_id": "case_holdout_058:sentence:0",
+      "family": "reference_mismatch",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 1,
+      "slice": "claimed_processed_no_ledger",
+      "text": "Your \u20b912,500 refund was processed; reference RF-HOLDOUT-058.",
+      "tfidf_probability": 0.97464
+    },
+    {
+      "case_id": "case_holdout_059",
+      "embedding_probability": 0.951013,
+      "example_id": "case_holdout_059:sentence:0",
+      "family": "reference_mismatch",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 1,
+      "slice": "claimed_processed_no_ledger",
+      "text": "Your \u20b91,000 refund was processed; reference RF-HOLDOUT-059.",
+      "tfidf_probability": 0.970947
+    },
+    {
+      "case_id": "case_holdout_060",
+      "embedding_probability": 0.953319,
+      "example_id": "case_holdout_060:sentence:0",
+      "family": "reference_mismatch",
+      "is_exact_ground_truth_quote": true,
+      "label": 1,
+      "regex": 1,
+      "slice": "claimed_processed_no_ledger",
+      "text": "Your \u20b92,500 refund was processed; reference RF-HOLDOUT-060.",
+      "tfidf_probability": 0.975369
+    }
+  ],
+  "promotion": {
+    "eligible_candidates": [],
+    "reason": "No learned candidate cleared the pre-registered precision, recall, and F1 gates over B0.",
+    "runtime_selection_changed": false,
+    "selected_runtime_extractor": "regex-baseline-v1",
+    "status": "NOT_PROMOTED"
+  },
+  "protocol_sha256": "0940452bb36325fe6d3ef8fff5e03c6fd7b34c7e1bc11c3b3d55f671fbc231bd"
+}

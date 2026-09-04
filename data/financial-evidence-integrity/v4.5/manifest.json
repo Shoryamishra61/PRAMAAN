@@ -1,0 +1,165 @@
+{
+  "benchmark_id": "DIG-FECL-BENCH-v4.5",
+  "counts": {
+    "calibration": 320,
+    "dev": 320,
+    "ood": 160,
+    "test": 480,
+    "train": 1200
+  },
+  "created_at": "2026-09-01T13:24:31Z",
+  "erratum_sha256": "2f225e17b08ca04ec482958123b2c4a14cf2864f51dcdd21cb99ea34b71be3f9",
+  "evidence_costs": {
+    "bank_statement": 25,
+    "completion_reference": 2,
+    "customer_communication": 12,
+    "order_record": 4,
+    "payment_state": 1,
+    "refund_confirmation": 16,
+    "refund_policy": 6,
+    "refund_state": 1,
+    "rrn_linkage": 2
+  },
+  "families": {
+    "calibration": [
+      "terse_reconciliation",
+      "conditional_promise"
+    ],
+    "dev": [
+      "indirect_narrative",
+      "passive_record",
+      "indian_english_ops"
+    ],
+    "test": [
+      "hinglish_unseen",
+      "cross_document",
+      "temporal_implicit",
+      "ocr_holdout",
+      "relation_composition"
+    ],
+    "train": [
+      "formal_email",
+      "support_chat",
+      "portal_note",
+      "refund_ops",
+      "hinglish_basic"
+    ]
+  },
+  "generator_seed": 20260911,
+  "hashes": {
+    "calibration": "0c0f07c7892b5f4a501ded47ef5065326a7ec856002928f89b374633b805db7f",
+    "dev": "b1e5c8251747a08657e0a177da35b2eff35fcc4d794e56f9c7f404ecd96fea0f",
+    "ood": "ae14a7f73c3968d9ce8627127868596a2a46438c50ac044f1f04eabfb7825be1",
+    "test": "d53c5aa914b91035cc153b3587843f97f1b1e08f8f3560228bacb3607d764710",
+    "train": "300ad749604fa9a0685c3163e17d44034183289eb93a23dfa9748be87aba1892"
+  },
+  "models_fitted_before_correction": false,
+  "phenomena": [
+    "amount_mismatch",
+    "one_rupee_boundary",
+    "partial_refund",
+    "cumulative_refund",
+    "currency_mismatch",
+    "wrong_rrn",
+    "wrong_arn_utr",
+    "refund_reference_mismatch",
+    "wrong_parent_payment",
+    "matching_amount_wrong_order",
+    "temporal_contradiction",
+    "promised_not_due_vs_overdue",
+    "stale_refund_state",
+    "source_disagreement",
+    "policy_exception",
+    "negation"
+  ],
+  "production_prevalence": false,
+  "protocol": "docs/FECL-V4-PROTOCOL.md + docs/FECL-V4.5-ERRATUM.md",
+  "protocol_sha256": "670051b2b2e28cc0c9d1df860cb81268213602cfd128783825be3b4d8950f13c",
+  "supersedes": "DIG-FECL-BENCH-v4.4",
+  "synthetic": true,
+  "test_evaluated_before_correction": false,
+  "validation": {
+    "calibration": {
+      "cases": 320,
+      "contradictions": 160,
+      "entities": 160,
+      "families": [
+        "conditional_promise",
+        "terse_reconciliation"
+      ],
+      "grounded_claims": 320,
+      "pairs": 160,
+      "rows": 320,
+      "templates": [
+        "tmpl_calibration_conditional_promise",
+        "tmpl_calibration_terse_reconciliation"
+      ]
+    },
+    "dev": {
+      "cases": 320,
+      "contradictions": 160,
+      "entities": 160,
+      "families": [
+        "indian_english_ops",
+        "indirect_narrative",
+        "passive_record"
+      ],
+      "grounded_claims": 320,
+      "pairs": 160,
+      "rows": 320,
+      "templates": [
+        "tmpl_dev_indian_english_ops",
+        "tmpl_dev_indirect_narrative",
+        "tmpl_dev_passive_record"
+      ]
+    },
+    "ood": {
+      "cases": 160,
+      "ood_categories": 8
+    },
+    "test": {
+      "cases": 480,
+      "contradictions": 240,
+      "entities": 240,
+      "families": [
+        "cross_document",
+        "hinglish_unseen",
+        "ocr_holdout",
+        "relation_composition",
+        "temporal_implicit"
+      ],
+      "grounded_claims": 480,
+      "pairs": 240,
+      "rows": 480,
+      "templates": [
+        "tmpl_test_cross_document",
+        "tmpl_test_hinglish_unseen",
+        "tmpl_test_ocr_holdout",
+        "tmpl_test_relation_composition",
+        "tmpl_test_temporal_implicit"
+      ]
+    },
+    "train": {
+      "cases": 1200,
+      "contradictions": 600,
+      "entities": 600,
+      "families": [
+        "formal_email",
+        "hinglish_basic",
+        "portal_note",
+        "refund_ops",
+        "support_chat"
+      ],
+      "grounded_claims": 1200,
+      "pairs": 600,
+      "rows": 1200,
+      "templates": [
+        "tmpl_train_formal_email",
+        "tmpl_train_hinglish_basic",
+        "tmpl_train_portal_note",
+        "tmpl_train_refund_ops",
+        "tmpl_train_support_chat"
+      ]
+    }
+  }
+}

@@ -1,0 +1,27 @@
+[
+  {
+    "claim_id": "gt_claim_case_holdout_055_0",
+    "claim_type": "refund_claimed_processed",
+    "currency": "INR",
+    "document_id": "doc_case_holdout_055",
+    "end": 59,
+    "modality": "assertion",
+    "quote": "Your ₹1,000 refund was processed; reference RF-HOLDOUT-055.",
+    "start": 0,
+    "value": {
+      "raw_value": "₹1,000",
+      "refund_reference": "RF-HOLDOUT-055"
+    }
+  },
+  {
+    "claim_id": "gt_claim_case_holdout_055_1",
+    "claim_type": "refund_amount",
+    "currency": "INR",
+    "document_id": "doc_case_holdout_055",
+    "end": 59,
+    "modality": "assertion",
+    "quote": "Your ₹1,000 refund was processed; reference RF-HOLDOUT-055.",
+    "start": 0,
+    "value": "₹1,000"
+  }
+]

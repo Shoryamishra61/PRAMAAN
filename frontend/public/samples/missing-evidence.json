@@ -1,0 +1,15 @@
+{
+  "schema_version": "carve-live-bundle-v1",
+  "sample_type": "missing-evidence",
+  "description": "The refund export is incomplete, so absence cannot be proven.",
+  "expected_safe_response": "REVIEW",
+  "request": {
+    "raw_reason_code": "sample_missing_evidence",
+    "payment_amount_inr": "4999.00",
+    "customer_communication": "Your INR 4,999 refund was processed on 28 August 2026.",
+    "refund_ledger_complete": false,
+    "refund_status": "none",
+    "refund_amount_inr": null,
+    "simulation": "none"
+  }
+}

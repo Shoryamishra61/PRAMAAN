@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Human Blind Challenge Case Schema",
+  "type": "object",
+  "required": [
+    "case_id",
+    "author_id",
+    "timestamp",
+    "dispute_category",
+    "structured_financial_truth",
+    "evidence_packet",
+    "ground_truth_label"
+  ],
+  "properties": {
+    "case_id": { "type": "string" },
+    "author_id": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "dispute_category": {
+      "type": "string",
+      "enum": [
+        "CREDIT_NOT_PROCESSED",
+        "GOODS_SERVICES_NOT_RECEIVED",
+        "GOODS_SERVICES_NOT_AS_DESCRIBED",
+        "DUPLICATE_CHARGE",
+        "AUTHORIZATION_ERROR"
+      ]
+    },
+    "structured_financial_truth": {
+      "type": "object",
+      "required": ["authorized_amount_inr", "captured_amount_inr", "refund_status"],
+      "properties": {
+        "authorized_amount_inr": { "type": "number" },
+        "captured_amount_inr": { "type": "number" },
+        "refund_status": { "type": "string", "enum": ["NONE", "INITIATED", "SETTLED", "FAILED"] },
+        "settled_refund_amount_inr": { "type": "number" },
+        "delivery_status": { "type": "string", "enum": ["LABEL_CREATED", "IN_TRANSIT", "DELIVERED", "RETURNED"] }
+      }
+    },
+    "evidence_packet": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["document_id", "source_type", "text_content", "available_time"],
+        "properties": {
+          "document_id": { "type": "string" },
+          "source_type": { "type": "string", "enum": ["LEDGER", "CARRIER_NOTE", "INVOICE", "CUSTOMER_CHAT", "EMAIL"] },
+          "text_content": { "type": "string" },
+          "available_time": { "type": "string", "format": "date-time" }
+        }
+      }
+    },
+    "ground_truth_label": {
+      "type": "object",
+      "required": ["is_financially_consistent", "has_material_contradiction"],
+      "properties": {
+        "is_financially_consistent": { "type": "boolean" },
+        "has_material_contradiction": { "type": "boolean" },
+        "contradiction_predicate": { "type": ["string", "null"] },
+        "contested_amount_inr": { "type": ["number", "null"] }
+      }
+    }
+  }
+}

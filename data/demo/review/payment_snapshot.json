@@ -1,0 +1,8 @@
+{
+  "payment_id": "pay_demo_review",
+  "captured_amount_minor": 250000,
+  "currency": "INR",
+  "captured_at": "2026-08-23T03:20:00Z",
+  "snapshot_complete": true
+}
+

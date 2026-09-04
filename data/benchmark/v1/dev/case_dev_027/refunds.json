@@ -1,0 +1,26 @@
+{
+  "ledger_complete": true,
+  "payment_id": "pay_syn_dev_027",
+  "records": [
+    {
+      "amount_minor": 249950,
+      "created_at": "2026-08-10T08:00:00Z",
+      "currency": "INR",
+      "id": "rfnd_sum_a",
+      "local_status": "processed",
+      "payment_id": "pay_syn_dev_027",
+      "processed_at": "2026-08-10T08:05:00Z",
+      "reference": "RF-DEV-027-A"
+    },
+    {
+      "amount_minor": 249950,
+      "created_at": "2026-08-10T08:00:00Z",
+      "currency": "INR",
+      "id": "rfnd_sum_b",
+      "local_status": "processed",
+      "payment_id": "pay_syn_dev_027",
+      "processed_at": "2026-08-10T08:05:00Z",
+      "reference": "RF-DEV-027-B"
+    }
+  ]
+}

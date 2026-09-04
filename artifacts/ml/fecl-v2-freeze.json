@@ -1,0 +1,12 @@
+{
+  "artifact_version": "fecl-v2-freeze",
+  "created_at": "2026-09-01T07:31:55.821906Z",
+  "dataset_manifest_sha256": "ae90df0d718ca887e7a12a0972791c5e04b27535a1666f18a75b830c4a7f1189",
+  "dev_artifact_sha256": "3d891e7be669a5c9d40fc3c2fa0c63643cc0f3ed3f5caf945b1f157a3a9339c4",
+  "model_id": "sentence-transformers/all-MiniLM-L6-v2",
+  "model_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "protocol_sha256": "4f89f78e12620d64ea060ed023f54931e7f919ad4eec0c5f3c56d5c91a3f5fc0",
+  "runner_sha256": "4a51a8812ae3fbc9951c7ce92777262751b32a5e01179d59427b0537467bc6ab",
+  "test_sha256": "6c87aa0aac576383d3c760bcb6da087d01d3adff83fefc1a69b05e0b0b43b82f",
+  "threshold": 0.5
+}

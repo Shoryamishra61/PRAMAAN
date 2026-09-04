@@ -1,0 +1,38 @@
+[
+  {
+    "chunk_id": "product-thesis-bounded-ai",
+    "source_path": "docs/00-SOURCE-OF-TRUTH.md",
+    "section": "Product thesis",
+    "text": "uses AI only to convert messy customer communication into typed, grounded claims;"
+  },
+  {
+    "chunk_id": "review-failsafe",
+    "source_path": "docs/00-SOURCE-OF-TRUTH.md",
+    "section": "Gate status semantics / REVIEW",
+    "text": "REVIEW is the universal fail-safe for uncertainty."
+  },
+  {
+    "chunk_id": "block-grounding",
+    "source_path": "docs/00-SOURCE-OF-TRUTH.md",
+    "section": "Gate status semantics / BLOCK",
+    "text": "A **local safety hold** is applied only when a material inconsistency is deterministically established using:\n- trusted structured state; and\n- either another trusted field or an AI-extracted claim whose exact source quotation was grounded and validated."
+  },
+  {
+    "chunk_id": "zero-provider-writes",
+    "source_path": "docs/00-SOURCE-OF-TRUTH.md",
+    "section": "Action boundary",
+    "text": "MVP has **zero automatic or direct Razorpay write actions**."
+  },
+  {
+    "chunk_id": "suggested-not-mandatory",
+    "source_path": "docs/00-SOURCE-OF-TRUTH.md",
+    "section": "Evidence guidance",
+    "text": "Suggested evidence must not be mislabeled as universally mandatory. Missing suggested evidence routes to REVIEW unless a documented profile rule is explicitly verified."
+  },
+  {
+    "chunk_id": "quote-grounding-boundary",
+    "source_path": "docs/09-AI-ML-SPEC.md",
+    "section": "AI-005 — Deterministic grounding",
+    "text": "This prevents hallucinated offsets from becoming trusted evidence."
+  }
+]

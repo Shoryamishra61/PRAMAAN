@@ -1,0 +1,9 @@
+{
+  "fixture_id": "demo_pass_v1",
+  "case_id": "case_demo_pass",
+  "reason_profile": "refund_not_processed_v1",
+  "expected_gate_status": "PASS",
+  "expected_primary_reason_code": null,
+  "synthetic": true
+}
+

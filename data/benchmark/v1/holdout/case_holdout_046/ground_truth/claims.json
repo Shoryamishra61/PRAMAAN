@@ -1,0 +1,13 @@
+[
+  {
+    "claim_id": "gt_claim_case_holdout_046_0",
+    "claim_type": "refund_approved",
+    "currency": "INR",
+    "document_id": "doc_case_holdout_046",
+    "end": 45,
+    "modality": "approval",
+    "quote": "Your full refund of ₹2,500 has been approved.",
+    "start": 0,
+    "value": "₹2,500"
+  }
+]

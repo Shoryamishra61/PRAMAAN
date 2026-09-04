@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/dispute-integrity-gate/gate-decision.schema.json",
+  "title": "GateDecision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["case_id", "profile_id", "status", "findings", "review_reasons", "evaluated_at"],
+  "properties": {
+    "case_id": {"type": "string", "minLength": 1},
+    "profile_id": {"const": "refund_not_processed_v1"},
+    "status": {"enum": ["PASS", "REVIEW", "BLOCK"]},
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "materiality", "summary", "evidence_refs"],
+        "properties": {
+          "code": {"type": "string"},
+          "materiality": {"enum": ["material", "non_material"]},
+          "summary": {"type": "string"},
+          "evidence_refs": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "review_reasons": {"type": "array", "items": {"type": "string"}},
+    "evaluated_at": {"type": "string", "format": "date-time"},
+    "engine_version": {"type": "string"}
+  }
+}

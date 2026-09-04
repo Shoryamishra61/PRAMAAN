@@ -1,0 +1,15 @@
+{
+  "schema_version": "carve-live-bundle-v1",
+  "sample_type": "contradiction",
+  "description": "The grounded full-refund amount conflicts with the authoritative ledger.",
+  "expected_safe_response": "BLOCK",
+  "request": {
+    "raw_reason_code": "sample_contradiction",
+    "payment_amount_inr": "4999.00",
+    "customer_communication": "Your INR 4,999 refund was processed on 28 August 2026.",
+    "refund_ledger_complete": true,
+    "refund_status": "processed",
+    "refund_amount_inr": "499.00",
+    "simulation": "none"
+  }
+}

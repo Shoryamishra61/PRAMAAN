@@ -1,0 +1,1575 @@
+{
+  "artifact_version": "ai-research-study-v1-posthoc-grounding-audit",
+  "audit_script_sha256": "c3af5f7b7d56e15600072f5680863bbeec6d334ab9471683d21be092aa2000a5",
+  "candidates": {
+    "embedding": {
+      "cases": [
+        {
+          "case_id": "case_holdout_001",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_002",
+          "expected": "PASS",
+          "finding_codes": [
+            "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+          ],
+          "observed": "BLOCK",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_003",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_004",
+          "expected": "PASS",
+          "finding_codes": [
+            "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+          ],
+          "observed": "BLOCK",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_005",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_006",
+          "expected": "PASS",
+          "finding_codes": [
+            "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+          ],
+          "observed": "BLOCK",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_007",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_008",
+          "expected": "PASS",
+          "finding_codes": [
+            "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+          ],
+          "observed": "BLOCK",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_009",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_010",
+          "expected": "PASS",
+          "finding_codes": [
+            "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+          ],
+          "observed": "BLOCK",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_011",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_012",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_013",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_014",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_015",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_016",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_017",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_018",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_019",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_020",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_021",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNGROUNDED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_022",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNGROUNDED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_023",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNGROUNDED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_024",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNGROUNDED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_025",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNGROUNDED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_026",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNGROUNDED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_027",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNGROUNDED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_028",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNGROUNDED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_029",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNGROUNDED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_030",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNGROUNDED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_031",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_032",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_033",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_034",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_035",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_036",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_037",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_038",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_039",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_040",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_041",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_042",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_043",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_044",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_045",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_046",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_047",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_048",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_049",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_050",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_051",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_052",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_053",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_054",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_055",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_056",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_057",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_058",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_059",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_060",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        }
+      ],
+      "false_block": 5,
+      "false_pass": 20,
+      "gate_confusion": {
+        "BLOCK->PASS": 20,
+        "PASS->BLOCK": 5,
+        "PASS->PASS": 15,
+        "REVIEW->REVIEW": 20
+      },
+      "grounding_counts": {
+        "AMBIGUOUS": 20,
+        "GROUNDED": 35
+      },
+      "saved_score_field": "embedding_probability",
+      "threshold": 0.5,
+      "unique_grounding_rate": 0.636364
+    },
+    "regex": {
+      "cases": [
+        {
+          "case_id": "case_holdout_001",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_002",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_003",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_004",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_005",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_006",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_007",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_008",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_009",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_010",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_011",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_012",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_013",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_014",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_015",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_016",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_017",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_018",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_019",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_020",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_021",
+          "expected": "REVIEW",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_022",
+          "expected": "REVIEW",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_023",
+          "expected": "REVIEW",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_024",
+          "expected": "REVIEW",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_025",
+          "expected": "REVIEW",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_026",
+          "expected": "REVIEW",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_027",
+          "expected": "REVIEW",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_028",
+          "expected": "REVIEW",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_029",
+          "expected": "REVIEW",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_030",
+          "expected": "REVIEW",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_031",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_032",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_033",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_034",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_035",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_036",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_037",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_038",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_039",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_040",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_041",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_042",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_043",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_044",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_045",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_046",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_047",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_048",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_049",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_050",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_051",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_052",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_053",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_054",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_055",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_056",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_057",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_058",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_059",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_060",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        }
+      ],
+      "false_block": 0,
+      "false_pass": 30,
+      "gate_confusion": {
+        "BLOCK->PASS": 20,
+        "PASS->PASS": 20,
+        "REVIEW->PASS": 10,
+        "REVIEW->REVIEW": 10
+      },
+      "grounding_counts": {
+        "GROUNDED": 10
+      },
+      "saved_score_field": "regex",
+      "threshold": 0.5,
+      "unique_grounding_rate": 1.0
+    },
+    "tfidf": {
+      "cases": [
+        {
+          "case_id": "case_holdout_001",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_002",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_003",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_004",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_005",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_006",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_007",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_008",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_009",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_010",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_011",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_012",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_013",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_014",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_015",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_016",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_017",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_018",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_019",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_020",
+          "expected": "PASS",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_021",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNGROUNDED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_022",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNGROUNDED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_023",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNGROUNDED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_024",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNGROUNDED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_025",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNGROUNDED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_026",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNGROUNDED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_027",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNGROUNDED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_028",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNGROUNDED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_029",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNGROUNDED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_030",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED",
+            "F_SOURCE_UNGROUNDED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNGROUNDED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_031",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_032",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_033",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_034",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_035",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_036",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_037",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_038",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_039",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_040",
+          "expected": "REVIEW",
+          "finding_codes": [
+            "F_SOURCE_UNSUPPORTED"
+          ],
+          "observed": "REVIEW",
+          "review_reasons": [
+            "F_SOURCE_UNSUPPORTED"
+          ]
+        },
+        {
+          "case_id": "case_holdout_041",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_042",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_043",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_044",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_045",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_046",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_047",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_048",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_049",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_050",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_051",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_052",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_053",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_054",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_055",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_056",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_057",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_058",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_059",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        },
+        {
+          "case_id": "case_holdout_060",
+          "expected": "BLOCK",
+          "finding_codes": [],
+          "observed": "PASS",
+          "review_reasons": []
+        }
+      ],
+      "false_block": 0,
+      "false_pass": 20,
+      "gate_confusion": {
+        "BLOCK->PASS": 20,
+        "PASS->PASS": 20,
+        "REVIEW->REVIEW": 20
+      },
+      "grounding_counts": {
+        "AMBIGUOUS": 20,
+        "GROUNDED": 30
+      },
+      "saved_score_field": "tfidf_probability",
+      "threshold": 0.5,
+      "unique_grounding_rate": 0.6
+    }
+  },
+  "created_at": "2026-09-01T02:42:26.558062Z",
+  "post_hoc": true,
+  "source_holdout_artifact_sha256": "1508afc7a8bb8e9126970c7f1813eb0abf46213d77cfb270234eedb685423d28",
+  "tuning_performed": false
+}

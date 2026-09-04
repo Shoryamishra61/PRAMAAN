@@ -1,0 +1,175 @@
+{
+  "benchmark_id": "DIG-RNP-SYN-V1",
+  "semantic_minimal_pairs": {
+    "total_minimal_pairs_evaluated": 100,
+    "mean_sensitivity_rate": 0.97,
+    "mean_invariance_rate": 0.981,
+    "families": [
+      {
+        "test_family": "negation_sensitivity",
+        "pairs_evaluated": 20,
+        "sensitivity_rate": 1.0,
+        "invariance_rate": 0.985,
+        "failure_cases": []
+      },
+      {
+        "test_family": "temporal_state_sensitivity",
+        "pairs_evaluated": 20,
+        "sensitivity_rate": 0.95,
+        "invariance_rate": 0.97,
+        "failure_cases": [
+          "promise_modal_overdue_ambiguity"
+        ]
+      },
+      {
+        "test_family": "amount_magnitude_sensitivity",
+        "pairs_evaluated": 25,
+        "sensitivity_rate": 1.0,
+        "invariance_rate": 1.0,
+        "failure_cases": []
+      },
+      {
+        "test_family": "partial_vs_full_refund",
+        "pairs_evaluated": 15,
+        "sensitivity_rate": 0.933,
+        "invariance_rate": 0.96,
+        "failure_cases": [
+          "colloquial_unspecified_sum"
+        ]
+      },
+      {
+        "test_family": "fulfillment_state_sensitivity",
+        "pairs_evaluated": 20,
+        "sensitivity_rate": 0.95,
+        "invariance_rate": 0.98,
+        "failure_cases": [
+          "carrier_label_created_vs_delivered"
+        ]
+      }
+    ]
+  },
+  "mechanism_holdout": {
+    "in_distribution": {
+      "precision": 1.0,
+      "recall": 0.85
+    },
+    "mechanism_holdout": {
+      "precision": 1.0,
+      "recall": 0.5,
+      "safe_review_rate": 0.5
+    },
+    "mechanisms": [
+      {
+        "mechanism_name": "single_amount_mismatch",
+        "in_training_distribution": true,
+        "sample_count": 40,
+        "precision": 1.0,
+        "recall": 0.85,
+        "f1": 0.919,
+        "review_rate": 0.15,
+        "expected_cost": 1.2
+      },
+      {
+        "mechanism_name": "multi_refund_reconciliation",
+        "in_training_distribution": false,
+        "sample_count": 20,
+        "precision": 1.0,
+        "recall": 0.55,
+        "f1": 0.71,
+        "review_rate": 0.45,
+        "expected_cost": 1.85
+      },
+      {
+        "mechanism_name": "compound_state_chronology",
+        "in_training_distribution": false,
+        "sample_count": 20,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.667,
+        "review_rate": 0.5,
+        "expected_cost": 1.9
+      },
+      {
+        "mechanism_name": "multi_document_cross_authority",
+        "in_training_distribution": false,
+        "sample_count": 20,
+        "precision": 1.0,
+        "recall": 0.45,
+        "f1": 0.621,
+        "review_rate": 0.55,
+        "expected_cost": 2.05
+      }
+    ]
+  },
+  "distribution_shift": {
+    "scenarios_evaluated": 5,
+    "zero_false_block_maintained_under_all_shifts": true,
+    "scenarios": [
+      {
+        "scenario_name": "IID_frozen_test",
+        "sample_count": 60,
+        "precision": 1.0,
+        "recall": 0.5,
+        "f1": 0.667,
+        "ece": 0.038,
+        "expected_cost": 1.75,
+        "cvar_95": 2.5,
+        "coverage": 0.67,
+        "review_rate": 0.33
+      },
+      {
+        "scenario_name": "template_holdout",
+        "sample_count": 60,
+        "precision": 1.0,
+        "recall": 0.467,
+        "f1": 0.636,
+        "ece": 0.045,
+        "expected_cost": 1.82,
+        "cvar_95": 2.7,
+        "coverage": 0.65,
+        "review_rate": 0.35
+      },
+      {
+        "scenario_name": "hinglish_code_switching",
+        "sample_count": 40,
+        "precision": 1.0,
+        "recall": 0.45,
+        "f1": 0.621,
+        "ece": 0.048,
+        "expected_cost": 1.85,
+        "cvar_95": 2.8,
+        "coverage": 0.62,
+        "review_rate": 0.38
+      },
+      {
+        "scenario_name": "ocr_and_formatting_noise",
+        "sample_count": 40,
+        "precision": 1.0,
+        "recall": 0.425,
+        "f1": 0.596,
+        "ece": 0.052,
+        "expected_cost": 1.9,
+        "cvar_95": 2.95,
+        "coverage": 0.58,
+        "review_rate": 0.42
+      },
+      {
+        "scenario_name": "high_volatility_spike",
+        "sample_count": 50,
+        "precision": 1.0,
+        "recall": 0.48,
+        "f1": 0.649,
+        "ece": 0.044,
+        "expected_cost": 1.79,
+        "cvar_95": 2.65,
+        "coverage": 0.66,
+        "review_rate": 0.34
+      }
+    ]
+  },
+  "causal_minimal_pairs": {
+    "sensitivity": 0.0,
+    "nuisance_invariance": 1.0,
+    "action_flip_validity": 0.0
+  }
+}

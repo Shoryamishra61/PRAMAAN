@@ -1,0 +1,24 @@
+{
+  "benchmark_id": "FECL-SCM-V2",
+  "total_cases": 120000,
+  "partitions": {
+    "train": 70000,
+    "validation": 10000,
+    "calibration": 10000,
+    "final_test": 10000,
+    "template_holdout": 5000,
+    "mechanism_holdout": 5000,
+    "distribution_shift": 5000,
+    "ood_open_set": 5000
+  },
+  "ontology": "Razorpay Dispute & Evidence Documentation Standard (Track 02)",
+  "generator_families": {
+    "G0": "Canonical declarative standard English",
+    "G1": "Conversational with contractions and varied syntax",
+    "G2": "Indian English and Hinglish financial colloquialisms",
+    "G3": "Corrupted operational text with typographical and OCR noise",
+    "G4": "Independent syntax holdout engine for generalization verification"
+  },
+  "bitemporal_model": "available_time <= decision_time strictly enforced",
+  "protocol_frozen_at": "2026-09-03T00:00:00Z"
+}

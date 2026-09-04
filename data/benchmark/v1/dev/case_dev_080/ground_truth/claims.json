@@ -1,0 +1,24 @@
+[
+  {
+    "claim_id": "gt_claim_case_dev_080_0",
+    "claim_type": "refund_promised",
+    "currency": null,
+    "document_id": "doc_case_dev_080",
+    "end": 48,
+    "modality": "promise",
+    "quote": "We will process a refund within 5 business days.",
+    "start": 0,
+    "value": "future"
+  },
+  {
+    "claim_id": "gt_claim_case_dev_080_1",
+    "claim_type": "refund_timing_commitment",
+    "currency": null,
+    "document_id": "doc_case_dev_080",
+    "end": 48,
+    "modality": "promise",
+    "quote": "We will process a refund within 5 business days.",
+    "start": 0,
+    "value": "within 5 business days"
+  }
+]

@@ -1,0 +1,489 @@
+/**
+ * CARVE & Dispute Integrity Gate: Unified Design System
+ * Production-grade tokens for typography, surfaces, borders, elevations,
+ * status feedback, and accessible focus states across all research views.
+ */
+
+:root {
+  /* Typography Stacks */
+  --font-sans:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter",
+    "Helvetica Neue", Arial, sans-serif;
+  --font-serif:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Inter",
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono:
+    ui-monospace, "SF Mono", "Cascadia Mono", "JetBrains Mono", Consolas, Menlo,
+    monospace;
+
+  /* Type Scale */
+  --text-2xs: 0.6875rem; /* 11px */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.8125rem; /* 13px */
+  --text-base: 0.875rem; /* 14px */
+  --text-md: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+
+  /* Neutral Surfaces & Inks */
+  --ds-canvas: #f8fafc;
+  --ds-surface: #ffffff;
+  --ds-surface-subtle: #f8fafc;
+  --ds-surface-muted: #f1f5f9;
+  --ds-surface-inset: #e2e8f0;
+
+  --ds-ink: #0f172a;
+  --ds-ink-secondary: #334155;
+  --ds-ink-muted: #64748b;
+  --ds-ink-faint: #94a3b8;
+
+  --ds-border: #e2e8f0;
+  --ds-border-subtle: #f1f5f9;
+  --ds-border-strong: #cbd5e1;
+
+  /* Semantic Status Colors (WCAG AA Contrast Guaranteed) */
+  /* PASS: Authoritative Integrity Verified (Forest Green) */
+  --ds-pass-ink: #14532d;
+  --ds-pass-bg: #ecfdf5;
+  --ds-pass-border: #a7f3d0;
+  --ds-pass-solid: #15803d;
+
+  /* REVIEW: Incomplete / Ambiguous Evidence / Abstention (Warm Amber) */
+  --ds-review-ink: #78350f;
+  --ds-review-bg: #fffbeb;
+  --ds-review-border: #fde68a;
+  --ds-review-solid: #b45309;
+
+  /* BLOCK: Deterministic Material Inconsistency / Contradiction (Deep Crimson) */
+  --ds-block-ink: #7f1d1d;
+  --ds-block-bg: #fef2f2;
+  --ds-block-border: #fecaca;
+  --ds-block-solid: #b91c1c;
+
+  /* INFO / RESEARCH: Machine Formalism / Z3 / Verification (Cobalt) */
+  --ds-info-ink: #0c4a6e;
+  --ds-info-bg: #f0f9ff;
+  --ds-info-border: #bae6fd;
+  --ds-info-solid: #0284c7;
+
+  /* Spacing Scale */
+  --space-1: 0.25rem; /* 4px */
+  --space-2: 0.5rem; /* 8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem; /* 16px */
+  --space-5: 1.25rem; /* 20px */
+  --space-6: 1.5rem; /* 24px */
+  --space-8: 2rem; /* 32px */
+  --space-10: 2.5rem; /* 40px */
+  --space-12: 3rem; /* 48px */
+
+  /* Radii */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgba(20, 31, 26, 0.04);
+  --shadow-sm:
+    0 1px 3px rgba(20, 31, 26, 0.06), 0 1px 2px rgba(20, 31, 26, 0.04);
+  --shadow-md:
+    0 4px 6px -1px rgba(20, 31, 26, 0.07), 0 2px 4px -1px rgba(20, 31, 26, 0.04);
+  --shadow-lg:
+    0 10px 15px -3px rgba(20, 31, 26, 0.08),
+    0 4px 6px -2px rgba(20, 31, 26, 0.04);
+  --shadow-modal:
+    0 20px 25px -5px rgba(20, 31, 26, 0.15),
+    0 8px 10px -6px rgba(20, 31, 26, 0.1);
+
+  /* Focus & Motion */
+  --focus-ring: 0 0 0 3px rgba(2, 132, 199, 0.4);
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base resets & layout primitives */
+.ds-container {
+  width: min(1360px, calc(100% - 32px));
+  margin-inline: auto;
+}
+
+/* Unified Top Navigation Header */
+.ds-header {
+  min-height: 64px;
+  background: var(--ds-surface);
+  border-bottom: 1px solid var(--ds-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: 0 var(--space-6);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.ds-header-brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  text-decoration: none;
+  color: var(--ds-ink);
+  font-weight: 700;
+  font-size: var(--text-md);
+  letter-spacing: -0.01em;
+}
+
+.ds-header-brand .ds-logo-box {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  background: var(--ds-pass-solid);
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-weight: 800;
+  font-size: var(--text-sm);
+  font-family: var(--font-mono);
+}
+
+.ds-header-nav {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.ds-nav-btn {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  color: var(--ds-ink-secondary);
+  text-decoration: none;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  transition: all var(--transition-fast);
+}
+
+.ds-nav-btn:hover {
+  background: var(--ds-surface-muted);
+  color: var(--ds-ink);
+}
+
+.ds-nav-btn.active {
+  background: var(--ds-surface-muted);
+  border-color: var(--ds-border);
+  color: var(--ds-ink);
+}
+
+.ds-header-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--ds-surface-muted);
+  border: 1px solid var(--ds-border);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ds-ink-secondary);
+  font-family: var(--font-mono);
+}
+
+/* Status Badges */
+.ds-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-family: var(--font-mono);
+  line-height: 1.2;
+}
+
+.ds-badge-pass {
+  background: var(--ds-pass-bg);
+  color: var(--ds-pass-ink);
+  border: 1px solid var(--ds-pass-border);
+}
+
+.ds-badge-review {
+  background: var(--ds-review-bg);
+  color: var(--ds-review-ink);
+  border: 1px solid var(--ds-review-border);
+}
+
+.ds-badge-block {
+  background: var(--ds-block-bg);
+  color: var(--ds-block-ink);
+  border: 1px solid var(--ds-block-border);
+}
+
+.ds-badge-info {
+  background: var(--ds-info-bg);
+  color: var(--ds-info-ink);
+  border: 1px solid var(--ds-info-border);
+}
+
+.ds-badge-pending {
+  background: var(--ds-surface-muted);
+  color: var(--ds-ink-muted);
+  border: 1px solid var(--ds-border);
+}
+
+/* Button Primitives */
+.ds-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  line-height: 1.25;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  font-family: inherit;
+  min-height: 38px;
+}
+
+.ds-btn:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.ds-btn-primary {
+  background: var(--ds-pass-solid);
+  color: #ffffff;
+  border-color: var(--ds-pass-solid);
+}
+
+.ds-btn-primary:hover:not(:disabled) {
+  background: var(--ds-pass-ink);
+}
+
+.ds-btn-secondary {
+  background: var(--ds-surface);
+  color: var(--ds-ink);
+  border-color: var(--ds-border);
+}
+
+.ds-btn-secondary:hover:not(:disabled) {
+  background: var(--ds-surface-subtle);
+  border-color: var(--ds-border-strong);
+}
+
+.ds-btn-danger {
+  background: var(--ds-block-solid);
+  color: #ffffff;
+  border-color: var(--ds-block-solid);
+}
+
+.ds-btn-danger:hover:not(:disabled) {
+  background: var(--ds-block-ink);
+}
+
+.ds-btn-quiet {
+  background: transparent;
+  color: var(--ds-ink-secondary);
+  border-color: transparent;
+}
+
+.ds-btn-quiet:hover:not(:disabled) {
+  background: var(--ds-surface-muted);
+  color: var(--ds-ink);
+}
+
+.ds-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Card & Panel Primitives */
+.ds-card {
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.ds-card-header {
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--ds-border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  background: var(--ds-surface-subtle);
+}
+
+.ds-card-header h3 {
+  margin: 0;
+  font-size: var(--text-md);
+  font-weight: 700;
+  color: var(--ds-ink);
+  letter-spacing: -0.01em;
+}
+
+.ds-card-header p {
+  margin: var(--space-1) 0 0;
+  font-size: var(--text-xs);
+  color: var(--ds-ink-muted);
+}
+
+.ds-card-body {
+  padding: var(--space-5);
+}
+
+/* Metric Display Cards */
+.ds-metric-stat {
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--radius-lg);
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.ds-metric-stat span {
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ds-ink-muted);
+  font-family: var(--font-mono);
+}
+
+.ds-metric-stat strong {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  color: var(--ds-ink);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.ds-metric-stat small {
+  font-size: var(--text-xs);
+  color: var(--ds-ink-secondary);
+}
+
+/* Formal Proof Certificate Card */
+.ds-proof-cert {
+  border-radius: var(--radius-lg);
+  background: var(--ds-surface);
+  border: 1px solid var(--ds-border);
+  overflow: hidden;
+}
+
+.ds-proof-cert-header {
+  padding: var(--space-3) var(--space-4);
+  background: var(--ds-surface-muted);
+  border-bottom: 1px solid var(--ds-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.ds-proof-facts {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ds-proof-facts li {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--ds-border-subtle);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: var(--text-xs);
+}
+
+.ds-proof-facts li:last-child {
+  border-bottom: none;
+}
+
+/* Intelligent Review Missing Evidence Callout */
+.ds-review-callout {
+  border-left: 4px solid var(--ds-review-solid);
+  background: var(--ds-review-bg);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  padding: var(--space-4);
+  margin-top: var(--space-3);
+}
+
+.ds-review-callout h4 {
+  margin: 0 0 var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  color: var(--ds-review-ink);
+}
+
+.ds-review-callout p {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-xs);
+  color: var(--ds-review-ink);
+  line-height: 1.5;
+}
+
+/* Modal Dialog */
+.ds-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 31, 26, 0.45);
+  backdrop-filter: blur(2px);
+  display: grid;
+  place-items: center;
+  padding: var(--space-4);
+  z-index: 50;
+}
+
+.ds-modal-card {
+  width: min(640px, 100%);
+  background: var(--ds-surface);
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--ds-border);
+  box-shadow: var(--shadow-modal);
+  overflow: hidden;
+  animation: dsModalFadeIn 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes dsModalFadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Accessibility & Print Media */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

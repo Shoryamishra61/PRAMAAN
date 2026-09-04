@@ -1,0 +1,6 @@
+{
+  "auroc": 1.0,
+  "aupr": 1.0,
+  "review_routing_rate": 1.0,
+  "fpr_at_95_tpr": 0.0
+}

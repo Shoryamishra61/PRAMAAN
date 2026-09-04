@@ -1,0 +1,16 @@
+{
+  "ledger_complete": true,
+  "payment_id": "pay_syn_dev_113",
+  "records": [
+    {
+      "amount_minor": 100000,
+      "created_at": "2026-08-10T08:00:00Z",
+      "currency": "USD",
+      "id": "rfnd_currency",
+      "local_status": "processed",
+      "payment_id": "pay_syn_dev_113",
+      "processed_at": "2026-08-10T08:05:00Z",
+      "reference": "RF-DEV-113"
+    }
+  ]
+}

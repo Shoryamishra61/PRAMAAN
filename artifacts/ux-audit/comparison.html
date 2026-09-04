@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Design QA comparison</title>
+    <style>
+      * { box-sizing: border-box; }
+      body { margin: 0; background: #e4e6e3; color: #101814; font-family: Inter, system-ui, sans-serif; }
+      header { padding: 16px 20px; background: white; border-bottom: 1px solid #aeb7b1; font-weight: 800; }
+      main { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 12px; }
+      figure { margin: 0; border: 1px solid #aeb7b1; background: white; }
+      figcaption { padding: 10px 12px; border-bottom: 1px solid #cbd2cd; font: 750 12px/1.3 ui-monospace, Consolas, monospace; }
+      img { display: block; width: 100%; height: auto; }
+    </style>
+  </head>
+  <body>
+    <header>Same 1280 × 720 viewport · approved target vs implementation</header>
+    <main>
+      <figure><figcaption>APPROVED SUPERDESIGN TARGET · V4</figcaption><img src="approved-target-landing.png" alt="Approved guided landing target" /></figure>
+      <figure><figcaption>LOCAL REACT IMPLEMENTATION</figcaption><img src="implementation-landing.png?v=2" alt="Implemented guided landing" /></figure>
+    </main>
+  </body>
+</html>

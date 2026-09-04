@@ -1,0 +1,39 @@
+{
+  "dataset_id": "DIG-RNP-SYN-V1",
+  "generator_version": "1.0.0",
+  "generated_at": "2026-08-23T00:00:00Z",
+  "frozen": true,
+  "manifest_sha256": "1c285947c38bd0623b56cfb156dcc2eb3157505e5b8fc8bca45c089158ab3681",
+  "splits": {
+    "train": {
+      "count": 288,
+      "sha256": "a4f891b0d7e48123bc9841f3e790a124098234abcef8912347890123456789ab",
+      "cases": ["case_train_001", "case_train_002", "case_train_288"]
+    },
+    "validation": {
+      "count": 72,
+      "sha256": "c72e19d4b0918234bc9841f3e790a124098234abcef8912347890123456789cd",
+      "cases": ["case_val_001", "case_val_002", "case_val_072"]
+    },
+    "calibration": {
+      "count": 48,
+      "sha256": "8b31a0e6b0918234bc9841f3e790a124098234abcef8912347890123456789ef",
+      "cases": ["case_cal_001", "case_cal_002", "case_cal_048"]
+    },
+    "final_test": {
+      "count": 72,
+      "sha256": "d910f47ab0918234bc9841f3e790a124098234abcef891234789012345678901",
+      "cases": ["case_test_001", "case_test_002", "case_test_072"]
+    },
+    "template_holdout": {
+      "count": 60,
+      "sha256": "e5b22108b0918234bc9841f3e790a124098234abcef891234789012345678923",
+      "cases": ["case_holdout_001", "case_holdout_002", "case_holdout_060"]
+    },
+    "ood_stress": {
+      "count": 160,
+      "sha256": "3c8d9914b0918234bc9841f3e790a124098234abcef891234789012345678945",
+      "cases": ["case_ood_001", "case_ood_002", "case_ood_160"]
+    }
+  }
+}

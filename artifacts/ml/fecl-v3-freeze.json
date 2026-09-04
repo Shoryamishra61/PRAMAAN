@@ -1,0 +1,11 @@
+{
+  "artifact_version": "fecl-v3-freeze",
+  "created_at": "2026-09-01T09:40:21Z",
+  "dev_sha256": "4fadef32164a95c2abbd990ae712cf3deaa9910e5c4be0e9b46ba453d8d65318",
+  "manifest_sha256": "154c2f0d5b553c3d81d4df17f0a0616aff8c6053d93911eaa2b4e1bf4a3f3466",
+  "protocol_sha256": "0cc85fd32ceb9b45531b42aa9a25d62e100f3a973a2603e0f2d21012596a0e9c",
+  "runner_sha256": "6728b552982894401035dfe423aae1eeb9087be41b683782e1f26c84ba980156",
+  "runtime_changed": false,
+  "test_dataset_sha256": "c915cc3e4f179f1fc6eb4f22d6dbab6777b1de4911dbbc944f8e33246c03162c",
+  "test_open_count": 0
+}

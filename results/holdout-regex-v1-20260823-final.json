@@ -1,0 +1,2404 @@
+{
+  "artifact_schema_version": "1.0",
+  "created_at": "2026-08-23T13:55:00.392338Z",
+  "dataset": {
+    "dataset_id": "DIG-RNP-SYN-v1",
+    "generator_version": "1.0.0",
+    "manifest_sha256": "1c285947c38bd0623b56cfb156dcc2eb3157505e5b8fc8bca45c089158ab3681",
+    "split": "holdout",
+    "synthetic": true
+  },
+  "metrics": {
+    "baseline": {
+      "by_gate_status": {
+        "BLOCK": {
+          "label": "BLOCK",
+          "predicted": 10,
+          "scores": {
+            "f1": 0.6666666666666666,
+            "false_negative": 10,
+            "false_positive": 0,
+            "precision": {
+              "denominator": 10,
+              "numerator": 10,
+              "value": 1.0
+            },
+            "recall": {
+              "denominator": 20,
+              "numerator": 10,
+              "value": 0.5
+            },
+            "true_positive": 10
+          },
+          "support": 20
+        },
+        "PASS": {
+          "label": "PASS",
+          "predicted": 30,
+          "scores": {
+            "f1": 0.8,
+            "false_negative": 0,
+            "false_positive": 10,
+            "precision": {
+              "denominator": 30,
+              "numerator": 20,
+              "value": 0.6666666666666666
+            },
+            "recall": {
+              "denominator": 20,
+              "numerator": 20,
+              "value": 1.0
+            },
+            "true_positive": 20
+          },
+          "support": 20
+        },
+        "REVIEW": {
+          "label": "REVIEW",
+          "predicted": 20,
+          "scores": {
+            "f1": 1.0,
+            "false_negative": 0,
+            "false_positive": 0,
+            "precision": {
+              "denominator": 20,
+              "numerator": 20,
+              "value": 1.0
+            },
+            "recall": {
+              "denominator": 20,
+              "numerator": 20,
+              "value": 1.0
+            },
+            "true_positive": 20
+          },
+          "support": 20
+        }
+      },
+      "claims": {
+        "by_type": {
+          "refund_amount": {
+            "label": "refund_amount",
+            "predicted": 30,
+            "scores": {
+              "f1": 0.5,
+              "false_negative": 0,
+              "false_positive": 20,
+              "precision": {
+                "denominator": 30,
+                "numerator": 10,
+                "value": 0.3333333333333333
+              },
+              "recall": {
+                "denominator": 10,
+                "numerator": 10,
+                "value": 1.0
+              },
+              "true_positive": 10
+            },
+            "support": 10
+          },
+          "refund_approved": {
+            "label": "refund_approved",
+            "predicted": 0,
+            "scores": {
+              "f1": 0.0,
+              "false_negative": 10,
+              "false_positive": 0,
+              "precision": {
+                "denominator": 0,
+                "numerator": 0,
+                "value": null
+              },
+              "recall": {
+                "denominator": 10,
+                "numerator": 0,
+                "value": 0.0
+              },
+              "true_positive": 0
+            },
+            "support": 10
+          },
+          "refund_claimed_processed": {
+            "label": "refund_claimed_processed",
+            "predicted": 10,
+            "scores": {
+              "f1": 0.5,
+              "false_negative": 20,
+              "false_positive": 0,
+              "precision": {
+                "denominator": 10,
+                "numerator": 10,
+                "value": 1.0
+              },
+              "recall": {
+                "denominator": 30,
+                "numerator": 10,
+                "value": 0.3333333333333333
+              },
+              "true_positive": 10
+            },
+            "support": 30
+          }
+        },
+        "exact_grounding_rate": {
+          "denominator": 40,
+          "numerator": 40,
+          "value": 1.0
+        },
+        "macro_f1": 0.3333333333333333,
+        "micro": {
+          "f1": 0.4444444444444444,
+          "false_negative": 30,
+          "false_positive": 20,
+          "precision": {
+            "denominator": 40,
+            "numerator": 20,
+            "value": 0.5
+          },
+          "recall": {
+            "denominator": 50,
+            "numerator": 20,
+            "value": 0.4
+          },
+          "true_positive": 20
+        },
+        "normalized_value_accuracy": {
+          "denominator": 20,
+          "numerator": 20,
+          "value": 1.0
+        }
+      },
+      "confusion_matrix": {
+        "BLOCK": {
+          "BLOCK": 10,
+          "PASS": 10,
+          "REVIEW": 0
+        },
+        "PASS": {
+          "BLOCK": 0,
+          "PASS": 20,
+          "REVIEW": 0
+        },
+        "REVIEW": {
+          "BLOCK": 0,
+          "PASS": 0,
+          "REVIEW": 20
+        }
+      },
+      "material_conflict": {
+        "f1": 0.6666666666666666,
+        "false_negative": 10,
+        "false_positive": 0,
+        "precision": {
+          "denominator": 10,
+          "numerator": 10,
+          "value": 1.0
+        },
+        "recall": {
+          "denominator": 20,
+          "numerator": 10,
+          "value": 0.5
+        },
+        "true_positive": 10
+      },
+      "operational": {
+        "auto_decision_coverage": {
+          "denominator": 60,
+          "numerator": 40,
+          "value": 0.6666666666666666
+        },
+        "false_block_nonblock_cases": 0,
+        "false_pass_block_cases": 10,
+        "review_rate": {
+          "denominator": 60,
+          "numerator": 20,
+          "value": 0.3333333333333333
+        },
+        "total_cases": 60
+      },
+      "slices": {
+        "claimed_processed_match": {
+          "correct": 10,
+          "expected": {
+            "BLOCK": 0,
+            "PASS": 10,
+            "REVIEW": 0
+          },
+          "predicted": {
+            "BLOCK": 0,
+            "PASS": 10,
+            "REVIEW": 0
+          },
+          "total": 10
+        },
+        "claimed_processed_no_ledger": {
+          "correct": 10,
+          "expected": {
+            "BLOCK": 10,
+            "PASS": 0,
+            "REVIEW": 0
+          },
+          "predicted": {
+            "BLOCK": 10,
+            "PASS": 0,
+            "REVIEW": 0
+          },
+          "total": 10
+        },
+        "negation_hard_negative": {
+          "correct": 10,
+          "expected": {
+            "BLOCK": 0,
+            "PASS": 10,
+            "REVIEW": 0
+          },
+          "predicted": {
+            "BLOCK": 0,
+            "PASS": 10,
+            "REVIEW": 0
+          },
+          "total": 10
+        },
+        "partial_full_amount": {
+          "correct": 0,
+          "expected": {
+            "BLOCK": 10,
+            "PASS": 0,
+            "REVIEW": 0
+          },
+          "predicted": {
+            "BLOCK": 0,
+            "PASS": 10,
+            "REVIEW": 0
+          },
+          "total": 10
+        },
+        "provider_grounding_failure": {
+          "correct": 10,
+          "expected": {
+            "BLOCK": 0,
+            "PASS": 0,
+            "REVIEW": 10
+          },
+          "predicted": {
+            "BLOCK": 0,
+            "PASS": 0,
+            "REVIEW": 10
+          },
+          "total": 10
+        },
+        "unsupported_ood": {
+          "correct": 10,
+          "expected": {
+            "BLOCK": 0,
+            "PASS": 0,
+            "REVIEW": 10
+          },
+          "predicted": {
+            "BLOCK": 0,
+            "PASS": 0,
+            "REVIEW": 10
+          },
+          "total": 10
+        }
+      },
+      "three_class_macro_f1": 0.8222222222222223
+    },
+    "baseline_delta": {
+      "proposed_minus_baseline": {
+        "auto_decision_coverage": 0.0,
+        "claim_micro_f1": 0.0,
+        "exact_grounding_rate": 0.0,
+        "false_block_nonblock_cases": 0,
+        "false_pass_block_cases": 0,
+        "material_f1": 0.0,
+        "material_precision": 0.0,
+        "material_recall": 0.0,
+        "review_rate": 0.0
+      }
+    },
+    "by_gate_status": {
+      "BLOCK": {
+        "label": "BLOCK",
+        "predicted": 10,
+        "scores": {
+          "f1": 0.6666666666666666,
+          "false_negative": 10,
+          "false_positive": 0,
+          "precision": {
+            "denominator": 10,
+            "numerator": 10,
+            "value": 1.0
+          },
+          "recall": {
+            "denominator": 20,
+            "numerator": 10,
+            "value": 0.5
+          },
+          "true_positive": 10
+        },
+        "support": 20
+      },
+      "PASS": {
+        "label": "PASS",
+        "predicted": 30,
+        "scores": {
+          "f1": 0.8,
+          "false_negative": 0,
+          "false_positive": 10,
+          "precision": {
+            "denominator": 30,
+            "numerator": 20,
+            "value": 0.6666666666666666
+          },
+          "recall": {
+            "denominator": 20,
+            "numerator": 20,
+            "value": 1.0
+          },
+          "true_positive": 20
+        },
+        "support": 20
+      },
+      "REVIEW": {
+        "label": "REVIEW",
+        "predicted": 20,
+        "scores": {
+          "f1": 1.0,
+          "false_negative": 0,
+          "false_positive": 0,
+          "precision": {
+            "denominator": 20,
+            "numerator": 20,
+            "value": 1.0
+          },
+          "recall": {
+            "denominator": 20,
+            "numerator": 20,
+            "value": 1.0
+          },
+          "true_positive": 20
+        },
+        "support": 20
+      }
+    },
+    "claims": {
+      "by_type": {
+        "refund_amount": {
+          "label": "refund_amount",
+          "predicted": 30,
+          "scores": {
+            "f1": 0.5,
+            "false_negative": 0,
+            "false_positive": 20,
+            "precision": {
+              "denominator": 30,
+              "numerator": 10,
+              "value": 0.3333333333333333
+            },
+            "recall": {
+              "denominator": 10,
+              "numerator": 10,
+              "value": 1.0
+            },
+            "true_positive": 10
+          },
+          "support": 10
+        },
+        "refund_approved": {
+          "label": "refund_approved",
+          "predicted": 0,
+          "scores": {
+            "f1": 0.0,
+            "false_negative": 10,
+            "false_positive": 0,
+            "precision": {
+              "denominator": 0,
+              "numerator": 0,
+              "value": null
+            },
+            "recall": {
+              "denominator": 10,
+              "numerator": 0,
+              "value": 0.0
+            },
+            "true_positive": 0
+          },
+          "support": 10
+        },
+        "refund_claimed_processed": {
+          "label": "refund_claimed_processed",
+          "predicted": 10,
+          "scores": {
+            "f1": 0.5,
+            "false_negative": 20,
+            "false_positive": 0,
+            "precision": {
+              "denominator": 10,
+              "numerator": 10,
+              "value": 1.0
+            },
+            "recall": {
+              "denominator": 30,
+              "numerator": 10,
+              "value": 0.3333333333333333
+            },
+            "true_positive": 10
+          },
+          "support": 30
+        }
+      },
+      "exact_grounding_rate": {
+        "denominator": 40,
+        "numerator": 40,
+        "value": 1.0
+      },
+      "macro_f1": 0.3333333333333333,
+      "micro": {
+        "f1": 0.4444444444444444,
+        "false_negative": 30,
+        "false_positive": 20,
+        "precision": {
+          "denominator": 40,
+          "numerator": 20,
+          "value": 0.5
+        },
+        "recall": {
+          "denominator": 50,
+          "numerator": 20,
+          "value": 0.4
+        },
+        "true_positive": 20
+      },
+      "normalized_value_accuracy": {
+        "denominator": 20,
+        "numerator": 20,
+        "value": 1.0
+      }
+    },
+    "confusion_matrix": {
+      "BLOCK": {
+        "BLOCK": 10,
+        "PASS": 10,
+        "REVIEW": 0
+      },
+      "PASS": {
+        "BLOCK": 0,
+        "PASS": 20,
+        "REVIEW": 0
+      },
+      "REVIEW": {
+        "BLOCK": 0,
+        "PASS": 0,
+        "REVIEW": 20
+      }
+    },
+    "cost_sensitivity": [
+      {
+        "c_false_block": 3,
+        "c_false_pass": 10,
+        "c_review": 1,
+        "label": "review-cheap",
+        "n_false_block": 0,
+        "n_false_pass": 10,
+        "n_review": 20,
+        "total_cost": 120,
+        "unit": "illustrative_cost_units"
+      },
+      {
+        "c_false_block": 10,
+        "c_false_pass": 10,
+        "c_review": 3,
+        "label": "balanced",
+        "n_false_block": 0,
+        "n_false_pass": 10,
+        "n_review": 20,
+        "total_cost": 160,
+        "unit": "illustrative_cost_units"
+      },
+      {
+        "c_false_block": 5,
+        "c_false_pass": 30,
+        "c_review": 2,
+        "label": "false-pass-expensive",
+        "n_false_block": 0,
+        "n_false_pass": 10,
+        "n_review": 20,
+        "total_cost": 340,
+        "unit": "illustrative_cost_units"
+      }
+    ],
+    "evaluation_boundary": {
+      "baseline_comparison": "Identical B0 comparator because offline/regex-only mode was selected; no model-backed B1 result is claimed.",
+      "block_is_not_legal_verdict": true,
+      "pass_is_not_win_prediction": true,
+      "production_prevalence": false,
+      "selected_system": "B0 regex extractor plus deterministic verifier",
+      "synthetic": true
+    },
+    "material_conflict": {
+      "f1": 0.6666666666666666,
+      "false_negative": 10,
+      "false_positive": 0,
+      "precision": {
+        "denominator": 10,
+        "numerator": 10,
+        "value": 1.0
+      },
+      "recall": {
+        "denominator": 20,
+        "numerator": 10,
+        "value": 0.5
+      },
+      "true_positive": 10
+    },
+    "operational": {
+      "auto_decision_coverage": {
+        "denominator": 60,
+        "numerator": 40,
+        "value": 0.6666666666666666
+      },
+      "false_block_nonblock_cases": 0,
+      "false_pass_block_cases": 10,
+      "review_rate": {
+        "denominator": 60,
+        "numerator": 20,
+        "value": 0.3333333333333333
+      },
+      "total_cases": 60
+    },
+    "release_freeze": {
+      "code_bundle_sha256": "77e178b83e427fc4d5328cef1aa15582b5e22ae087088d258d17a7061a519996",
+      "created_at": "2026-08-23T13:54:51.879544Z"
+    },
+    "slices": {
+      "claimed_processed_match": {
+        "correct": 10,
+        "expected": {
+          "BLOCK": 0,
+          "PASS": 10,
+          "REVIEW": 0
+        },
+        "predicted": {
+          "BLOCK": 0,
+          "PASS": 10,
+          "REVIEW": 0
+        },
+        "total": 10
+      },
+      "claimed_processed_no_ledger": {
+        "correct": 10,
+        "expected": {
+          "BLOCK": 10,
+          "PASS": 0,
+          "REVIEW": 0
+        },
+        "predicted": {
+          "BLOCK": 10,
+          "PASS": 0,
+          "REVIEW": 0
+        },
+        "total": 10
+      },
+      "negation_hard_negative": {
+        "correct": 10,
+        "expected": {
+          "BLOCK": 0,
+          "PASS": 10,
+          "REVIEW": 0
+        },
+        "predicted": {
+          "BLOCK": 0,
+          "PASS": 10,
+          "REVIEW": 0
+        },
+        "total": 10
+      },
+      "partial_full_amount": {
+        "correct": 0,
+        "expected": {
+          "BLOCK": 10,
+          "PASS": 0,
+          "REVIEW": 0
+        },
+        "predicted": {
+          "BLOCK": 0,
+          "PASS": 10,
+          "REVIEW": 0
+        },
+        "total": 10
+      },
+      "provider_grounding_failure": {
+        "correct": 10,
+        "expected": {
+          "BLOCK": 0,
+          "PASS": 0,
+          "REVIEW": 10
+        },
+        "predicted": {
+          "BLOCK": 0,
+          "PASS": 0,
+          "REVIEW": 10
+        },
+        "total": 10
+      },
+      "unsupported_ood": {
+        "correct": 10,
+        "expected": {
+          "BLOCK": 0,
+          "PASS": 0,
+          "REVIEW": 10
+        },
+        "predicted": {
+          "BLOCK": 0,
+          "PASS": 0,
+          "REVIEW": 10
+        },
+        "total": 10
+      }
+    },
+    "three_class_macro_f1": 0.8222222222222223,
+    "timing": {
+      "case_end_to_end": {
+        "count": 60,
+        "maximum": 1.6602000105194747,
+        "minimum": 0.8681999752297997,
+        "p50": 1.2395000085234642,
+        "p95": 1.5736999921500683,
+        "unit": "milliseconds"
+      },
+      "regex_extraction": {
+        "count": 50,
+        "maximum": 0.1412999990861863,
+        "minimum": 0.02989999484270811,
+        "p50": 0.060399994254112244,
+        "p95": 0.09429999045096338,
+        "unit": "milliseconds"
+      }
+    }
+  },
+  "predictions": [
+    {
+      "case_id": "case_holdout_001",
+      "expected_claims": [],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "negation_hard_negative"
+    },
+    {
+      "case_id": "case_holdout_002",
+      "expected_claims": [],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "negation_hard_negative"
+    },
+    {
+      "case_id": "case_holdout_003",
+      "expected_claims": [],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "negation_hard_negative"
+    },
+    {
+      "case_id": "case_holdout_004",
+      "expected_claims": [],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "negation_hard_negative"
+    },
+    {
+      "case_id": "case_holdout_005",
+      "expected_claims": [],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "negation_hard_negative"
+    },
+    {
+      "case_id": "case_holdout_006",
+      "expected_claims": [],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "negation_hard_negative"
+    },
+    {
+      "case_id": "case_holdout_007",
+      "expected_claims": [],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "negation_hard_negative"
+    },
+    {
+      "case_id": "case_holdout_008",
+      "expected_claims": [],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "negation_hard_negative"
+    },
+    {
+      "case_id": "case_holdout_009",
+      "expected_claims": [],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "negation_hard_negative"
+    },
+    {
+      "case_id": "case_holdout_010",
+      "expected_claims": [],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "negation_hard_negative"
+    },
+    {
+      "case_id": "case_holdout_011",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "The refund has now been processed for ₹1,000.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_amount",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "The refund has now been processed for ₹1,000.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "claimed_processed_match"
+    },
+    {
+      "case_id": "case_holdout_012",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "The refund has now been processed for ₹2,500.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_amount",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "The refund has now been processed for ₹2,500.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "claimed_processed_match"
+    },
+    {
+      "case_id": "case_holdout_013",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "The refund has now been processed for ₹4,999.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_amount",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "The refund has now been processed for ₹4,999.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "claimed_processed_match"
+    },
+    {
+      "case_id": "case_holdout_014",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 46,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "The refund has now been processed for ₹12,500.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_amount",
+          "end": 46,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "The refund has now been processed for ₹12,500.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "claimed_processed_match"
+    },
+    {
+      "case_id": "case_holdout_015",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "The refund has now been processed for ₹1,000.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_amount",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "The refund has now been processed for ₹1,000.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "claimed_processed_match"
+    },
+    {
+      "case_id": "case_holdout_016",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "The refund has now been processed for ₹2,500.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_amount",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "The refund has now been processed for ₹2,500.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "claimed_processed_match"
+    },
+    {
+      "case_id": "case_holdout_017",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "The refund has now been processed for ₹4,999.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_amount",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "The refund has now been processed for ₹4,999.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "claimed_processed_match"
+    },
+    {
+      "case_id": "case_holdout_018",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 46,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "The refund has now been processed for ₹12,500.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_amount",
+          "end": 46,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "The refund has now been processed for ₹12,500.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "claimed_processed_match"
+    },
+    {
+      "case_id": "case_holdout_019",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "The refund has now been processed for ₹1,000.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_amount",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "The refund has now been processed for ₹1,000.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "claimed_processed_match"
+    },
+    {
+      "case_id": "case_holdout_020",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "The refund has now been processed for ₹2,500.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_amount",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "The refund has now been processed for ₹2,500.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "claimed_processed_match"
+    },
+    {
+      "case_id": "case_holdout_021",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 36,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your refund of ₹1,000 was processed.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNGROUNDED",
+        "F_SOURCE_UNGROUNDED",
+        "F_SOURCE_UNGROUNDED"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNGROUNDED"
+      ],
+      "slice": "provider_grounding_failure"
+    },
+    {
+      "case_id": "case_holdout_022",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 36,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your refund of ₹2,500 was processed.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNGROUNDED",
+        "F_SOURCE_UNGROUNDED",
+        "F_SOURCE_UNGROUNDED"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNGROUNDED"
+      ],
+      "slice": "provider_grounding_failure"
+    },
+    {
+      "case_id": "case_holdout_023",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 36,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your refund of ₹4,999 was processed.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNGROUNDED",
+        "F_SOURCE_UNGROUNDED",
+        "F_SOURCE_UNGROUNDED"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNGROUNDED"
+      ],
+      "slice": "provider_grounding_failure"
+    },
+    {
+      "case_id": "case_holdout_024",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your refund of ₹12,500 was processed.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNGROUNDED",
+        "F_SOURCE_UNGROUNDED",
+        "F_SOURCE_UNGROUNDED"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNGROUNDED"
+      ],
+      "slice": "provider_grounding_failure"
+    },
+    {
+      "case_id": "case_holdout_025",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 36,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your refund of ₹1,000 was processed.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNGROUNDED",
+        "F_SOURCE_UNGROUNDED",
+        "F_SOURCE_UNGROUNDED"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNGROUNDED"
+      ],
+      "slice": "provider_grounding_failure"
+    },
+    {
+      "case_id": "case_holdout_026",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 36,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your refund of ₹2,500 was processed.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNGROUNDED",
+        "F_SOURCE_UNGROUNDED",
+        "F_SOURCE_UNGROUNDED"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNGROUNDED"
+      ],
+      "slice": "provider_grounding_failure"
+    },
+    {
+      "case_id": "case_holdout_027",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 36,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your refund of ₹4,999 was processed.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNGROUNDED",
+        "F_SOURCE_UNGROUNDED",
+        "F_SOURCE_UNGROUNDED"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNGROUNDED"
+      ],
+      "slice": "provider_grounding_failure"
+    },
+    {
+      "case_id": "case_holdout_028",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your refund of ₹12,500 was processed.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNGROUNDED",
+        "F_SOURCE_UNGROUNDED",
+        "F_SOURCE_UNGROUNDED"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNGROUNDED"
+      ],
+      "slice": "provider_grounding_failure"
+    },
+    {
+      "case_id": "case_holdout_029",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 36,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your refund of ₹1,000 was processed.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNGROUNDED",
+        "F_SOURCE_UNGROUNDED",
+        "F_SOURCE_UNGROUNDED"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNGROUNDED"
+      ],
+      "slice": "provider_grounding_failure"
+    },
+    {
+      "case_id": "case_holdout_030",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 36,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your refund of ₹2,500 was processed.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNGROUNDED",
+        "F_SOURCE_UNGROUNDED",
+        "F_SOURCE_UNGROUNDED"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNGROUNDED"
+      ],
+      "slice": "provider_grounding_failure"
+    },
+    {
+      "case_id": "case_holdout_031",
+      "expected_claims": [],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "slice": "unsupported_ood"
+    },
+    {
+      "case_id": "case_holdout_032",
+      "expected_claims": [],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "slice": "unsupported_ood"
+    },
+    {
+      "case_id": "case_holdout_033",
+      "expected_claims": [],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "slice": "unsupported_ood"
+    },
+    {
+      "case_id": "case_holdout_034",
+      "expected_claims": [],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "slice": "unsupported_ood"
+    },
+    {
+      "case_id": "case_holdout_035",
+      "expected_claims": [],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "slice": "unsupported_ood"
+    },
+    {
+      "case_id": "case_holdout_036",
+      "expected_claims": [],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "slice": "unsupported_ood"
+    },
+    {
+      "case_id": "case_holdout_037",
+      "expected_claims": [],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "slice": "unsupported_ood"
+    },
+    {
+      "case_id": "case_holdout_038",
+      "expected_claims": [],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "slice": "unsupported_ood"
+    },
+    {
+      "case_id": "case_holdout_039",
+      "expected_claims": [],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "slice": "unsupported_ood"
+    },
+    {
+      "case_id": "case_holdout_040",
+      "expected_claims": [],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "slice": "unsupported_ood"
+    },
+    {
+      "case_id": "case_holdout_041",
+      "expected_claims": [
+        {
+          "claim_type": "refund_approved",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your full refund of ₹1,000 has been approved.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_amount",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your full refund of ₹1,000 has been approved.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_holdout_042",
+      "expected_claims": [
+        {
+          "claim_type": "refund_approved",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your full refund of ₹2,500 has been approved.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_amount",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your full refund of ₹2,500 has been approved.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_holdout_043",
+      "expected_claims": [
+        {
+          "claim_type": "refund_approved",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your full refund of ₹4,999 has been approved.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_amount",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your full refund of ₹4,999 has been approved.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_holdout_044",
+      "expected_claims": [
+        {
+          "claim_type": "refund_approved",
+          "end": 46,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your full refund of ₹12,500 has been approved.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_amount",
+          "end": 46,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your full refund of ₹12,500 has been approved.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_holdout_045",
+      "expected_claims": [
+        {
+          "claim_type": "refund_approved",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your full refund of ₹1,000 has been approved.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_amount",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your full refund of ₹1,000 has been approved.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_holdout_046",
+      "expected_claims": [
+        {
+          "claim_type": "refund_approved",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your full refund of ₹2,500 has been approved.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_amount",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your full refund of ₹2,500 has been approved.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_holdout_047",
+      "expected_claims": [
+        {
+          "claim_type": "refund_approved",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your full refund of ₹4,999 has been approved.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_amount",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your full refund of ₹4,999 has been approved.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_holdout_048",
+      "expected_claims": [
+        {
+          "claim_type": "refund_approved",
+          "end": 46,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your full refund of ₹12,500 has been approved.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_amount",
+          "end": 46,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your full refund of ₹12,500 has been approved.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_holdout_049",
+      "expected_claims": [
+        {
+          "claim_type": "refund_approved",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your full refund of ₹1,000 has been approved.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_amount",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your full refund of ₹1,000 has been approved.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_holdout_050",
+      "expected_claims": [
+        {
+          "claim_type": "refund_approved",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your full refund of ₹2,500 has been approved.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_amount",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your full refund of ₹2,500 has been approved.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_holdout_051",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-HOLDOUT-051"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-HOLDOUT-051.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-HOLDOUT-051.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-HOLDOUT-051"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-HOLDOUT-051.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-HOLDOUT-051.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_holdout_052",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-HOLDOUT-052"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-HOLDOUT-052.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-HOLDOUT-052.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-HOLDOUT-052"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-HOLDOUT-052.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-HOLDOUT-052.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_holdout_053",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-HOLDOUT-053"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-HOLDOUT-053.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-HOLDOUT-053.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-HOLDOUT-053"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-HOLDOUT-053.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-HOLDOUT-053.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_holdout_054",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 60,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-HOLDOUT-054"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-HOLDOUT-054.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 60,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-HOLDOUT-054.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 60,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-HOLDOUT-054"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-HOLDOUT-054.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 60,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-HOLDOUT-054.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_holdout_055",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-HOLDOUT-055"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-HOLDOUT-055.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-HOLDOUT-055.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-HOLDOUT-055"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-HOLDOUT-055.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-HOLDOUT-055.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_holdout_056",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-HOLDOUT-056"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-HOLDOUT-056.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-HOLDOUT-056.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-HOLDOUT-056"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-HOLDOUT-056.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-HOLDOUT-056.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_holdout_057",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-HOLDOUT-057"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-HOLDOUT-057.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-HOLDOUT-057.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-HOLDOUT-057"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-HOLDOUT-057.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-HOLDOUT-057.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_holdout_058",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 60,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-HOLDOUT-058"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-HOLDOUT-058.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 60,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-HOLDOUT-058.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 60,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-HOLDOUT-058"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-HOLDOUT-058.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 60,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-HOLDOUT-058.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_holdout_059",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-HOLDOUT-059"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-HOLDOUT-059.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-HOLDOUT-059.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-HOLDOUT-059"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-HOLDOUT-059.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-HOLDOUT-059.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_holdout_060",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-HOLDOUT-060"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-HOLDOUT-060.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-HOLDOUT-060.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-HOLDOUT-060"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-HOLDOUT-060.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 59,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-HOLDOUT-060.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    }
+  ],
+  "run_id": "holdout-regex-v1-20260823-final",
+  "system": {
+    "claim_schema_version": "grounded-claim-v1",
+    "code_commit": "UNAVAILABLE_NOT_A_GIT_REPOSITORY",
+    "config_sha256": "24ce16ba08a8b4edcbb843aa9fc9720e8f1db70358ffba22430e6251344f45b1",
+    "extractor_id": "regex-baseline-v1",
+    "model_id": null,
+    "prompt_version": "not-applicable-regex-v1",
+    "system_id": "dispute-integrity-gate",
+    "system_version": "deterministic-v1"
+  }
+}

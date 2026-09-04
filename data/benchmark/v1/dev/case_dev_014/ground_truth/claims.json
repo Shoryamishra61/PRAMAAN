@@ -1,0 +1,13 @@
+[
+  {
+    "claim_id": "gt_claim_case_dev_014_0",
+    "claim_type": "refund_requested",
+    "currency": null,
+    "document_id": "doc_case_dev_014",
+    "end": 49,
+    "modality": "assertion",
+    "quote": "Refund request received; our team will review it.",
+    "start": 0,
+    "value": "request received"
+  }
+]

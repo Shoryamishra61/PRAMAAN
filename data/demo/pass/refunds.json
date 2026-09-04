@@ -1,0 +1,17 @@
+{
+  "payment_id": "pay_demo_pass",
+  "ledger_complete": true,
+  "records": [
+    {
+      "id": "rfnd_demo_pass",
+      "payment_id": "pay_demo_pass",
+      "amount_minor": 250000,
+      "currency": "INR",
+      "local_status": "processed",
+      "created_at": "2026-08-10T08:00:00Z",
+      "processed_at": "2026-08-10T08:05:00Z",
+      "reference": "RF-101"
+    }
+  ]
+}
+

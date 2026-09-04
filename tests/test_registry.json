@@ -1,0 +1,195 @@
+{
+  "schema_version": "1.0",
+  "system": "PRAMAAN / CARVE-FECL",
+  "philosophy": "Every invariant that matters financially should be expressed as executable code.",
+  "invariants": [
+    {
+      "id": "INV-FIN-01",
+      "name": "Money Commutativity and Format Roundtrip",
+      "layer": "L2_PROPERTY",
+      "requirement": "Minor unit integer preservation and shuffle invariance",
+      "formal_expression": "sum(shuffle(refunds)) == sum(refunds) and parse(format(x)) == x",
+      "risk": "Silent floating-point truncation or currency precision drift",
+      "test_files": ["backend/tests/property/test_money_properties.py"],
+      "generator": "backend.tests.generators.strategies.amounts_minor_strategy",
+      "release_gate": "BLOCK"
+    },
+    {
+      "id": "INV-FIN-02",
+      "name": "Over-Refund Contradiction Gate",
+      "layer": "L2_PROPERTY",
+      "requirement": "Refunds exceeding captured amount must never contest",
+      "formal_expression": "sum(refunds) > captured_amount ==> GateDecision != CONTEST_READY",
+      "risk": "Falsely contesting a dispute where customer refund was legitimately owed",
+      "test_files": [
+        "backend/tests/property/test_money_properties.py",
+        "backend/tests/adversarial/test_adversarial_judge_cases.py"
+      ],
+      "generator": "backend.tests.generators.strategies.amounts_minor_strategy",
+      "release_gate": "BLOCK"
+    },
+    {
+      "id": "INV-FIN-03",
+      "name": "Currency Homogeneity Invariant",
+      "layer": "L2_PROPERTY",
+      "requirement": "Currency mismatch between claim, capture, and refund prevents contest",
+      "formal_expression": "currency(claim) != currency(payment) ==> GateStatus == BLOCK",
+      "risk": "Unhedged FX exposure and fraudulent currency claims",
+      "test_files": [
+        "backend/tests/property/test_money_properties.py",
+        "backend/tests/adversarial/test_adversarial_judge_cases.py"
+      ],
+      "generator": "backend.tests.generators.strategies.currencies_strategy",
+      "release_gate": "BLOCK"
+    },
+    {
+      "id": "INV-TIME-01",
+      "name": "Point-in-Time Temporal Evidence Isolation",
+      "layer": "L2_PROPERTY",
+      "requirement": "Evidence dated after decision timestamp is inadmissible",
+      "formal_expression": "timestamp(evidence) > timestamp(decision) ==> Inadmissible",
+      "risk": "Lookahead data leakage and corrupted historical audit trails",
+      "test_files": [
+        "backend/tests/property/test_temporal_properties.py",
+        "backend/tests/adversarial/test_adversarial_judge_cases.py"
+      ],
+      "generator": "backend.tests.generators.strategies.timestamps_utc_strategy",
+      "release_gate": "BLOCK"
+    },
+    {
+      "id": "INV-TIME-02",
+      "name": "Metamorphic Historical Replay Invariance",
+      "layer": "L2_PROPERTY",
+      "requirement": "Adding future evidence must never alter earlier decision replay",
+      "formal_expression": "Decide(Snapshot_t + Evidence_future) == Decide(Snapshot_t)",
+      "risk": "Non-reproducible financial dispute audits",
+      "test_files": ["backend/tests/property/test_temporal_properties.py"],
+      "generator": "backend.tests.generators.strategies.timestamps_utc_strategy",
+      "release_gate": "BLOCK"
+    },
+    {
+      "id": "INV-IDEM-01",
+      "name": "External Ingestion Idempotency",
+      "layer": "L3_STATEFUL",
+      "requirement": "Processing same external event ID N times results in 1 state mutation",
+      "formal_expression": "forall N >= 1: Ingest(event)^N == Ingest(event)^1",
+      "risk": "Duplicate ledger entries, double decisions, or double counting",
+      "test_files": [
+        "backend/tests/stateful/test_crash_consistency.py",
+        "backend/tests/stateful/test_concurrency_leases.py"
+      ],
+      "generator": "backend.tests.generators.strategies.razorpay_webhook_payload_strategy",
+      "release_gate": "BLOCK"
+    },
+    {
+      "id": "INV-CONC-01",
+      "name": "Worker Lease Exclusivity and Stale Rejection",
+      "layer": "L3_STATEFUL",
+      "requirement": "Stale worker holding expired lease cannot overwrite newer valid result",
+      "formal_expression": "now() > lease_until ==> Commit(Worker_stale) raises PermanentJobError",
+      "risk": "Split-brain decision conflicts under network partitions or worker stalls",
+      "test_files": ["backend/tests/stateful/test_concurrency_leases.py"],
+      "generator": "concurrency_threads_16",
+      "release_gate": "BLOCK"
+    },
+    {
+      "id": "INV-ML-01",
+      "name": "Zero Feature Label Leakage",
+      "layer": "L4_ML_RESEARCH",
+      "requirement": "Zero target-derived or outcome tokens in feature manifests",
+      "formal_expression": "Features intersect {has_contra, is_error, future_outcome} == empty",
+      "risk": "Artificially inflated benchmark metrics via data leakage",
+      "test_files": ["backend/tests/ml/test_ml_leakage.py"],
+      "generator": "single_feature_probe",
+      "release_gate": "BLOCK"
+    },
+    {
+      "id": "INV-ML-02",
+      "name": "Dataset Split Disjointness",
+      "layer": "L4_ML_RESEARCH",
+      "requirement": "Strict zero-overlap between train, dev, and holdout splits",
+      "formal_expression": "Train intersect Dev == empty and Train intersect Holdout == empty",
+      "risk": "Data contamination and test set memorization",
+      "test_files": ["backend/tests/ml/test_data_split_integrity.py"],
+      "generator": "manifest_sha256_verifier",
+      "release_gate": "BLOCK"
+    },
+    {
+      "id": "INV-ML-03",
+      "name": "Monotonic Selective Prediction Coverage",
+      "layer": "L4_ML_RESEARCH",
+      "requirement": "Widening confidence intervals monotonically increases review rate",
+      "formal_expression": "Interval_1 subset Interval_2 ==> ReviewRate(1) <= ReviewRate(2)",
+      "risk": "Uncontrolled automation expansion into uncertain territory",
+      "test_files": ["backend/tests/ml/test_calibration_and_ood.py"],
+      "generator": "synthetic_probability_sweep",
+      "release_gate": "BLOCK"
+    },
+    {
+      "id": "INV-ML-04",
+      "name": "Out-of-Distribution Safe Routing",
+      "layer": "L4_ML_RESEARCH",
+      "requirement": "Severe distribution shifts route 100% of cases to review",
+      "formal_expression": "OOD_score >= threshold ==> Decision == REVIEW_REQUIRED",
+      "risk": "Confident hallucinations on novel fraud or transaction patterns",
+      "test_files": ["backend/tests/ml/test_calibration_and_ood.py"],
+      "generator": "multivariate_anomaly_distribution",
+      "release_gate": "BLOCK"
+    },
+    {
+      "id": "INV-FORM-01",
+      "name": "Formal Proof Dominance",
+      "layer": "L5_FORMAL",
+      "requirement": "SMT UNSAT contradiction strictly dominates probabilistic model pass",
+      "formal_expression": "Z3_UNSAT ==> Decision == BLOCK regardless of p_ml",
+      "risk": "Statistical model overriding a provable arithmetic contradiction",
+      "test_files": ["backend/tests/property/test_z3_differential_oracle.py"],
+      "generator": "backend.tests.generators.strategies.amounts_minor_strategy",
+      "release_gate": "BLOCK"
+    },
+    {
+      "id": "INV-FORM-02",
+      "name": "Grounding and Provenance Hash Integrity",
+      "layer": "L5_FORMAL",
+      "requirement": "1-byte document modification alters hash; ambiguous quotes fail closed",
+      "formal_expression": "Doc != Doc' ==> Hash(Doc) != Hash(Doc') and Count(Quote) > 1 ==> AMBIGUOUS",
+      "risk": "Ungrounded model hallucinations treated as authoritative evidence",
+      "test_files": ["backend/tests/property/test_provenance_and_grounding.py"],
+      "generator": "backend.tests.generators.strategies.corrupted_text_strategy",
+      "release_gate": "BLOCK"
+    },
+    {
+      "id": "INV-CHAOS-01",
+      "name": "Technical Failure Fails Closed",
+      "layer": "L6_CHAOS",
+      "requirement": "Extractor, solver, or DB timeout degrades to REVIEW, never PASS",
+      "formal_expression": "Timeout(Model) or Timeout(SMT) ==> Decision == REVIEW_REQUIRED",
+      "risk": "Service outages falsely auto-submitting unverified disputes",
+      "test_files": ["backend/tests/chaos/test_chaos_fault_injection.py"],
+      "generator": "timing_out_extractor_simulation",
+      "release_gate": "BLOCK"
+    },
+    {
+      "id": "INV-SEC-01",
+      "name": "AST Zero Razorpay Payment Mutation",
+      "layer": "L0_STATIC",
+      "requirement": "Zero payment write or mutation APIs in abstract syntax tree",
+      "formal_expression": "AST(repo) intersect RazorpayWriteCalls == empty",
+      "risk": "Accidental monetary transfer originating from verification gateway",
+      "test_files": ["scripts/check_no_razorpay_writes.py"],
+      "generator": "python_ast_visitor",
+      "release_gate": "BLOCK"
+    },
+    {
+      "id": "INV-SEC-02",
+      "name": "Constant-Time HMAC Authentication",
+      "layer": "L6_SECURITY",
+      "requirement": "Any payload tampering or secret mismatch rejected without timing leak",
+      "formal_expression": "HMAC(Body, Secret) != Signature ==> Reject(WebhookSignatureError)",
+      "risk": "Forged external webhooks injecting false dispute claims",
+      "test_files": ["backend/tests/security/test_security_adversarial.py"],
+      "generator": "tampered_bytes_and_whitespace_mutation",
+      "release_gate": "BLOCK"
+    }
+  ]
+}

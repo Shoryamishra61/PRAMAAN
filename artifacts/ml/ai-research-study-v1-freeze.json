@@ -1,0 +1,22 @@
+{
+  "artifact_version": "ai-research-study-v1-freeze",
+  "challenge_sha256": "2d6b2dd8f9742a864535889757c7f8b51d4eb6884847cd0aec4b448ffc27354e",
+  "created_at": "2026-09-01T02:40:30.739789Z",
+  "dev_artifact_sha256": "7fc51f5c206ad1d15539f2ea6e165783009f2b972ce07e484e2d62f0c0587c62",
+  "holdout_manifest_sha256": "1c285947c38bd0623b56cfb156dcc2eb3157505e5b8fc8bca45c089158ab3681",
+  "learned_extractor_status": "NOT_PROMOTED",
+  "model_revisions": {
+    "embedding": {
+      "id": "sentence-transformers/all-MiniLM-L6-v2",
+      "revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41"
+    },
+    "nli": {
+      "id": "cross-encoder/nli-MiniLM2-L6-H768",
+      "revision": "b95119ce93d3e065de6214e38cd4a97b0f2f2c6d"
+    }
+  },
+  "nli_status": "RETAINED_EXPERIMENTAL",
+  "protocol_sha256": "0940452bb36325fe6d3ef8fff5e03c6fd7b34c7e1bc11c3b3d55f671fbc231bd",
+  "selected_runtime_extractor": "regex-baseline-v1",
+  "study_script_sha256": "9934adc22f8ff16ff7bac973e28a068f8fa2f9ce9fe9f996ee7632d8b1ac2f27"
+}

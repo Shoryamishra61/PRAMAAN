@@ -1,0 +1,44 @@
+{
+  "status": "PROJECTED / MODELED MERCHANT ECONOMICS",
+  "methodology": "Monte Carlo uncertainty propagation over 10,000 parameter realizations",
+  "parameters_sampled": {
+    "dispute_volume_range": [
+      8000,
+      12000
+    ],
+    "mean_dispute_amount_inr": "Lognormal(mu=8.517, sigma=0.25) [E=5000]",
+    "analyst_cost_per_review_inr": [
+      120.0,
+      180.0
+    ],
+    "evidence_cost_per_fetch_inr": [
+      40.0,
+      60.0
+    ],
+    "cloud_compute_cost_per_case_inr": [
+      0.4,
+      0.6
+    ]
+  },
+  "projected_net_merchant_edge_inr": {
+    "p10": 693912.51,
+    "p50_median": 1393936.87,
+    "p90": 2453553.43
+  },
+  "projected_net_margin_edge_pct": {
+    "p10": 8.04,
+    "p50_median": 13.29,
+    "p90": 18.18
+  },
+  "return_on_operational_investment": {
+    "p10": 2.24,
+    "p50_median": 3.52,
+    "p90": 5.46
+  },
+  "probability_net_edge_positive": 0.9996,
+  "break_even_metrics": {
+    "break_even_dispute_volume": 2830,
+    "break_even_analyst_review_cost_inr": 1190.61
+  },
+  "governance_note": "Per Directive Section 45: These figures represent stochastic simulations under explicitly stated assumptions, NOT historical observed merchant accounting. True merchant edge must be confirmed in shadow mode."
+}

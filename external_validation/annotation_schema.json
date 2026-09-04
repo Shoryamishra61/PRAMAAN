@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Human Blind Challenge Annotation Schema",
+  "type": "object",
+  "required": [
+    "annotation_id",
+    "case_id",
+    "annotator_id",
+    "timestamp",
+    "perceived_consistency",
+    "identified_contradiction",
+    "confidence_score"
+  ],
+  "properties": {
+    "annotation_id": { "type": "string" },
+    "case_id": { "type": "string" },
+    "annotator_id": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "perceived_consistency": { "type": "boolean" },
+    "identified_contradiction": { "type": "string" },
+    "grounded_spans": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "document_id": { "type": "string" },
+          "start_char": { "type": "integer" },
+          "end_char": { "type": "integer" },
+          "extracted_quote": { "type": "string" }
+        }
+      }
+    },
+    "confidence_score": { "type": "number", "minimum": 1, "maximum": 5 }
+  }
+}

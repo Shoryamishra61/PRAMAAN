@@ -1,0 +1,14 @@
+{
+  "benchmark_id": "DIG-FECL-BENCH-v4.2",
+  "frozen_before_model_fit": true,
+  "frozen_before_test_evaluation": true,
+  "hashes": {
+    "calibration": "caff63e3e89182e7a6f0023d88127c69d5b40dffdf2d03dd49dafe13f1c08358",
+    "dev": "d27b1f01bf911db56e705077478e695ea56f023a538ea7913cd86fe0e7b77d60",
+    "ood": "d0cf5fc228ec83ca3da5672bae418195b4b87b1cd6c4eff410293869e91ef0c5",
+    "test": "666a001d99db1b216ae7b5bafefd1048cec4dbafc4a7583803494c6147364553",
+    "train": "94e407eb1aad1ba5685d0f094cd84baf5513159adad23e80f9625dba84b94179"
+  },
+  "protocol": "docs/FECL-V4-PROTOCOL.md + docs/FECL-V4.2-ERRATUM.md",
+  "status": "FROZEN"
+}

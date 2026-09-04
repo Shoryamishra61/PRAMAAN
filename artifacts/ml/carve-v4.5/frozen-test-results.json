@@ -1,0 +1,346 @@
+{
+  "acquisition": [
+    {
+      "acquisition_cost": 996,
+      "acquisitions": 522,
+      "acquisitions_per_resolved": 1.0875,
+      "false_pass_exposure_minor": 0,
+      "initial_review_cases": 396,
+      "policy": "targeted",
+      "resolved_cases": 480,
+      "review_reduction": 1.0,
+      "total_synthetic_cost": 996,
+      "trajectory_exact_match": 0.6625
+    },
+    {
+      "acquisition_cost": 924,
+      "acquisitions": 540,
+      "acquisitions_per_resolved": 1.125,
+      "false_pass_exposure_minor": 0,
+      "initial_review_cases": 396,
+      "policy": "cheapest",
+      "resolved_cases": 480,
+      "review_reduction": 1.0,
+      "total_synthetic_cost": 924,
+      "trajectory_exact_match": 0.55
+    },
+    {
+      "acquisition_cost": 23294,
+      "acquisitions": 3050,
+      "acquisitions_per_resolved": 6.354166666666667,
+      "false_pass_exposure_minor": 0,
+      "initial_review_cases": 396,
+      "policy": "acquire_all",
+      "resolved_cases": 480,
+      "review_reduction": 1.0,
+      "total_synthetic_cost": 23294,
+      "trajectory_exact_match": 0.0
+    }
+  ],
+  "benchmark_id": "DIG-FECL-BENCH-v4.5",
+  "counterfactual_repair_accuracy": 1.0,
+  "models": {
+    "deterministic_relational_xgboost": {
+      "brier": 0.204328,
+      "ece_10": 0.285918,
+      "f1": 0.747664,
+      "false_block": 162,
+      "false_pass": 0,
+      "false_pass_exposure_minor": 0,
+      "false_pass_rate": 0.0,
+      "nll": 0.553068,
+      "pr_auc": 0.978235,
+      "precision": 0.597015,
+      "recall": 1.0,
+      "threshold": 0.5,
+      "tn": 78,
+      "tp": 240
+    },
+    "formal_proof": {
+      "brier": 0.0,
+      "ece_10": 0.0,
+      "f1": 1.0,
+      "false_block": 0,
+      "false_pass": 0,
+      "false_pass_exposure_minor": 0,
+      "false_pass_rate": 0.0,
+      "hard_invariant_overrides": 0,
+      "mcc_exact": 1.0,
+      "mean_latency_ms": 9.565095208320903,
+      "nll": 0.0,
+      "pr_auc": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "threshold": 0.5,
+      "tn": 240,
+      "tp": 240
+    },
+    "learned_relation_xgboost": {
+      "brier": 0.20856,
+      "ece_10": 0.284503,
+      "f1": 0.761905,
+      "false_block": 150,
+      "false_pass": 0,
+      "false_pass_exposure_minor": 0,
+      "false_pass_rate": 0.0,
+      "nll": 0.569236,
+      "pr_auc": 0.922458,
+      "precision": 0.615385,
+      "recall": 1.0,
+      "threshold": 0.5,
+      "tn": 90,
+      "tp": 240
+    },
+    "literal_deterministic_rules": {
+      "brier": 0.0,
+      "ece_10": 0.0,
+      "f1": 1.0,
+      "false_block": 0,
+      "false_pass": 0,
+      "false_pass_exposure_minor": 0,
+      "false_pass_rate": 0.0,
+      "nll": 0.0,
+      "pr_auc": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "threshold": 0.5,
+      "tn": 240,
+      "tp": 240
+    },
+    "residual_risk_initial": {
+      "brier": 0.208616,
+      "ece_10": 0.029273,
+      "f1": 0.383838,
+      "false_block": 0,
+      "false_pass": 183,
+      "false_pass_exposure_minor": 249339500,
+      "false_pass_rate": 0.7625,
+      "nll": 0.585474,
+      "pr_auc": 0.673299,
+      "precision": 1.0,
+      "recall": 0.2375,
+      "threshold": 0.5,
+      "tn": 240,
+      "tp": 57
+    },
+    "semantic_only_transformer": {
+      "brier": 0.224408,
+      "ece_10": 0.1694,
+      "f1": 0.684049,
+      "false_block": 189,
+      "false_pass": 17,
+      "false_pass_exposure_minor": 25848900,
+      "false_pass_rate": 0.070833,
+      "nll": 0.626476,
+      "pr_auc": 0.80869,
+      "precision": 0.541262,
+      "recall": 0.929167,
+      "threshold": 0.5,
+      "tn": 51,
+      "tp": 223
+    },
+    "tfidf_lr": {
+      "brier": 0.16422,
+      "ece_10": 0.237299,
+      "f1": 0.780316,
+      "false_block": 107,
+      "false_pass": 18,
+      "false_pass_exposure_minor": 29348800,
+      "false_pass_rate": 0.075,
+      "nll": 0.492983,
+      "pr_auc": 0.943254,
+      "precision": 0.674772,
+      "recall": 0.925,
+      "threshold": 0.5,
+      "tn": 133,
+      "tp": 222
+    }
+  },
+  "one_shot_test": true,
+  "ood": {
+    "false_pass": 0,
+    "policy": "all explicit OOD/artifact-failure records fail closed before scoring",
+    "review_rate": 1.0
+  },
+  "ood_cases": 160,
+  "relation_extraction": {
+    "tfidf": {
+      "exact_span_grounding": 1.0,
+      "macro_f1": 0.483871,
+      "micro_f1": 0.9375
+    },
+    "transformer": {
+      "exact_span_grounding": 1.0,
+      "macro_f1": 0.547414,
+      "micro_f1": 0.941667
+    }
+  },
+  "risk_coverage_curve": [
+    {
+      "coverage": 0.00625,
+      "error": 0.0,
+      "threshold": 0.00278156,
+      "value_weighted_risk": 0.0
+    },
+    {
+      "coverage": 0.10625,
+      "error": 0.058824,
+      "threshold": 0.44490015,
+      "value_weighted_risk": 0.093216
+    },
+    {
+      "coverage": 0.10625,
+      "error": 0.058824,
+      "threshold": 0.44490015,
+      "value_weighted_risk": 0.093216
+    },
+    {
+      "coverage": 0.83125,
+      "error": 0.428571,
+      "threshold": 0.48162501,
+      "value_weighted_risk": 0.433596
+    },
+    {
+      "coverage": 0.83125,
+      "error": 0.428571,
+      "threshold": 0.48162501,
+      "value_weighted_risk": 0.433596
+    },
+    {
+      "coverage": 0.83125,
+      "error": 0.428571,
+      "threshold": 0.48162501,
+      "value_weighted_risk": 0.433596
+    },
+    {
+      "coverage": 0.83125,
+      "error": 0.428571,
+      "threshold": 0.48162501,
+      "value_weighted_risk": 0.433596
+    },
+    {
+      "coverage": 0.83125,
+      "error": 0.428571,
+      "threshold": 0.48162501,
+      "value_weighted_risk": 0.433596
+    },
+    {
+      "coverage": 0.83125,
+      "error": 0.428571,
+      "threshold": 0.48162501,
+      "value_weighted_risk": 0.433596
+    },
+    {
+      "coverage": 0.83125,
+      "error": 0.428571,
+      "threshold": 0.48162501,
+      "value_weighted_risk": 0.433596
+    },
+    {
+      "coverage": 0.83125,
+      "error": 0.428571,
+      "threshold": 0.48162501,
+      "value_weighted_risk": 0.433596
+    },
+    {
+      "coverage": 0.83125,
+      "error": 0.428571,
+      "threshold": 0.48162501,
+      "value_weighted_risk": 0.433596
+    },
+    {
+      "coverage": 0.83125,
+      "error": 0.428571,
+      "threshold": 0.48162501,
+      "value_weighted_risk": 0.433596
+    },
+    {
+      "coverage": 0.83125,
+      "error": 0.428571,
+      "threshold": 0.48162501,
+      "value_weighted_risk": 0.433596
+    },
+    {
+      "coverage": 0.83125,
+      "error": 0.428571,
+      "threshold": 0.48162501,
+      "value_weighted_risk": 0.433596
+    },
+    {
+      "coverage": 0.83125,
+      "error": 0.428571,
+      "threshold": 0.48162501,
+      "value_weighted_risk": 0.433596
+    },
+    {
+      "coverage": 0.83125,
+      "error": 0.428571,
+      "threshold": 0.48162501,
+      "value_weighted_risk": 0.433596
+    },
+    {
+      "coverage": 0.88125,
+      "error": 0.432624,
+      "threshold": 0.48695459,
+      "value_weighted_risk": 0.43784
+    },
+    {
+      "coverage": 0.9,
+      "error": 0.444444,
+      "threshold": 0.9144443,
+      "value_weighted_risk": 0.447875
+    },
+    {
+      "coverage": 0.96875,
+      "error": 0.483871,
+      "threshold": 0.99985479,
+      "value_weighted_risk": 0.488579
+    },
+    {
+      "coverage": 1.0,
+      "error": 0.5,
+      "threshold": 0.9999343,
+      "value_weighted_risk": 0.5
+    }
+  ],
+  "selected_acquisition": {
+    "acquisition_cost": 996,
+    "acquisitions": 522,
+    "acquisitions_per_resolved": 1.0875,
+    "false_pass_exposure_minor": 0,
+    "initial_review_cases": 396,
+    "policy": "targeted",
+    "resolved_cases": 480,
+    "review_reduction": 1.0,
+    "total_synthetic_cost": 996,
+    "trajectory_exact_match": 0.6625
+  },
+  "selective": {
+    "autonomous_coverage": 0.1,
+    "block": 48,
+    "expected_merchant_loss_minor": 4320000,
+    "false_block": 0,
+    "false_pass": 0,
+    "false_pass_exposure_minor": 0,
+    "pass": 0,
+    "review": 432
+  },
+  "statistics": {
+    "rules_vs_xgb_pair_bootstrap": {
+      "ci95": [
+        -0.268293,
+        -0.235669
+      ],
+      "mean_delta_f1": -0.252456,
+      "resamples": 2000,
+      "unit": "minimal_pair"
+    },
+    "xgb_vs_proof": {
+      "exact_p": 0.0,
+      "left_only_correct": 0,
+      "right_only_correct": 162
+    }
+  },
+  "synthetic_only": true,
+  "test_cases": 480
+}

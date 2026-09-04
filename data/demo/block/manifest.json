@@ -1,0 +1,9 @@
+{
+  "fixture_id": "demo_block_v1",
+  "case_id": "case_demo_block",
+  "reason_profile": "refund_not_processed_v1",
+  "expected_gate_status": "BLOCK",
+  "expected_primary_reason_code": "F_REFUND_CLAIM_NO_LEDGER_MATCH",
+  "synthetic": true
+}
+

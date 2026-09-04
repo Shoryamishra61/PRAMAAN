@@ -1,0 +1,13 @@
+[
+  {
+    "claim_id": "gt_claim_case_holdout_014_0",
+    "claim_type": "refund_claimed_processed",
+    "currency": "INR",
+    "document_id": "doc_case_holdout_014",
+    "end": 46,
+    "modality": "assertion",
+    "quote": "The refund has now been processed for ₹12,500.",
+    "start": 0,
+    "value": "₹12,500"
+  }
+]

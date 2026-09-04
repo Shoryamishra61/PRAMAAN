@@ -1,0 +1,37 @@
+{
+  "counts": {
+    "dev": 256,
+    "ood": 40,
+    "test": 384,
+    "train": 640
+  },
+  "created_at": "2026-09-01",
+  "dataset_id": "DIG-FECL-SYN-v2",
+  "families": {
+    "dev": [
+      "narrative",
+      "passive"
+    ],
+    "test": [
+      "indirect",
+      "temporal",
+      "hinglish_holdout"
+    ],
+    "train": [
+      "formal",
+      "support",
+      "portal",
+      "terse",
+      "hinglish_train"
+    ]
+  },
+  "hashes": {
+    "dev": "ea1d72d5bf593c426a08c31dd58161eb71bb2b2a1147b76520297cd00ab95cfc",
+    "ood": "80498cd6e362f714319b3843e740de21007b47252b89a5c53939a4e94ce5fec9",
+    "test": "6c87aa0aac576383d3c760bcb6da087d01d3adff83fefc1a69b05e0b0b43b82f",
+    "train": "ab48872059bd52fdab41dc45d5d1b4e63e75b967a76ad3c1a1b64d922cd10aa9"
+  },
+  "production_prevalence": false,
+  "seed": 20260901,
+  "synthetic": true
+}

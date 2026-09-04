@@ -1,0 +1,13 @@
+[
+  {
+    "claim_id": "gt_claim_case_dev_066_0",
+    "claim_type": "policy_condition_reference",
+    "currency": null,
+    "document_id": "doc_case_dev_066",
+    "end": 59,
+    "modality": "conditional",
+    "quote": "Under our refund policy, eligibility depends on inspection.",
+    "start": 0,
+    "value": "inspection"
+  }
+]

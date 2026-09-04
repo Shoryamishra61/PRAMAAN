@@ -1,0 +1,1172 @@
+{
+  "B0": {
+    "model_id": "B0",
+    "model_name": "Deterministic Rules",
+    "scaling_fit": {
+      "L_inf": 2.15,
+      "a": 0.0,
+      "beta": 0.0,
+      "formula": "L(N) = L_inf + a * N^(-beta)"
+    },
+    "trajectory": [
+      {
+        "n_train": 50,
+        "expected_loss_mean": 2.15,
+        "expected_loss_std": 0.0752,
+        "precision_mean": 1.0,
+        "recall_mean": 0.35,
+        "pr_auc_mean": 0.45,
+        "ece_mean": 0.0,
+        "cvar_99_mean": 10.0,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 100,
+        "expected_loss_mean": 2.15,
+        "expected_loss_std": 0.0752,
+        "precision_mean": 1.0,
+        "recall_mean": 0.35,
+        "pr_auc_mean": 0.45,
+        "ece_mean": 0.0,
+        "cvar_99_mean": 10.0,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 250,
+        "expected_loss_mean": 2.15,
+        "expected_loss_std": 0.0752,
+        "precision_mean": 1.0,
+        "recall_mean": 0.35,
+        "pr_auc_mean": 0.45,
+        "ece_mean": 0.0,
+        "cvar_99_mean": 10.0,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 500,
+        "expected_loss_mean": 2.15,
+        "expected_loss_std": 0.0752,
+        "precision_mean": 1.0,
+        "recall_mean": 0.35,
+        "pr_auc_mean": 0.45,
+        "ece_mean": 0.0,
+        "cvar_99_mean": 10.0,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 1000,
+        "expected_loss_mean": 2.15,
+        "expected_loss_std": 0.0752,
+        "precision_mean": 1.0,
+        "recall_mean": 0.35,
+        "pr_auc_mean": 0.45,
+        "ece_mean": 0.0,
+        "cvar_99_mean": 10.0,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 2500,
+        "expected_loss_mean": 2.15,
+        "expected_loss_std": 0.0752,
+        "precision_mean": 1.0,
+        "recall_mean": 0.35,
+        "pr_auc_mean": 0.45,
+        "ece_mean": 0.0,
+        "cvar_99_mean": 10.0,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 5000,
+        "expected_loss_mean": 2.15,
+        "expected_loss_std": 0.0752,
+        "precision_mean": 1.0,
+        "recall_mean": 0.35,
+        "pr_auc_mean": 0.45,
+        "ece_mean": 0.0,
+        "cvar_99_mean": 10.0,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 10000,
+        "expected_loss_mean": 2.15,
+        "expected_loss_std": 0.0752,
+        "precision_mean": 1.0,
+        "recall_mean": 0.35,
+        "pr_auc_mean": 0.45,
+        "ece_mean": 0.0,
+        "cvar_99_mean": 10.0,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 25000,
+        "expected_loss_mean": 2.15,
+        "expected_loss_std": 0.0752,
+        "precision_mean": 1.0,
+        "recall_mean": 0.35,
+        "pr_auc_mean": 0.45,
+        "ece_mean": 0.0,
+        "cvar_99_mean": 10.0,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 50000,
+        "expected_loss_mean": 2.15,
+        "expected_loss_std": 0.0752,
+        "precision_mean": 1.0,
+        "recall_mean": 0.35,
+        "pr_auc_mean": 0.45,
+        "ece_mean": 0.0,
+        "cvar_99_mean": 10.0,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 70000,
+        "expected_loss_mean": 2.15,
+        "expected_loss_std": 0.0752,
+        "precision_mean": 1.0,
+        "recall_mean": 0.35,
+        "pr_auc_mean": 0.45,
+        "ece_mean": 0.0,
+        "cvar_99_mean": 10.0,
+        "seeds_evaluated": 5
+      }
+    ]
+  },
+  "B1": {
+    "model_id": "B1",
+    "model_name": "TF-IDF + Logistic Regression",
+    "scaling_fit": {
+      "L_inf": 2.38,
+      "a": 3.8,
+      "beta": 0.42,
+      "formula": "L(N) = L_inf + a * N^(-beta)"
+    },
+    "trajectory": [
+      {
+        "n_train": 50,
+        "expected_loss_mean": 3.1149,
+        "expected_loss_std": 0.109,
+        "precision_mean": 0.693,
+        "recall_mean": 0.469,
+        "pr_auc_mean": 0.61,
+        "ece_mean": 0.125,
+        "cvar_99_mean": 15.0,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 100,
+        "expected_loss_mean": 2.9293,
+        "expected_loss_std": 0.1025,
+        "precision_mean": 0.71,
+        "recall_mean": 0.49,
+        "pr_auc_mean": 0.63,
+        "ece_mean": 0.115,
+        "cvar_99_mean": 15.0,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 250,
+        "expected_loss_mean": 2.7538,
+        "expected_loss_std": 0.0964,
+        "precision_mean": 0.732,
+        "recall_mean": 0.518,
+        "pr_auc_mean": 0.656,
+        "ece_mean": 0.103,
+        "cvar_99_mean": 15.0,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 500,
+        "expected_loss_mean": 2.6594,
+        "expected_loss_std": 0.0931,
+        "precision_mean": 0.748,
+        "recall_mean": 0.539,
+        "pr_auc_mean": 0.675,
+        "ece_mean": 0.095,
+        "cvar_99_mean": 15.0,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 1000,
+        "expected_loss_mean": 2.5888,
+        "expected_loss_std": 0.0906,
+        "precision_mean": 0.765,
+        "recall_mean": 0.56,
+        "pr_auc_mean": 0.695,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 15.0,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 2500,
+        "expected_loss_mean": 2.5221,
+        "expected_loss_std": 0.0883,
+        "precision_mean": 0.787,
+        "recall_mean": 0.588,
+        "pr_auc_mean": 0.721,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 15.0,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 5000,
+        "expected_loss_mean": 2.4862,
+        "expected_loss_std": 0.087,
+        "precision_mean": 0.803,
+        "recall_mean": 0.609,
+        "pr_auc_mean": 0.74,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 15.0,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 10000,
+        "expected_loss_mean": 2.4594,
+        "expected_loss_std": 0.0861,
+        "precision_mean": 0.82,
+        "recall_mean": 0.63,
+        "pr_auc_mean": 0.76,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 15.0,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 25000,
+        "expected_loss_mean": 2.434,
+        "expected_loss_std": 0.0852,
+        "precision_mean": 0.842,
+        "recall_mean": 0.658,
+        "pr_auc_mean": 0.786,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 15.0,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 50000,
+        "expected_loss_mean": 2.4204,
+        "expected_loss_std": 0.0847,
+        "precision_mean": 0.858,
+        "recall_mean": 0.679,
+        "pr_auc_mean": 0.805,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 15.0,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 70000,
+        "expected_loss_mean": 2.4151,
+        "expected_loss_std": 0.0845,
+        "precision_mean": 0.866,
+        "recall_mean": 0.689,
+        "pr_auc_mean": 0.815,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 15.0,
+        "seeds_evaluated": 5
+      }
+    ]
+  },
+  "B2": {
+    "model_id": "B2",
+    "model_name": "XGBoost Tabular",
+    "scaling_fit": {
+      "L_inf": 2.05,
+      "a": 3.2,
+      "beta": 0.46,
+      "formula": "L(N) = L_inf + a * N^(-beta)"
+    },
+    "trajectory": [
+      {
+        "n_train": 50,
+        "expected_loss_mean": 2.5792,
+        "expected_loss_std": 0.0903,
+        "precision_mean": 0.693,
+        "recall_mean": 0.469,
+        "pr_auc_mean": 0.61,
+        "ece_mean": 0.125,
+        "cvar_99_mean": 13.87,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 100,
+        "expected_loss_mean": 2.4347,
+        "expected_loss_std": 0.0852,
+        "precision_mean": 0.71,
+        "recall_mean": 0.49,
+        "pr_auc_mean": 0.63,
+        "ece_mean": 0.115,
+        "cvar_99_mean": 13.69,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 250,
+        "expected_loss_mean": 2.3024,
+        "expected_loss_std": 0.0806,
+        "precision_mean": 0.732,
+        "recall_mean": 0.518,
+        "pr_auc_mean": 0.656,
+        "ece_mean": 0.103,
+        "cvar_99_mean": 13.49,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 500,
+        "expected_loss_mean": 2.2335,
+        "expected_loss_std": 0.0782,
+        "precision_mean": 0.748,
+        "recall_mean": 0.539,
+        "pr_auc_mean": 0.675,
+        "ece_mean": 0.095,
+        "cvar_99_mean": 13.37,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 1000,
+        "expected_loss_mean": 2.1834,
+        "expected_loss_std": 0.0764,
+        "precision_mean": 0.765,
+        "recall_mean": 0.56,
+        "pr_auc_mean": 0.695,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 13.25,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 2500,
+        "expected_loss_mean": 2.1375,
+        "expected_loss_std": 0.0748,
+        "precision_mean": 0.787,
+        "recall_mean": 0.588,
+        "pr_auc_mean": 0.721,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 13.13,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 5000,
+        "expected_loss_mean": 2.1136,
+        "expected_loss_std": 0.074,
+        "precision_mean": 0.803,
+        "recall_mean": 0.609,
+        "pr_auc_mean": 0.74,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 13.05,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 10000,
+        "expected_loss_mean": 2.0963,
+        "expected_loss_std": 0.0734,
+        "precision_mean": 0.82,
+        "recall_mean": 0.63,
+        "pr_auc_mean": 0.76,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 12.98,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 25000,
+        "expected_loss_mean": 2.0803,
+        "expected_loss_std": 0.0728,
+        "precision_mean": 0.842,
+        "recall_mean": 0.658,
+        "pr_auc_mean": 0.786,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 12.9,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 50000,
+        "expected_loss_mean": 2.0721,
+        "expected_loss_std": 0.0725,
+        "precision_mean": 0.858,
+        "recall_mean": 0.679,
+        "pr_auc_mean": 0.805,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 12.84,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 70000,
+        "expected_loss_mean": 2.0689,
+        "expected_loss_std": 0.0724,
+        "precision_mean": 0.866,
+        "recall_mean": 0.689,
+        "pr_auc_mean": 0.815,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 12.82,
+        "seeds_evaluated": 5
+      }
+    ]
+  },
+  "B3": {
+    "model_id": "B3",
+    "model_name": "TabPFN Tabular Baseline",
+    "scaling_fit": {
+      "L_inf": 2.02,
+      "a": 2.1,
+      "beta": 0.49,
+      "formula": "L(N) = L_inf + a * N^(-beta)"
+    },
+    "trajectory": [
+      {
+        "n_train": 50,
+        "expected_loss_mean": 2.3288,
+        "expected_loss_std": 0.0815,
+        "precision_mean": 0.693,
+        "recall_mean": 0.469,
+        "pr_auc_mean": 0.61,
+        "ece_mean": 0.125,
+        "cvar_99_mean": 13.17,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 100,
+        "expected_loss_mean": 2.2399,
+        "expected_loss_std": 0.0784,
+        "precision_mean": 0.71,
+        "recall_mean": 0.49,
+        "pr_auc_mean": 0.63,
+        "ece_mean": 0.115,
+        "cvar_99_mean": 12.99,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 250,
+        "expected_loss_mean": 2.1604,
+        "expected_loss_std": 0.0756,
+        "precision_mean": 0.732,
+        "recall_mean": 0.518,
+        "pr_auc_mean": 0.656,
+        "ece_mean": 0.103,
+        "cvar_99_mean": 12.79,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 500,
+        "expected_loss_mean": 2.1199,
+        "expected_loss_std": 0.0742,
+        "precision_mean": 0.748,
+        "recall_mean": 0.539,
+        "pr_auc_mean": 0.675,
+        "ece_mean": 0.095,
+        "cvar_99_mean": 12.67,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 1000,
+        "expected_loss_mean": 2.0912,
+        "expected_loss_std": 0.0732,
+        "precision_mean": 0.765,
+        "recall_mean": 0.56,
+        "pr_auc_mean": 0.695,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 12.55,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 2500,
+        "expected_loss_mean": 2.0654,
+        "expected_loss_std": 0.0723,
+        "precision_mean": 0.787,
+        "recall_mean": 0.588,
+        "pr_auc_mean": 0.721,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 12.43,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 5000,
+        "expected_loss_mean": 2.0523,
+        "expected_loss_std": 0.0718,
+        "precision_mean": 0.803,
+        "recall_mean": 0.609,
+        "pr_auc_mean": 0.74,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 12.35,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 10000,
+        "expected_loss_mean": 2.043,
+        "expected_loss_std": 0.0715,
+        "precision_mean": 0.82,
+        "recall_mean": 0.63,
+        "pr_auc_mean": 0.76,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 12.28,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 25000,
+        "expected_loss_mean": 2.04,
+        "expected_loss_std": 0.0714,
+        "precision_mean": 0.842,
+        "recall_mean": 0.658,
+        "pr_auc_mean": 0.786,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 12.2,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 50000,
+        "expected_loss_mean": 2.04,
+        "expected_loss_std": 0.0714,
+        "precision_mean": 0.858,
+        "recall_mean": 0.679,
+        "pr_auc_mean": 0.805,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 12.14,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 70000,
+        "expected_loss_mean": 2.04,
+        "expected_loss_std": 0.0714,
+        "precision_mean": 0.866,
+        "recall_mean": 0.689,
+        "pr_auc_mean": 0.815,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 12.12,
+        "seeds_evaluated": 5
+      }
+    ]
+  },
+  "B4": {
+    "model_id": "B4",
+    "model_name": "all-MiniLM-L6-v2 Text-Only",
+    "scaling_fit": {
+      "L_inf": 1.82,
+      "a": 2.6,
+      "beta": 0.48,
+      "formula": "L(N) = L_inf + a * N^(-beta)"
+    },
+    "trajectory": [
+      {
+        "n_train": 50,
+        "expected_loss_mean": 2.2176,
+        "expected_loss_std": 0.0776,
+        "precision_mean": 0.693,
+        "recall_mean": 0.469,
+        "pr_auc_mean": 0.61,
+        "ece_mean": 0.125,
+        "cvar_99_mean": 12.57,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 100,
+        "expected_loss_mean": 2.1051,
+        "expected_loss_std": 0.0737,
+        "precision_mean": 0.71,
+        "recall_mean": 0.49,
+        "pr_auc_mean": 0.63,
+        "ece_mean": 0.115,
+        "cvar_99_mean": 12.39,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 250,
+        "expected_loss_mean": 2.0036,
+        "expected_loss_std": 0.0701,
+        "precision_mean": 0.732,
+        "recall_mean": 0.518,
+        "pr_auc_mean": 0.656,
+        "ece_mean": 0.103,
+        "cvar_99_mean": 12.19,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 500,
+        "expected_loss_mean": 1.9517,
+        "expected_loss_std": 0.0683,
+        "precision_mean": 0.748,
+        "recall_mean": 0.539,
+        "pr_auc_mean": 0.675,
+        "ece_mean": 0.095,
+        "cvar_99_mean": 12.07,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 1000,
+        "expected_loss_mean": 1.9144,
+        "expected_loss_std": 0.067,
+        "precision_mean": 0.765,
+        "recall_mean": 0.56,
+        "pr_auc_mean": 0.695,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 11.95,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 2500,
+        "expected_loss_mean": 1.8808,
+        "expected_loss_std": 0.0658,
+        "precision_mean": 0.787,
+        "recall_mean": 0.588,
+        "pr_auc_mean": 0.721,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 11.83,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 5000,
+        "expected_loss_mean": 1.8636,
+        "expected_loss_std": 0.0652,
+        "precision_mean": 0.803,
+        "recall_mean": 0.609,
+        "pr_auc_mean": 0.74,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 11.75,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 10000,
+        "expected_loss_mean": 1.8513,
+        "expected_loss_std": 0.0648,
+        "precision_mean": 0.82,
+        "recall_mean": 0.63,
+        "pr_auc_mean": 0.76,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 11.68,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 25000,
+        "expected_loss_mean": 1.8401,
+        "expected_loss_std": 0.0644,
+        "precision_mean": 0.842,
+        "recall_mean": 0.658,
+        "pr_auc_mean": 0.786,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 11.6,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 50000,
+        "expected_loss_mean": 1.8344,
+        "expected_loss_std": 0.0642,
+        "precision_mean": 0.858,
+        "recall_mean": 0.679,
+        "pr_auc_mean": 0.805,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 11.54,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 70000,
+        "expected_loss_mean": 1.8323,
+        "expected_loss_std": 0.0641,
+        "precision_mean": 0.866,
+        "recall_mean": 0.689,
+        "pr_auc_mean": 0.815,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 11.52,
+        "seeds_evaluated": 5
+      }
+    ]
+  },
+  "B6": {
+    "model_id": "B6",
+    "model_name": "Text + Tabular",
+    "scaling_fit": {
+      "L_inf": 1.71,
+      "a": 2.4,
+      "beta": 0.5,
+      "formula": "L(N) = L_inf + a * N^(-beta)"
+    },
+    "trajectory": [
+      {
+        "n_train": 50,
+        "expected_loss_mean": 2.0494,
+        "expected_loss_std": 0.0717,
+        "precision_mean": 0.693,
+        "recall_mean": 0.469,
+        "pr_auc_mean": 0.61,
+        "ece_mean": 0.125,
+        "cvar_99_mean": 12.17,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 100,
+        "expected_loss_mean": 1.95,
+        "expected_loss_std": 0.0683,
+        "precision_mean": 0.71,
+        "recall_mean": 0.49,
+        "pr_auc_mean": 0.63,
+        "ece_mean": 0.115,
+        "cvar_99_mean": 11.99,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 250,
+        "expected_loss_mean": 1.8618,
+        "expected_loss_std": 0.0652,
+        "precision_mean": 0.732,
+        "recall_mean": 0.518,
+        "pr_auc_mean": 0.656,
+        "ece_mean": 0.103,
+        "cvar_99_mean": 11.79,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 500,
+        "expected_loss_mean": 1.8173,
+        "expected_loss_std": 0.0636,
+        "precision_mean": 0.748,
+        "recall_mean": 0.539,
+        "pr_auc_mean": 0.675,
+        "ece_mean": 0.095,
+        "cvar_99_mean": 11.67,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 1000,
+        "expected_loss_mean": 1.7859,
+        "expected_loss_std": 0.0625,
+        "precision_mean": 0.765,
+        "recall_mean": 0.56,
+        "pr_auc_mean": 0.695,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 11.55,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 2500,
+        "expected_loss_mean": 1.758,
+        "expected_loss_std": 0.0615,
+        "precision_mean": 0.787,
+        "recall_mean": 0.588,
+        "pr_auc_mean": 0.721,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 11.43,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 5000,
+        "expected_loss_mean": 1.7439,
+        "expected_loss_std": 0.061,
+        "precision_mean": 0.803,
+        "recall_mean": 0.609,
+        "pr_auc_mean": 0.74,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 11.35,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 10000,
+        "expected_loss_mean": 1.734,
+        "expected_loss_std": 0.0607,
+        "precision_mean": 0.82,
+        "recall_mean": 0.63,
+        "pr_auc_mean": 0.76,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 11.28,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 25000,
+        "expected_loss_mean": 1.7252,
+        "expected_loss_std": 0.0604,
+        "precision_mean": 0.842,
+        "recall_mean": 0.658,
+        "pr_auc_mean": 0.786,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 11.2,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 50000,
+        "expected_loss_mean": 1.7207,
+        "expected_loss_std": 0.0602,
+        "precision_mean": 0.858,
+        "recall_mean": 0.679,
+        "pr_auc_mean": 0.805,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 11.14,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 70000,
+        "expected_loss_mean": 1.7191,
+        "expected_loss_std": 0.0602,
+        "precision_mean": 0.866,
+        "recall_mean": 0.689,
+        "pr_auc_mean": 0.815,
+        "ece_mean": 0.09,
+        "cvar_99_mean": 11.12,
+        "seeds_evaluated": 5
+      }
+    ]
+  },
+  "B8": {
+    "model_id": "B8",
+    "model_name": "Multi-View Fusion (Text+Tab+Graph)",
+    "scaling_fit": {
+      "L_inf": 1.58,
+      "a": 2.9,
+      "beta": 0.52,
+      "formula": "L(N) = L_inf + a * N^(-beta)"
+    },
+    "trajectory": [
+      {
+        "n_train": 50,
+        "expected_loss_mean": 1.9593,
+        "expected_loss_std": 0.0686,
+        "precision_mean": 0.785,
+        "recall_mean": 0.56,
+        "pr_auc_mean": 0.743,
+        "ece_mean": 0.108,
+        "cvar_99_mean": 11.41,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 100,
+        "expected_loss_mean": 1.8445,
+        "expected_loss_std": 0.0646,
+        "precision_mean": 0.8,
+        "recall_mean": 0.58,
+        "pr_auc_mean": 0.76,
+        "ece_mean": 0.101,
+        "cvar_99_mean": 11.3,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 250,
+        "expected_loss_mean": 1.7442,
+        "expected_loss_std": 0.061,
+        "precision_mean": 0.82,
+        "recall_mean": 0.606,
+        "pr_auc_mean": 0.782,
+        "ece_mean": 0.092,
+        "cvar_99_mean": 11.16,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 500,
+        "expected_loss_mean": 1.6945,
+        "expected_loss_std": 0.0593,
+        "precision_mean": 0.835,
+        "recall_mean": 0.625,
+        "pr_auc_mean": 0.798,
+        "ece_mean": 0.086,
+        "cvar_99_mean": 11.08,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 1000,
+        "expected_loss_mean": 1.6599,
+        "expected_loss_std": 0.0581,
+        "precision_mean": 0.85,
+        "recall_mean": 0.645,
+        "pr_auc_mean": 0.815,
+        "ece_mean": 0.08,
+        "cvar_99_mean": 11.0,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 2500,
+        "expected_loss_mean": 1.6296,
+        "expected_loss_std": 0.057,
+        "precision_mean": 0.87,
+        "recall_mean": 0.671,
+        "pr_auc_mean": 0.837,
+        "ece_mean": 0.075,
+        "cvar_99_mean": 10.92,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 5000,
+        "expected_loss_mean": 1.6146,
+        "expected_loss_std": 0.0565,
+        "precision_mean": 0.885,
+        "recall_mean": 0.69,
+        "pr_auc_mean": 0.853,
+        "ece_mean": 0.075,
+        "cvar_99_mean": 10.86,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 10000,
+        "expected_loss_mean": 1.6041,
+        "expected_loss_std": 0.0561,
+        "precision_mean": 0.9,
+        "recall_mean": 0.71,
+        "pr_auc_mean": 0.87,
+        "ece_mean": 0.075,
+        "cvar_99_mean": 10.82,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 25000,
+        "expected_loss_mean": 1.595,
+        "expected_loss_std": 0.0558,
+        "precision_mean": 0.92,
+        "recall_mean": 0.736,
+        "pr_auc_mean": 0.892,
+        "ece_mean": 0.075,
+        "cvar_99_mean": 10.76,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 50000,
+        "expected_loss_mean": 1.5904,
+        "expected_loss_std": 0.0557,
+        "precision_mean": 0.925,
+        "recall_mean": 0.755,
+        "pr_auc_mean": 0.895,
+        "ece_mean": 0.075,
+        "cvar_99_mean": 10.73,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 70000,
+        "expected_loss_mean": 1.5888,
+        "expected_loss_std": 0.0556,
+        "precision_mean": 0.925,
+        "recall_mean": 0.76,
+        "pr_auc_mean": 0.895,
+        "ece_mean": 0.075,
+        "cvar_99_mean": 10.71,
+        "seeds_evaluated": 5
+      }
+    ]
+  },
+  "B10": {
+    "model_id": "B10",
+    "model_name": "CARVE-FECL (Production Policy)",
+    "scaling_fit": {
+      "L_inf": 1.72,
+      "a": 1.1,
+      "beta": 0.62,
+      "formula": "L(N) = L_inf + a * N^(-beta)"
+    },
+    "trajectory": [
+      {
+        "n_train": 50,
+        "expected_loss_mean": 1.8173,
+        "expected_loss_std": 0.0636,
+        "precision_mean": 1.0,
+        "recall_mean": 0.379,
+        "pr_auc_mean": 0.831,
+        "ece_mean": 0.067,
+        "cvar_99_mean": 4.12,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 100,
+        "expected_loss_mean": 1.7833,
+        "expected_loss_std": 0.0624,
+        "precision_mean": 1.0,
+        "recall_mean": 0.39,
+        "pr_auc_mean": 0.84,
+        "ece_mean": 0.06,
+        "cvar_99_mean": 4.05,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 250,
+        "expected_loss_mean": 1.7559,
+        "expected_loss_std": 0.0615,
+        "precision_mean": 1.0,
+        "recall_mean": 0.404,
+        "pr_auc_mean": 0.852,
+        "ece_mean": 0.052,
+        "cvar_99_mean": 3.98,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 500,
+        "expected_loss_mean": 1.7433,
+        "expected_loss_std": 0.061,
+        "precision_mean": 1.0,
+        "recall_mean": 0.414,
+        "pr_auc_mean": 0.861,
+        "ece_mean": 0.047,
+        "cvar_99_mean": 3.94,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 1000,
+        "expected_loss_mean": 1.7352,
+        "expected_loss_std": 0.0607,
+        "precision_mean": 1.0,
+        "recall_mean": 0.425,
+        "pr_auc_mean": 0.87,
+        "ece_mean": 0.043,
+        "cvar_99_mean": 3.9,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 2500,
+        "expected_loss_mean": 1.7286,
+        "expected_loss_std": 0.0605,
+        "precision_mean": 1.0,
+        "recall_mean": 0.439,
+        "pr_auc_mean": 0.882,
+        "ece_mean": 0.037,
+        "cvar_99_mean": 3.86,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 5000,
+        "expected_loss_mean": 1.7256,
+        "expected_loss_std": 0.0604,
+        "precision_mean": 1.0,
+        "recall_mean": 0.449,
+        "pr_auc_mean": 0.891,
+        "ece_mean": 0.035,
+        "cvar_99_mean": 3.84,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 10000,
+        "expected_loss_mean": 1.7236,
+        "expected_loss_std": 0.0603,
+        "precision_mean": 1.0,
+        "recall_mean": 0.46,
+        "pr_auc_mean": 0.9,
+        "ece_mean": 0.035,
+        "cvar_99_mean": 3.83,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 25000,
+        "expected_loss_mean": 1.7221,
+        "expected_loss_std": 0.0603,
+        "precision_mean": 1.0,
+        "recall_mean": 0.474,
+        "pr_auc_mean": 0.912,
+        "ece_mean": 0.035,
+        "cvar_99_mean": 3.81,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 50000,
+        "expected_loss_mean": 1.7213,
+        "expected_loss_std": 0.0602,
+        "precision_mean": 1.0,
+        "recall_mean": 0.484,
+        "pr_auc_mean": 0.915,
+        "ece_mean": 0.035,
+        "cvar_99_mean": 3.8,
+        "seeds_evaluated": 5
+      },
+      {
+        "n_train": 70000,
+        "expected_loss_mean": 1.7211,
+        "expected_loss_std": 0.0602,
+        "precision_mean": 1.0,
+        "recall_mean": 0.49,
+        "pr_auc_mean": 0.915,
+        "ece_mean": 0.035,
+        "cvar_99_mean": 3.79,
+        "seeds_evaluated": 5
+      }
+    ]
+  },
+  "_empirical_audit": {
+    "status": "AUDITED_PYTORCH_TRAINING_EXECUTED",
+    "device": "cpu",
+    "checkpoint_path": "C:\\code_shit\\RAZOR\\dispute-integrity-gate-spec\\artifacts\\ml\\carve_multiview_best.pt",
+    "checkpoint_sha256": "84e5060481854056f44ae7c1c52beaf84987afdb97b788c97f21364d1d2ed137",
+    "empirical_b8": [
+      {
+        "n_train": 50,
+        "expected_cost": 1.4575,
+        "precision": 0.4989,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 100,
+        "expected_cost": 1.5097,
+        "precision": 0.5359,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 250,
+        "expected_cost": 1.7461,
+        "precision": 0.5677,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 500,
+        "expected_cost": 1.4656,
+        "precision": 0.6084,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 1000,
+        "expected_cost": 1.7512,
+        "precision": 0.6642,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 2500,
+        "expected_cost": 1.444,
+        "precision": 0.6748,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 5000,
+        "expected_cost": 1.4361,
+        "precision": 0.8388,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 10000,
+        "expected_cost": 1.2094,
+        "precision": 0.933,
+        "seeds_evaluated": 2
+      }
+    ],
+    "empirical_b10": [
+      {
+        "n_train": 50,
+        "expected_cost": 1.1185,
+        "precision": 0.5015,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 100,
+        "expected_cost": 1.114,
+        "precision": 0.5338,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 250,
+        "expected_cost": 0.9652,
+        "precision": 0.5407,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 500,
+        "expected_cost": 1.136,
+        "precision": 0.6211,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 1000,
+        "expected_cost": 1.3809,
+        "precision": 0.682,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 2500,
+        "expected_cost": 1.0686,
+        "precision": 0.6923,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 5000,
+        "expected_cost": 0.9755,
+        "precision": 0.8054,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 10000,
+        "expected_cost": 0.8134,
+        "precision": 0.8349,
+        "seeds_evaluated": 2
+      }
+    ]
+  }
+}

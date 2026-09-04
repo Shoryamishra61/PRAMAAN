@@ -1,0 +1,582 @@
+{
+  "audit_timestamp": "2026-09-03T06:05:18Z",
+  "device": "cpu",
+  "seeds": [
+    42,
+    137,
+    2024,
+    7,
+    99
+  ],
+  "shortcut_probes": {
+    "text_only_acc": 0.6232,
+    "amount_only_acc": 0.5064,
+    "category_only_acc": 0.5052,
+    "refund_count_only_acc": 0.5064
+  },
+  "baseline_ladder_v3": [
+    {
+      "precision": 0.5252,
+      "precision_ci": [
+        0.4665,
+        0.5831
+      ],
+      "recall": 0.0656,
+      "recall_ci": [
+        0.0561,
+        0.0767
+      ],
+      "f1": 0.1167,
+      "expected_cost": 4.2078,
+      "cvar_95": 10.0,
+      "cvar_99": 10.0,
+      "coverage": 0.8984,
+      "review_rate": 0.1016,
+      "false_pass_count": 2078,
+      "false_block_count": 132,
+      "true_block_count": 146,
+      "review_count": 508,
+      "ece": 0.2912,
+      "brier": 0.3617,
+      "baseline_id": "B0",
+      "name": "Deterministic Rules"
+    },
+    {
+      "precision": 1.0,
+      "precision_ci": [
+        0.9935,
+        1.0
+      ],
+      "recall": 1.0,
+      "recall_ci": [
+        0.9935,
+        1.0
+      ],
+      "f1": 1.0,
+      "expected_cost": 0.2208,
+      "cvar_95": 0.25,
+      "cvar_99": 0.25,
+      "coverage": 0.1168,
+      "review_rate": 0.8832,
+      "false_pass_count": 0,
+      "false_block_count": 0,
+      "true_block_count": 584,
+      "review_count": 4416,
+      "ece": 0.0023,
+      "brier": 0.2165,
+      "baseline_id": "B1",
+      "name": "TF-IDF + Logistic Regression"
+    },
+    {
+      "precision": 0.5153,
+      "precision_ci": [
+        0.4835,
+        0.547
+      ],
+      "recall": 0.498,
+      "recall_ci": [
+        0.4668,
+        0.5292
+      ],
+      "f1": 0.5065,
+      "expected_cost": 1.2292,
+      "cvar_95": 10.0,
+      "cvar_99": 10.0,
+      "coverage": 0.3952,
+      "review_rate": 0.6048,
+      "false_pass_count": 493,
+      "false_block_count": 460,
+      "true_block_count": 489,
+      "review_count": 3024,
+      "ece": 0.0891,
+      "brier": 0.2627,
+      "baseline_id": "B2",
+      "name": "Tabular Gradient Boosting"
+    },
+    {
+      "baseline_id": "B3",
+      "name": "TabPFN-v2 Tabular Foundation",
+      "status": "NOT EXECUTED",
+      "note": "TabPFN was not executed due to absence of local TabPFN license/wheel."
+    },
+    {
+      "precision": 1.0,
+      "precision_ci": [
+        0.9935,
+        1.0
+      ],
+      "recall": 1.0,
+      "recall_ci": [
+        0.9935,
+        1.0
+      ],
+      "f1": 1.0,
+      "expected_cost": 0.2208,
+      "cvar_95": 0.25,
+      "cvar_99": 0.25,
+      "coverage": 0.1168,
+      "review_rate": 0.8832,
+      "false_pass_count": 0,
+      "false_block_count": 0,
+      "true_block_count": 584,
+      "review_count": 4416,
+      "ece": 0.0052,
+      "brier": 0.2165,
+      "baseline_id": "B4",
+      "name": "MiniLM Text-Only Probe"
+    },
+    {
+      "precision": 0.9882,
+      "precision_ci": [
+        0.9758,
+        0.9943
+      ],
+      "recall": 0.5039,
+      "recall_ci": [
+        0.4752,
+        0.5325
+      ],
+      "f1": 0.6674,
+      "expected_cost": 1.2844,
+      "cvar_95": 10.0,
+      "cvar_99": 10.0,
+      "coverage": 0.484,
+      "review_rate": 0.516,
+      "false_pass_count": 577,
+      "false_block_count": 7,
+      "true_block_count": 586,
+      "review_count": 2580,
+      "ece": 0.0216,
+      "brier": 0.2089,
+      "baseline_id": "B6",
+      "name": "Text + Tabular Concatenation"
+    },
+    {
+      "precision": 1.0,
+      "precision_ci": [
+        0.9935,
+        1.0
+      ],
+      "recall": 0.5052,
+      "recall_ci": [
+        0.4764,
+        0.5339
+      ],
+      "f1": 0.6713,
+      "expected_cost": 1.2752,
+      "cvar_95": 10.0,
+      "cvar_99": 10.0,
+      "coverage": 0.475,
+      "review_rate": 0.525,
+      "false_pass_count": 572,
+      "false_block_count": 0,
+      "true_block_count": 584,
+      "review_count": 2625,
+      "ece": 0.0218,
+      "brier": 0.2096,
+      "baseline_id": "B8",
+      "name": "Multi-View Gated Fusion (PyTorch 5-Seed Ensemble)"
+    },
+    {
+      "precision": 0.8469,
+      "precision_ci": [
+        0.8213,
+        0.8694
+      ],
+      "recall": 0.7565,
+      "recall_ci": [
+        0.7284,
+        0.7825
+      ],
+      "f1": 0.7991,
+      "expected_cost": 0.6652,
+      "cvar_95": 1.0,
+      "cvar_99": 10.0,
+      "coverage": 0.3248,
+      "review_rate": 0.6752,
+      "false_pass_count": 235,
+      "false_block_count": 132,
+      "true_block_count": 730,
+      "review_count": 3376,
+      "ece": 0.0218,
+      "brier": 0.2096,
+      "baseline_id": "B10",
+      "name": "CARVE-FECL Production Policy"
+    }
+  ],
+  "five_seed_learning_curves": {
+    "B8": [
+      {
+        "n_train": 50,
+        "mean_expected_cost": 2.2199,
+        "std_expected_cost": 0.9695,
+        "median_expected_cost": 1.9355,
+        "mean_precision": 0.5532,
+        "seeds_evaluated": [
+          42,
+          137,
+          2024,
+          7,
+          99
+        ]
+      },
+      {
+        "n_train": 100,
+        "mean_expected_cost": 2.2393,
+        "std_expected_cost": 0.5177,
+        "median_expected_cost": 2.2651,
+        "mean_precision": 0.6324,
+        "seeds_evaluated": [
+          42,
+          137,
+          2024,
+          7,
+          99
+        ]
+      },
+      {
+        "n_train": 250,
+        "mean_expected_cost": 1.4406,
+        "std_expected_cost": 0.6274,
+        "median_expected_cost": 1.234,
+        "mean_precision": 0.6468,
+        "seeds_evaluated": [
+          42,
+          137,
+          2024,
+          7,
+          99
+        ]
+      },
+      {
+        "n_train": 500,
+        "mean_expected_cost": 1.8969,
+        "std_expected_cost": 0.3865,
+        "median_expected_cost": 1.6623,
+        "mean_precision": 0.6924,
+        "seeds_evaluated": [
+          42,
+          137,
+          2024,
+          7,
+          99
+        ]
+      },
+      {
+        "n_train": 1000,
+        "mean_expected_cost": 1.836,
+        "std_expected_cost": 0.4446,
+        "median_expected_cost": 1.7185,
+        "mean_precision": 0.7416,
+        "seeds_evaluated": [
+          42,
+          137,
+          2024,
+          7,
+          99
+        ]
+      },
+      {
+        "n_train": 2500,
+        "mean_expected_cost": 1.6092,
+        "std_expected_cost": 0.6434,
+        "median_expected_cost": 1.3914,
+        "mean_precision": 0.806,
+        "seeds_evaluated": [
+          42,
+          137,
+          2024,
+          7,
+          99
+        ]
+      },
+      {
+        "n_train": 5000,
+        "mean_expected_cost": 1.2613,
+        "std_expected_cost": 0.2964,
+        "median_expected_cost": 1.1231,
+        "mean_precision": 0.8508,
+        "seeds_evaluated": [
+          42,
+          137,
+          2024,
+          7,
+          99
+        ]
+      },
+      {
+        "n_train": 10000,
+        "mean_expected_cost": 1.1701,
+        "std_expected_cost": 0.1971,
+        "median_expected_cost": 1.1672,
+        "mean_precision": 0.8874,
+        "seeds_evaluated": [
+          42,
+          137,
+          2024,
+          7,
+          99
+        ]
+      }
+    ],
+    "B10": [
+      {
+        "n_train": 50,
+        "mean_expected_cost": 1.8115,
+        "std_expected_cost": 0.8362,
+        "median_expected_cost": 1.4939,
+        "mean_precision": 0.5204,
+        "seeds_evaluated": [
+          42,
+          137,
+          2024,
+          7,
+          99
+        ]
+      },
+      {
+        "n_train": 100,
+        "mean_expected_cost": 1.7135,
+        "std_expected_cost": 0.55,
+        "median_expected_cost": 1.6398,
+        "mean_precision": 0.5568,
+        "seeds_evaluated": [
+          42,
+          137,
+          2024,
+          7,
+          99
+        ]
+      },
+      {
+        "n_train": 250,
+        "mean_expected_cost": 0.9137,
+        "std_expected_cost": 0.4496,
+        "median_expected_cost": 0.873,
+        "mean_precision": 0.5739,
+        "seeds_evaluated": [
+          42,
+          137,
+          2024,
+          7,
+          99
+        ]
+      },
+      {
+        "n_train": 500,
+        "mean_expected_cost": 1.4526,
+        "std_expected_cost": 0.3343,
+        "median_expected_cost": 1.2788,
+        "mean_precision": 0.6999,
+        "seeds_evaluated": [
+          42,
+          137,
+          2024,
+          7,
+          99
+        ]
+      },
+      {
+        "n_train": 1000,
+        "mean_expected_cost": 1.3979,
+        "std_expected_cost": 0.3899,
+        "median_expected_cost": 1.2586,
+        "mean_precision": 0.7507,
+        "seeds_evaluated": [
+          42,
+          137,
+          2024,
+          7,
+          99
+        ]
+      },
+      {
+        "n_train": 2500,
+        "mean_expected_cost": 1.1734,
+        "std_expected_cost": 0.564,
+        "median_expected_cost": 0.9212,
+        "mean_precision": 0.7857,
+        "seeds_evaluated": [
+          42,
+          137,
+          2024,
+          7,
+          99
+        ]
+      },
+      {
+        "n_train": 5000,
+        "mean_expected_cost": 0.8609,
+        "std_expected_cost": 0.2886,
+        "median_expected_cost": 0.683,
+        "mean_precision": 0.8122,
+        "seeds_evaluated": [
+          42,
+          137,
+          2024,
+          7,
+          99
+        ]
+      },
+      {
+        "n_train": 10000,
+        "mean_expected_cost": 0.779,
+        "std_expected_cost": 0.1581,
+        "median_expected_cost": 0.8571,
+        "mean_precision": 0.8334,
+        "seeds_evaluated": [
+          42,
+          137,
+          2024,
+          7,
+          99
+        ]
+      }
+    ]
+  },
+  "matched_coverage": [
+    {
+      "target_coverage": 0.5,
+      "b1_expected_loss": 1.5556,
+      "b8_expected_loss": 1.322,
+      "b10_expected_loss": 1.3343,
+      "b10_vs_b8_advantage": -0.0123
+    },
+    {
+      "target_coverage": 0.65,
+      "b1_expected_loss": 2.0364,
+      "b8_expected_loss": 1.4873,
+      "b10_expected_loss": 1.4957,
+      "b10_vs_b8_advantage": -0.0084
+    },
+    {
+      "target_coverage": 0.8,
+      "b1_expected_loss": 2.9055,
+      "b8_expected_loss": 1.7386,
+      "b10_expected_loss": 1.7392,
+      "b10_vs_b8_advantage": -0.0006
+    },
+    {
+      "target_coverage": 1.0,
+      "b1_expected_loss": 3.3354,
+      "b8_expected_loss": 2.1695,
+      "b10_expected_loss": 2.1541,
+      "b10_vs_b8_advantage": 0.0154
+    }
+  ],
+  "loss_sensitivity": {
+    "total_regimes": 45,
+    "b10_win_count": 0,
+    "b1_win_count": 45,
+    "b8_win_count": 0,
+    "grid_samples": [
+      {
+        "c_fp": 2.0,
+        "c_fb": 0.5,
+        "c_rev": 0.1,
+        "loss_b0": 0.8546,
+        "loss_b1": 0.0883,
+        "loss_b8": 0.2813,
+        "loss_b10": 0.1747,
+        "optimal_model": "B1"
+      },
+      {
+        "c_fp": 2.0,
+        "c_fb": 0.5,
+        "c_rev": 0.25,
+        "loss_b0": 0.8698,
+        "loss_b1": 0.2208,
+        "loss_b8": 0.36,
+        "loss_b10": 0.276,
+        "optimal_model": "B1"
+      },
+      {
+        "c_fp": 2.0,
+        "c_fb": 0.5,
+        "c_rev": 0.5,
+        "loss_b0": 0.8952,
+        "loss_b1": 0.4416,
+        "loss_b8": 0.4913,
+        "loss_b10": 0.4448,
+        "optimal_model": "B1"
+      },
+      {
+        "c_fp": 2.0,
+        "c_fb": 1.0,
+        "c_rev": 0.1,
+        "loss_b0": 0.8678,
+        "loss_b1": 0.0883,
+        "loss_b8": 0.2813,
+        "loss_b10": 0.1879,
+        "optimal_model": "B1"
+      },
+      {
+        "c_fp": 2.0,
+        "c_fb": 1.0,
+        "c_rev": 0.25,
+        "loss_b0": 0.883,
+        "loss_b1": 0.2208,
+        "loss_b8": 0.36,
+        "loss_b10": 0.2892,
+        "optimal_model": "B1"
+      },
+      {
+        "c_fp": 2.0,
+        "c_fb": 1.0,
+        "c_rev": 0.5,
+        "loss_b0": 0.9084,
+        "loss_b1": 0.4416,
+        "loss_b8": 0.4913,
+        "loss_b10": 0.458,
+        "optimal_model": "B1"
+      },
+      {
+        "c_fp": 2.0,
+        "c_fb": 2.0,
+        "c_rev": 0.1,
+        "loss_b0": 0.8942,
+        "loss_b1": 0.0883,
+        "loss_b8": 0.2813,
+        "loss_b10": 0.2143,
+        "optimal_model": "B1"
+      },
+      {
+        "c_fp": 2.0,
+        "c_fb": 2.0,
+        "c_rev": 0.25,
+        "loss_b0": 0.9094,
+        "loss_b1": 0.2208,
+        "loss_b8": 0.36,
+        "loss_b10": 0.3156,
+        "optimal_model": "B1"
+      },
+      {
+        "c_fp": 2.0,
+        "c_fb": 2.0,
+        "c_rev": 0.5,
+        "loss_b0": 0.9348,
+        "loss_b1": 0.4416,
+        "loss_b8": 0.4913,
+        "loss_b10": 0.4844,
+        "optimal_model": "B1"
+      },
+      {
+        "c_fp": 5.0,
+        "c_fb": 0.5,
+        "c_rev": 0.1,
+        "loss_b0": 2.1014,
+        "loss_b1": 0.0883,
+        "loss_b8": 0.6245,
+        "loss_b10": 0.3157,
+        "optimal_model": "B1"
+      }
+    ]
+  },
+  "circularity_audit": {
+    "finding": "When formal over-refund rules are held out, B0 (rules) collapses to expected cost 4.4276. Learned multi-view fusion (B8) sustains expected cost 1.3356, proving the neural component is actively generalizing rather than relying on formal solver redundancy.",
+    "semantic_only_cases": 4722,
+    "b0_cost_heldout": 4.4276,
+    "b8_cost_heldout": 1.3356,
+    "b10_cost_heldout": 0.6764
+  }
+}

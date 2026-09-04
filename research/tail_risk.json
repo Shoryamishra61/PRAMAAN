@@ -1,0 +1,59 @@
+{
+  "finding": "While unconstrained model B8 achieves lower average cost in standard regimes, it exhibits catastrophic tail loss (CVaR99=10.50) due to ungrounded false passes. CARVE-FECL (B10) truncates tail risk by 64.3% (CVaR99=3.75).",
+  "models": [
+    {
+      "model_id": "B0",
+      "name": "Static Rules",
+      "var_95": 3.5,
+      "cvar_95": 4.5,
+      "var_99": 10.0,
+      "cvar_99": 10.0,
+      "max_loss": 10.0
+    },
+    {
+      "model_id": "B1",
+      "name": "TF-IDF + LR",
+      "var_95": 6.0,
+      "cvar_95": 7.5,
+      "var_99": 12.0,
+      "cvar_99": 15.0,
+      "max_loss": 15.0
+    },
+    {
+      "model_id": "B2",
+      "name": "XGBoost Tabular",
+      "var_95": 4.8,
+      "cvar_95": 6.2,
+      "var_99": 10.0,
+      "cvar_99": 12.5,
+      "max_loss": 12.5
+    },
+    {
+      "model_id": "B8",
+      "name": "Multi-View Unconstrained",
+      "var_95": 3.2,
+      "cvar_95": 4.2,
+      "var_99": 10.0,
+      "cvar_99": 10.5,
+      "max_loss": 10.5
+    },
+    {
+      "model_id": "B9",
+      "name": "Fusion + Z3 Invariant Gate",
+      "var_95": 2.1,
+      "cvar_95": 2.8,
+      "var_99": 3.5,
+      "cvar_99": 4.5,
+      "max_loss": 4.5
+    },
+    {
+      "model_id": "B10",
+      "name": "CARVE-FECL Production",
+      "var_95": 1.85,
+      "cvar_95": 2.5,
+      "var_99": 2.8,
+      "cvar_99": 3.75,
+      "max_loss": 3.75
+    }
+  ]
+}

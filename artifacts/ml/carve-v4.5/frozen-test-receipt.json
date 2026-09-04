@@ -1,0 +1,34 @@
+{
+  "freeze_sha256": "6f812123576972e8f676ea66f242167781c5f5fa01ad22021eadb9000879e1af",
+  "frozen_config": {
+    "benchmark_id": "DIG-FECL-BENCH-v4.5",
+    "crc": {
+      "corrected_risk": 1.0,
+      "coverage": 0.0,
+      "empirical_risk": 0.0,
+      "threshold": -1.0
+    },
+    "files": {
+      "artifacts\\ml\\carve-v4.5\\dev-calibration-results.json": "84e334eac39b91b257b9daab398e719ab77de94481fa5155863c3b7ee336d3a1",
+      "artifacts\\ml\\carve-v4.5\\models\\carve-bundle.joblib": "0204297dbb9abe9ba1cf2cea95e21a93f3100013192347a2f78e153a116422ba",
+      "backend\\app\\carve.py": "94e6334a1da82ba948b4030adefb396b204bb36cf986596f33e99d9c3234298b",
+      "data\\financial-evidence-integrity\\v4.5\\calibration.jsonl": "0c0f07c7892b5f4a501ded47ef5065326a7ec856002928f89b374633b805db7f",
+      "data\\financial-evidence-integrity\\v4.5\\dev.jsonl": "b1e5c8251747a08657e0a177da35b2eff35fcc4d794e56f9c7f404ecd96fea0f",
+      "data\\financial-evidence-integrity\\v4.5\\manifest.json": "3e0ce862e297b5b85c7737c33064a1ac60ea3208c4683b36da52ac759c6f98b6",
+      "data\\financial-evidence-integrity\\v4.5\\ood.jsonl": "ae14a7f73c3968d9ce8627127868596a2a46438c50ac044f1f04eabfb7825be1",
+      "data\\financial-evidence-integrity\\v4.5\\test.jsonl": "d53c5aa914b91035cc153b3587843f97f1b1e08f8f3560228bacb3607d764710",
+      "data\\financial-evidence-integrity\\v4.5\\train.jsonl": "300ad749604fa9a0685c3163e17d44034183289eb93a23dfa9748be87aba1892",
+      "docs\\CARVE-METHOD.md": "e33f7aecd7770548f66a8cdb869596d2ffc2324028a6b1b8efcbe781fd6b94ba",
+      "docs\\FECL-V4-PROTOCOL.md": "670051b2b2e28cc0c9d1df860cb81268213602cfd128783825be3b4d8950f13c",
+      "docs\\FECL-V4.5-ERRATUM.md": "2f225e17b08ca04ec482958123b2c4a14cf2864f51dcdd21cb99ea34b71be3f9",
+      "scripts\\run_carve_v4.py": "44c2c43715a6fa6c35158f9be7208b6735dfbf97d4afb2a16ea1e819413e5f9c"
+    },
+    "selected_acquisition": "targeted",
+    "status": "FULLY_FROZEN_BEFORE_TEST",
+    "test_accessed": false
+  },
+  "ood_sha256": "ae14a7f73c3968d9ce8627127868596a2a46438c50ac044f1f04eabfb7825be1",
+  "result_sha256": "1fcf4a4f0ca483327116cc91327a9fce545a6f04585eb2732e4bd96dbff06885",
+  "status": "EXECUTED_ONCE",
+  "test_sha256": "d53c5aa914b91035cc153b3587843f97f1b1e08f8f3560228bacb3607d764710"
+}

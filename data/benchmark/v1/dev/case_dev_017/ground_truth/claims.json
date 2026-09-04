@@ -1,0 +1,24 @@
+[
+  {
+    "claim_id": "gt_claim_case_dev_017_0",
+    "claim_type": "refund_claimed_processed",
+    "currency": "INR",
+    "document_id": "doc_case_dev_017",
+    "end": 41,
+    "modality": "assertion",
+    "quote": "We processed a partial refund of INR 500.",
+    "start": 0,
+    "value": "INR 500"
+  },
+  {
+    "claim_id": "gt_claim_case_dev_017_1",
+    "claim_type": "refund_amount",
+    "currency": "INR",
+    "document_id": "doc_case_dev_017",
+    "end": 41,
+    "modality": "assertion",
+    "quote": "We processed a partial refund of INR 500.",
+    "start": 0,
+    "value": "INR 500"
+  }
+]

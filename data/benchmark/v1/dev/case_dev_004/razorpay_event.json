@@ -1,0 +1,40 @@
+{
+  "account_id": "acc_synthetic_benchmark",
+  "contains": [
+    "payment",
+    "dispute"
+  ],
+  "created_at": 1787460364,
+  "entity": "event",
+  "event": "payment.dispute.created",
+  "payload": {
+    "dispute": {
+      "entity": {
+        "amount": 1250000,
+        "amount_deducted": 0,
+        "created_at": 1787460304,
+        "currency": "INR",
+        "entity": "dispute",
+        "id": "disp_syn_dev_004",
+        "payment_id": "pay_syn_dev_004",
+        "phase": "chargeback",
+        "reason_code": "raw_synthetic_reason_004",
+        "reason_description": "Synthetic refund-not-processed benchmark case",
+        "respond_by": 1788249604,
+        "status": "open"
+      }
+    },
+    "payment": {
+      "entity": {
+        "amount": 1250000,
+        "base_amount": 1250000,
+        "captured": true,
+        "created_at": 1787460004,
+        "currency": "INR",
+        "entity": "payment",
+        "id": "pay_syn_dev_004",
+        "status": "captured"
+      }
+    }
+  }
+}

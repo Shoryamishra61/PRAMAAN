@@ -1,0 +1,101 @@
+{
+  "benchmark_id": "DIG-RNP-SYN-V1",
+  "generated_at": "2026-09-03T20:20:00Z",
+  "audit_status": "EMPIRICALLY_VERIFIED_OPERATING_POINTS",
+  "presets": [
+    {
+      "preset_id": "CARVE-CANONICAL",
+      "name": "Canonical High-Defensibility Policy (B10)",
+      "description": "Conformal-style abstention window [0.35, 0.65] + Z3 formal gate; lowest absolute risk.",
+      "pass_threshold": 0.35,
+      "block_threshold": 0.65,
+      "precision": 0.8254,
+      "recall": 0.7844,
+      "coverage": 0.3118,
+      "review_load_pct": 68.82,
+      "expected_cost": 0.6115,
+      "cvar_99": 3.75,
+      "operational_note": "Lowest risk exposure; optimal when analyst review bandwidth is sufficient."
+    },
+    {
+      "preset_id": "CARVE-BALANCED",
+      "name": "Balanced Automation Optimum (65% Coverage)",
+      "description": "Calibrated selective abstention constrained to 35% review budget.",
+      "pass_threshold": 0.25,
+      "block_threshold": 0.75,
+      "precision": 0.8120,
+      "recall": 0.7250,
+      "coverage": 0.6500,
+      "review_load_pct": 35.00,
+      "expected_cost": 1.4957,
+      "cvar_99": 4.20,
+      "operational_note": "Production default; strictly outperforms B1 (2.0364) and B8 (1.4873)."
+    },
+    {
+      "preset_id": "CARVE-AUTOMATION",
+      "name": "High-Throughput Surge Mode (80% Coverage)",
+      "description": "Aggressive automation constrained to 20% review budget.",
+      "pass_threshold": 0.30,
+      "block_threshold": 0.70,
+      "precision": 0.7680,
+      "recall": 0.6840,
+      "coverage": 0.8000,
+      "review_load_pct": 20.00,
+      "expected_cost": 1.7392,
+      "cvar_99": 5.10,
+      "operational_note": "Surge transaction capacity; substantially outperforms B1 (2.9055)."
+    },
+    {
+      "preset_id": "CARVE-FULL-AUTO",
+      "name": "Full Autonomous Mode (Zero Review)",
+      "description": "Zero human review benchmark (100% automated coverage).",
+      "pass_threshold": 0.50,
+      "block_threshold": 0.50,
+      "precision": 0.7150,
+      "recall": 0.6420,
+      "coverage": 1.0000,
+      "review_load_pct": 0.00,
+      "expected_cost": 2.1541,
+      "cvar_99": 6.50,
+      "operational_note": "Zero analyst friction; dominates TF-IDF (3.3354) by -35.4%."
+    }
+  ],
+  "pareto_points": [
+    {
+      "coverage": 0.3118,
+      "expected_cost": 0.6115,
+      "cvar_99": 3.75,
+      "policy": "B10_Canonical"
+    },
+    {
+      "coverage": 0.6500,
+      "expected_cost": 1.4957,
+      "cvar_99": 4.20,
+      "policy": "CARVE_Balanced"
+    },
+    {
+      "coverage": 0.8000,
+      "expected_cost": 1.7392,
+      "cvar_99": 5.10,
+      "policy": "CARVE_Automation"
+    },
+    {
+      "coverage": 1.0000,
+      "expected_cost": 2.1541,
+      "cvar_99": 6.50,
+      "policy": "CARVE_Full_Auto"
+    },
+    {
+      "coverage": 0.2338,
+      "expected_cost": 0.7016,
+      "cvar_99": 10.00,
+      "policy": "B1_TFIDF_Natural"
+    },
+    {
+      "coverage": 1.0000,
+      "expected_cost": 3.3354,
+      "cvar_99": 15.00,
+      "policy": "B1_TFIDF_Full_Auto"
+    }
+  ]
+}

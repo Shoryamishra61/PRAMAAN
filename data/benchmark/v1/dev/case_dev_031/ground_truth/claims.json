@@ -1,0 +1,13 @@
+[
+  {
+    "claim_id": "gt_claim_case_dev_031_0",
+    "claim_type": "refund_claimed_processed",
+    "currency": "INR",
+    "document_id": "doc_case_dev_031",
+    "end": 37,
+    "modality": "assertion",
+    "quote": "We processed a full refund of ₹4,999.",
+    "start": 0,
+    "value": "₹4,999"
+  }
+]

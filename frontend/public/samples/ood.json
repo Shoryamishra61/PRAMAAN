@@ -1,0 +1,15 @@
+{
+  "schema_version": "carve-live-bundle-v1",
+  "sample_type": "ood",
+  "description": "A non-refund insurance claim is outside the supported reason family.",
+  "expected_safe_response": "REVIEW",
+  "request": {
+    "raw_reason_code": "sample_ood_insurance",
+    "payment_amount_inr": "1800.00",
+    "customer_communication": "Please approve my shipment insurance claim for a damaged parcel.",
+    "refund_ledger_complete": true,
+    "refund_status": "none",
+    "refund_amount_inr": null,
+    "simulation": "none"
+  }
+}

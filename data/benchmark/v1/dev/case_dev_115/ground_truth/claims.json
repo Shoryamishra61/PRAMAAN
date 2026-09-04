@@ -1,0 +1,27 @@
+[
+  {
+    "claim_id": "gt_claim_case_dev_115_0",
+    "claim_type": "refund_claimed_processed",
+    "currency": "INR",
+    "document_id": "doc_case_dev_115",
+    "end": 55,
+    "modality": "assertion",
+    "quote": "Your ₹4,999 refund was processed; reference RF-DEV-115.",
+    "start": 0,
+    "value": {
+      "raw_value": "₹4,999",
+      "refund_reference": "RF-DEV-115"
+    }
+  },
+  {
+    "claim_id": "gt_claim_case_dev_115_1",
+    "claim_type": "refund_amount",
+    "currency": "INR",
+    "document_id": "doc_case_dev_115",
+    "end": 55,
+    "modality": "assertion",
+    "quote": "Your ₹4,999 refund was processed; reference RF-DEV-115.",
+    "start": 0,
+    "value": "₹4,999"
+  }
+]

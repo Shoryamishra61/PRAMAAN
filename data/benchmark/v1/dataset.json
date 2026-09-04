@@ -1,0 +1,43 @@
+{
+  "balanced_for_diagnostic_evaluation": true,
+  "counts": {
+    "dev": 120,
+    "holdout": 60
+  },
+  "dataset_id": "DIG-RNP-SYN-v1",
+  "families": {
+    "dev": [
+      "matching_processed",
+      "request_only",
+      "partial_matching",
+      "multiple_refunds_sum",
+      "prompt_injection_distractor",
+      "incomplete_ledger",
+      "pending_refund",
+      "missing_communication",
+      "policy_interpretation",
+      "future_promise",
+      "claimed_processed_no_match",
+      "full_vs_partial",
+      "wrong_payment_linkage",
+      "failed_final_status",
+      "currency_mismatch"
+    ],
+    "holdout": [
+      "negated_processed",
+      "processed_after_message",
+      "repeated_quote_ambiguity",
+      "unsupported_language",
+      "approved_full_vs_partial",
+      "reference_mismatch"
+    ]
+  },
+  "frozen": true,
+  "frozen_at": "2026-08-23",
+  "generator_version": "1.0.0",
+  "holdout_manifest": "holdout-manifest.json",
+  "holdout_manifest_sha256": "1c285947c38bd0623b56cfb156dcc2eb3157505e5b8fc8bca45c089158ab3681",
+  "production_prevalence": false,
+  "seed": 20260823,
+  "synthetic": true
+}

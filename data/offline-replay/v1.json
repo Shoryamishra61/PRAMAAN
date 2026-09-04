@@ -1,0 +1,79 @@
+{
+  "cache_version": "1.0",
+  "source_mode": "precomputed_regex_fixture",
+  "extractor_config_sha256": "24ce16ba08a8b4edcbb843aa9fc9720e8f1db70358ffba22430e6251344f45b1",
+  "prompt_version": "refund-claims-v1",
+  "schema_version": "grounded-claim-v1",
+  "entries": {
+    "14471136d534fab08cc829642003ec24b51fee01d6d4565f02f271ebe7e651ca": {
+      "extractor_id": "offline-replay-precomputed-regex-v1",
+      "model_id": null,
+      "prompt_version": "refund-claims-v1",
+      "schema_version": "grounded-claim-v1",
+      "claims": [
+        {
+          "claim_id": "claim_7f7912a101f96251",
+          "document_id": "doc_pass",
+          "claim_type": "refund_claimed_processed",
+          "quote": "Your ₹2,500 refund was processed; reference RF-101.",
+          "value": {
+            "raw_value": "₹2,500",
+            "refund_reference": "RF-101"
+          },
+          "currency": "INR",
+          "raw_date_text": null,
+          "modality": "assertion",
+          "subject_ref": null
+        },
+        {
+          "claim_id": "claim_4560fe3cd4017332",
+          "document_id": "doc_pass",
+          "claim_type": "refund_amount",
+          "quote": "Your ₹2,500 refund was processed; reference RF-101.",
+          "value": "₹2,500",
+          "currency": "INR",
+          "raw_date_text": null,
+          "modality": "assertion",
+          "subject_ref": null
+        }
+      ]
+    },
+    "a587f846c686409ea3a066dfa26725cf1083cb3d08aca621ff02d84ddfcd35cc": {
+      "extractor_id": "offline-replay-precomputed-regex-v1",
+      "model_id": null,
+      "prompt_version": "refund-claims-v1",
+      "schema_version": "grounded-claim-v1",
+      "claims": []
+    },
+    "6e2276047d5bd75881f125bca04a47d927889847abfcc02db1d20f771a36e933": {
+      "extractor_id": "offline-replay-precomputed-regex-v1",
+      "model_id": null,
+      "prompt_version": "refund-claims-v1",
+      "schema_version": "grounded-claim-v1",
+      "claims": [
+        {
+          "claim_id": "claim_86761db76aff8f99",
+          "document_id": "doc_block",
+          "claim_type": "refund_claimed_processed",
+          "quote": "We processed a full refund of ₹2,500 on Aug 10.",
+          "value": "₹2,500",
+          "currency": "INR",
+          "raw_date_text": null,
+          "modality": "assertion",
+          "subject_ref": null
+        },
+        {
+          "claim_id": "claim_a675b8b849d06974",
+          "document_id": "doc_block",
+          "claim_type": "refund_amount",
+          "quote": "We processed a full refund of ₹2,500 on Aug 10.",
+          "value": "₹2,500",
+          "currency": "INR",
+          "raw_date_text": null,
+          "modality": "assertion",
+          "subject_ref": null
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,22 @@
+# Asymmetric Merchant Loss Scenarios for Cost Sensitivity Analysis
+scenarios:
+  LOW_ASYMMETRY:
+    description: "Low dispute friction (digital goods / low processing fee)"
+    cost_unsafe_pass: 3.0
+    cost_false_block: 1.0
+    cost_review: 0.25
+  MEDIUM_ASYMMETRY:
+    description: "Standard physical goods (loss of inventory + scheme fee)"
+    cost_unsafe_pass: 10.0
+    cost_false_block: 1.0
+    cost_review: 0.25
+  HIGH_ASYMMETRY:
+    description: "High margin brand protection (heavy penalty on fraud passes)"
+    cost_unsafe_pass: 25.0
+    cost_false_block: 1.0
+    cost_review: 0.50
+  EXTREME_ASYMMETRY:
+    description: "Regulated high-risk threshold (excessive dispute ratio risk)"
+    cost_unsafe_pass: 50.0
+    cost_false_block: 1.0
+    cost_review: 1.0

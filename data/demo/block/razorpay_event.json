@@ -1,0 +1,47 @@
+{
+  "entity": "event",
+  "account_id": "acc_demo_synthetic",
+  "event": "payment.dispute.created",
+  "contains": ["payment", "dispute"],
+  "payload": {
+    "payment": {
+      "entity": {
+        "id": "pay_demo_block",
+        "entity": "payment",
+        "amount": 250000,
+        "currency": "INR",
+        "base_amount": 250000,
+        "status": "captured",
+        "amount_refunded": 0,
+        "refund_status": null,
+        "captured": true,
+        "created_at": 1787460000
+      }
+    },
+    "dispute": {
+      "entity": {
+        "id": "disp_demo_block",
+        "entity": "dispute",
+        "payment_id": "pay_demo_block",
+        "amount": 250000,
+        "currency": "INR",
+        "amount_deducted": 0,
+        "reason_code": "raw_demo_refund_block",
+        "reason_description": "Synthetic refund-not-processed demo case",
+        "respond_by": 1788249600,
+        "status": "open",
+        "phase": "chargeback",
+        "created_at": 1787460300,
+        "evidence": {
+          "amount": 250000,
+          "customer_communication": null,
+          "refund_confirmation": null,
+          "refund_cancellation_policy": null,
+          "submitted_at": null
+        }
+      }
+    }
+  },
+  "created_at": 1787460360
+}
+

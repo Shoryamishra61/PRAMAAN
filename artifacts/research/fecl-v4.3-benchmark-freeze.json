@@ -1,0 +1,20 @@
+{
+  "benchmark_id": "DIG-FECL-BENCH-v4.3",
+  "frozen_after_integrity_tests": true,
+  "frozen_before_model_fit": true,
+  "frozen_before_test_evaluation": true,
+  "hashes": {
+    "calibration": "b52eb73cdd3bf2d0f87b606ee58a6ffb7275616e71f943af7cf809fbd447ce66",
+    "dev": "a0aad9006ae39aa0419a57c56d8571cfcc2723ea662d4815b6c04b61c6526891",
+    "ood": "846a80b2406e73d8390c05f06f20513520c5af3f9a82468181cd790fa9b7e7f5",
+    "test": "ba3d76e9a705ce30111f6fed6483b312483f3cdbad62f0ccb8fd68e8af72a968",
+    "train": "30c6291f0b7ab99a4e03899528aae177b5f703647dba2eb8a1e614d865851225"
+  },
+  "integrity_test": {
+    "command": "python -m pytest backend/tests/test_fecl_v4_2_integrity.py backend/tests/test_carve_proof.py -q",
+    "result": "9 passed",
+    "seconds": 51.64
+  },
+  "protocol": "docs/FECL-V4-PROTOCOL.md + docs/FECL-V4.3-ERRATUM.md",
+  "status": "FROZEN"
+}

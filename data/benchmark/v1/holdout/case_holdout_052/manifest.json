@@ -1,0 +1,9 @@
+{
+  "case_id": "case_holdout_052",
+  "dataset_id": "DIG-RNP-SYN-v1",
+  "document_id": "doc_case_holdout_052",
+  "input_supported": true,
+  "reason_profile": "refund_not_processed_v1",
+  "split": "holdout",
+  "synthetic": true
+}

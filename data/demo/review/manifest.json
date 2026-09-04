@@ -1,0 +1,9 @@
+{
+  "fixture_id": "demo_review_v1",
+  "case_id": "case_demo_review",
+  "reason_profile": "refund_not_processed_v1",
+  "expected_gate_status": "REVIEW",
+  "expected_primary_reason_code": "F_STRUCTURED_STATE_INCOMPLETE",
+  "synthetic": true
+}
+

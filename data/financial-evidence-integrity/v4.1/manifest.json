@@ -1,0 +1,161 @@
+{
+  "benchmark_id": "DIG-FECL-BENCH-v4.1",
+  "counts": {
+    "calibration": 320,
+    "dev": 320,
+    "ood": 160,
+    "test": 480,
+    "train": 1200
+  },
+  "created_at": "2026-09-01T13:07:18Z",
+  "erratum_sha256": "22e23e77ff7ef2ddab62fb731eaea3673ff654f017c7f48153d29b5ddc993b12",
+  "evidence_costs": {
+    "bank_statement": 25,
+    "completion_reference": 2,
+    "customer_communication": 12,
+    "order_record": 4,
+    "payment_state": 1,
+    "refund_confirmation": 16,
+    "refund_policy": 6,
+    "refund_state": 1,
+    "rrn_linkage": 2
+  },
+  "families": {
+    "calibration": [
+      "terse_reconciliation",
+      "conditional_promise"
+    ],
+    "dev": [
+      "indirect_narrative",
+      "passive_record",
+      "indian_english_ops"
+    ],
+    "test": [
+      "hinglish_unseen",
+      "cross_document",
+      "temporal_implicit",
+      "ocr_holdout",
+      "relation_composition"
+    ],
+    "train": [
+      "formal_email",
+      "support_chat",
+      "portal_note",
+      "refund_ops",
+      "hinglish_basic"
+    ]
+  },
+  "generator_seed": 20260911,
+  "hashes": {
+    "calibration": "41b329cbc7b16a10069a54781a43a2e1bf49fe15e2ca30a556f9e302677036b0",
+    "dev": "0dbeba7703db96e181ce26a6143a66771c5a5b1461bab5ccec08b570c0e42a92",
+    "ood": "bb9d55360bef88a761c7496eee939317f9a0226d4cb465f37ec270707f8f4b16",
+    "test": "9d1b54333e235b074122ada640caaf9f3e1d1f1c8ae43621e3f1aca1440f3ea0",
+    "train": "8e669dc17a7d7390bee20bb94e2de6fb473ae53302d3816428aeafcb3941f127"
+  },
+  "models_fitted_before_correction": false,
+  "phenomena": [
+    "amount_mismatch",
+    "one_rupee_boundary",
+    "partial_refund",
+    "cumulative_refund",
+    "currency_mismatch",
+    "wrong_rrn",
+    "wrong_arn_utr",
+    "refund_reference_mismatch",
+    "wrong_parent_payment",
+    "matching_amount_wrong_order",
+    "temporal_contradiction",
+    "promised_not_due_vs_overdue",
+    "stale_refund_state",
+    "source_disagreement",
+    "policy_exception",
+    "negation"
+  ],
+  "production_prevalence": false,
+  "protocol": "docs/FECL-V4-PROTOCOL.md + docs/FECL-V4.1-ERRATUM.md",
+  "protocol_sha256": "670051b2b2e28cc0c9d1df860cb81268213602cfd128783825be3b4d8950f13c",
+  "supersedes": "DIG-FECL-BENCH-v4",
+  "synthetic": true,
+  "test_evaluated_before_correction": false,
+  "validation": {
+    "calibration": {
+      "cases": 320,
+      "contradictions": 160,
+      "entities": 160,
+      "families": [
+        "conditional_promise",
+        "terse_reconciliation"
+      ],
+      "grounded_claims": 320,
+      "pairs": 160,
+      "templates": [
+        "tmpl_calibration_conditional_promise",
+        "tmpl_calibration_terse_reconciliation"
+      ]
+    },
+    "dev": {
+      "cases": 320,
+      "contradictions": 160,
+      "entities": 160,
+      "families": [
+        "indian_english_ops",
+        "indirect_narrative",
+        "passive_record"
+      ],
+      "grounded_claims": 320,
+      "pairs": 160,
+      "templates": [
+        "tmpl_dev_indian_english_ops",
+        "tmpl_dev_indirect_narrative",
+        "tmpl_dev_passive_record"
+      ]
+    },
+    "ood": {
+      "cases": 160,
+      "ood_categories": 8
+    },
+    "test": {
+      "cases": 480,
+      "contradictions": 240,
+      "entities": 240,
+      "families": [
+        "cross_document",
+        "hinglish_unseen",
+        "ocr_holdout",
+        "relation_composition",
+        "temporal_implicit"
+      ],
+      "grounded_claims": 480,
+      "pairs": 240,
+      "templates": [
+        "tmpl_test_cross_document",
+        "tmpl_test_hinglish_unseen",
+        "tmpl_test_ocr_holdout",
+        "tmpl_test_relation_composition",
+        "tmpl_test_temporal_implicit"
+      ]
+    },
+    "train": {
+      "cases": 1200,
+      "contradictions": 600,
+      "entities": 600,
+      "families": [
+        "formal_email",
+        "hinglish_basic",
+        "portal_note",
+        "refund_ops",
+        "support_chat"
+      ],
+      "grounded_claims": 1200,
+      "pairs": 600,
+      "templates": [
+        "tmpl_train_formal_email",
+        "tmpl_train_hinglish_basic",
+        "tmpl_train_portal_note",
+        "tmpl_train_refund_ops",
+        "tmpl_train_support_chat"
+      ]
+    }
+  }
+}

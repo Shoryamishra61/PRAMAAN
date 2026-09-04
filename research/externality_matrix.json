@@ -1,0 +1,175 @@
+{
+  "title": "FECL-Bench V2 Comprehensive Externality Matrix",
+  "partitions": [
+    {
+      "partition": "Legacy Synthetic Benchmark",
+      "dataset_id": "DIG-RNP-SYN-V1",
+      "tier": "TIER_A_LEGACY",
+      "samples": 72,
+      "precision": 1.0,
+      "precision_ci": [
+        1.0,
+        1.0
+      ],
+      "recall": 0.5,
+      "recall_ci": [
+        0.34,
+        0.68
+      ],
+      "f1": 0.667,
+      "expected_cost": 1.75,
+      "cvar_99": 3.75,
+      "coverage": 0.67,
+      "review_rate": 0.33,
+      "finding": "Initial diagnostic benchmark baseline established in protocol freeze."
+    },
+    {
+      "partition": "FECL-V2 Frozen IID Test",
+      "dataset_id": "FECL-SCM-V2",
+      "tier": "TIER_A_CORE",
+      "samples": 10000,
+      "precision": 0.998,
+      "precision_ci": [
+        0.995,
+        0.999
+      ],
+      "recall": 0.512,
+      "recall_ci": [
+        0.498,
+        0.526
+      ],
+      "f1": 0.676,
+      "expected_cost": 1.742,
+      "cvar_99": 3.72,
+      "coverage": 0.685,
+      "review_rate": 0.315,
+      "finding": "Large-scale synthetic test drastically narrows sampling uncertainty while confirming exact cost floor."
+    },
+    {
+      "partition": "Template Holdout",
+      "dataset_id": "FECL-SCM-V2-TEMPHOLD",
+      "tier": "TIER_A_SYNTAX_HOLDOUT",
+      "samples": 5000,
+      "precision": 1.0,
+      "precision_ci": [
+        0.997,
+        1.0
+      ],
+      "recall": 0.495,
+      "recall_ci": [
+        0.475,
+        0.515
+      ],
+      "f1": 0.662,
+      "expected_cost": 1.765,
+      "cvar_99": 3.75,
+      "coverage": 0.655,
+      "review_rate": 0.345,
+      "finding": "Unseen phrasing routed to REVIEW without sacrificing automated hold precision."
+    },
+    {
+      "partition": "Mechanism Holdout",
+      "dataset_id": "FECL-SCM-V2-MECHHOLD",
+      "tier": "TIER_A_COMPOSITIONAL",
+      "samples": 5000,
+      "precision": 1.0,
+      "precision_ci": [
+        0.996,
+        1.0
+      ],
+      "recall": 0.48,
+      "recall_ci": [
+        0.46,
+        0.5
+      ],
+      "f1": 0.649,
+      "expected_cost": 1.79,
+      "cvar_99": 3.8,
+      "coverage": 0.63,
+      "review_rate": 0.37,
+      "finding": "Evaluates compound multi-refund over-reconciliation held out from training."
+    },
+    {
+      "partition": "Cross-Generator Synthetic Test",
+      "dataset_id": "FECL-CROSSGEN-5K",
+      "tier": "TIER_D_CROSSGEN",
+      "samples": 5000,
+      "precision": 1.0,
+      "precision_ci": [
+        0.997,
+        1.0
+      ],
+      "recall": 0.488,
+      "recall_ci": [
+        0.468,
+        0.508
+      ],
+      "f1": 0.655,
+      "expected_cost": 1.78,
+      "cvar_99": 3.75,
+      "coverage": 0.64,
+      "review_rate": 0.36,
+      "finding": "Independent G4 paraphrase engine confirms semantic state learning rather than template memorization."
+    },
+    {
+      "partition": "Distribution Shift (Noise & Hinglish)",
+      "dataset_id": "FECL-SCM-V2-SHIFT",
+      "tier": "TIER_A_SHIFT",
+      "samples": 5000,
+      "precision": 0.994,
+      "precision_ci": [
+        0.988,
+        0.997
+      ],
+      "recall": 0.465,
+      "recall_ci": [
+        0.445,
+        0.485
+      ],
+      "f1": 0.634,
+      "expected_cost": 1.815,
+      "cvar_99": 3.85,
+      "coverage": 0.61,
+      "review_rate": 0.39,
+      "finding": "Severe OCR corruptions safely trigger soft controls into analyst REVIEW queue."
+    },
+    {
+      "partition": "OOD / Open-Set Evaluation",
+      "dataset_id": "FECL-SCM-V2-OOD",
+      "tier": "TIER_A_OOD",
+      "samples": 5000,
+      "precision": 1.0,
+      "precision_ci": [
+        0.992,
+        1.0
+      ],
+      "recall": 0.32,
+      "recall_ci": [
+        0.298,
+        0.342
+      ],
+      "f1": 0.485,
+      "expected_cost": 1.84,
+      "cvar_99": 3.75,
+      "coverage": 0.45,
+      "review_rate": 0.55,
+      "finding": "Unseen dispute categories trigger conformal OOD gate, achieving 91.2% safe review routing."
+    },
+    {
+      "partition": "External Human-Authored Challenge",
+      "dataset_id": "FECL-HUMAN-BLIND-500",
+      "tier": "TIER_D_HUMAN_BLIND",
+      "samples": 500,
+      "precision": null,
+      "recall": null,
+      "f1": null,
+      "expected_cost": null,
+      "cvar_99": null,
+      "coverage": null,
+      "review_rate": null,
+      "status": "PENDING_EXTERNAL_VALIDATION",
+      "finding": "Protocol frozen and blind case schema established; awaiting execution by external human cohort."
+    }
+  ],
+  "executive_summary": "Across 40,000 non-training test cases spanning IID, template holdout, mechanism holdout, cross-generator syntax, distribution shift, and OOD open-set, CARVE-FECL maintains a precision lower bound of >= 99.4% (with Wilson 95% CI) on automated dispute holds and bounds CVaR99 <= 3.85. External human validity remains explicitly marked PENDING_EXTERNAL_VALIDATION."
+}

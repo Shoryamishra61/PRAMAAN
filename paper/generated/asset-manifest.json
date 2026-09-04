@@ -1,0 +1,39 @@
+{
+  "artifact_version": "fecl-paper-assets-v1",
+  "boundary": {
+    "production_validated": false,
+    "runtime_changed": false,
+    "synthetic": true
+  },
+  "dev_promotion": {
+    "runtime_changed": false,
+    "status": "DEV_ONLY"
+  },
+  "inputs": {
+    "FECL v2 DEV": "3d891e7be669a5c9d40fc3c2fa0c63643cc0f3ed3f5caf945b1f157a3a9339c4",
+    "FECL v2 TEST": "053f53dd7a454625883f03387170b019c49454f355caa2222902662f4cb0f171",
+    "FECL v2 freeze": "4da3f9c5dd09c85cf64c0a39688bcdf771207cb4b1786aa61f4cda218a14aa4f",
+    "FECL v2 post-hoc analysis": "8a1b472e4f8b96777f3861297d3b38dc2d2078c067bef6b73a138903867a4a6c",
+    "v1 frozen holdout": "1508afc7a8bb8e9126970c7f1813eb0abf46213d77cfb270234eedb685423d28",
+    "v1 grounding audit": "ec549143fc4dc196dc16a2cebe06b3b518e9fe4ee261cf281cb3d269d1b25599"
+  },
+  "outputs": {
+    "paper/tables/calibration.tex": "716ecdae47862d2be0ee3b3355e9a2f3ca8c84d0e6a49244642f6df1f925639d",
+    "paper/tables/family-slices.tex": "2bbf3e795585eece700e3029db0bb0b69112ca93324121c05f706d43b89b8567",
+    "paper/tables/fecl-v2-calibration-delta.csv": "721f1a48086b547660ac2df10b1f8f9636e3f0c0df7abc26b8ec9bab6da62a27",
+    "paper/tables/fecl-v2-counterfactual.csv": "85ca080a833deed80a0a17e72a6e617c2674c20213eeb55117e895476507efa6",
+    "paper/tables/fecl-v2-dev-results.csv": "52063c6ba7a34791d5199cba9ded487f37f847d1b41b0dc99ee6965b87597bb7",
+    "paper/tables/fecl-v2-test-results.csv": "f53613a0dbe2ef8f30c073ccf3d46c38f0c04b42e92f0107ab7067ad5cdc00a3",
+    "paper/tables/main-results.tex": "952b20e15f6ae715a7ff8c609e6c0972944c6a3e68556b8b8c87b8b4a9c1e451"
+  },
+  "test_promotion": {
+    "eligible_research_models": [
+      "neuro_symbolic"
+    ],
+    "reason": "All preregistered v2 gates passed; real merchant validation is still required.",
+    "runtime_changed": false,
+    "selected_runtime": "regex-baseline-v1",
+    "status": "RESEARCH_WINNER_NOT_DEPLOYED"
+  },
+  "v1_posthoc": true
+}

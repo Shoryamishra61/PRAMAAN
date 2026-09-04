@@ -1,0 +1,255 @@
+{
+  "study_timestamp": "2026-09-03T04:36:53Z",
+  "device": "cpu",
+  "baseline_ladder": [
+    {
+      "precision": 0.5252,
+      "precision_ci": [
+        0.4665,
+        0.5831
+      ],
+      "recall": 0.0656,
+      "recall_ci": [
+        0.0561,
+        0.0767
+      ],
+      "f1": 0.1167,
+      "expected_cost": 4.2078,
+      "cvar_95": 10.0,
+      "cvar_99": 10.0,
+      "coverage": 0.8984,
+      "review_rate": 0.1016,
+      "false_pass_count": 2078,
+      "false_block_count": 132,
+      "true_block_count": 146,
+      "review_count": 508,
+      "ece": 0.2912,
+      "brier": 0.3617,
+      "baseline_id": "B0",
+      "name": "Deterministic Rules"
+    },
+    {
+      "precision": 1.0,
+      "precision_ci": [
+        0.9935,
+        1.0
+      ],
+      "recall": 0.6961,
+      "recall_ci": [
+        0.6641,
+        0.7262
+      ],
+      "f1": 0.8208,
+      "expected_cost": 0.7016,
+      "cvar_95": 10.0,
+      "cvar_99": 10.0,
+      "coverage": 0.2338,
+      "review_rate": 0.7662,
+      "false_pass_count": 255,
+      "false_block_count": 0,
+      "true_block_count": 584,
+      "review_count": 3831,
+      "ece": 0.0057,
+      "brier": 0.2164,
+      "baseline_id": "B1",
+      "name": "TF-IDF + Logistic Regression"
+    },
+    {
+      "precision": 0.4955,
+      "precision_ci": [
+        0.4698,
+        0.5212
+      ],
+      "recall": 0.4693,
+      "recall_ci": [
+        0.4444,
+        0.4943
+      ],
+      "f1": 0.482,
+      "expected_cost": 1.8655,
+      "cvar_95": 10.0,
+      "cvar_99": 10.0,
+      "coverage": 0.619,
+      "review_rate": 0.381,
+      "false_pass_count": 812,
+      "false_block_count": 731,
+      "true_block_count": 718,
+      "review_count": 1905,
+      "ece": 0.1471,
+      "brier": 0.2804,
+      "baseline_id": "B2",
+      "name": "Tabular Gradient Boosting"
+    },
+    {
+      "baseline_id": "B3",
+      "name": "TabPFN-v2 Tabular",
+      "status": "NOT EXECUTED",
+      "note": "TabPFN was not executed due to absence of local TabPFN license/wheel."
+    },
+    {
+      "precision": 0.8903,
+      "precision_ci": [
+        0.8655,
+        0.9109
+      ],
+      "recall": 0.6426,
+      "recall_ci": [
+        0.6125,
+        0.6715
+      ],
+      "f1": 0.7464,
+      "expected_cost": 0.8953,
+      "cvar_95": 10.0,
+      "cvar_99": 10.0,
+      "coverage": 0.3708,
+      "review_rate": 0.6292,
+      "false_pass_count": 361,
+      "false_block_count": 80,
+      "true_block_count": 649,
+      "review_count": 3146,
+      "ece": 0.0354,
+      "brier": 0.2141,
+      "baseline_id": "B8",
+      "name": "Multi-View Gated Fusion (PyTorch)"
+    },
+    {
+      "precision": 0.8254,
+      "precision_ci": [
+        0.7992,
+        0.8488
+      ],
+      "recall": 0.7844,
+      "recall_ci": [
+        0.757,
+        0.8094
+      ],
+      "f1": 0.8043,
+      "expected_cost": 0.6115,
+      "cvar_95": 1.0,
+      "cvar_99": 10.0,
+      "coverage": 0.3118,
+      "review_rate": 0.6882,
+      "false_pass_count": 204,
+      "false_block_count": 157,
+      "true_block_count": 742,
+      "review_count": 3441,
+      "ece": 0.0354,
+      "brier": 0.2141,
+      "baseline_id": "B10",
+      "name": "CARVE-FECL Production Policy"
+    }
+  ],
+  "learning_curves": {
+    "B8": [
+      {
+        "n_train": 50,
+        "expected_cost": 1.4575,
+        "precision": 0.4989,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 100,
+        "expected_cost": 1.5097,
+        "precision": 0.5359,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 250,
+        "expected_cost": 1.7461,
+        "precision": 0.5677,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 500,
+        "expected_cost": 1.4656,
+        "precision": 0.6084,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 1000,
+        "expected_cost": 1.7512,
+        "precision": 0.6642,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 2500,
+        "expected_cost": 1.444,
+        "precision": 0.6748,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 5000,
+        "expected_cost": 1.4361,
+        "precision": 0.8388,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 10000,
+        "expected_cost": 1.2094,
+        "precision": 0.933,
+        "seeds_evaluated": 2
+      }
+    ],
+    "B10": [
+      {
+        "n_train": 50,
+        "expected_cost": 1.1185,
+        "precision": 0.5015,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 100,
+        "expected_cost": 1.114,
+        "precision": 0.5338,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 250,
+        "expected_cost": 0.9652,
+        "precision": 0.5407,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 500,
+        "expected_cost": 1.136,
+        "precision": 0.6211,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 1000,
+        "expected_cost": 1.3809,
+        "precision": 0.682,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 2500,
+        "expected_cost": 1.0686,
+        "precision": 0.6923,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 5000,
+        "expected_cost": 0.9755,
+        "precision": 0.8054,
+        "seeds_evaluated": 2
+      },
+      {
+        "n_train": 10000,
+        "expected_cost": 0.8134,
+        "precision": 0.8349,
+        "seeds_evaluated": 2
+      }
+    ]
+  },
+  "sample_efficiency": {
+    "target_expected_loss": 1.85,
+    "n_required_b8_multiview": 50,
+    "n_required_b10_carve": 50,
+    "empirical_sample_efficiency_ratio": 1.0,
+    "note": "Computed directly from real executed PyTorch training runs across sample sizes."
+  },
+  "best_checkpoint": {
+    "path": "C:\\code_shit\\RAZOR\\dispute-integrity-gate-spec\\artifacts\\ml\\carve_multiview_best.pt",
+    "sha256": "84e5060481854056f44ae7c1c52beaf84987afdb97b788c97f21364d1d2ed137"
+  }
+}

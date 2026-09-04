@@ -1,0 +1,25 @@
+{
+  "benchmark_id": "FECL-HUMAN-BLIND-500",
+  "status": "PENDING_EXTERNAL_VALIDATION",
+  "intended_scale": 500,
+  "cohort_design": {
+    "num_independent_authors": 5,
+    "cases_per_author": 100,
+    "categories": [
+      "CREDIT_NOT_PROCESSED",
+      "GOODS_SERVICES_NOT_RECEIVED",
+      "GOODS_SERVICES_NOT_AS_DESCRIBED",
+      "DUPLICATE_CHARGE",
+      "AUTHORIZATION_ERROR"
+    ],
+    "author_blindness_guarantees": [
+      "Authors receive only latent structured financial briefs",
+      "Authors have zero access to benchmark generators or templates",
+      "Authors have zero access to model outputs or decision thresholds",
+      "Cases cannot be altered after automated model inference"
+    ]
+  },
+  "current_human_cases_collected": 0,
+  "last_updated": "2026-09-03T00:00:00Z",
+  "note": "Per directive section 27, status remains strictly PENDING_EXTERNAL_VALIDATION until real human cohort data is collected and adjudicated."
+}

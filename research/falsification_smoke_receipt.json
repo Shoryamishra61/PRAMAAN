@@ -1,0 +1,53 @@
+{
+  "test_name": "FALSIFICATION_SMOKE_TEST",
+  "verdict": "PASSED_GENUINE_BACKPROPAGATION",
+  "device": "cpu",
+  "trainable_parameters": 297475,
+  "optimizer_steps_executed": 315,
+  "pre_training_hash": "4bfc9e95ba1383c06b656b97ff2d954bd6b7faca5883bc73146207c1a071e2f9",
+  "post_training_hash": "53c7630d07854e2f35bb472d21c4606e0448218318b4674037a3ab687b1aa334",
+  "pre_training_norm": 21.462181,
+  "post_training_norm": 22.767391,
+  "loss_initial": 0.61017,
+  "loss_final": 0.09262,
+  "checkpoint_path": "C:\\code_shit\\RAZOR\\dispute-integrity-gate-spec\\artifacts\\ml\\falsification_smoke_checkpoint.pt",
+  "checkpoint_sha256": "30373f99dcdaed87b6bd0275c419f5743523f3d82d5178dbf5f5e37c534ad2c1",
+  "checkpoint_size_bytes": 3595909,
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 0.61017,
+      "val_loss": 0.2214,
+      "val_accuracy": 0.98,
+      "optimizer_steps": 63
+    },
+    {
+      "epoch": 2,
+      "train_loss": 0.17344,
+      "val_loss": 0.0957,
+      "val_accuracy": 1.0,
+      "optimizer_steps": 126
+    },
+    {
+      "epoch": 3,
+      "train_loss": 0.1132,
+      "val_loss": 0.08784,
+      "val_accuracy": 1.0,
+      "optimizer_steps": 189
+    },
+    {
+      "epoch": 4,
+      "train_loss": 0.0994,
+      "val_loss": 0.08609,
+      "val_accuracy": 1.0,
+      "optimizer_steps": 252
+    },
+    {
+      "epoch": 5,
+      "train_loss": 0.09262,
+      "val_loss": 0.08579,
+      "val_accuracy": 1.0,
+      "optimizer_steps": 315
+    }
+  ]
+}

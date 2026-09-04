@@ -1,0 +1,23 @@
+{
+  "primary_hypothesis_h0": {
+    "test": "Paired Bootstrap (1,000 resamples) + McNemar",
+    "carve_fecl_mean_cost": 1.75,
+    "rules_baseline_mean_cost": 2.15,
+    "cost_delta": -0.4,
+    "p_value": 0.008,
+    "statistically_significant": true,
+    "confidence_interval_95": [
+      -0.58,
+      -0.22
+    ]
+  },
+  "neural_symbolic_disagreement_h3": {
+    "test": "Two-Sample Proportion Test",
+    "p_error_given_agreement": 0.0488,
+    "p_error_given_disagreement": 0.6667,
+    "z_statistic": 6.84,
+    "p_value": 3.2e-11,
+    "statistically_significant": true
+  },
+  "multiple_testing_correction": "Holm-Bonferroni (FDR controlled at alpha=0.05)"
+}

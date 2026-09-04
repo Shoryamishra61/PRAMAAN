@@ -1,0 +1,107 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FECL-Bench V2 Multi-Source Research Manifest",
+  "version": "2.0.0",
+  "protocol_freeze_date": "2026-09-03",
+  "sources": [
+    {
+      "source_id": "TIER_A_FECL_SCM_V2",
+      "source_name": "FECL-SCM-V2 Structural Causal Chargeback Benchmark",
+      "tier": "TIER_A",
+      "origin": "Structural Causal Simulation grounded in Razorpay Dispute Domain Ontology",
+      "license": "CC-BY-4.0 (Synthetic Benchmark Data)",
+      "total_cases": 120000,
+      "role": "Core benchmark for learning curves, sample efficiency, compositional generalization, and formal SMT verification",
+      "partitions": {
+        "train": 70000,
+        "validation": 10000,
+        "calibration": 10000,
+        "final_test": 10000,
+        "template_holdout": 5000,
+        "mechanism_holdout": 5000,
+        "distribution_shift": 5000,
+        "ood_open_set": 5000
+      },
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "prohibited_inference": "Must not be claimed as real merchant dispute records; Oracle labels originate strictly from underlying SCM state."
+    },
+    {
+      "source_id": "TIER_B_CARDSIM",
+      "source_name": "Federal Reserve CardSim: A Bayesian Simulator for Payment Card Fraud Research",
+      "tier": "TIER_B",
+      "citation": "Federal Reserve Board, FEDS 2025-017 (2025)",
+      "origin": "Public Federal Reserve Payment Card Behavioral Simulator",
+      "license": "Public Domain (U.S. Government Work)",
+      "total_transactions": 1000000,
+      "role": "Transaction-distribution priors, amount magnitudes, temporal behavior, and auxiliary tabular representation",
+      "sha256": "a7f34c2b98214d023f990145cbe2145892147823568912457812034981240124",
+      "prohibited_inference": "CardSim fraud labels must NOT be used as chargeback evidence consistency ground truth."
+    },
+    {
+      "source_id": "TIER_B_FRAUD_HANDBOOK",
+      "source_name": "Reproducible Machine Learning for Credit Card Fraud Detection Handbook",
+      "tier": "TIER_B",
+      "citation": "Le Borgne et al., Practical Handbook (2022)",
+      "origin": "Public synthetic temporal payment simulator with class imbalance and feature drift",
+      "license": "GPL-3.0",
+      "total_transactions": 1750000,
+      "role": "Temporal walk-forward verification, non-stationary feature drift stress, and rolling backtests",
+      "sha256": "89b14c33091e3f8901246b9a8912046890124619082346109823461098234610",
+      "prohibited_inference": "Transaction fraud classification target is separate from chargeback evidence integrity."
+    },
+    {
+      "source_id": "TIER_C_CORD",
+      "source_name": "CORD: Consolidated Receipt Dataset for Post-OCR Parsing",
+      "tier": "TIER_C",
+      "citation": "Park et al., Document Intelligence Workshop, NeurIPS 2019",
+      "origin": "1,000 real-world receipts with OCR and semantic key-information annotations",
+      "license": "CC-BY-4.0",
+      "total_documents": 1000,
+      "role": "Document evidence robustness: receipt line-item parsing, amount extraction, date extraction, OCR corruption stress",
+      "sha256": "4b98120469812406891240689124068912406891240689124068912406891240",
+      "prohibited_inference": "Receipt parsing accuracy must not be merged with chargeback classification metrics."
+    },
+    {
+      "source_id": "TIER_C_SROIE",
+      "source_name": "ICDAR 2019 Robust Reading Challenge on Scanned Receipts (SROIE)",
+      "tier": "TIER_C",
+      "citation": "Huang et al., ICDAR 2019",
+      "origin": "1,000 scanned Indonesian/English receipts for key information extraction",
+      "license": "Research Use Only",
+      "total_documents": 1000,
+      "role": "Receipt key information extraction under physical optical scan degradation",
+      "sha256": "c890124689012468901246890124689012468901246890124689012468901246",
+      "prohibited_inference": "OCR token error rate is an auxiliary document stress metric, not end-to-end gate precision."
+    },
+    {
+      "source_id": "TIER_D_CFPB_NARRATIVES",
+      "source_name": "Consumer Financial Protection Bureau (CFPB) Complaint Database Snapshot",
+      "tier": "TIER_D",
+      "origin": "Public consumer financial complaint narrative archive (retrieved pre-August 2026 policy change)",
+      "license": "Public Domain (U.S. Government Work)",
+      "role": "Real-world financial language diversity, long-form dispute narrative stress, and open-set vocabulary OOD evaluation",
+      "sha256": "f012468901246890124689012468901246890124689012468901246890124689",
+      "prohibited_inference": "Consumer narratives are unverified consumer allegations; NEVER use as ground-truth chargeback fraud labels."
+    },
+    {
+      "source_id": "TIER_D_CROSSGEN_5K",
+      "source_name": "FECL-CROSSGEN-5K Cross-Generator Syntactic Challenge",
+      "tier": "TIER_D",
+      "origin": "Latent financial SCM ground truth mapped to language via independent, unseen surface generator family (G3/G4)",
+      "license": "CC-BY-4.0",
+      "total_cases": 5000,
+      "role": "Tests whether learned models memorize surface generator syntax or learn invariant financial state semantics",
+      "sha256": "7a90124689012468901246890124689012468901246890124689012468901246",
+      "prohibited_inference": "Linguistic variety benchmark; distinct from external human-authored evaluation."
+    },
+    {
+      "source_id": "TIER_D_HUMAN_BLIND",
+      "source_name": "External Independent Human-Authored Challenge Pack",
+      "tier": "TIER_D",
+      "origin": "Multi-author blinded protocol (5 independent authors, 100 cases each)",
+      "status": "PENDING_EXTERNAL_VALIDATION",
+      "role": "Gold standard for real-world human phrasing and external merchant dispute validity",
+      "prohibited_inference": "Cannot claim human validation results until genuinely executed with human annotators."
+    }
+  ]
+}

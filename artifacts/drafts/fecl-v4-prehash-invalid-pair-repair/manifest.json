@@ -1,0 +1,158 @@
+{
+  "benchmark_id": "DIG-FECL-BENCH-v4",
+  "counts": {
+    "calibration": 320,
+    "dev": 320,
+    "ood": 160,
+    "test": 480,
+    "train": 1200
+  },
+  "created_at": "2026-09-01T12:56:07Z",
+  "evidence_costs": {
+    "bank_statement": 25,
+    "completion_reference": 2,
+    "customer_communication": 12,
+    "order_record": 4,
+    "payment_state": 1,
+    "refund_confirmation": 16,
+    "refund_policy": 6,
+    "refund_state": 1,
+    "rrn_linkage": 2
+  },
+  "families": {
+    "calibration": [
+      "terse_reconciliation",
+      "conditional_promise"
+    ],
+    "dev": [
+      "indirect_narrative",
+      "passive_record",
+      "indian_english_ops"
+    ],
+    "test": [
+      "hinglish_unseen",
+      "cross_document",
+      "temporal_implicit",
+      "ocr_holdout",
+      "relation_composition"
+    ],
+    "train": [
+      "formal_email",
+      "support_chat",
+      "portal_note",
+      "refund_ops",
+      "hinglish_basic"
+    ]
+  },
+  "generator_seed": 20260911,
+  "hashes": {
+    "calibration": "252467373bd08eac1b7cdbac0c9c67f4302f85ae3dccf01b65a132000ac2e179",
+    "dev": "34ac32d593ab270309cc107df0d223acc8b37f23fccefc4ec929d962d2d43394",
+    "ood": "7d7d138a83b94e5e0a3bc50f62fb07337e0095cbc592ce71e0018aea4f6790c9",
+    "test": "337a10a89e1a3de072ed1822366cfa68a8929bfbad3f0ec9b8d389655df68baf",
+    "train": "e1cb1d28109105f6bdaa332fdf44fa783370672c1a467650477139927c03363e"
+  },
+  "phenomena": [
+    "amount_mismatch",
+    "one_rupee_boundary",
+    "partial_refund",
+    "cumulative_refund",
+    "currency_mismatch",
+    "wrong_rrn",
+    "wrong_arn_utr",
+    "refund_reference_mismatch",
+    "wrong_parent_payment",
+    "matching_amount_wrong_order",
+    "temporal_contradiction",
+    "promised_not_due_vs_overdue",
+    "stale_refund_state",
+    "source_disagreement",
+    "policy_exception",
+    "negation"
+  ],
+  "preregistration_sha256": "b41966d34c4182bb00253c620faf7ed7cd9a68b8f7033a3bc62dd0e8f0481bf9",
+  "production_prevalence": false,
+  "protocol": "docs/FECL-V4-PROTOCOL.md",
+  "protocol_sha256": "670051b2b2e28cc0c9d1df860cb81268213602cfd128783825be3b4d8950f13c",
+  "synthetic": true,
+  "validation": {
+    "calibration": {
+      "cases": 320,
+      "contradictions": 160,
+      "entities": 160,
+      "families": [
+        "conditional_promise",
+        "terse_reconciliation"
+      ],
+      "grounded_claims": 320,
+      "pairs": 160,
+      "templates": [
+        "tmpl_calibration_conditional_promise",
+        "tmpl_calibration_terse_reconciliation"
+      ]
+    },
+    "dev": {
+      "cases": 320,
+      "contradictions": 160,
+      "entities": 160,
+      "families": [
+        "indian_english_ops",
+        "indirect_narrative",
+        "passive_record"
+      ],
+      "grounded_claims": 320,
+      "pairs": 160,
+      "templates": [
+        "tmpl_dev_indian_english_ops",
+        "tmpl_dev_indirect_narrative",
+        "tmpl_dev_passive_record"
+      ]
+    },
+    "ood": {
+      "cases": 160,
+      "ood_categories": 8
+    },
+    "test": {
+      "cases": 480,
+      "contradictions": 240,
+      "entities": 240,
+      "families": [
+        "cross_document",
+        "hinglish_unseen",
+        "ocr_holdout",
+        "relation_composition",
+        "temporal_implicit"
+      ],
+      "grounded_claims": 480,
+      "pairs": 240,
+      "templates": [
+        "tmpl_test_cross_document",
+        "tmpl_test_hinglish_unseen",
+        "tmpl_test_ocr_holdout",
+        "tmpl_test_relation_composition",
+        "tmpl_test_temporal_implicit"
+      ]
+    },
+    "train": {
+      "cases": 1200,
+      "contradictions": 600,
+      "entities": 600,
+      "families": [
+        "formal_email",
+        "hinglish_basic",
+        "portal_note",
+        "refund_ops",
+        "support_chat"
+      ],
+      "grounded_claims": 1200,
+      "pairs": 600,
+      "templates": [
+        "tmpl_train_formal_email",
+        "tmpl_train_hinglish_basic",
+        "tmpl_train_portal_note",
+        "tmpl_train_refund_ops",
+        "tmpl_train_support_chat"
+      ]
+    }
+  }
+}

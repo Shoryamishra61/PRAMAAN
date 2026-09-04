@@ -1,0 +1,13 @@
+{
+  "schema_version": "carve-live-samples-v1",
+  "synthetic": true,
+  "defense_only": true,
+  "samples": [
+    "normal.json",
+    "contradiction.json",
+    "missing-evidence.json",
+    "hinglish.json",
+    "ood.json",
+    "adversarial.json"
+  ]
+}

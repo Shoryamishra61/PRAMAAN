@@ -1,0 +1,44 @@
+# FECL-Bench Structural Causal Generator Configuration
+version: "1.0.0"
+dataset_id: "DIG-RNP-SYN-V1"
+seed: 20260823
+
+payment_lifecycle:
+  currency: "INR"
+  min_payment_amount_minor: 10000       # ₹100.00
+  max_payment_amount_minor: 25000000    # ₹250,000.00
+  default_payment_amount_minor: 499900  # ₹4,999.00
+  lifecycle_transition_probs:
+    auth_to_capture: 0.98
+    capture_to_fulfillment: 0.95
+    fulfillment_to_delivery: 0.92
+    delivery_to_refund_request: 0.15
+    refund_request_to_processed: 0.80
+    dispute_given_processed: 0.10
+
+intervention_families:
+  amount_mismatch:
+    description: "Grounded claim refund amount contradicts authoritative refund ledger"
+    prevalence: 0.25
+    typical_delta_percent: -0.90
+  temporal_violation:
+    description: "Claimed processed date precedes payment authorization or capture"
+    prevalence: 0.15
+  polarity_negation:
+    description: "Customer correspondence asserts processed refund while ledger reflects failed/none"
+    prevalence: 0.20
+  incomplete_ledger:
+    description: "Authoritative ledger marked incomplete requiring safe abstention to REVIEW"
+    prevalence: 0.20
+  adversarial_injection:
+    description: "Untrusted evidence injects override prompts without altering grounded claim semantics"
+    prevalence: 0.10
+  ocr_noise:
+    description: "Optical character substitution and punctuation noise"
+    prevalence: 0.10
+
+splits:
+  train_ratio: 0.60
+  validation_ratio: 0.15
+  calibration_ratio: 0.10
+  final_test_ratio: 0.15

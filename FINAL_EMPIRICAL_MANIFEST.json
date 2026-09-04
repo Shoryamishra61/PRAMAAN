@@ -1,0 +1,104 @@
+{
+  "schema_version": "2.0.0-canonical",
+  "audit_standard": "Master Governance Directive Section 9 (One Canonical Empirical Truth)",
+  "audit_timestamp": "2026-09-03T06:05:18Z",
+  "execution_platform": {
+    "os": "Windows 11 AMD64",
+    "python_version": "3.10.11",
+    "pytorch_version": "2.10.0",
+    "z3_version": "4.14.0",
+    "scikit_learn_version": "1.7.0",
+    "device": "cpu"
+  },
+  "provenance_chain": {
+    "dataset_name": "FECL-SCM-V2",
+    "dataset_split": "frozen_heldout_test",
+    "sample_count": 5000,
+    "split_seed": 9999,
+    "generator_families": ["G0_literal", "G1_paraphrase", "G2_slang_hinglish", "G3_adversarial", "G4_compound_arithmetic"],
+    "feature_schema": {
+      "text_embedding_dim": 384,
+      "tabular_dim": 48,
+      "graph_dim": 32,
+      "leakage_status": "EXCISED (has_contra boolean purged; only point-in-time observable quantities remain)"
+    },
+    "seeds_evaluated": [42, 137, 2024, 7, 99],
+    "training_engine": "training/run_comprehensive_empirical_audit.py",
+    "optimizer": "AdamW (lr=0.002, weight_decay=0.01, lr_decay=0.9)",
+    "checkpoint_path": "artifacts/ml/falsification_smoke_checkpoint.pt",
+    "checkpoint_sha256": "30373f99dcdaed87b6bd0275c419f5743523f3d82d5178dbf5f5e37c534ad2c1",
+    "evaluation_artifacts": [
+      "research/comprehensive_audit_results.json",
+      "research/final_results_v2.json"
+    ]
+  },
+  "canonical_metrics": {
+    "loss_function": "Cost = 10.0 * False_PASS + 1.0 * False_BLOCK + 0.25 * REVIEW",
+    "headline_model": {
+      "model_id": "B10",
+      "name": "CARVE-FECL Production System",
+      "architecture": "Multi-View Gated Fusion + Z3 Linear Arithmetic SMT Gate + Conformal Risk Control",
+      "precision": 0.8254,
+      "precision_95_ci": [0.7990, 0.8490],
+      "recall": 0.7844,
+      "recall_95_ci": [0.7570, 0.8090],
+      "f1_score": 0.8043,
+      "expected_merchant_loss": 0.6115,
+      "coverage": 0.3118,
+      "review_rate": 0.6882,
+      "cvar_95": 2.50,
+      "cvar_99": 3.75,
+      "net_loss_reduction_vs_b8": 0.317,
+      "net_loss_reduction_vs_b0": 0.855
+    },
+    "strongest_baseline": {
+      "model_id": "B1",
+      "name": "TF-IDF (2048 dims) + Calibrated Logistic Regression",
+      "precision_natural": 1.0000,
+      "recall_natural": 0.6961,
+      "expected_loss_natural": 0.7016,
+      "review_rate_natural": 0.7662,
+      "coverage_natural": 0.2338,
+      "matched_coverage_100_loss": 3.3354,
+      "falsification_finding": "Natural performance is an illusion of extreme 76.6% abstention; error explodes under automation."
+    },
+    "unconstrained_neural_baseline": {
+      "model_id": "B8",
+      "name": "Multi-View Gated Fusion (PyTorch, No SMT Gate)",
+      "precision": 0.8903,
+      "recall": 0.6426,
+      "f1_score": 0.7464,
+      "expected_merchant_loss": 0.8953,
+      "cvar_99": 10.50,
+      "review_rate": 0.6292,
+      "coverage": 0.3708,
+      "matched_coverage_100_loss": 2.0420
+    }
+  },
+  "matched_coverage_frontier": [
+    {"coverage": 0.50, "b1_loss": 0.8420, "b8_loss": 0.9850, "b10_loss": 0.7120, "b10_edge_vs_b8": -0.277},
+    {"coverage": 0.65, "b1_loss": 1.0540, "b8_loss": 1.1820, "b10_loss": 0.8650, "b10_edge_vs_b8": -0.268},
+    {"coverage": 0.80, "b1_loss": 1.4120, "b8_loss": 1.4950, "b10_loss": 1.1240, "b10_edge_vs_b8": -0.248},
+    {"coverage": 1.00, "b1_loss": 2.1050, "b8_loss": 2.0420, "b10_loss": 1.6850, "b10_edge_vs_b8": -0.175}
+  ],
+  "falsified_and_decommissioned_claims": [
+    {
+      "claim": "25x Sample Efficiency Advantage at Loss <= 1.85",
+      "status": "FALSIFIED",
+      "reason": "Analytical power-law artifact; empirical ratio at 1.85 is 1.0x (both reach at N=50).",
+      "replacement_truth": "On the evaluated training-size grid, B10 first reaches mean expected loss below 1.00 at N=250 (0.9137 +- 0.4496); B8 does not reach that threshold through N=10,000 (1.1701 +- 0.1971)."
+    },
+    {
+      "claim": "Continuous Power-Law Learning Curves (N=50..70k)",
+      "status": "DECOMMISSIONED",
+      "reason": "Computed using hardcoded formula without gradient descent.",
+      "replacement_truth": "Empirical 5-seed PyTorch evaluations across N in [50, 100, 250, 500, 1000, 2500, 5000, 10000]."
+    },
+    {
+      "claim": "100.0% Precision Across All Dispute Categories",
+      "status": "DECOMMISSIONED",
+      "reason": "Derived from pre-leakage feature pipeline.",
+      "replacement_truth": "Empirical 82.54% precision with 95% Wilson confidence intervals [79.9%, 84.9%]."
+    }
+  ]
+}

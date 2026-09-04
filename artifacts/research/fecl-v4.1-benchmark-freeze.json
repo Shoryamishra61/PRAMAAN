@@ -1,0 +1,33 @@
+{
+  "artifact_version": "fecl-v4.1-benchmark-freeze-v1",
+  "created_at": "2026-09-01T13:08:19Z",
+  "status": "FROZEN_BEFORE_MODEL_FITTING",
+  "benchmark_id": "DIG-FECL-BENCH-v4.1",
+  "supersedes_invalid_benchmark": "DIG-FECL-BENCH-v4",
+  "counts": {
+    "train": 1200,
+    "dev": 320,
+    "calibration": 320,
+    "test": 480,
+    "ood": 160
+  },
+  "hash_algorithm": "SHA-256",
+  "files": {
+    "backend/tests/test_fecl_v4_1_integrity.py": "d0cbaaa38ee6672bdb11fd8e861583233d8a38d69103eea9b02ad08986380b12",
+    "data/financial-evidence-integrity/v4.1/calibration.jsonl": "41b329cbc7b16a10069a54781a43a2e1bf49fe15e2ca30a556f9e302677036b0",
+    "data/financial-evidence-integrity/v4.1/dev.jsonl": "0dbeba7703db96e181ce26a6143a66771c5a5b1461bab5ccec08b570c0e42a92",
+    "data/financial-evidence-integrity/v4.1/manifest.json": "6c31af61eef85a0e0d2ae1447169490280a503be9bbf244b7423906c32558904",
+    "data/financial-evidence-integrity/v4.1/ood.jsonl": "bb9d55360bef88a761c7496eee939317f9a0226d4cb465f37ec270707f8f4b16",
+    "data/financial-evidence-integrity/v4.1/test.jsonl": "9d1b54333e235b074122ada640caaf9f3e1d1f1c8ae43621e3f1aca1440f3ea0",
+    "data/financial-evidence-integrity/v4.1/train.jsonl": "8e669dc17a7d7390bee20bb94e2de6fb473ae53302d3816428aeafcb3941f127",
+    "docs/FECL-V4.1-ERRATUM.md": "22e23e77ff7ef2ddab62fb731eaea3673ff654f017c7f48153d29b5ddc993b12",
+    "scripts/generate_fecl_v4_1.py": "e3cf9ef732f73f54d1665bc75574825403308830f1c22777a7ec0588d91ff7a0"
+  },
+  "validation": {
+    "benchmark_tests": 9,
+    "proof_cases_checked_without_test": 1840,
+    "proof_label_mismatches": 0
+  },
+  "test_evaluated": false,
+  "models_fitted": false
+}

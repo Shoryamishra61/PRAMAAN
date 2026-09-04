@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.local/dispute-integrity-gate/grounded-claim.schema.json",
+  "title": "GroundedClaim",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["claim_id", "document_id", "claim_type", "quote", "value"],
+  "properties": {
+    "claim_id": {"type": "string", "minLength": 1},
+    "document_id": {"type": "string", "minLength": 1},
+    "claim_type": {
+      "type": "string",
+      "enum": [
+        "refund_requested",
+        "refund_promised",
+        "refund_approved",
+        "refund_claimed_processed",
+        "refund_denied",
+        "refund_amount",
+        "refund_timing_commitment",
+        "return_claimed",
+        "return_not_received_claim",
+        "policy_condition_reference"
+      ]
+    },
+    "quote": {"type": "string", "minLength": 1},
+    "value": {},
+    "currency": {"type": ["string", "null"], "pattern": "^[A-Z]{3}$"},
+    "raw_date_text": {"type": ["string", "null"]},
+    "modality": {"type": ["string", "null"], "enum": ["assertion", "promise", "approval", "denial", "conditional", null]},
+    "subject_ref": {"type": ["string", "null"]}
+  }
+}

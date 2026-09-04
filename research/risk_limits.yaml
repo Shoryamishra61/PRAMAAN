@@ -1,0 +1,18 @@
+# Quantitative Risk Limits & Circuit Breaker Configuration
+limits:
+  daily_risk_budget_units: 100.0
+  max_daily_automatic_decisions: 10000
+  max_daily_review_capacity: 500
+  max_high_value_exposure_inr: 50000000  # ₹50,000,000.00
+  max_uncalibrated_residual_risk: 0.15
+  ood_abstention_threshold: 0.50
+
+circuit_breaker:
+  triggers:
+    max_ece_allowed: 0.10
+    max_consecutive_solver_timeouts: 3
+    max_ood_rate_spike_pct: 0.35
+    max_dispute_loss_spike_multiplier: 2.5
+  actions:
+    on_trigger: "ENTER_REVIEW_ONLY_MODE"
+    notification_channel: "risk_operations_pager"

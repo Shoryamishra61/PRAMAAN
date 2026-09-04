@@ -1,0 +1,8 @@
+model,brier_delta,ece_delta,f1_delta,expected_loss_delta
+communication_tfidf,0.000844,0.018553,0.036004,-0.546875
+pair_tfidf,-0.001502,-0.034687,0.222935,-2.408854
+communication_embedding,0.00018,0.003881,-0.123577,1.328125
+relational_embedding,0.038138,0.146623,-0.524054,8.476562
+neuro_symbolic,0.029083,0.040878,0.014137,-0.351562
+relational_xgboost,0.031563,0.069941,0.011746,-0.677084
+relational_mlp,0.012983,0.061397,-0.00402,-0.507813

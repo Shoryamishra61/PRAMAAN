@@ -1,0 +1,16 @@
+{
+  "annual_dispute_volume": 10000,
+  "mean_dispute_amount_inr": 5000.0,
+  "baseline_rules_annual_loss_inr": 21500000.0,
+  "carve_decision_loss_annual_inr": 17500000.0,
+  "gross_merchant_edge_inr": 4000000.0,
+  "frictions": {
+    "analyst_review_cost_inr": 495000.0,
+    "evidence_acquisition_cost_inr": 66000.0,
+    "cloud_compute_cost_inr": 5000.0,
+    "total_friction_inr": 566000.0
+  },
+  "net_merchant_edge_inr": 3434000.0,
+  "net_merchant_edge_percent": 15.97,
+  "return_on_operational_investment": 6.07
+}

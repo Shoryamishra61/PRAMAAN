@@ -1,0 +1,16 @@
+{
+  "ledger_complete": true,
+  "payment_id": "pay_syn_holdout_023",
+  "records": [
+    {
+      "amount_minor": 499900,
+      "created_at": "2026-08-10T08:00:00Z",
+      "currency": "INR",
+      "id": "rfnd_repeat",
+      "local_status": "processed",
+      "payment_id": "pay_syn_holdout_023",
+      "processed_at": "2026-08-10T08:05:00Z",
+      "reference": "RF-HOLDOUT-023"
+    }
+  ]
+}

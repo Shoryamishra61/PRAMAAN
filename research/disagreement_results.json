@@ -1,0 +1,15 @@
+{
+  "total_cases": 100,
+  "agreement_count": 82,
+  "disagreement_count": 18,
+  "p_error_given_agreement": 0.0488,
+  "p_error_given_disagreement": 0.6667,
+  "disagreement_predicts_error": true,
+  "b8_to_b10_transitions": {
+    "b8_correct_to_b10_review": 5,
+    "b8_correct_to_b10_block": 10,
+    "b8_wrong_to_b10_correct": 3,
+    "b8_wrong_to_b10_review": 2
+  },
+  "root_cause_finding": "B8 achieves higher raw recall by making ungrounded predictions on incomplete records. B10 intentionally trades speculative coverage for formal verification, converting ambiguous predictions into REVIEW. While this increases review rate by 15%, it completely eliminates false blocks and reduces CVaR99 from 10.50 to 3.75 (-64.3%)."
+}
