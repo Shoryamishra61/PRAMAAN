@@ -5,7 +5,7 @@ const PADDING = 8;
 const RADIUS = 8;
 
 export function TutorialSpotlight() {
-  const { isActive, targetRect, stopTour } = useTutorial();
+  const { isActive, currentStep, targetRect, stopTour } = useTutorial();
 
   useEffect(() => {
     if (!isActive) return;
@@ -23,8 +23,15 @@ export function TutorialSpotlight() {
   const width = window.innerWidth || document.documentElement.clientWidth;
   const height = window.innerHeight || document.documentElement.clientHeight;
 
+  const isIntro =
+    currentStep?.id === "step-welcome" ||
+    currentStep?.preferredPlacement === "center";
+
   const hasCutout =
-    targetRect !== null && targetRect.width > 0 && targetRect.height > 0;
+    !isIntro &&
+    targetRect !== null &&
+    targetRect.width > 0 &&
+    targetRect.height > 0;
 
   const cutoutX = hasCutout ? Math.max(0, targetRect.left - PADDING) : 0;
   const cutoutY = hasCutout ? Math.max(0, targetRect.top - PADDING) : 0;
@@ -63,7 +70,7 @@ export function TutorialSpotlight() {
           <path
             d={`M 0 0 L ${width} 0 L ${width} ${height} L 0 ${height} Z M ${cutoutX} ${cutoutY} L ${cutoutX + cutoutW} ${cutoutY} L ${cutoutX + cutoutW} ${cutoutY + cutoutH} L ${cutoutX} ${cutoutY + cutoutH} Z`}
             fillRule="evenodd"
-            fill="rgba(15, 23, 42, 0.72)"
+            fill="rgba(15, 23, 42, 0.28)"
             style={{
               pointerEvents: "auto",
               transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",
@@ -75,7 +82,7 @@ export function TutorialSpotlight() {
             y="0"
             width="100%"
             height="100%"
-            fill="rgba(15, 23, 42, 0.72)"
+            fill="rgba(15, 23, 42, 0.28)"
             style={{
               pointerEvents: "auto",
               transition: "all 0.25s cubic-bezier(0.16, 1, 0.3, 1)",

@@ -281,8 +281,18 @@ export function TutorialProvider({ children }: { children: ReactNode }) {
       typeof window !== "undefined" &&
       window.navigator?.userAgent?.includes("jsdom");
 
+    const isIntro =
+      currentStep.id === "step-welcome" ||
+      currentStep.preferredPlacement === "center";
+
     function updateRect() {
       if (!isSubscribed) return;
+      if (isIntro) {
+        setTargetElement(null);
+        setTargetRect(null);
+        setIsTargetVisible(true);
+        return;
+      }
       const el =
         document.querySelector<HTMLElement>(currentStep.targetSelector) ||
         (currentStep.fallbackSelector
@@ -322,12 +332,13 @@ export function TutorialProvider({ children }: { children: ReactNode }) {
       }
     }
 
-    // Initial query and scroll
-    const el =
-      document.querySelector<HTMLElement>(currentStep.targetSelector) ||
-      (currentStep.fallbackSelector
-        ? document.querySelector<HTMLElement>(currentStep.fallbackSelector)
-        : null);
+    // Initial query and scroll (only when not intro modal)
+    const el = isIntro
+      ? null
+      : document.querySelector<HTMLElement>(currentStep.targetSelector) ||
+        (currentStep.fallbackSelector
+          ? document.querySelector<HTMLElement>(currentStep.fallbackSelector)
+          : null);
 
     if (el) {
       el.classList.add("tour-target-elevated");

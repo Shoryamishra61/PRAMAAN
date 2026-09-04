@@ -73,13 +73,17 @@ export function UnifiedNavigation({
           type="button"
           className="unified-brand"
           onClick={() => handleNav("proof", "debugger")}
+          aria-label="PRAMAAN Dispute Integrity Gate"
         >
           <span className="brand-mark" aria-hidden="true">
             <Fingerprint size={20} />
           </span>
           <span className="brand-title-wrap">
-            <strong>PRAMAAN</strong>
-            <small>CARVE-FECL Dispute Integrity Gate | Razorpay Track 02</small>
+            <span className="brand-main-line">
+              <strong>PRAMAAN</strong>
+              <span className="brand-chip">CARVE-FECL</span>
+            </span>
+            <small>Dispute Integrity Gate · Razorpay Track 02</small>
           </span>
         </button>
 

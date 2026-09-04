@@ -20,7 +20,7 @@ export const TUTORIAL_STEPS: GuidedTourStep[] = [
     whyItMatters:
       "Blind dispute contests incur card network penalties and merchant fees. Pre-contest verification prevents guaranteed financial losses.",
     requiredAction: "click",
-    preferredPlacement: "bottom",
+    preferredPlacement: "center",
     hints: [
       "Click the 'Start Guided Walkthrough' button in this guidance card to begin.",
       "The tutorial will guide you step-by-step through ingesting, analyzing, and repairing evidence.",

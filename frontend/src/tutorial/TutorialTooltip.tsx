@@ -10,10 +10,11 @@ import {
   CheckCircle,
   WarningCircle,
   CursorClick,
+  CornersOut,
 } from "@phosphor-icons/react";
 import { useTutorial } from "./useTutorial";
 
-const CARD_WIDTH = 420;
+const DEFAULT_CARD_WIDTH = 420;
 
 export function TutorialTooltip() {
   const {
@@ -31,6 +32,7 @@ export function TutorialTooltip() {
     nextStep,
   } = useTutorial();
 
+  const [cardWidth, setCardWidth] = useState<number>(DEFAULT_CARD_WIDTH);
   const [isDragging, setIsDragging] = useState(false);
   const dragStartRef = useRef<{
     mouseX: number;
@@ -39,6 +41,10 @@ export function TutorialTooltip() {
     startOffsetY: number;
   } | null>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
+
+  function cycleCardSize() {
+    setCardWidth((prev) => (prev === 420 ? 540 : prev === 540 ? 340 : 420));
+  }
 
   // Drag event listeners
   const handleMouseDown = useCallback(
@@ -88,48 +94,82 @@ export function TutorialTooltip() {
   const vpWidth = window.innerWidth || document.documentElement.clientWidth;
   const vpHeight = window.innerHeight || document.documentElement.clientHeight;
 
+  const isIntro =
+    currentStep.id === "step-welcome" ||
+    currentStep.preferredPlacement === "center";
+  const isFinal = currentStep.id === "step-decision-engine";
+  const progressPercent = ((currentStepIndex + 1) / totalSteps) * 100;
+
   let top = 0;
   let left = 0;
   let hasAnchor = false;
 
-  if (targetRect && !isDocked) {
+  if (targetRect && !isDocked && !isIntro) {
     hasAnchor = true;
     const placement = currentStep.preferredPlacement || "bottom";
     const estimatedHeight = 360;
+    let computedTop: number;
+    let computedLeft = targetRect.left + (targetRect.width - cardWidth) / 2;
 
     if (placement === "bottom") {
       if (targetRect.bottom + estimatedHeight + 20 < vpHeight) {
-        top = targetRect.bottom + 14;
+        computedTop = targetRect.bottom + 14;
       } else if (targetRect.top - estimatedHeight - 20 > 0) {
-        top = targetRect.top - estimatedHeight - 14;
+        computedTop = targetRect.top - estimatedHeight - 14;
+      } else if (targetRect.right + cardWidth + 20 < vpWidth) {
+        computedLeft = targetRect.right + 16;
+        computedTop = Math.max(16, targetRect.top);
+      } else if (targetRect.left - cardWidth - 20 > 0) {
+        computedLeft = targetRect.left - cardWidth - 16;
+        computedTop = Math.max(16, targetRect.top);
       } else {
-        top = Math.max(16, (vpHeight - estimatedHeight) / 2);
+        computedTop = Math.max(16, targetRect.top - estimatedHeight - 14);
       }
-      left = targetRect.left + (targetRect.width - CARD_WIDTH) / 2;
     } else if (placement === "top") {
       if (targetRect.top - estimatedHeight - 20 > 0) {
-        top = targetRect.top - estimatedHeight - 14;
+        computedTop = targetRect.top - estimatedHeight - 14;
+      } else if (targetRect.bottom + estimatedHeight + 20 < vpHeight) {
+        computedTop = targetRect.bottom + 14;
+      } else if (targetRect.right + cardWidth + 20 < vpWidth) {
+        computedLeft = targetRect.right + 16;
+        computedTop = Math.max(16, targetRect.top);
+      } else if (targetRect.left - cardWidth - 20 > 0) {
+        computedLeft = targetRect.left - cardWidth - 16;
+        computedTop = Math.max(16, targetRect.top);
       } else {
-        top = targetRect.bottom + 14;
+        computedTop = targetRect.bottom + 14;
       }
-      left = targetRect.left + (targetRect.width - CARD_WIDTH) / 2;
     } else {
-      top = Math.max(20, targetRect.top);
-      left = targetRect.left + (targetRect.width - CARD_WIDTH) / 2;
+      computedTop = Math.max(20, targetRect.top);
+      computedLeft = targetRect.left + (targetRect.width - cardWidth) / 2;
     }
 
+    const cardRenderHeight = 480;
+
     // Clamp inside viewport
-    left = Math.max(16, Math.min(vpWidth - CARD_WIDTH - 16, left));
-    top = Math.max(16, Math.min(vpHeight - estimatedHeight - 16, top));
+    left = Math.max(16, Math.min(vpWidth - cardWidth - 16, computedLeft));
+    top = Math.max(16, Math.min(vpHeight - cardRenderHeight - 20, computedTop));
+
+    // Anti-collision guard: Ensure tooltip NEVER overlaps targetRect
+    const overlapsX =
+      left < targetRect.right && left + cardWidth > targetRect.left;
+    const overlapsY =
+      top < targetRect.bottom && top + cardRenderHeight > targetRect.top;
+    if (overlapsX && overlapsY) {
+      if (targetRect.top >= cardRenderHeight + 20) {
+        top = Math.max(16, targetRect.top - cardRenderHeight - 12);
+      } else if (vpHeight - targetRect.bottom >= cardRenderHeight + 20) {
+        top = Math.min(
+          vpHeight - cardRenderHeight - 20,
+          targetRect.bottom + 12,
+        );
+      }
+    }
 
     // Apply manual user drag offset
     top += userOffset.y;
     left += userOffset.x;
   }
-
-  const isIntro = currentStep.id === "step-welcome";
-  const isFinal = currentStep.id === "step-decision-engine";
-  const progressPercent = ((currentStepIndex + 1) / totalSteps) * 100;
 
   if (isDocked) {
     return (
@@ -137,6 +177,7 @@ export function TutorialTooltip() {
         className="tour-docked-pill"
         role="complementary"
         aria-label="Tutorial minimized"
+        style={{ zIndex: 100001 }}
       >
         <button
           type="button"
@@ -162,6 +203,17 @@ export function TutorialTooltip() {
     );
   }
 
+  // When unanchored or intro, anchor cleanly to bottom-right with 24px margin
+  // Dragging linearly adjusts distance from bottom and right
+  const unanchoredBottom = Math.max(
+    20,
+    Math.min(vpHeight - 100, 24 - userOffset.y),
+  );
+  const unanchoredRight = Math.max(
+    20,
+    Math.min(vpWidth - cardWidth - 20, 24 - userOffset.x),
+  );
+
   return (
     <aside
       ref={tooltipRef}
@@ -175,16 +227,17 @@ export function TutorialTooltip() {
               position: "fixed",
               top: `${top}px`,
               left: `${left}px`,
-              width: `${CARD_WIDTH}px`,
-              zIndex: 99995,
+              width: `${cardWidth}px`,
+              maxHeight: "calc(100vh - 48px)",
+              zIndex: 100000,
             }
           : {
               position: "fixed",
-              top: `calc(50% + ${userOffset.y}px)`,
-              left: `calc(50% + ${userOffset.x}px)`,
-              transform: "translate(-50%, -50%)",
-              width: `${CARD_WIDTH}px`,
-              zIndex: 99995,
+              bottom: `${unanchoredBottom}px`,
+              right: `${unanchoredRight}px`,
+              width: `${cardWidth}px`,
+              maxHeight: "calc(100vh - 48px)",
+              zIndex: 100000,
             }
       }
     >
@@ -202,12 +255,21 @@ export function TutorialTooltip() {
         </div>
 
         <div className="tour-tooltip-controls">
+          <button
+            type="button"
+            className="tour-icon-btn"
+            onClick={cycleCardSize}
+            title={`Toggle card size (Current: ${cardWidth}px)`}
+            aria-label="Toggle card size"
+          >
+            <CornersOut size={14} />
+          </button>
           {(userOffset.x !== 0 || userOffset.y !== 0) && (
             <button
               type="button"
               className="tour-icon-btn"
               onClick={() => setUserOffset({ x: 0, y: 0 })}
-              title="Reset position"
+              title="Reset position to corner"
               aria-label="Reset position"
             >
               <ArrowCounterClockwise size={14} />

@@ -1,7 +1,8 @@
 export type RequiredActionType =
   "click" | "upload" | "submit" | "tab" | "observe" | "repair";
 
-export type PopoverPlacement = "top" | "bottom" | "left" | "right" | "auto";
+export type PopoverPlacement =
+  "top" | "bottom" | "left" | "right" | "auto" | "center";
 
 export interface TutorialAppContext {
   route: string;
