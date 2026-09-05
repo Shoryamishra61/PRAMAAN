@@ -61,6 +61,51 @@ function getBusinessSafeDecision(status: "PASS" | "REVIEW" | "BLOCK"): string {
   }
 }
 
+function downloadBlobFile(url: string, filename: string) {
+  fetch(url)
+    .then((res) => {
+      if (!res.ok) throw new Error("Network error fetching file");
+      return res.blob();
+    })
+    .then((blob) => {
+      const blobUrl = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = blobUrl;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      window.setTimeout(() => {
+        window.URL.revokeObjectURL(blobUrl);
+        document.body.removeChild(a);
+      }, 300);
+    })
+    .catch(() => {
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.target = "_blank";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+}
+
+function downloadStringAsFile(content: string, filename: string, mimeType: string) {
+  const blob = new Blob([content], { type: mimeType });
+  const blobUrl = window.URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.style.display = "none";
+  a.href = blobUrl;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  window.setTimeout(() => {
+    window.URL.revokeObjectURL(blobUrl);
+    document.body.removeChild(a);
+  }, 300);
+}
+
 const sampleBundles: SampleBundle[] = [
   { key: "normal", label: "Normal", path: "/samples/normal.json" },
   {
@@ -529,8 +574,13 @@ export function TryVerifier() {
                       </button>
                       <a
                         href={sample.path}
-                        download
+                        download={`${sample.key}.json`}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          downloadBlobFile(sample.path, `${sample.key}.json`);
+                        }}
                         aria-label={`Download ${sample.label} sample JSON`}
+                        title={`Download ${sample.key}.json`}
                       >
                         <DownloadSimple aria-hidden="true" />
                       </a>
@@ -539,9 +589,17 @@ export function TryVerifier() {
                   <a
                     className="all-samples"
                     href="/samples/carve-sample-bundles.zip"
-                    download
+                    download="carve-sample-bundles.zip"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      downloadBlobFile(
+                        "/samples/carve-sample-bundles.zip",
+                        "carve-sample-bundles.zip",
+                      );
+                    }}
+                    title="Download carve-sample-bundles.zip"
                   >
-                    <DownloadSimple aria-hidden="true" /> Download all
+                    <DownloadSimple aria-hidden="true" /> Download all (.zip)
                   </a>
                 </div>
               </details>
@@ -961,6 +1019,125 @@ export function TryVerifier() {
                   </ul>
                 </div>
               </details>
+            </div>
+            <div className="export-receipt-bar" role="region" aria-label="Export Decision Evidence">
+              <span className="export-receipt-label">
+                <DownloadSimple size={15} aria-hidden="true" /> Export Case Evidence:
+              </span>
+              <div className="export-receipt-buttons">
+                <button
+                  type="button"
+                  className="product-quiet export-btn"
+                  onClick={() => {
+                    const filename = `pramaan-receipt-${result.run_id.slice(-8)}.json`;
+                    downloadStringAsFile(
+                      JSON.stringify(result, null, 2),
+                      filename,
+                      "application/json",
+                    );
+                  }}
+                  title="Download decision receipt JSON"
+                >
+                  Receipt (.json)
+                </button>
+                <button
+                  type="button"
+                  className="product-quiet export-btn"
+                  onClick={() => {
+                    const filename = `pramaan-evidence-${result.run_id.slice(-8)}.csv`;
+                    const rows = [
+                      ["Field", "Value"],
+                      ["Decision_Status", result.status],
+                      ["Business_Action", getBusinessSafeDecision(result.status)],
+                      ["Run_ID", result.run_id],
+                      ["Request_SHA256", result.request_sha256],
+                      [
+                        "Customer_Quote",
+                        primaryClaim?.source_quote
+                          ? `"${primaryClaim.source_quote.replace(/"/g, '""')}"`
+                          : "None",
+                      ],
+                      [
+                        "Claim_Amount_INR",
+                        primaryClaim?.amount_minor
+                          ? (primaryClaim.amount_minor / 100).toFixed(2)
+                          : "0.00",
+                      ],
+                      ["Ledger_Status", result.ledger.refund_status],
+                      [
+                        "Ledger_Amount_INR",
+                        result.ledger.refund_amount_minor
+                          ? (result.ledger.refund_amount_minor / 100).toFixed(2)
+                          : "0.00",
+                      ],
+                      [
+                        "Ledger_Complete",
+                        String(result.ledger.refund_ledger_complete),
+                      ],
+                      ["Proof_Solver_Status", result.proof.status],
+                      [
+                        "Contradiction_Proof_SHA",
+                        result.proof.certificate?.proof_sha256 || "NONE",
+                      ],
+                      ["Primary_Finding", result.findings[0]?.code || "NONE"],
+                    ];
+                    const csvText = rows.map((r) => r.join(",")).join("\n");
+                    downloadStringAsFile(csvText, filename, "text/csv;charset=utf-8;");
+                  }}
+                  title="Download evidence ledger CSV"
+                >
+                  Ledger (.csv)
+                </button>
+                <button
+                  type="button"
+                  className="product-quiet export-btn"
+                  onClick={() => {
+                    const filename = `pramaan-audit-${result.run_id.slice(-8)}.txt`;
+                    const lines = [
+                      "==================================================================",
+                      "  PRAMAAN DISPUTE INTEGRITY GATE -- AUDIT RECEIPT",
+                      "==================================================================",
+                      `Decision:           ${result.status} (${getBusinessSafeDecision(result.status)})`,
+                      `Run ID:             ${result.run_id}`,
+                      `Request Digest:     ${result.request_sha256}`,
+                      `Evaluated At:       ${new Date().toISOString()}`,
+                      "------------------------------------------------------------------",
+                      "EVIDENCE GROUNDING:",
+                      `  Source Quote:     "${primaryClaim?.source_quote || "None"}"`,
+                      `  Claim Amount:     INR ${primaryClaim?.amount_minor ? (primaryClaim.amount_minor / 100).toFixed(2) : "0.00"}`,
+                      "------------------------------------------------------------------",
+                      "LEDGER TRUTH:",
+                      `  Ledger Status:    ${result.ledger.refund_status}`,
+                      `  Ledger Amount:    INR ${result.ledger.refund_amount_minor ? (result.ledger.refund_amount_minor / 100).toFixed(2) : "0.00"}`,
+                      `  Ledger Complete:  ${result.ledger.refund_ledger_complete}`,
+                      "------------------------------------------------------------------",
+                      "DETERMINISTIC PROOF:",
+                      `  Solver Status:    ${result.proof.status}`,
+                      `  Proof SHA256:     ${result.proof.certificate?.proof_sha256 || "None"}`,
+                      "==================================================================",
+                      "DISCLAIMER:",
+                      "  Defense-only verification. Read-only gate. No API mutation.",
+                    ].join("\n");
+                    downloadStringAsFile(lines, filename, "text/plain;charset=utf-8;");
+                  }}
+                  title="Download audit report TXT"
+                >
+                  Audit (.txt)
+                </button>
+                <button
+                  type="button"
+                  className="product-quiet export-btn"
+                  onClick={() =>
+                    downloadBlobFile(
+                      "/samples/carve-sample-bundles.zip",
+                      "carve-sample-bundles.zip",
+                    )
+                  }
+                  title="Download sample bundles ZIP"
+                >
+                  Bundles (.zip)
+                </button>
+              </div>
             </div>
             <details className="mechanics-overview">
               <summary>How this was checked</summary>
