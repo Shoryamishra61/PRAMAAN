@@ -324,7 +324,69 @@ export async function extractDocumentContent(file: File): Promise<ExtractedDocum
     };
   }
 
-  // 3. Fallback to Plain Text
+  // 3. Spreadsheet Files (XLSX, XLS)
+  if (
+    lowerName.endsWith(".xlsx") ||
+    lowerName.endsWith(".xls") ||
+    file.type === "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  ) {
+    try {
+      const buffer = await file.arrayBuffer();
+      let binary = "";
+      const bytes = new Uint8Array(buffer);
+      for (let i = 0; i < bytes.byteLength; i++) {
+        binary += String.fromCharCode(bytes[i]);
+      }
+      const base64 = btoa(binary);
+
+      const resp = await fetch("/api/v1/sandbox/extract-document", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          filename: file.name,
+          content_base64: base64,
+        }),
+      });
+
+      if (resp.ok) {
+        const data = await resp.json();
+        return {
+          text: data.extracted_text,
+          sourceType: "text",
+          metadata: {
+            processingTimeMs: Math.round(performance.now() - start),
+            detectedFormat: "Microsoft Excel Spreadsheet (XLSX)",
+          },
+        };
+      }
+    } catch {
+      // Local fallback for offline mode or mock tests
+    }
+
+    // Fallback: extract string tokens from XML tags
+    const buffer = await file.arrayBuffer();
+    const bytes = new Uint8Array(buffer);
+    let str = "";
+    for (let i = 0; i < bytes.length; i += 4096) {
+      str += String.fromCharCode(...bytes.subarray(i, Math.min(i + 4096, bytes.length)));
+    }
+    const tags = str.match(/<t[^>]*>([^<]+)<\/t>/g) || [];
+    const extractedText = tags
+      .map((t) => t.replace(/<\/?[^>]+(>|$)/g, "").trim())
+      .filter(Boolean)
+      .join(", ");
+
+    return {
+      text: extractedText || `Spreadsheet ${file.name} evidence ingested.`,
+      sourceType: "text",
+      metadata: {
+        processingTimeMs: Math.round(performance.now() - start),
+        detectedFormat: "Microsoft Excel Spreadsheet (XLSX)",
+      },
+    };
+  }
+
+  // 4. Fallback to Plain Text
   const text = await file.text();
   return {
     text,

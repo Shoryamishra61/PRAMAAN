@@ -1,0 +1,5 @@
+transaction_id,payment_id,amount_inr,status,refund_status,refund_amount_inr,customer_note,city,bank,date
+TXN_849201,pay_2500_ok,2500.00,captured,processed,2500.00,Your INR 2500 refund was processed on 28 August,Bengaluru,HDFC Bank,2026-08-28
+TXN_849202,pay_3200_disp,3200.00,captured,none,,Aapka INR 3200 refund kal process ho gaya tha,Mumbai,ICICI Bank,2026-08-29
+TXN_849203,pay_500_dev,500.00,captured,none,,कृपया मेरा 500 रुपये का रिफंड वापस करो,Delhi,SBI,2026-08-30
+TXN_849204,pay_4999_rvw,4999.00,captured,none,,Debit of 4999 rupaye duplicate charged,Hyderabad,Axis Bank,2026-09-01

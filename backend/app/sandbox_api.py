@@ -488,9 +488,28 @@ def extract_document_payload(filename: str, content: bytes) -> DocumentExtractRe
     if lower.endswith(".pdf"):
         text = extract_text_from_pdf_bytes(content)
         file_type = "pdf"
+    elif lower.endswith(".xlsx") or lower.endswith(".xls"):
+        file_type = "xlsx"
+        try:
+            import io
+            import openpyxl
+
+            wb = openpyxl.load_workbook(io.BytesIO(content), data_only=True)
+            rows: list[str] = []
+            for sheet in wb.worksheets:
+                for row in sheet.iter_rows(values_only=True):
+                    non_empty = [str(cell) for cell in row if cell is not None]
+                    if non_empty:
+                        rows.append(", ".join(non_empty))
+            text = "\n".join(rows) if rows else f"Spreadsheet {filename} contains no rows."
+        except Exception as err:
+            text = f"Spreadsheet {filename} parsed ({len(content)} bytes). Error: {err}"
     elif any(lower.endswith(ext) for ext in (".png", ".jpg", ".jpeg", ".webp")):
         text = f"Image {filename} received ({len(content)} bytes). Visual document processed."
         file_type = "image"
+    elif lower.endswith(".csv"):
+        text = content.decode("utf-8", errors="replace")
+        file_type = "csv"
     else:
         text = content.decode("utf-8", errors="replace")
         file_type = "text"

@@ -24,6 +24,8 @@ import { EvidenceDropzone } from "./components/EvidenceDropzone";
 import {
   type EvidenceFileRecord,
   type CrossFileAnalysisResult,
+  parseEvidenceFile,
+  analyzeCrossFileEvidence,
 } from "./utils/crossFileIntelligence";
 import { isSandboxRequest } from "./utils/sandboxRequest";
 import { downloadAuditPdf } from "./utils/pdfGenerator";
@@ -107,6 +109,52 @@ function downloadStringAsFile(content: string, filename: string, mimeType: strin
     document.body.removeChild(a);
   }, 300);
 }
+
+interface MultiFormatSample {
+  key: string;
+  label: string;
+  filename: string;
+  path: string;
+  format: string;
+}
+
+const multiFormatEvidenceSamples: MultiFormatSample[] = [
+  {
+    key: "dispute_ledger",
+    label: "Ledger",
+    filename: "dispute-ledger.csv",
+    path: "/samples/dispute-ledger.csv",
+    format: "CSV",
+  },
+  {
+    key: "chargeback_notice",
+    label: "Notice",
+    filename: "chargeback-notice-RF01.pdf",
+    path: "/samples/chargeback-notice-RF01.pdf",
+    format: "PDF",
+  },
+  {
+    key: "upi_receipt",
+    label: "UPI Receipt",
+    filename: "upi-payment-receipt.png",
+    path: "/samples/upi-payment-receipt.png",
+    format: "PNG",
+  },
+  {
+    key: "reconciliation_sheet",
+    label: "Settlement Sheet",
+    filename: "merchant-reconciliation-sheet.xlsx",
+    path: "/samples/merchant-reconciliation-sheet.xlsx",
+    format: "XLSX",
+  },
+  {
+    key: "complaint_hinglish",
+    label: "Customer Notice",
+    filename: "customer-complaint-hinglish.txt",
+    path: "/samples/customer-complaint-hinglish.txt",
+    format: "TXT",
+  },
+];
 
 const sampleBundles: SampleBundle[] = [
   { key: "normal", label: "Normal", path: "/samples/normal.json" },
@@ -389,6 +437,37 @@ export function TryVerifier() {
     }
   }
 
+  async function loadMultiFormatSample(sample: MultiFormatSample) {
+    setRunning(true);
+    setError(null);
+    try {
+      const response = await fetch(sample.path, {
+        signal: AbortSignal.timeout(10_000),
+      });
+      if (!response.ok)
+        throw new Error(`Sample file unavailable (${response.status})`);
+      const blob = await response.blob();
+      const file = new File([blob], sample.filename, { type: blob.type });
+      const record = await parseEvidenceFile(file);
+      const newFiles = [...evidenceFiles, record];
+      setEvidenceFiles(newFiles);
+      setCrossFileAnalysis(analyzeCrossFileEvidence(newFiles));
+      setSelected("custom");
+      setInputNotice(
+        `${sample.label} (${sample.format}) loaded into Evidence Dropzone. NLP and document extractors analyzed the evidence.`,
+      );
+      setJourneyStep(1);
+    } catch (reason) {
+      setError(
+        reason instanceof Error
+          ? reason.message
+          : "Sample file could not be loaded.",
+      );
+    } finally {
+      setRunning(false);
+    }
+  }
+
   async function repairEvidence() {
     if (!result) return;
     if (selected === "custom") {
@@ -571,8 +650,33 @@ export function TryVerifier() {
               <details className="sample-drawer">
                 <summary>More reproducible examples & downloads</summary>
                 <div className="sample-bundles">
+                  {multiFormatEvidenceSamples.map((sample) => (
+                    <div key={sample.key} title={`Format: ${sample.format} · Click to ingest or download`}>
+                      <button
+                        type="button"
+                        onClick={() => void loadMultiFormatSample(sample)}
+                      >
+                        <span style={{ fontSize: "10px", padding: "1px 4px", background: "var(--line)", marginRight: "4px" }}>
+                          {sample.format}
+                        </span>
+                        {sample.label}
+                      </button>
+                      <a
+                        href={sample.path}
+                        download={sample.filename}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          downloadBlobFile(sample.path, sample.filename);
+                        }}
+                        aria-label={`Download ${sample.label} (${sample.format})`}
+                        title={`Download ${sample.filename}`}
+                      >
+                        <DownloadSimple aria-hidden="true" />
+                      </a>
+                    </div>
+                  ))}
                   {sampleBundles.map((sample) => (
-                    <div key={sample.key}>
+                    <div key={sample.key} title={`${sample.label} (JSON sample)`}>
                       <button
                         type="button"
                         onClick={() => void loadSample(sample)}
@@ -604,9 +708,9 @@ export function TryVerifier() {
                         "carve-sample-bundles.zip",
                       );
                     }}
-                    title="Download carve-sample-bundles.zip"
+                    title="Download complete multi-format archive (carve-sample-bundles.zip)"
                   >
-                    <DownloadSimple aria-hidden="true" /> Download all (.zip)
+                    <DownloadSimple aria-hidden="true" /> Download all formats (.zip)
                   </a>
                 </div>
               </details>

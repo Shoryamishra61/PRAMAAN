@@ -1,13 +1,91 @@
 {
-  "schema_version": "carve-live-samples-v1",
-  "synthetic": true,
-  "defense_only": true,
+  "title": "PRAMAAN Multi-Format Dispute Evidence Samples",
+  "description": "Exemplary held-out and sandbox dispute evidence across CSV, PDF, PNG, XLSX, TXT, and JSON formats.",
+  "version": "4.5.2",
+  "formats_supported": [
+    "csv",
+    "pdf",
+    "png",
+    "jpg",
+    "xlsx",
+    "txt",
+    "json"
+  ],
   "samples": [
-    "normal.json",
-    "contradiction.json",
-    "missing-evidence.json",
-    "hinglish.json",
-    "ood.json",
-    "adversarial.json"
+    {
+      "file": "dispute-ledger.csv",
+      "format": "csv",
+      "description": "Authoritative merchant payment and refund ledger export with 4 dispute transactions."
+    },
+    {
+      "file": "dispute-claims-batch.csv",
+      "format": "csv",
+      "description": "Batch dispute claims table with customer UPI VPAs, bank UTRs, and dispute codes."
+    },
+    {
+      "file": "chargeback-notice-RF01.pdf",
+      "format": "pdf",
+      "description": "Official merchant dispute notice for claim RF-HI-01 in PDF-1.4 format with customer text."
+    },
+    {
+      "file": "bank-settlement-receipt.pdf",
+      "format": "pdf",
+      "description": "Bank reconciliation confirmation certificate showing processed refund of INR 2,500."
+    },
+    {
+      "file": "upi-payment-receipt.png",
+      "format": "png",
+      "description": "Mobile banking UPI payment screenshot with Razorpay ID, UTR 492019284719, and amount."
+    },
+    {
+      "file": "delivery-confirmation-slip.png",
+      "format": "png",
+      "description": "Logistics delivery receipt for returned merchandise in Koramangala, Bengaluru."
+    },
+    {
+      "file": "merchant-reconciliation-sheet.xlsx",
+      "format": "xlsx",
+      "description": "Multi-column Excel spreadsheet workbook containing ledger dispute and settlement reconciliation."
+    },
+    {
+      "file": "customer-complaint-hinglish.txt",
+      "format": "txt",
+      "description": "Customer dispute email written in Hinglish dialect with INR 3,200 amount and UTR."
+    },
+    {
+      "file": "customer-complaint-hindi.txt",
+      "format": "txt",
+      "description": "Customer dispute message in Hindi Devanagari script with INR 500 verbal claim."
+    },
+    {
+      "file": "normal.json",
+      "format": "json",
+      "description": "Structured refund-not-processed matching ledger case yielding PASS."
+    },
+    {
+      "file": "hinglish.json",
+      "format": "json",
+      "description": "Hinglish customer dispute claim yielding safe REVIEW abstention."
+    },
+    {
+      "file": "contradiction.json",
+      "format": "json",
+      "description": "Contradictory customer communication yielding REVIEW."
+    },
+    {
+      "file": "adversarial.json",
+      "format": "json",
+      "description": "Prompt injection payload ignored by deterministic verifier yielding BLOCK."
+    },
+    {
+      "file": "missing-evidence.json",
+      "format": "json",
+      "description": "Incomplete structured state yielding safe REVIEW abstention."
+    },
+    {
+      "file": "ood.json",
+      "format": "json",
+      "description": "Out-of-scope dispute profile failing closed to REVIEW."
+    }
   ]
 }

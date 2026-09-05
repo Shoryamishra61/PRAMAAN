@@ -1,9 +1,12 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, expect, test, vi } from "vitest";
 
 import { TryVerifier } from "./TryVerifier";
 
-afterEach(() => vi.unstubAllGlobals());
+afterEach(() => {
+  cleanup();
+  vi.unstubAllGlobals();
+});
 
 function sandbox(status: "PASS" | "BLOCK") {
   const mismatch = status === "BLOCK";

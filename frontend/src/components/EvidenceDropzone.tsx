@@ -6,6 +6,7 @@ import {
   FileCsv,
   FilePdf,
   FileImage,
+  FileXls,
   CheckCircle,
   Warning,
   XCircle,
@@ -138,6 +139,8 @@ export function EvidenceDropzone({
         return <FilePdf size={20} className="file-icon pdf-icon" />;
       case "image":
         return <FileImage size={20} className="file-icon img-icon" />;
+      case "xlsx":
+        return <FileXls size={20} className="file-icon xls-icon" />;
       default:
         return <FileText size={20} className="file-icon txt-icon" />;
     }
@@ -202,7 +205,7 @@ export function EvidenceDropzone({
           multiple
           disabled={disabled || processing}
           aria-label="Import evidence files"
-          accept=".json,.txt,.csv,.pdf,.png,.jpg,.jpeg,.webp,application/json,text/plain,text/csv,application/pdf,image/*"
+          accept=".json,.txt,.csv,.pdf,.png,.jpg,.jpeg,.webp,.xlsx,.xls,application/json,text/plain,text/csv,application/pdf,image/*,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
           onChange={handleFileInput}
           style={{ display: "none" }}
           tabIndex={-1}
@@ -215,20 +218,22 @@ export function EvidenceDropzone({
           <div className="dropzone-text">
             <h3>Drag & drop dispute evidence files here</h3>
             <p id="dropzone-instructions">
-              Supports <strong>.json</strong> (dispute bundles),{" "}
-              <strong>.txt</strong> (customer chat / emails),{" "}
+              Supports <strong>.json</strong> (dispute cases),{" "}
               <strong>.csv</strong> (ledger exports),{" "}
-              <strong>.pdf</strong> (documents / invoices), and{" "}
+              <strong>.pdf</strong> (chargeback notices),{" "}
+              <strong>.xlsx</strong> (settlement sheets),{" "}
+              <strong>.txt</strong> (customer chat), and{" "}
               <strong>images</strong> (UPI & transaction receipts) up to 2 MB;
               20 files per case.
             </p>
           </div>
           <div className="dropzone-formats-badge">
             <span>JSON</span>
-            <span>TXT</span>
             <span>CSV</span>
             <span>PDF</span>
+            <span>XLSX</span>
             <span>IMG / OCR</span>
+            <span>TXT</span>
           </div>
           {processing && (
             <div className="dropzone-processing-bar" role="status">

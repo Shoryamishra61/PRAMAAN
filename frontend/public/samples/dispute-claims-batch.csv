@@ -1,0 +1,4 @@
+claim_id,payment_id,customer_name,amount_inr,vpa_handle,bank_utr,dispute_reason,location
+RF-HI-01,pay_3200_disp,Rahul Sharma,3200.00,rahul@okhdfcbank,492019284719,refund_not_processed,Bengaluru
+RF-MH-02,pay_2500_ok,Pooja Patel,2500.00,pooja@oksbi,892019284102,refund_not_processed,Mumbai
+RF-DL-03,pay_500_dev,Amit Kumar,500.00,amit@okaxis,392019284991,refund_not_processed,Delhi

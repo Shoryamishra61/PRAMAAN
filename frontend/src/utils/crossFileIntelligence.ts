@@ -9,7 +9,7 @@ import { analyzeMultilingualDisputeText } from "./nlpEngine";
  * fault isolation, and cross-document contradiction detection for dispute integrity verification.
  */
 
-export type FileType = "json" | "txt" | "csv" | "pdf" | "image" | "unsupported";
+export type FileType = "json" | "txt" | "csv" | "pdf" | "image" | "xlsx" | "unsupported";
 
 export type IngestionStatus =
   | "queued"
@@ -93,6 +93,7 @@ export function detectFileType(fileName: string): FileType {
   if (lower.endsWith(".txt") || lower.endsWith(".log")) return "txt";
   if (lower.endsWith(".csv")) return "csv";
   if (lower.endsWith(".pdf")) return "pdf";
+  if (lower.endsWith(".xlsx") || lower.endsWith(".xls")) return "xlsx";
   if (
     lower.endsWith(".png") ||
     lower.endsWith(".jpg") ||
@@ -194,11 +195,12 @@ export async function processEvidenceFile(
       ...baseRecord,
       status: "failed",
       errorMessage:
-        "Unsupported file format. Please upload .json, .txt, .csv, .pdf, or image files.",
+        "Unsupported file format. Please upload .json, .txt, .csv, .pdf, .xlsx, or image files.",
     };
   }
 
-  const limit = type === "pdf" || type === "image" ? MAX_DOC_BYTES : MAX_FILE_BYTES;
+  const limit =
+    type === "pdf" || type === "image" || type === "xlsx" ? MAX_DOC_BYTES : MAX_FILE_BYTES;
   if (size > limit) {
     return {
       ...baseRecord,
@@ -309,7 +311,7 @@ export async function processEvidenceFile(
       return baseRecord;
     }
 
-    if (type === "txt" || type === "pdf" || type === "image") {
+    if (type === "txt" || type === "pdf" || type === "image" || type === "xlsx") {
       baseRecord.status = "extracting";
       baseRecord.facts.communicationSnippet = content;
 
@@ -336,6 +338,10 @@ export async function processEvidenceFile(
       } else if (type === "image") {
         baseRecord.warnings.push(
           "Image evidence preprocessed with adaptive vision filter. Verify extracted details.",
+        );
+      } else if (type === "xlsx") {
+        baseRecord.warnings.push(
+          "Spreadsheet workbook parsed. Extracted tabular evidence is retained for verification.",
         );
       }
 
@@ -464,13 +470,14 @@ export async function parseEvidenceFile(
     return processEvidenceFile(file.name, file.size, "");
   }
 
-  const limit = type === "pdf" || type === "image" ? MAX_DOC_BYTES : MAX_FILE_BYTES;
+  const limit =
+    type === "pdf" || type === "image" || type === "xlsx" ? MAX_DOC_BYTES : MAX_FILE_BYTES;
   if (file.size > limit) {
     return processEvidenceFile(file.name, file.size, "");
   }
 
   try {
-    if (type === "pdf" || type === "image") {
+    if (type === "pdf" || type === "image" || type === "xlsx") {
       const extracted = await extractDocumentContent(file);
       return processEvidenceFile(file.name, file.size, extracted.text);
     }
