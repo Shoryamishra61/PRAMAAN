@@ -117,8 +117,16 @@ export function TutorialProvider({
     () => (appContext.route === route ? appContext : { ...appContext, route }),
     [appContext, route],
   );
-  const actionSatisfied =
-    actionObserved || Boolean(currentStep?.isSatisfied(resolvedAppContext));
+  const actionSatisfied = Boolean(
+    currentStep &&
+    (actionObserved ||
+      (!currentStep.advanceOnAction &&
+        currentStep.isSatisfied(resolvedAppContext))),
+  );
+  const requiresProductAction = Boolean(
+    currentStep?.kind === "workflow" &&
+    ["click", "submit", "tab"].includes(currentStep.requiredAction),
+  );
   const stepStartedAtRef = useRef(0);
   const tourStartedAtRef = useRef(0);
   const launchFocusRef = useRef<HTMLElement | null>(null);
@@ -259,8 +267,9 @@ export function TutorialProvider({
       type: "tour_completed",
       totalDurationMs: Math.max(0, Date.now() - tourStartedAtRef.current),
     });
+    onNavigate?.("workspace");
     restoreLaunchFocus();
-  }, [currentStep, restoreLaunchFocus, send]);
+  }, [currentStep, onNavigate, restoreLaunchFocus, send]);
 
   const enterStep = useCallback(
     (index: number, event: "NEXT" | "BACK") => {
@@ -290,12 +299,25 @@ export function TutorialProvider({
   );
 
   const nextStep = useCallback(() => {
+    if (requiresProductAction && !actionSatisfied) return;
     if (currentStepIndex >= TUTORIAL_STEPS.length - 1) {
       completeTour();
       return;
     }
     enterStep(currentStepIndex + 1, "NEXT");
-  }, [completeTour, currentStepIndex, enterStep]);
+  }, [
+    actionSatisfied,
+    completeTour,
+    currentStepIndex,
+    enterStep,
+    requiresProductAction,
+  ]);
+
+  useEffect(() => {
+    if (!isActive || !currentStep?.advanceOnAction || !actionObserved) return;
+    const timeout = window.setTimeout(nextStep, 120);
+    return () => window.clearTimeout(timeout);
+  }, [actionObserved, currentStep, isActive, nextStep]);
 
   const prevStep = useCallback(() => {
     if (currentStepIndex > 0) enterStep(currentStepIndex - 1, "BACK");
@@ -414,7 +436,14 @@ export function TutorialProvider({
         typeof element.scrollIntoView === "function" &&
         !window.navigator.userAgent.includes("jsdom")
       ) {
-        element.scrollIntoView({ block: "nearest", inline: "nearest" });
+        element.scrollIntoView({
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)")
+            .matches
+            ? "auto"
+            : "smooth",
+          block: "center",
+          inline: "nearest",
+        });
       }
     };
 

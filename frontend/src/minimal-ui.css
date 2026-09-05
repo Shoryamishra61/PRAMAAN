@@ -383,6 +383,43 @@ button {
   padding: 28px 0;
   border: 0;
 }
+.guided-input {
+  display: block;
+}
+.guided-fields {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+.guided-fields .check-label {
+  grid-column: 1 / -1;
+  min-height: 44px;
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px !important;
+  padding: 0;
+}
+.guided-fields .check-label input {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 18px;
+  padding: 0;
+  accent-color: var(--ink);
+}
+.guided-primary {
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
+  padding: 10px 16px;
+}
+.boundary-copy {
+  text-align: left;
+}
 .case-examples {
   border: 0;
   border-top: 1px solid var(--line);
@@ -510,6 +547,29 @@ button {
   border-radius: 3px;
   background: #fff;
   box-shadow: 0 10px 30px rgba(18, 28, 22, 0.12);
+}
+.tour-tooltip-badge,
+.tour-action-callout strong {
+  color: var(--ink);
+}
+.tour-action-callout {
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  padding: 12px 0 0;
+}
+.tour-primary-btn {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #fff;
+}
+.tour-primary-btn:hover {
+  background: #303b35;
+}
+.tour-primary-btn:disabled {
+  border-color: var(--line-strong);
+  background: var(--surface-muted);
+  color: var(--muted);
 }
 .tour-contextual-notice {
   border: 0;

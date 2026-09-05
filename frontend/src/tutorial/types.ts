@@ -64,6 +64,7 @@ export interface GuidedTourStep {
   actionDirective: string;
   whyItMatters: string;
   requiredAction: RequiredActionType;
+  advanceOnAction?: boolean;
   hints: readonly string[];
   isSatisfied: (context: TutorialAppContext) => boolean;
 }

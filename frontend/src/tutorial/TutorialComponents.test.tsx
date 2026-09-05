@@ -4,6 +4,7 @@ import {
   fireEvent,
   render,
   screen,
+  waitFor,
 } from "@testing-library/react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
@@ -24,6 +25,7 @@ function TestController() {
     toggleDock,
     isDocked,
     updateAppContext,
+    notifyAction,
   } = useTutorial();
   return (
     <div>
@@ -36,6 +38,7 @@ function TestController() {
       </button>
       <button onClick={nextStep}>Controller next</button>
       <button onClick={toggleDock}>Controller dock</button>
+      <button onClick={() => notifyAction("click")}>Choose case</button>
       <button
         onClick={() =>
           updateAppContext({
@@ -52,9 +55,9 @@ function TestController() {
   );
 }
 
-function renderTour(route = "proof") {
+function renderTour(route = "proof", onNavigate?: (route: string) => void) {
   return render(
-    <TutorialProvider route={route}>
+    <TutorialProvider route={route} onNavigate={onNavigate}>
       <TestController />
       <TutorialSpotlight />
       <TutorialTooltip />
@@ -79,22 +82,31 @@ describe("TutorialComponents", () => {
     expect(screen.getByTestId("active").textContent).toBe("active");
     expect(screen.getByText("Welcome")).toBeTruthy();
     expect(screen.getByRole("button", { name: "Back" })).toBeDisabled();
-    expect(screen.getByRole("button", { name: "Start" })).toBeTruthy();
+    expect(
+      screen.getByRole("button", { name: "Start with the case" }),
+    ).toBeTruthy();
     expect(screen.getByRole("button", { name: "Skip" })).toBeTruthy();
     expect(
       screen.getByRole("button", { name: "Close product tour" }),
     ).toBeTruthy();
   });
 
-  it("supports manual next, back, keyboard navigation, and Escape", () => {
+  it("requires the highlighted product action and preserves back and Escape", async () => {
     renderTour();
     fireEvent.click(screen.getByText("Open tour"));
-    fireEvent.click(screen.getByRole("button", { name: "Start" }));
-    expect(screen.getByText("Step 1 of 8")).toBeTruthy();
+    fireEvent.click(
+      screen.getByRole("button", { name: "Start with the case" }),
+    );
+    expect(screen.getByText("Step 1 of 7")).toBeTruthy();
+    expect(
+      screen.getByRole("button", { name: "Use highlighted action" }),
+    ).toBeDisabled();
     fireEvent.keyDown(window, { key: "ArrowRight" });
-    expect(screen.getByText("Step 2 of 8")).toBeTruthy();
+    expect(screen.getByText("Step 1 of 7")).toBeTruthy();
+    fireEvent.click(screen.getByText("Choose case"));
+    await waitFor(() => expect(screen.getByText("Step 2 of 7")).toBeTruthy());
     fireEvent.keyDown(window, { key: "ArrowLeft" });
-    expect(screen.getByText("Step 1 of 8")).toBeTruthy();
+    expect(screen.getByText("Step 1 of 7")).toBeTruthy();
     fireEvent.keyDown(window, { key: "Escape" });
     expect(screen.getByTestId("status").textContent).toBe("CANCELLED");
     expect(screen.queryByRole("dialog")).toBeNull();
@@ -106,7 +118,7 @@ describe("TutorialComponents", () => {
     fireEvent.click(screen.getByText("Observe evaluated case"));
     expect(
       screen.getByRole("heading", {
-        name: "Semantic extraction and exact grounding",
+        name: "Verify the extracted claim",
       }),
     ).toBeVisible();
     expect(screen.getByText(/This case has a local hold/)).toBeVisible();
@@ -135,7 +147,9 @@ describe("TutorialComponents", () => {
       vi.advanceTimersByTime(TARGET_RESOLUTION_TIMEOUT_MS + 1);
     });
     expect(screen.getByText(/target is not available/i)).toBeTruthy();
-    expect(screen.getByRole("button", { name: "Finish" })).toBeTruthy();
+    expect(
+      screen.getByRole("button", { name: "Open analyst queue" }),
+    ).toBeTruthy();
   });
 
   it("persists size and placement only for the current session", () => {
@@ -153,12 +167,14 @@ describe("TutorialComponents", () => {
     expect(localStorage.getItem(TUTORIAL_STORAGE_KEY)).toBeNull();
   });
 
-  it("reaches COMPLETED and never leaves a stuck final card", () => {
-    renderTour("decision-engine");
+  it("finishes in the analyst queue and never leaves a stuck final card", () => {
+    const onNavigate = vi.fn();
+    renderTour("decision-engine", onNavigate);
     fireEvent.click(screen.getByText("Open final"));
-    fireEvent.click(screen.getByRole("button", { name: "Finish" }));
+    fireEvent.click(screen.getByRole("button", { name: "Open analyst queue" }));
     expect(screen.getByTestId("status").textContent).toBe("COMPLETED");
     expect(screen.queryByRole("dialog")).toBeNull();
+    expect(onNavigate).toHaveBeenCalledWith("workspace");
     expect(localStorage.getItem(TUTORIAL_STORAGE_KEY)).toContain(
       '"outcome":"completed"',
     );

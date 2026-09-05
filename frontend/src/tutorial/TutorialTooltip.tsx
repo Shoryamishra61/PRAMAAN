@@ -146,7 +146,7 @@ export function TutorialTooltip() {
   useEffect(() => {
     if (!isActive || isDocked) return;
     headingRef.current?.focus();
-  }, [isActive, isDocked]);
+  }, [currentStepIndex, isActive, isDocked]);
 
   useEffect(() => {
     if (!isActive) return;
@@ -223,6 +223,22 @@ export function TutorialTooltip() {
 
   const isWelcome = currentStep.kind === "welcome";
   const isFinal = currentStepIndex === totalSteps;
+  const requiresProductAction =
+    currentStep.kind === "workflow" &&
+    ["click", "submit", "tab"].includes(currentStep.requiredAction);
+  const waitingForProductAction = requiresProductAction && !actionSatisfied;
+  const guidance = contextualTourGuidance(appContext);
+  const primaryLabel = isWelcome
+    ? "Start with the case"
+    : isFinal
+      ? "Open analyst queue"
+      : currentStep.id === "formal-verification"
+        ? "Show measured evidence"
+        : currentStep.id === "risk-evaluation"
+          ? "See model decision boundary"
+          : waitingForProductAction
+            ? "Use highlighted action"
+            : "Continue";
   const progressPercent =
     workflowStepNumber === null ? 0 : (workflowStepNumber / totalSteps) * 100;
   const progressLabel =
@@ -263,6 +279,7 @@ export function TutorialTooltip() {
       aria-labelledby="tour-step-title"
       aria-describedby="tour-step-summary"
       data-placement={resolvedPlacement}
+      data-status={status}
       style={
         viewport.width < 560
           ? {
@@ -370,9 +387,9 @@ export function TutorialTooltip() {
       </p>
 
       <div className="tour-tooltip-body">
-        {contextualTourGuidance(appContext) && (
+        {guidance && (
           <p className="tour-context-note" role="status">
-            {contextualTourGuidance(appContext)}
+            {guidance}
           </p>
         )}
         <h2 id="tour-step-title" ref={headingRef} tabIndex={-1}>
@@ -381,7 +398,13 @@ export function TutorialTooltip() {
         <p id="tour-step-summary">{currentStep.summary}</p>
 
         <div className="tour-action-callout">
-          <strong>{actionSatisfied ? "Action observed" : "Try this"}</strong>
+          <strong>
+            {isFinal
+              ? "Finish the workflow"
+              : actionSatisfied
+                ? "Action observed"
+                : "Do this in the product"}
+          </strong>
           <span>{currentStep.actionDirective}</span>
         </div>
 
@@ -445,8 +468,13 @@ export function TutorialTooltip() {
             <ArrowLeft size={15} aria-hidden="true" />
             Back
           </button>
-          <button type="button" className="tour-primary-btn" onClick={nextStep}>
-            {isWelcome ? "Start" : isFinal ? "Finish" : "Next"}
+          <button
+            type="button"
+            className="tour-primary-btn"
+            onClick={nextStep}
+            disabled={waitingForProductAction}
+          >
+            {primaryLabel}
             {isFinal ? (
               <CheckCircle size={16} aria-hidden="true" />
             ) : (

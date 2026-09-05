@@ -15,16 +15,16 @@ import {
 describe("tutorialEngine", () => {
   beforeEach(() => localStorage.clear());
 
-  it("owns one welcome plus eight numbered workflow steps", () => {
-    expect(TUTORIAL_STEPS).toHaveLength(9);
+  it("owns one welcome plus seven numbered workflow steps", () => {
+    expect(TUTORIAL_STEPS).toHaveLength(8);
     expect(TUTORIAL_STEPS[0].kind).toBe("welcome");
-    expect(WORKFLOW_STEP_COUNT).toBe(8);
+    expect(WORKFLOW_STEP_COUNT).toBe(7);
     expect(
       TUTORIAL_STEPS.slice(1).map((_, index) =>
         workflowNumberForIndex(index + 1),
       ),
-    ).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
-    expect(new Set(TUTORIAL_STEPS.map((step) => step.id)).size).toBe(9);
+    ).toEqual([1, 2, 3, 4, 5, 6, 7]);
+    expect(new Set(TUTORIAL_STEPS.map((step) => step.id)).size).toBe(8);
   });
 
   it("keeps copy truthful and derives all targets from one registry", () => {

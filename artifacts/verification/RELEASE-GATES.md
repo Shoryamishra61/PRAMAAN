@@ -19,6 +19,10 @@ receipts are not evidence that the current product was visually verified.
   consistent navigation and buttons, semantic status text, and contextual guidance from real
   errors/results/stages. Hard-coded merchant-economics tiles, decorative model charts, nested
   cards, colored status containers, and the duplicate tutorial launcher were removed.
+- The contextual guide now gates progress on the highlighted product action, follows verification
+  and journey-stage changes automatically, moves through held-out evidence and model selection,
+  and finishes in the analyst queue. Its highlight and panel geometry use short, reduced-motion-
+  aware transitions. The evidence form keeps its completeness checkbox beside its label.
 - Real PyTorch optimizer/checkpoint smoke and DEV-only local classifier retraining. Learned
   candidate remains unpromoted because it does not beat its simpler comparator.
 
@@ -42,11 +46,12 @@ pre-HOLDOUT freeze.
 
 ## Automated verification
 
-`scripts/check.ps1` passed against the final working tree: 313 backend tests and 38 frontend
-tests, Python formatting/linting, mypy across 157 source files, specification/package validation,
+`scripts/check.ps1` passed at source revision `bd0b5a0`: 313 backend tests and 38 frontend tests,
+Python formatting/linting, mypy across 157 source files, specification/package validation,
 write-safety and stale-claim scans, API demo smoke, Prettier, ESLint, TypeScript, and the Vite
-production build. The complete output is saved in
-`dev-hardening-20260905/check-final.log`.
+production build. The complete output is saved in `dev-hardening-20260905/check-final.log`.
+The subsequent frontend-only tour and layout repair reran Prettier, ESLint, TypeScript, the Vite
+production build, and all 38 frontend tests; backend source did not change.
 
 ## Manual / remaining release gates
 

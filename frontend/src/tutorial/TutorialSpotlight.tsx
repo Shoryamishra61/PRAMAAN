@@ -39,30 +39,17 @@ export function TutorialSpotlight() {
   const height = hasTarget
     ? Math.min(viewport.height - y, targetRect.height + padding * 2)
     : 0;
-  const path = hasTarget
-    ? `M0 0H${viewport.width}V${viewport.height}H0Z M${x} ${y}H${x + width}V${y + height}H${x}Z`
-    : `M0 0H${viewport.width}V${viewport.height}H0Z`;
-
   return (
-    <div className="tour-spotlight" aria-hidden="true">
-      <svg
-        width="100%"
-        height="100%"
-        viewBox={`0 0 ${viewport.width} ${viewport.height}`}
-        preserveAspectRatio="none"
-      >
-        <path d={path} fillRule="evenodd" className="tour-spotlight-shade" />
-        {hasTarget && (
-          <rect
-            x={x}
-            y={y}
-            width={width}
-            height={height}
-            rx={6}
-            className="tour-spotlight-ring"
-          />
-        )}
-      </svg>
+    <div
+      className={`tour-spotlight ${hasTarget ? "" : "tour-spotlight-idle"}`}
+      aria-hidden="true"
+    >
+      {hasTarget && (
+        <div
+          className="tour-spotlight-focus"
+          style={{ left: x, top: y, width, height }}
+        />
+      )}
     </div>
   );
 }
