@@ -1903,13 +1903,6 @@ export function TryVerifier() {
       <mark className="visually-hidden" ref={quoteRef} tabIndex={-1}>
         {primaryClaim?.source_quote ?? request.customer_communication}
       </mark>
-      <footer className="guided-footer">
-        <span>Defense only · refund not processed</span>
-        <span>
-          Semantic extraction supports · deterministic code decides · humans
-          retain authority
-        </span>
-      </footer>
     </section>
   );
 }
