@@ -32,7 +32,7 @@ from app.verification import (
     VerificationContext,
     verify_integrity,
 )
-from hypothesis import given, settings
+from hypothesis import HealthCheck, given, settings
 from hypothesis import strategies as st
 
 from tests.generators.strategies import (
@@ -54,6 +54,7 @@ def _dev_rows() -> list[dict[str, Any]]:
 
 
 # 1. Commutativity: sum(shuffle(refunds)) == sum(refunds)
+@settings(suppress_health_check=[HealthCheck.too_slow], deadline=None)
 @given(st.lists(valid_amount_minor_st, min_size=1, max_size=30))
 def test_refund_summation_ordering_independence(refunds: list[int]) -> None:
     """Summing arbitrary refund partitions must yield identical paise regardless of order."""

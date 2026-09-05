@@ -1786,15 +1786,17 @@ function DecisionEngineView({
           else window.location.href = "/" + route;
         }}
       />
-      <section
+      <main
+        id="analyst-main"
         className="decision-engine-view"
         aria-labelledby="ai-lab-title"
         data-tour="decision-engine"
       >
-        <header className="page-head">
+        <header className="app-header">
           <div>
+            <p className="eyebrow">Razorpay AI Buildathon 2026 · Track 02</p>
             <h1 id="ai-lab-title">Decision Engine</h1>
-            <p className="page-subtitle">
+            <p>
               Predeclared model tournament, error boundary inspection, and
               promotion decisions.
             </p>
@@ -2188,7 +2190,7 @@ function DecisionEngineView({
             </div>
           </>
         )}
-      </section>
+      </main>
     </>
   );
 }
