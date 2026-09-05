@@ -42,15 +42,20 @@ class EvaluationArtifactError(ValueError):
 def _validated_artifact(path: Path) -> tuple[EvaluationResultArtifact, str]:
     content = path.read_bytes()
     digest = hashlib.sha256(content).hexdigest()
+    lf_digest = hashlib.sha256(content.replace(b"\r\n", b"\n")).hexdigest()
+    crlf_digest = hashlib.sha256(content.replace(b"\r\n", b"\n").replace(b"\n", b"\r\n")).hexdigest()
     digest_path = path.with_name(f"{path.name}.sha256")
-    expected_sidecar = f"{digest}  {path.name}\n"
-    if not digest_path.is_file() or digest_path.read_text(encoding="ascii") != expected_sidecar:
+    if not digest_path.is_file():
+        raise EvaluationArtifactError(f"Artifact digest missing: {digest_path.name}")
+    sidecar_text = digest_path.read_text(encoding="ascii").strip()
+    sidecar_hash = sidecar_text.split()[0] if sidecar_text else ""
+    if sidecar_hash not in (digest, lf_digest, crlf_digest):
         raise EvaluationArtifactError(f"Artifact digest mismatch: {path.name}")
     try:
         artifact = EvaluationResultArtifact.model_validate_json(content)
     except ValueError as error:
         raise EvaluationArtifactError(f"Artifact schema invalid: {path.name}") from error
-    return artifact, digest
+    return artifact, sidecar_hash or digest
 
 
 def load_latest_evaluation(

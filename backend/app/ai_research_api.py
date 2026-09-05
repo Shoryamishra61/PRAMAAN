@@ -57,6 +57,18 @@ def load_ai_research(path: Path = RESEARCH_ARTIFACT) -> AiResearchResponse:
     )
 
 
+def _matches_sha(raw: bytes, expected: str | None) -> bool:
+    if not expected:
+        return False
+    if hashlib.sha256(raw).hexdigest() == expected:
+        return True
+    lf_hash = hashlib.sha256(raw.replace(b"\r\n", b"\n")).hexdigest()
+    if lf_hash == expected:
+        return True
+    crlf_hash = hashlib.sha256(raw.replace(b"\r\n", b"\n").replace(b"\n", b"\r\n")).hexdigest()
+    return crlf_hash == expected
+
+
 def load_fecl_v2(
     test_path: Path = FECL_V2_TEST_ARTIFACT,
     analysis_path: Path = FECL_V2_ANALYSIS_ARTIFACT,
@@ -75,7 +87,7 @@ def load_fecl_v2(
     boundary = test.get("boundary")
     if not isinstance(boundary, dict) or boundary.get("split") != "TEST":
         raise AiResearchArtifactError("FECL v2 endpoint accepts only the frozen TEST artifact.")
-    if analysis.get("source_test_sha256") != hashlib.sha256(test_raw).hexdigest():
+    if not _matches_sha(test_raw, analysis.get("source_test_sha256")):
         raise AiResearchArtifactError("FECL v2 analysis is not bound to the test artifact.")
     if analysis.get("tuning_performed") is not False:
         raise AiResearchArtifactError("Post-hoc FECL analysis must not tune the holdout.")

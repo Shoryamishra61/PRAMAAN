@@ -47,13 +47,25 @@ def _line_count(path: Path) -> int:
         raise CarveResearchError(str(error)) from error
 
 
+def _matches_sha(raw: bytes, expected: str | None) -> bool:
+    if not expected:
+        return False
+    if hashlib.sha256(raw).hexdigest() == expected:
+        return True
+    lf_hash = hashlib.sha256(raw.replace(b"\r\n", b"\n")).hexdigest()
+    if lf_hash == expected:
+        return True
+    crlf_hash = hashlib.sha256(raw.replace(b"\r\n", b"\n").replace(b"\n", b"\r\n")).hexdigest()
+    return crlf_hash == expected
+
+
 def load_carve_research() -> CarveResearchResponse:
     dev_raw, dev = _read(ARTIFACTS / "dev-calibration-results.json")
     test_raw, test = _read(ARTIFACTS / "frozen-test-results.json")
     receipt_raw, receipt = _read(ARTIFACTS / "frozen-test-receipt.json")
     if receipt.get("status") != "EXECUTED_ONCE":
         raise CarveResearchError("CARVE TEST receipt is not final.")
-    if receipt.get("result_sha256") != hashlib.sha256(test_raw).hexdigest():
+    if not _matches_sha(test_raw, receipt.get("result_sha256")):
         raise CarveResearchError("CARVE TEST result does not match its receipt.")
     if test.get("one_shot_test") is not True or test.get("synthetic_only") is not True:
         raise CarveResearchError("Only the frozen synthetic TEST artifact may back /research.")

@@ -25,10 +25,11 @@ ENV PYTHONUNBUFFERED=1 \
 COPY pyproject.toml .
 RUN pip install --no-cache-dir fastapi "uvicorn[standard]" pydantic pydantic-settings PyYAML scikit-learn joblib python-multipart httpx
 
-# Copy backend codebase, contracts, data, research assets, artifacts, and evaluation results
+# Copy backend codebase, contracts, data, docs, research assets, artifacts, and evaluation results
 COPY backend/ backend/
 COPY contracts/ contracts/
 COPY data/ data/
+COPY docs/ docs/
 COPY research/ research/
 COPY scripts/ scripts/
 COPY artifacts/ artifacts/
