@@ -16,11 +16,12 @@ WORKDIR /app
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     DIG_INFERENCE_MODE=offline \
+    DIG_DATABASE_PATH=/app/var/demo.sqlite3 \
     PORT=18000
 
 # Install production dependencies
 COPY pyproject.toml .
-RUN pip install --no-cache-dir fastapi uvicorn pydantic python-multipart httpx
+RUN pip install --no-cache-dir fastapi "uvicorn[standard]" pydantic pydantic-settings PyYAML scikit-learn joblib python-multipart httpx
 
 # Copy backend codebase and research assets
 COPY backend/ backend/
@@ -34,5 +35,5 @@ COPY --from=frontend-builder /app/frontend/dist /app/frontend/dist
 # Seed synthetic demo SQLite state on build
 RUN mkdir -p /app/var && python scripts/seed_demo.py --database /app/var/demo.sqlite3 --reset
 
-EXPOSE 18000
-CMD ["python", "-m", "uvicorn", "backend.app.main:app", "--host", "0.0.0.0", "--port", "18000"]
+EXPOSE 18000 8080 7860 8000
+CMD ["sh", "-c", "python -m uvicorn backend.app.main:app --host 0.0.0.0 --port ${PORT:-18000}"]

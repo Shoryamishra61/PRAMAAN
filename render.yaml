@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: pramaan-dispute-gate
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: DIG_INFERENCE_MODE
+        value: offline
+      - key: DIG_DATABASE_PATH
+        value: /app/var/demo.sqlite3
+      - key: DIG_WEBHOOK_SECRET
+        value: synthetic-demo-only-webhook-secret
