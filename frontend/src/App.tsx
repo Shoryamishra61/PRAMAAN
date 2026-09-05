@@ -5,7 +5,6 @@ import {
   ArrowsLeftRight,
   Check,
   CheckCircle,
-  Flask,
   Quotes,
   ShieldCheck,
   UserCheck,
@@ -1788,32 +1787,22 @@ function DecisionEngineView({
         }}
       />
       <section
-        className="ai-lab"
+        className="decision-engine-view"
         aria-labelledby="ai-lab-title"
         data-tour="decision-engine"
       >
-        <button className="product-quiet ai-back" onClick={onBack}>
-          <ArrowLeft size={16} /> Back to product
-        </button>
-        <div className="ai-lab-hero">
+        <header className="page-head">
           <div>
-            <p className="product-eyebrow">
-              Decision Engine · Model Tournament & Evidence Verification
-            </p>
-            <h1 id="ai-lab-title">
-              The model was built, measured, explained, and rejected.
-            </h1>
-            <p>
-              Switch architectures, inspect their exact failures, and see why
-              deterministic financial truth remains outside every model.
+            <h1 id="ai-lab-title">Decision Engine</h1>
+            <p className="page-subtitle">
+              Predeclared model tournament, error boundary inspection, and
+              promotion decisions.
             </p>
           </div>
-          <div className="ai-boundary">
-            <ShieldCheck size={24} />
-            <strong>No external model APIs</strong>
-            <span>Grouped DEV · Holdout untouched · Zero state authority</span>
+          <div className="mode-badge">
+            <span aria-hidden="true">●</span>OFFLINE REPLAY · PRECOMPUTED REGEX
           </div>
-        </div>
+        </header>
 
         {error && (
           <p role="alert" className="error-banner">
@@ -1827,52 +1816,39 @@ function DecisionEngineView({
         )}
         {lab && artifact && research && (
           <>
-            <div className="action-recommendation-box" role="note">
-              <ShieldCheck size={22} aria-hidden="true" />
-              <div>
-                <strong>
-                  Recommended Next Action: Defense-Only Human Review
-                </strong>
-                <p>
-                  Evidence claims disagree with local financial ledger records.
-                  System placed a defensive hold. Contesting without ledger
-                  match incurs high false-positive merchant loss.
-                </p>
-              </div>
-            </div>
-
-            <section className="ai-verdict">
-              <div>
-                <p className="product-eyebrow">
-                  Predeclared promotion decision
-                </p>
+            <div
+              className="de-summary-bar"
+              aria-label="Promotion and Policy Summary"
+            >
+              <div className="de-summary-item">
+                <span>Promotion decision</span>
                 <h2>{artifact.promotion.extractor_status.replace("_", " ")}</h2>
-                <p>
-                  No learned extractor improved both precision and recall over
-                  rules. NLI is{" "}
-                  {artifact.promotion.nli_status
-                    .replace("_", " ")
-                    .toLowerCase()}{" "}
-                  for contradiction research only.
-                </p>
+                <small>
+                  No learned extractor beat rules on both precision and recall.
+                </small>
               </div>
-              <div className="ai-selected">
+              <div className="de-summary-item">
                 <span>Selected extractor</span>
                 <strong className="product-mono">
                   {artifact.promotion.selected_runtime_extractor}
                 </strong>
+                <small>Deterministic regex engine retained in production</small>
               </div>
-            </section>
+              <div className="de-summary-item">
+                <span>Operational policy</span>
+                <strong>Defense-only review</strong>
+                <small>
+                  Ledger mismatch triggers defensive hold; no blind contests
+                </small>
+              </div>
+            </div>
             {fecl && <FeclResearchPanel research={fecl} />}
             <section className="ai-research-panel">
               <div className="ai-panel-head">
                 <div>
-                  <p className="product-eyebrow">
-                    01 · Leakage-safe leaderboard
-                  </p>
                   <h2>
-                    {artifact.dataset.sentence_examples} sentence decisions
-                    across model families
+                    Leakage-safe model comparison (
+                    {artifact.dataset.sentence_examples} cases)
                   </h2>
                 </div>
                 <span className="product-mono">
@@ -1918,7 +1894,6 @@ function DecisionEngineView({
             <section className="ai-switcher">
               <div className="ai-panel-head">
                 <div>
-                  <p className="product-eyebrow">02 · Break a model</p>
                   <h2>Same evidence. Different semantic machinery.</h2>
                 </div>
                 <div className="ai-controls">
@@ -1993,8 +1968,7 @@ function DecisionEngineView({
             {activeModel && (
               <div className="ai-diagnostics-grid">
                 <section className="ai-research-panel">
-                  <p className="product-eyebrow">03 · Confusion</p>
-                  <h2>{activeModel[0]}</h2>
+                  <h2>{activeModel[0]} confusion matrix</h2>
                   <div className="ai-confusion">
                     {Object.entries(activeModel[2].metrics.confusion).map(
                       ([key, value]) => (
@@ -2007,8 +1981,7 @@ function DecisionEngineView({
                   </div>
                 </section>
                 <section className="ai-research-panel">
-                  <p className="product-eyebrow">04 · Precision–recall</p>
-                  <h2>Threshold tradeoff</h2>
+                  <h2>Precision–recall tradeoff</h2>
                   {activeModel[2].precision_recall_curve ? (
                     <ResearchCurve
                       label="Precision recall curve"
@@ -2021,8 +1994,7 @@ function DecisionEngineView({
                   )}
                 </section>
                 <section className="ai-research-panel">
-                  <p className="product-eyebrow">05 · Calibration</p>
-                  <h2>Predicted vs observed</h2>
+                  <h2>Calibration curve</h2>
                   {(
                     activeModel[2].calibration ?? activeModel[2].raw_calibration
                   )?.bins ? (
@@ -2052,8 +2024,7 @@ function DecisionEngineView({
                   )}
                 </section>
                 <section className="ai-research-panel">
-                  <p className="product-eyebrow">06 · Selective risk</p>
-                  <h2>Abstain as coverage falls</h2>
+                  <h2>Selective risk: abstain as coverage falls</h2>
                   {(
                     activeModel[2].risk_coverage ??
                     activeModel[2].raw_risk_coverage
@@ -2120,8 +2091,7 @@ function DecisionEngineView({
 
             <div className="ai-story-grid">
               <section className="ai-story">
-                <p className="product-eyebrow">07 · TreeSHAP</p>
-                <h2>XGBoost mostly learned to copy rules</h2>
+                <h2>Feature attribution (TreeSHAP)</h2>
                 <div className="ai-shap">
                   {artifact.claim_extraction.xgboost_stack.tree_shap?.global_mean_absolute
                     .slice(0, 6)
@@ -2143,11 +2113,7 @@ function DecisionEngineView({
                 </p>
               </section>
               <section className="ai-story">
-                <span className="ai-icon">
-                  <Flask size={22} />
-                </span>
-                <p className="product-eyebrow">08 · NLI challenge</p>
-                <h2>Lift, then an honest failure boundary</h2>
+                <h2>NLI contradiction challenge</h2>
                 <div className="ai-metrics">
                   <div>
                     <span>Cross-encoder</span>

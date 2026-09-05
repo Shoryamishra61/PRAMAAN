@@ -604,7 +604,7 @@ test("shows the generated DEV tournament and exact evidence switching", async ()
   render(<App initialRoute="ai" />);
   expect(
     await screen.findByRole("heading", {
-      name: "The model was built, measured, explained, and rejected.",
+      name: "Decision Engine",
     }),
   ).toBeVisible();
   expect(screen.getByRole("heading", { name: "NOT PROMOTED" })).toBeVisible();

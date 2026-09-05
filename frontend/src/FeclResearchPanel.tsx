@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { ArrowsLeftRight, Flask, ShieldWarning } from "@phosphor-icons/react";
+import { ArrowsLeftRight } from "@phosphor-icons/react";
 
 import type { FeclV2Response } from "./api";
 
@@ -45,20 +45,18 @@ export function FeclResearchPanel({ research }: { research: FeclV2Response }) {
     <section className="fecl-lab" aria-labelledby="fecl-title">
       <div className="fecl-heading">
         <div>
-          <p className="product-eyebrow">FECL-v2 · FROZEN TEST · SYNTHETIC</p>
-          <h2 id="fecl-title">
-            Financial evidence consistency, under cross-family shift
-          </h2>
+          <h2 id="fecl-title">Holdout evaluation under cross-family shift</h2>
           <p>
-            This is the once-opened holdout artifact. Switching a model changes
-            only the research prediction; authoritative ledger checks keep
-            decision authority.
+            Once-opened holdout evaluation. Authoritative ledger checks retain
+            decision authority; switching candidate models changes only the
+            research prediction.
           </p>
         </div>
         <div className="fecl-status">
-          <Flask size={20} />
           <span>{research.test.promotion.status.replaceAll("_", " ")}</span>
-          <strong>{research.test.promotion.selected_runtime}</strong>
+          <strong className="product-mono">
+            {research.test.promotion.selected_runtime}
+          </strong>
         </div>
       </div>
 
@@ -184,7 +182,6 @@ export function FeclResearchPanel({ research }: { research: FeclV2Response }) {
 
       <div className="fecl-safety">
         <div>
-          <ShieldWarning size={20} />
           <span>Combined OOD rejection</span>
           <strong>
             {percent(research.test.ood.combined_safe_controller_rejection_rate)}

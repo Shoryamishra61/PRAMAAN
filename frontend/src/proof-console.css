@@ -272,8 +272,8 @@ textarea:focus-visible,
 .minimum-certificate {
   margin-top: 14px;
   padding: 18px;
-  border: 1px solid var(--red);
-  background: var(--red-soft);
+  border: 1px solid var(--line);
+  background: #ffffff;
 }
 .minimum-certificate > span,
 .minimum-certificate > strong,
@@ -309,7 +309,7 @@ textarea:focus-visible,
   justify-self: end;
   align-items: center;
   gap: 8px;
-  color: var(--green);
+  color: var(--ink-secondary);
   font: 11px var(--font-mono);
   letter-spacing: 0.04em;
 }
@@ -483,17 +483,17 @@ textarea:focus-visible,
 .sample-bundles > div > a {
   padding-inline: 8px;
   border-left: 1px solid var(--line);
-  color: var(--green);
+  color: var(--ink-secondary);
 }
 .sample-bundles .all-samples,
 .import-evidence {
-  border: 1px solid var(--green);
-  color: var(--green);
+  border: 1px solid var(--line);
+  color: var(--ink);
 }
 .sample-bundles button:hover,
 .sample-bundles a:hover,
 .import-evidence:hover {
-  background: var(--green-soft);
+  background: var(--ds-surface-muted);
 }
 .import-evidence input {
   position: absolute;
@@ -746,8 +746,8 @@ textarea:focus-visible,
   display: grid;
   gap: 6px;
   padding: 12px;
-  border-left: 3px solid var(--red);
-  background: var(--red-soft);
+  border: 1px solid var(--line);
+  background: var(--surface);
 }
 .proof-compiler {
   margin-top: 4px;
@@ -895,9 +895,9 @@ textarea:focus-visible,
 }
 .safe-error,
 .rejected-state {
-  padding: 20px;
-  border-left: 4px solid var(--red);
-  background: var(--red-soft);
+  padding: 16px;
+  border: 1px solid var(--line);
+  background: var(--surface);
   color: var(--red);
 }
 .safe-error {
@@ -918,10 +918,10 @@ textarea:focus-visible,
 }
 .source-proof blockquote {
   margin: 0;
-  padding: clamp(20px, 3vw, 36px);
-  border-left: 4px solid var(--blue);
-  background: var(--blue-soft);
-  font: clamp(16px, 1.8vw, 20px)/1.6 var(--font-mono);
+  padding: clamp(16px, 2.5vw, 24px);
+  border: 1px solid var(--line);
+  background: #ffffff;
+  font: clamp(14px, 1.5vw, 16px)/1.6 var(--font-mono);
 }
 .source-proof mark {
   padding: 3px;
@@ -978,8 +978,8 @@ textarea:focus-visible,
   align-items: center;
   margin-top: 12px;
   padding: 12px 14px;
-  border-left: 3px solid var(--amber);
-  background: var(--amber-soft);
+  border: 1px solid var(--line);
+  background: var(--surface);
 }
 .acquisition-rationale span,
 .acquisition-rationale strong {
@@ -1685,11 +1685,11 @@ textarea:focus-visible,
 }
 
 .learned-layer {
-  border-left: 3px solid #64748b;
+  border-color: #cbd5e1;
 }
 
 .truth-layer {
-  border-left: 3px solid #166534;
+  border-color: #cbd5e1;
 }
 
 .layer-number {
@@ -1720,7 +1720,6 @@ textarea:focus-visible,
   margin-bottom: 20px;
   padding: 16px;
   border: 1px solid #e2e8f0;
-  border-left: 3px solid #0284c7;
   background: #f8fafc;
   color: #0f172a;
   font-family: inherit;
@@ -2644,18 +2643,8 @@ textarea:focus-visible,
 }
 .anomaly-item {
   padding: 10px 12px;
-  border-left-width: 4px;
   border-bottom: 1px solid var(--ds-border);
   background: transparent;
-}
-.anomaly-high {
-  border-left-color: #dc2626;
-}
-.anomaly-medium {
-  border-left-color: #f59e0b;
-}
-.anomaly-low {
-  border-left-color: #3b82f6;
 }
 .anomaly-title-row {
   display: flex;
@@ -2862,10 +2851,9 @@ textarea:focus-visible,
   gap: 4px;
   margin-top: 14px;
   padding: 12px;
-  border: 1px solid #c7d8cf;
-  border-left: 3px solid var(--green);
+  border: 1px solid var(--line);
   border-radius: var(--radius-control);
-  background: var(--green-soft);
+  background: #ffffff;
 }
 .tour-action-callout strong {
   color: var(--green);
