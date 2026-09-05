@@ -9,5 +9,7 @@ services:
         value: offline
       - key: DIG_DATABASE_PATH
         value: /app/var/demo.sqlite3
+      - key: DIG_RESULTS_DIRECTORY
+        value: /app/results
       - key: DIG_WEBHOOK_SECRET
         value: synthetic-demo-only-webhook-secret

@@ -18,17 +18,21 @@ ENV PYTHONUNBUFFERED=1 \
     PYTHONPATH=/app/backend:/app \
     DIG_INFERENCE_MODE=offline \
     DIG_DATABASE_PATH=/app/var/demo.sqlite3 \
+    DIG_RESULTS_DIRECTORY=/app/results \
     PORT=18000
 
 # Install production dependencies
 COPY pyproject.toml .
 RUN pip install --no-cache-dir fastapi "uvicorn[standard]" pydantic pydantic-settings PyYAML scikit-learn joblib python-multipart httpx
 
-# Copy backend codebase and research assets
+# Copy backend codebase, contracts, data, research assets, artifacts, and evaluation results
 COPY backend/ backend/
+COPY contracts/ contracts/
 COPY data/ data/
 COPY research/ research/
 COPY scripts/ scripts/
+COPY artifacts/ artifacts/
+COPY results/ results/
 
 # Install local package
 RUN pip install --no-cache-dir -e .
