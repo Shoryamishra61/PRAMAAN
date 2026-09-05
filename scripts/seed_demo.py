@@ -8,7 +8,12 @@ import hashlib
 import json
 from datetime import datetime, timezone
 from pathlib import Path
+import sys
 from typing import Any, cast
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT / "backend") not in sys.path:
+    sys.path.insert(0, str(ROOT / "backend"))
 
 from app.case_pipeline import CaseEvaluationInput, CaseEvaluationOutcome, evaluate_case
 from app.config import Settings
