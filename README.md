@@ -265,3 +265,46 @@ docker run -p 18000:18000 -e PORT=18000 pramaan-dispute-gate
 1. **Synthetic Diagnostic Benchmarks**: The quantitative metrics reported are evaluated on frozen synthetic diagnostic benchmarks (`DIG-RNP-SYN-v1`) designed for structural boundary verification. They do not simulate live network chargeback win rates.
 2. **Defensive Pre-Submission Gate**: PRAMAAN does not provide legal representation or predictive financial guarantees. It acts as an operational loss integrity gate to prevent ungrounded dispute submissions.
 3. **Defense-Only Read Isolation**: The gateway is intentionally devoid of network mutation authority. It will never accept, contest, or refund payments on behalf of the merchant without human authorization.
+
+---
+
+## 11. Razorpay AI Buildathon 2026 Submission Dossier
+
+### 1. Problem Taste: Why This Problem Matters
+In the Indian digital payments landscape, payment velocity continues to scale exponentially across UPI 2.0, cards, recurring mandates, and netbanking. Yet behind this growth sits an insidious, margin-eroding failure mode: **"Refund Not Processed" disputes (`refund_not_processed_v1` / Visa 13.6 / Mastercard 4853)**.
+
+When customers allege that a promised refund was never delivered, merchants face an asymmetric loss matrix. If a merchant's automated system indiscriminately contests disputes using unvetted customer support snippets or unverified claims, issuing banks and card networks impose punitive arbitration fees ($15–$25 / ₹1,200–₹2,000 per lost arbitration), while pushing the merchant closer to catastrophic network dispute-to-sales thresholds. Conversely, passively forfeiting legitimate disputes drains operational margins.
+
+Most industry approaches attempt to solve this with ungrounded generative LLM wrappers that hallucinate refund promises, confuse decimal currencies, or invent fictitious fulfillment dates. **PRAMAAN was conceived from a first-principles realization: Financial disputes are not a creative writing exercise; they are a formal proof problem.** Choosing to build a strictly defensive, provably grounded integrity gate tackles the root cause of financial hemorrhage where certainty matters most.
+
+### 2. Build Quality: Structure, Verifiability & Trust
+PRAMAAN is built on a philosophy of uncompromising determinism:
+- **Fixed-Point Minor Unit Math**: Zero floating-point arithmetic. All financial operations execute in integer paise (`MoneyMinor`), validated by 5,000 Hypothesis property-based fuzz tests.
+- **Abstract Syntax Tree (AST) Security Guardrails**: A continuous AST static analysis suite (`scripts/check_no_razorpay_writes.py`) guarantees that PRAMAAN contains zero external mutation endpoints to banking or gateway rails. It cannot execute unauthorized payment or dispute writes.
+- **Mathematical Invariants via Z3 SMT**: Inductive decision bounds are compiled into deterministic constraint systems verified by an SMT solver, preventing counterfactual generalization collapse.
+- **Exhaustive Verification Suite**: 351 passing automated tests across Pytest and Vitest, end-to-end linting (`ruff`, `mypy --strict`, `eslint`, `prettier`), and cryptographic SHA-256 non-repudiation audit trails.
+
+### 3. AI Judgment: The Right Tool in the Right Place (And Where We Chose NOT to Use One)
+Modern AI discourse often conflates model capability with model appropriateness. Our fundamental thesis is:
+> **"Semantic extraction supports · deterministic code decides · humans retain financial authority."**
+
+In our tournament benchmarking:
+- **Where We Used AI**: High-precision multilingual NLP and computer vision document intelligence for entity recognition, script classification (English, Hindi Devanagari, Hinglish, Bengali, Tamil, Telugu), and character-exact substring grounding. AI is used solely as an inductive perception layer to convert messy human text into typed relational candidates.
+- **Where We Explicitly Chose NOT to Use AI**: We rejected generative LLM dispute generation, stochastic neural classifiers, and black-box XGBoost decision makers for the final decision boundary. In contract law, evidentiary audits, and balance sheet reconciliation, a probabilistic model with a 95% confidence score is a 5% liability. Final risk determinations are compiled into deterministic, verifiable first-order logic.
+
+### 4. Failure Recovery: What Broke, and How We Got Out
+True engineering maturity is forged during the moments when assumptions collapse under real-world complexity. Over our build journey, several critical architectural and implementation challenges forced deep pivots:
+
+1. **The Multi-Document Entity Extraction Collapse**:
+   - *What Broke*: Real-world dispute evidence is rarely a single clean JSON payload; it arrives as heterogeneous bundles containing CSV ledgers, PDF dispute letters, UPI screenshot images, and raw customer tickets. Our initial pipeline only parsed the first line of text (`claims[0]`), silently discarding subsequent multilingual statements and multi-row claims.
+   - *How We Got Out*: We re-architected the entire ingestion pipeline into a unified batch grounding engine. We implemented cross-file entity intelligence with token-distance correlation, linking invoice payment IDs to bank ledger rows and multilingual customer statements across English, Hinglish, and Devanagari Hindi.
+2. **Client-Side Document Parsing Without Native Dependencies**:
+   - *What Broke*: Standard server-side PDF and image rendering tools relied on heavyweight C++ binaries (Poppler, OpenCV native wheels) that failed or introduced severe security attack surfaces in minimal container environments.
+   - *How We Got Out*: Built a pure, offline-first client-side parsing pipeline in TypeScript that directly traverses PDF byte-stream operators (`BT...ET`, `Tj`, `TJ`) and canvas-based adaptive thresholding for receipt inspection, eliminating native dependencies while preserving instant sub-second local execution.
+3. **The Micro-Currency & Multilingual Numeral Parsing Edge Cases**:
+   - *What Broke*: Indic linguistic nuances caused numerical extraction anomalies: colloquial phrases like *"4999 rupaye"* alongside Devanagari Hindi numerals and duplicate debit phrasing (*"duplicate charged"*) were misclassified as standard inquiries rather than material claims.
+   - *How We Got Out*: We developed a specialized Indic financial NLP engine supporting verbal and numeric constructs, script-aware currency extraction, and intent disambiguation for duplicate debits (`DOUBLE_DEBIT`), mapping all values into exact integer paise.
+4. **Vite Production Bundling & CSS Architecture Collisions**:
+   - *What Broke*: During production containerization, differences between local Vite hot-module replacement and strict Rollup bundling caused module transformation bottlenecks. Concurrently, nested layout components created double-rendered footer disclaimer bars in the proof console.
+   - *How We Got Out*: Systematically debugged TypeScript module dependencies, enforced strict zero-warning Vite builds, eliminated component-level duplicate footers, and established a unified 1px-bordered design system with verified automated UI regression testing.
+
