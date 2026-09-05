@@ -197,11 +197,14 @@ def extract_financial_entities(text: str) -> list[str]:
 
 
 def extract_transaction_references(text: str) -> list[str]:
-    """Extract Razorpay IDs, 12-digit UTR/RRN, and custom reference codes."""
+    """Extract Razorpay IDs, UPI VPAs, 12-digit UTR/RRN, and custom reference codes."""
     refs: list[str] = []
     # Razorpay IDs
     rzp = re.findall(r"\b(?:pay|rfnd|order|disp|case)_[a-zA-Z0-9_-]{8,32}\b", text, re.IGNORECASE)
     refs.extend(rzp)
+    # UPI VPA handles (e.g. user@oksbi)
+    vpas = re.findall(r"\b[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\b", text)
+    refs.extend(vpas)
     # 12-digit UTR/RRN
     utr = re.findall(r"\b(?:utr|rrn|ref|reference)?[:\s#-]*([0-9]{12})\b", text, re.IGNORECASE)
     for u in utr:
@@ -235,16 +238,16 @@ def classify_dispute_intent(text: str) -> dict[str, str]:
             "summary": "Communication states that refund was approved and credited/processed.",
         }
     if re.search(
-        r"\b(?:return\s*le\s*liya|picked\s*up|item\s*returned|delivered\s*back|parcel\s*wapas)\b",
+        r"\b(?:return(?:ed)?|picked\s*up|item\s*returned|delivered\s*back|parcel\s*wapas|parcel\s*delivered)\b",
         lower,
-    ) and re.search(r"\b(?:nahi|not|pending|missing|paisa)\b", lower):
+    ) and re.search(r"\b(?:nahi|not|no\s*refund|pending|missing|paisa|withheld)\b", lower):
         return {
             "intent": "RETURN_DELIVERED_NO_REFUND",
             "summary": "Customer states goods were picked up or delivered, but refund was withheld.",
         }
     if re.search(
         r"\b(?:nahi\s*mila|not\s*received|never\s*processed|wapas\s*nahi|refund\s*kahan\s*hai|"
-        r"paise\s*bhejo|cut\s*gaye|deducted\s*but\s*failed)\b",
+        r"paise\s*bhejo|cut\s*gaye|deducted\s*but\s*failed|need\s*refund|want\s*refund|claim\s*refund)\b",
         lower,
     ):
         return {
@@ -253,7 +256,10 @@ def classify_dispute_intent(text: str) -> dict[str, str]:
                 "Customer claims debited amount was not refunded or credit did not reflect in bank account."
             ),
         }
-    if re.search(r"\b(?:fraud|unauthorized|fake|scam|otp\s*nahi\s*diya)\b", lower):
+    if re.search(
+        r"\b(?:fraud(?:ulent)?|unauthorized|not\s*authorized|unapproved|fake|scam|otp\s*nahi\s*diya)\b",
+        lower,
+    ):
         return {
             "intent": "UNAUTHORIZED_TRANSACTION",
             "summary": "Dispute alleges unauthorized charge or security breach.",

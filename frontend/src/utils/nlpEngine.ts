@@ -243,6 +243,10 @@ export function extractTransactionReferences(text: string): string[] {
   const rzp = text.match(/\b(?:pay|rfnd|order|disp|case)_[a-zA-Z0-9_-]{8,32}\b/gi);
   if (rzp) refs.push(...rzp);
 
+  // UPI VPA handles (e.g. user@okhdfcbank)
+  const vpas = text.match(/\b[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\b/g);
+  if (vpas) refs.push(...vpas);
+
   // 12-digit UPI UTR / RRN (Bank transaction reference)
   const utr = text.match(/\b(?:utr|rrn|ref|reference)?[:\s#-]*([0-9]{12})\b/gi);
   if (utr) {
@@ -290,8 +294,8 @@ export function classifyDisputeIntent(text: string): { intent: DisputeIntent; su
 
   // Return delivered but refund missing
   if (
-    /\b(?:return\s*le\s*liya|picked\s*up|item\s*returned|delivered\s*back|parcel\s*wapas)\b/i.test(lower) &&
-    /\b(?:nahi|not|pending|missing|paisa)\b/i.test(lower)
+    /\b(?:return(?:ed)?|picked\s*up|item\s*returned|delivered\s*back|parcel\s*wapas|parcel\s*delivered)\b/i.test(lower) &&
+    /\b(?:nahi|not|no\s*refund|pending|missing|paisa|withheld)\b/i.test(lower)
   ) {
     return {
       intent: "RETURN_DELIVERED_NO_REFUND",
@@ -301,7 +305,7 @@ export function classifyDisputeIntent(text: string): { intent: DisputeIntent; su
 
   // Negative refund claim: refund not received / missing
   if (
-    /\b(?:nahi\s*mila|not\s*received|never\s*processed|wapas\s*nahi|refund\s*kahan\s*hai|paise\s*bhejo|cut\s*gaye|deducted\s*but\s*failed)\b/i.test(lower)
+    /\b(?:nahi\s*mila|not\s*received|never\s*processed|wapas\s*nahi|refund\s*kahan\s*hai|paise\s*bhejo|cut\s*gaye|deducted\s*but\s*failed|need\s*refund|want\s*refund|claim\s*refund)\b/i.test(lower)
   ) {
     return {
       intent: "REFUND_NOT_RECEIVED",
@@ -310,7 +314,11 @@ export function classifyDisputeIntent(text: string): { intent: DisputeIntent; su
   }
 
   // Unauthorized / Fraud
-  if (/\b(?:fraud|unauthorized|fake|scam|otp\s*nahi\s*diya)\b/i.test(lower)) {
+  if (
+    /\b(?:fraud(?:ulent)?|unauthorized|not\s*authorized|unapproved|fake|scam|otp\s*nahi\s*diya)\b/i.test(
+      lower,
+    )
+  ) {
     return {
       intent: "UNAUTHORIZED_TRANSACTION",
       summary: "Dispute alleges unauthorized charge or card/UPI security breach.",

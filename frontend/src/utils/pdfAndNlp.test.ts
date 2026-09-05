@@ -85,6 +85,18 @@ describe("nlpEngine", () => {
 
     const english = "Your refund of INR 4,999 has been processed successfully.";
     expect(detectTextLanguage(english).language).toBe("English");
+
+    // Regional scripts
+    expect(detectTextLanguage("আমার টাকা এখনও পাইনি").language).toBe("Bengali");
+    expect(detectTextLanguage("பணம் இன்னும் வரவில்லை").language).toBe("Tamil");
+    expect(detectTextLanguage("నా డబ్బులు ఇంకా రాలేదు").language).toBe("Telugu");
+    expect(detectTextLanguage("ನನ್ನ ಹಣ ಇನ್ನೂ ಬಂದಿಲ್ಲ").language).toBe("Kannada");
+
+    // Regional Romanized
+    expect(detectTextLanguage("Taka ferot paini").language).toBe("Bengali");
+    expect(detectTextLanguage("Panam kidaikkavillai").language).toBe("Tamil");
+    expect(detectTextLanguage("Dabbulu raledu ayindi").language).toBe("Telugu");
+    expect(detectTextLanguage("Paise parat aale nahit").language).toBe("Marathi");
   });
 
   it("extracts amounts from words, numbers, and currency formats", () => {
@@ -96,6 +108,11 @@ describe("nlpEngine", () => {
     const wordText = "Customer paid do hazaar rupees.";
     const wordAmounts = extractAmountsFromText(wordText);
     expect(wordAmounts.map((a) => a.normalizedInr)).toContain("2000.00");
+
+    const multiText = "Paid paanch sau and 10k rs.";
+    const multiAmounts = extractAmountsFromText(multiText);
+    expect(multiAmounts.map((a) => a.normalizedInr)).toContain("500.00");
+    expect(multiAmounts.map((a) => a.normalizedInr)).toContain("10000.00");
   });
 
   it("identifies Indian places and commercial hubs", () => {
@@ -103,10 +120,17 @@ describe("nlpEngine", () => {
     const places = extractPlaces(text);
     expect(places).toContain("Bengaluru");
     expect(places).toContain("Mumbai");
+
+    const text2 = "Shipment from Hyderabad to Chennai and warehouse in Pune.";
+    const places2 = extractPlaces(text2);
+    expect(places2).toContain("Hyderabad");
+    expect(places2).toContain("Chennai");
+    expect(places2).toContain("Pune");
   });
 
   it("identifies financial rails, banks, and transaction references", () => {
-    const text = "Payment made via Razorpay using HDFC Bank, UPI ref 492019284719, pay_89a0bcdef123.";
+    const text =
+      "Payment made via Razorpay using HDFC Bank, UPI ref 492019284719, pay_89a0bcdef123 to merchant@okhdfcbank.";
     const entities = extractFinancialEntities(text);
     expect(entities).toContain("Razorpay");
     expect(entities).toContain("HDFC Bank");
@@ -115,6 +139,7 @@ describe("nlpEngine", () => {
     const refs = extractTransactionReferences(text);
     expect(refs).toContain("UTR: 492019284719");
     expect(refs).toContain("pay_89a0bcdef123");
+    expect(refs).toContain("merchant@okhdfcbank");
   });
 
   it("classifies dispute intent across distinct categories", () => {
@@ -125,6 +150,26 @@ describe("nlpEngine", () => {
     expect(
       classifyDisputeIntent("Your INR 2,500 refund was processed on 28 August.").intent,
     ).toBe("REFUND_CLAIMED_PROCESSED");
+    expect(
+      classifyDisputeIntent("Returned the product and parcel delivered but no refund.").intent,
+    ).toBe("RETURN_DELIVERED_NO_REFUND");
+    expect(
+      classifyDisputeIntent("Fraudulent charge, unapproved transaction, not authorized.").intent,
+    ).toBe("UNAUTHORIZED_TRANSACTION");
+  });
+
+  it("handles empty strings and adversarial inputs safely", () => {
+    const empty = analyzeMultilingualDisputeText("");
+    expect(empty.language).toBe("English");
+    expect(empty.claimedAmounts).toEqual([]);
+
+    const huge = analyzeMultilingualDisputeText("refund ".repeat(500));
+    expect(huge.intent).toBe("GENERAL_INQUIRY");
+
+    const mixed = analyzeMultilingualDisputeText("💸 ₹500 का रिफंड wapas karo in Mumbai user@oksbi 🎉");
+    expect(["Hindi (Devanagari)", "Hinglish (Romanized Hindi)"]).toContain(mixed.language);
+    expect(mixed.places).toContain("Mumbai");
+    expect(mixed.transactionReferences).toContain("user@oksbi");
   });
 
   it("produces a comprehensive entity intelligence packet", () => {
