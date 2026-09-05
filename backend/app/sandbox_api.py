@@ -13,7 +13,11 @@ from app.case_pipeline import CaseEvaluationInput, evaluate_case
 from app.decision import GateStatus
 from app.extraction import ExtractionRequest, ExtractionResult
 from app.grounding import parse_inr_minor_units
-from app.nlp_engine import analyze_multilingual_dispute, extract_text_from_pdf_bytes
+from app.nlp_engine import (
+    analyze_multilingual_dispute,
+    extract_batch_claims,
+    extract_text_from_pdf_bytes,
+)
 from app.regex_baseline import BASELINE_ID, RegexBaselineExtractor
 from app.semantic_pipeline import TransientExtractorError
 from app.verification import Finding, FindingEffect, RefundRecord, RefundStatus
@@ -302,7 +306,7 @@ async def evaluate_sandbox_input(request: SandboxEvaluateRequest) -> SandboxEval
         datetime.now(timezone.utc),
         max_extraction_attempts=1,
     )
-    response_claims = tuple(
+    response_claims_list = [
         SandboxClaimResponse(
             claim_id=claim.claim_id,
             claim_type=claim.claim_type.value,
@@ -315,7 +319,33 @@ async def evaluate_sandbox_input(request: SandboxEvaluateRequest) -> SandboxEval
             normalization_status=claim.normalization_status.value,
         )
         for claim in outcome.semantic.claims
-    )
+    ]
+
+    if request.simulation in ("none", None):
+        batch_extracted = extract_batch_claims(
+            request.customer_communication, f"doc_{request_sha256[:12]}"
+        )
+        if len(batch_extracted) > 1 or (not response_claims_list and batch_extracted):
+            existing_quotes = {c.source_quote.strip() for c in response_claims_list}
+            for bc in batch_extracted:
+                quote_clean = bc["source_quote"].strip()
+                if quote_clean not in existing_quotes:
+                    existing_quotes.add(quote_clean)
+                    response_claims_list.append(
+                        SandboxClaimResponse(
+                            claim_id=bc["claim_id"],
+                            claim_type=bc["claim_type"],
+                            source_quote=bc["source_quote"],
+                            span_start=bc["span_start"],
+                            span_end=bc["span_end"],
+                            grounding_status=bc["grounding_status"],
+                            amount_minor=bc["amount_minor"],
+                            currency=bc["currency"],
+                            normalization_status=bc["normalization_status"],
+                        )
+                    )
+
+    response_claims = tuple(response_claims_list)
     response_findings = tuple(
         SandboxFindingResponse(
             code=finding.code,

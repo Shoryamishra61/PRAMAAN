@@ -185,3 +185,36 @@ def test_prompt_injection_is_ignored_while_grounded_claim_still_blocks(tmp_path:
     assert result["status"] == "BLOCK"
     assert all("Ignore the schema" not in claim["source_quote"] for claim in result["claims"])
     assert result["boundary"]["gate_authority"] == "DETERMINISTIC_POLICY"
+
+
+def test_batch_multilingual_multi_statement_extraction(tmp_path: Path) -> None:
+    communication = (
+        "Your INR 2500 refund was processed on 28 August\n\n"
+        "Aapka INR 3200 refund kal process ho gaya tha\n\n"
+        "कृपया मेरा 500 रुपये का रिफंड वापस करो\n\n"
+        "Debit of 4999 rupaye duplicate charged"
+    )
+    response = _client(tmp_path).post(
+        "/api/v1/sandbox/evaluate",
+        json=_payload(
+            customer_communication=communication,
+            payment_amount_inr="4999.00",
+            refund_status="processed",
+            refund_amount_inr="499.00",
+        ),
+    )
+
+    assert response.status_code == 200
+    result = response.json()
+    assert result["status"] == "BLOCK"
+    assert len(result["claims"]) >= 4
+    amounts = [c["amount_minor"] for c in result["claims"]]
+    assert 250000 in amounts
+    assert 320000 in amounts
+    assert 50000 in amounts
+    assert 499900 in amounts
+    assert any("2500" in c["source_quote"] for c in result["claims"])
+    assert any("3200" in c["source_quote"] for c in result["claims"])
+    assert any("500" in c["source_quote"] for c in result["claims"])
+    assert any("4999" in c["source_quote"] for c in result["claims"])
+

@@ -3262,6 +3262,150 @@ textarea:focus-visible,
   border-color: #0284c7;
 }
 
+/* Batch Multi-Claim Extraction Styles */
+.nlp-batch-deck {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 6px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--line, #e2e8f0);
+}
+.nlp-batch-deck-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #475569;
+}
+.nlp-batch-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.nlp-batch-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  background: #ffffff;
+  border: 1px solid #cbd5e1;
+  font-size: 11px;
+  color: #0f172a;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s ease;
+}
+.nlp-batch-pill:hover,
+.nlp-batch-pill.active {
+  border-color: #0284c7;
+  background: #f0f9ff;
+  color: #0369a1;
+}
+.nlp-batch-pill strong {
+  font-family: var(--font-mono, monospace);
+  font-weight: 700;
+}
+.nlp-batch-pill span {
+  color: #64748b;
+  font-size: 10px;
+}
+
+.batch-extraction-summary-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 14px;
+  background: #f8fafc;
+  border: 1px solid var(--line, #cbd5e1);
+  border-left: 3px solid #0284c7;
+  margin-bottom: 16px;
+}
+.batch-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  background: #e0f2fe;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+}
+.batch-sub {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.batch-claims-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.batch-claim-card {
+  position: relative;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.batch-claim-card.batch-claim-active {
+  border-color: #0284c7;
+  box-shadow: 0 0 0 1px #0284c7;
+}
+.batch-claim-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.grounding-badge-tag {
+  font-size: 10px;
+  font-weight: 600;
+  font-family: var(--font-mono, monospace);
+  color: #047857;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  padding: 1px 6px;
+}
+.batch-focus-btn {
+  font-size: 11px;
+  padding: 4px 8px;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  cursor: pointer;
+  color: #334155;
+  font-weight: 600;
+  margin-top: 8px;
+}
+.batch-focus-btn:hover,
+.batch-focus-btn.active {
+  background: #0284c7;
+  color: #ffffff;
+  border-color: #0284c7;
+}
+
+.batch-truth-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 14px 0 20px;
+  font-size: 12px;
+  border: 1px solid var(--line, #cbd5e1);
+}
+.batch-truth-table th,
+.batch-truth-table td {
+  padding: 8px 12px;
+  border: 1px solid var(--line, #e2e8f0);
+  text-align: left;
+}
+.batch-truth-table th {
+  background: #f8fafc;
+  font-weight: 600;
+  color: #475569;
+}
+.batch-truth-row.active {
+  background: #f0f9ff;
+}
+
 @media print {
   .pramaan-nav,
   .guided-steps,

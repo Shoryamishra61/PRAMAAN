@@ -303,6 +303,7 @@ export function TryVerifier() {
   const [error, setError] = useState<string | null>(null);
   const [rejected, setRejected] = useState(false);
   const [inputNotice, setInputNotice] = useState<string | null>(null);
+  const [focusedClaimIndex, setFocusedClaimIndex] = useState<number>(0);
 
   const nlpInsight = useMemo(() => {
     if (!request.customer_communication?.trim()) return null;
@@ -509,7 +510,10 @@ export function TryVerifier() {
       }
     });
   }
-  const primaryClaim = result?.claims[0] ?? null;
+  const primaryClaim =
+    (result?.claims && result.claims[focusedClaimIndex]) ||
+    result?.claims[0] ||
+    null;
   const observed = rejected
     ? "REJECTED"
     : (beforeRepair?.status ?? result?.status ?? null);
@@ -804,11 +808,19 @@ export function TryVerifier() {
                     </span>
                   </div>
                   <div className="nlp-details-grid">
-                    {nlpInsight.claimedAmounts.length > 0 && (
+                    {nlpInsight.claimedAmounts.length === 1 && (
                       <div className="nlp-item">
                         <span className="nlp-label">Detected Amount:</span>
                         <span className="nlp-value">
                           INR {nlpInsight.claimedAmounts[0].normalizedInr} ({nlpInsight.claimedAmounts[0].raw})
+                        </span>
+                      </div>
+                    )}
+                    {nlpInsight.claimedAmounts.length > 1 && (
+                      <div className="nlp-item">
+                        <span className="nlp-label">Detected Amounts ({nlpInsight.claimedAmounts.length}):</span>
+                        <span className="nlp-value">
+                          {nlpInsight.claimedAmounts.map((a) => `INR ${a.normalizedInr}`).join(" · ")}
                         </span>
                       </div>
                     )}
@@ -831,7 +843,7 @@ export function TryVerifier() {
                       </div>
                     )}
                   </div>
-                  {nlpInsight.claimedAmounts.length > 0 && (
+                  {nlpInsight.claimedAmounts.length === 1 && (
                     <button
                       type="button"
                       className="nlp-apply-btn"
@@ -849,6 +861,36 @@ export function TryVerifier() {
                     >
                       Auto-fill Amount from NLP (INR {nlpInsight.claimedAmounts[0].normalizedInr})
                     </button>
+                  )}
+                  {nlpInsight.claimedAmounts.length > 1 && (
+                    <div className="nlp-batch-deck">
+                      <span className="nlp-batch-deck-title">
+                        Batch Amounts &amp; Claims ({nlpInsight.claimedAmounts.length}) · Click any to focus &amp; auto-fill:
+                      </span>
+                      <div className="nlp-batch-pills">
+                        {nlpInsight.claimedAmounts.map((amt, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            className={`nlp-batch-pill ${request.payment_amount_inr === amt.normalizedInr ? "active" : ""}`}
+                            onClick={() => {
+                              editRequest({
+                                ...request,
+                                payment_amount_inr: amt.normalizedInr,
+                                refund_amount_inr:
+                                  request.refund_status !== "none"
+                                    ? amt.normalizedInr
+                                    : request.refund_amount_inr,
+                              });
+                            }}
+                            title={`Click to set payment amount to INR ${amt.normalizedInr}`}
+                          >
+                            <strong>₹{amt.normalizedInr}</strong>
+                            <span>({amt.raw})</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   )}
                 </div>
               )}
@@ -980,59 +1022,132 @@ export function TryVerifier() {
                 relation while preserving the exact source.
               </p>
             </div>
-            <article
-              className="layer-card learned-layer"
-              data-tour="extracted-claim-box"
-            >
-              <div className="layer-number">1</div>
-              <div>
-                <p className="layer-label">Semantic extraction</p>
-                <h3>
-                  {primaryClaim
-                    ? "A processed-refund claim was grounded"
-                    : "No supported claim could be grounded"}
-                </h3>
-                {primaryClaim ? (
-                  <button
-                    type="button"
-                    className="grounded-quote"
-                    onClick={() => quoteRef.current?.focus()}
-                  >
-                    <CursorClick aria-hidden="true" />“
-                    {primaryClaim.source_quote}”
-                  </button>
-                ) : (
-                  <blockquote>{request.customer_communication}</blockquote>
-                )}
-                <dl className="layer-facts">
-                  <div>
-                    <dt>Input</dt>
-                    <dd>Customer communication</dd>
-                  </div>
-                  <div>
-                    <dt>Mechanism</dt>
-                    <dd>Bounded relation extractor</dd>
-                  </div>
-                  <div>
-                    <dt>Output</dt>
-                    <dd>
-                      {primaryClaim
-                        ? `Processed refund · ${money(primaryClaim.amount_minor)}`
-                        : "Abstained"}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>Authority</dt>
-                    <dd>Suggests facts only</dd>
-                  </div>
-                </dl>
-                <p className="layer-note">
-                  Selected artifact:{" "}
-                  {readableToken(result.boundary.extractor_id)}. It cannot
-                  decide PASS, REVIEW, or BLOCK.
-                </p>
+            {result.claims.length > 1 && (
+              <div className="batch-extraction-summary-banner" role="status">
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <span className="batch-badge">BATCH MULTI-EXTRACTION</span>
+                  <strong>{result.claims.length} claims grounded from evidence batch</strong>
+                </div>
+                <span className="batch-sub">
+                  Exact byte-span grounding &amp; typed relation extraction across all statements
+                </span>
               </div>
-            </article>
+            )}
+
+            {result.claims.length > 1 ? (
+              <div className="batch-claims-grid">
+                {result.claims.map((claim, idx) => (
+                  <article
+                    key={claim.claim_id}
+                    className={`layer-card learned-layer batch-claim-card ${idx === focusedClaimIndex ? "batch-claim-active" : ""}`}
+                    data-tour={idx === 0 ? "extracted-claim-box" : undefined}
+                    onClick={() => setFocusedClaimIndex(idx)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <div className="layer-number">{idx + 1}</div>
+                    <div>
+                      <div className="batch-claim-card-header">
+                        <p className="layer-label">Claim #{idx + 1}</p>
+                        <span className="grounding-badge-tag">
+                          {claim.grounding_status} ({claim.span_start ?? 0}–{claim.span_end ?? 0})
+                        </span>
+                      </div>
+                      <h3>{readableToken(claim.claim_type)}</h3>
+                      <button
+                        type="button"
+                        className="grounded-quote"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          quoteRef.current?.focus();
+                        }}
+                      >
+                        <CursorClick aria-hidden="true" />“{claim.source_quote}”
+                      </button>
+                      <dl className="layer-facts">
+                        <div>
+                          <dt>Output</dt>
+                          <dd>
+                            <strong>{money(claim.amount_minor)}</strong>
+                          </dd>
+                        </div>
+                        <div>
+                          <dt>Mechanism</dt>
+                          <dd>Bounded relation extractor</dd>
+                        </div>
+                        <div>
+                          <dt>Authority</dt>
+                          <dd>Suggests facts only</dd>
+                        </div>
+                      </dl>
+                      <button
+                        type="button"
+                        className={`batch-focus-btn ${idx === focusedClaimIndex ? "active" : ""}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setFocusedClaimIndex(idx);
+                        }}
+                      >
+                        {idx === focusedClaimIndex ? "Active for Verification" : "Focus this Claim"}
+                      </button>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            ) : (
+              <article
+                className="layer-card learned-layer"
+                data-tour="extracted-claim-box"
+              >
+                <div className="layer-number">1</div>
+                <div>
+                  <p className="layer-label">Semantic extraction</p>
+                  <h3>
+                    {primaryClaim
+                      ? "A processed-refund claim was grounded"
+                      : "No supported claim could be grounded"}
+                  </h3>
+                  {primaryClaim ? (
+                    <button
+                      type="button"
+                      className="grounded-quote"
+                      onClick={() => quoteRef.current?.focus()}
+                    >
+                      <CursorClick aria-hidden="true" />“
+                      {primaryClaim.source_quote}”
+                    </button>
+                  ) : (
+                    <blockquote>{request.customer_communication}</blockquote>
+                  )}
+                  <dl className="layer-facts">
+                    <div>
+                      <dt>Input</dt>
+                      <dd>Customer communication</dd>
+                    </div>
+                    <div>
+                      <dt>Mechanism</dt>
+                      <dd>Bounded relation extractor</dd>
+                    </div>
+                    <div>
+                      <dt>Output</dt>
+                      <dd>
+                        {primaryClaim
+                          ? `Processed refund · ${money(primaryClaim.amount_minor)}`
+                          : "Abstained"}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>Authority</dt>
+                      <dd>Suggests facts only</dd>
+                    </div>
+                  </dl>
+                  <p className="layer-note">
+                    Selected artifact:{" "}
+                    {readableToken(result.boundary.extractor_id)}. It cannot
+                    decide PASS, REVIEW, or BLOCK.
+                  </p>
+                </div>
+              </article>
+            )}
             <details className="technical-details">
               <summary>Technical details</summary>
               <div>
@@ -1081,6 +1196,77 @@ export function TryVerifier() {
                 deterministic code, not predicted by a model.
               </p>
             </div>
+            {result.claims.length > 1 && (
+              <div style={{ marginBottom: 16 }}>
+                <p className="layer-label">
+                  Batch Claims Verification Matrix ({result.claims.length} claims grounded) · Click any row to focus:
+                </p>
+                <table className="batch-truth-table" aria-label="Batch Claim Verification Against Ledger">
+                  <thead>
+                    <tr>
+                      <th>Claim #</th>
+                      <th>Statement Quote</th>
+                      <th>Claimed Amount</th>
+                      <th>Ledger Refund State</th>
+                      <th>Integrity Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {result.claims.map((claim, idx) => {
+                      const matches =
+                        claim.amount_minor !== null &&
+                        result.ledger.refund_amount_minor !== null &&
+                        claim.amount_minor === result.ledger.refund_amount_minor;
+                      return (
+                        <tr
+                          key={claim.claim_id}
+                          className={`batch-truth-row ${idx === focusedClaimIndex ? "active" : ""}`}
+                          onClick={() => setFocusedClaimIndex(idx)}
+                          style={{ cursor: "pointer" }}
+                          title="Click to inspect this claim in the scales below"
+                        >
+                          <td>
+                            <strong>#{idx + 1}</strong>{" "}
+                            {idx === focusedClaimIndex && (
+                              <span style={{ color: "#0284c7", fontWeight: 700 }}>[Focused]</span>
+                            )}
+                          </td>
+                          <td>
+                            “
+                            {claim.source_quote.length > 45
+                              ? `${claim.source_quote.slice(0, 42)}...`
+                              : claim.source_quote}
+                            ”
+                          </td>
+                          <td>
+                            <strong>{money(claim.amount_minor)}</strong>
+                          </td>
+                          <td>
+                            {result.ledger.refund_status.toUpperCase()} (
+                            {money(result.ledger.refund_amount_minor)})
+                          </td>
+                          <td>
+                            {matches ? (
+                              <span style={{ color: "#047857", fontWeight: 700 }}>
+                                MATCH (PASS)
+                              </span>
+                            ) : claim.amount_minor && result.ledger.refund_amount_minor ? (
+                              <span style={{ color: "#b91c1c", fontWeight: 700 }}>
+                                MISMATCH (BLOCK)
+                              </span>
+                            ) : (
+                              <span style={{ color: "#b45309", fontWeight: 700 }}>
+                                REVIEW
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
             <div className="truth-comparison">
               <article ref={ledgerRef} tabIndex={-1}>
                 <p className="layer-label">Claim from the message</p>
@@ -1317,6 +1503,21 @@ export function TryVerifier() {
                       ],
                       ["Primary_Finding", result.findings[0]?.code || "NONE"],
                     ];
+                    if (result.claims && result.claims.length > 1) {
+                      rows.push(["Batch_Claims_Total_Count", String(result.claims.length)]);
+                      result.claims.forEach((clm, i) => {
+                        rows.push([
+                          `Batch_Claim_${i + 1}_Quote`,
+                          `"${clm.source_quote.replace(/"/g, '""')}"`,
+                        ]);
+                        rows.push([
+                          `Batch_Claim_${i + 1}_Amount_INR`,
+                          clm.amount_minor ? (clm.amount_minor / 100).toFixed(2) : "0.00",
+                        ]);
+                        rows.push([`Batch_Claim_${i + 1}_Type`, clm.claim_type]);
+                        rows.push([`Batch_Claim_${i + 1}_Status`, clm.grounding_status]);
+                      });
+                    }
                     const csvText = rows.map((r) => r.join(",")).join("\n");
                     downloadStringAsFile(csvText, filename, "text/csv;charset=utf-8;");
                   }}
@@ -1338,23 +1539,34 @@ export function TryVerifier() {
                       `Request Digest:     ${result.request_sha256}`,
                       `Evaluated At:       ${new Date().toISOString()}`,
                       "------------------------------------------------------------------",
-                      "EVIDENCE GROUNDING:",
+                      "EVIDENCE GROUNDING (PRIMARY):",
                       `  Source Quote:     "${primaryClaim?.source_quote || "None"}"`,
                       `  Claim Amount:     INR ${primaryClaim?.amount_minor ? (primaryClaim.amount_minor / 100).toFixed(2) : "0.00"}`,
-                      "------------------------------------------------------------------",
-                      "LEDGER TRUTH:",
-                      `  Ledger Status:    ${result.ledger.refund_status}`,
-                      `  Ledger Amount:    INR ${result.ledger.refund_amount_minor ? (result.ledger.refund_amount_minor / 100).toFixed(2) : "0.00"}`,
-                      `  Ledger Complete:  ${result.ledger.refund_ledger_complete}`,
-                      "------------------------------------------------------------------",
-                      "DETERMINISTIC PROOF:",
-                      `  Solver Status:    ${result.proof.status}`,
-                      `  Proof SHA256:     ${result.proof.certificate?.proof_sha256 || "None"}`,
-                      "==================================================================",
-                      "DISCLAIMER:",
-                      "  Defense-only verification. Read-only gate. No API mutation.",
-                    ].join("\n");
-                    downloadStringAsFile(lines, filename, "text/plain;charset=utf-8;");
+                    ];
+                    if (result.claims && result.claims.length > 1) {
+                      lines.push("------------------------------------------------------------------");
+                      lines.push(`BATCH MULTI-EXTRACTION (${result.claims.length} CLAIMS GROUNDED):`);
+                      result.claims.forEach((clm, i) => {
+                        lines.push(`  [Claim #${i + 1}]`);
+                        lines.push(`    Quote:   "${clm.source_quote}"`);
+                        lines.push(`    Type:    ${clm.claim_type}`);
+                        lines.push(`    Amount:  INR ${clm.amount_minor ? (clm.amount_minor / 100).toFixed(2) : "0.00"}`);
+                        lines.push(`    Offsets: ${clm.span_start ?? 0}..${clm.span_end ?? 0}`);
+                      });
+                    }
+                    lines.push("------------------------------------------------------------------");
+                    lines.push("LEDGER TRUTH:");
+                    lines.push(`  Ledger Status:    ${result.ledger.refund_status}`);
+                    lines.push(`  Ledger Amount:    INR ${result.ledger.refund_amount_minor ? (result.ledger.refund_amount_minor / 100).toFixed(2) : "0.00"}`);
+                    lines.push(`  Ledger Complete:  ${result.ledger.refund_ledger_complete}`);
+                    lines.push("------------------------------------------------------------------");
+                    lines.push("DETERMINISTIC PROOF:");
+                    lines.push(`  Solver Status:    ${result.proof.status}`);
+                    lines.push(`  Proof SHA256:     ${result.proof.certificate?.proof_sha256 || "None"}`);
+                    lines.push("==================================================================");
+                    lines.push("DISCLAIMER:");
+                    lines.push("  Defense-only verification. Read-only gate. No API mutation.");
+                    downloadStringAsFile(lines.join("\n"), filename, "text/plain;charset=utf-8;");
                   }}
                   title="Download audit report TXT"
                 >

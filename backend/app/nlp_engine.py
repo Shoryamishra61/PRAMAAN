@@ -10,6 +10,7 @@ Supports:
 
 from __future__ import annotations
 
+import hashlib
 import re
 from typing import Any
 
@@ -110,9 +111,9 @@ def extract_amounts(text: str) -> list[dict[str, Any]]:
     results: list[dict[str, Any]] = []
     seen: set[str] = set()
 
-    # 1. Currency prefix matching: ₹ 3,200.00, INR 4999, Rs. 500
+    # 1. Currency prefix matching: ₹ 3,200.00, INR 4999, Rs. 500, रू 500
     pattern_prefix = re.compile(
-        r"(?:₹|INR|rs\.?|rupees?|rupaye?)\s*([0-9]+(?:,[0-9]+)*(?:\.[0-9]{1,2})?)",
+        r"(?:₹|INR|rs\.?|rupees?|rupaye?|रुपये|रुपए|रू|টাকা|ரூபாய்|రూపాయలు|रु)\s*([0-9]+(?:,[0-9]+)*(?:\.[0-9]{1,2})?)",
         re.IGNORECASE,
     )
     for m in pattern_prefix.finditer(text):
@@ -127,13 +128,13 @@ def extract_amounts(text: str) -> list[dict[str, Any]]:
             minor = int(whole) * 100 + int(dec.ljust(2, "0")[:2])
             results.append({"raw": raw, "normalized_inr": norm, "minor_units": minor})
 
-    # 2. Currency suffix matching: "3200 rupees", "500 rs", "4999 rupaye"
+    # 2. Currency suffix matching: "3200 rupees", "500 rs", "4999 rupaye", "500 रुपये"
     pattern_suffix = re.compile(
-        r"\b([0-9]+(?:,[0-9]+)*(?:\.[0-9]{1,2})?)\s*(?:₹|INR|rs\.?|rupees?|rupaye?|paisa|bucks)\b",
+        r"(?:^|[^0-9])([0-9]+(?:,[0-9]+)*(?:\.[0-9]{1,2})?)\s*(?:₹|INR|rs\.?|rupees?|rupaye?|रुपये|रुपए|रू|पैसा|पैसे|টাকা|ரூபாய்|రూపాయలు|रु|bucks|paisa)(?:\b|[\s,.!?]|$)",
         re.IGNORECASE,
     )
     for m in pattern_suffix.finditer(text):
-        raw = m.group(0)
+        raw = m.group(0).strip()
         digits = m.group(1).replace(",", "")
         if digits not in seen:
             seen.add(digits)
@@ -221,7 +222,7 @@ def classify_dispute_intent(text: str) -> dict[str, str]:
     """Classify the root dispute intent from text."""
     lower = text.lower()
     if re.search(
-        r"\b(?:dobara|do\s*baar|twice|double\s*debit|two\s*times|kat\s*gaye\s*do\s*baar)\b",
+        r"\b(?:dobara|do\s*baar|twice|double\s*debit|two\s*times|kat\s*gaye\s*do\s*baar|duplicate\s*(?:charged?|debit|transaction|payment)?|duplicate)\b",
         lower,
     ):
         return {
@@ -230,7 +231,7 @@ def classify_dispute_intent(text: str) -> dict[str, str]:
         }
     if re.search(
         r"\b(?:kal\s*process\s*ho\s*gaya|refund\s*was\s*processed|refund\s*has\s*been\s*processed|"
-        r"we\s*processed|already\s*refunded|credit\s*processed)\b",
+        r"we\s*processed|already\s*refunded|credit\s*processed|process\s*ho\s*gaya)\b",
         lower,
     ):
         return {
@@ -247,9 +248,10 @@ def classify_dispute_intent(text: str) -> dict[str, str]:
         }
     if re.search(
         r"\b(?:nahi\s*mila|not\s*received|never\s*processed|wapas\s*nahi|refund\s*kahan\s*hai|"
-        r"paise\s*bhejo|cut\s*gaye|deducted\s*but\s*failed|need\s*refund|want\s*refund|claim\s*refund)\b",
+        r"paise\s*bhejo|cut\s*gaye|deducted\s*but\s*failed|need\s*refund|want\s*refund|claim\s*refund|"
+        r"वापस\s*करो|रिफंड\s*वापस|पैसे\s*वापस|रिफंड\s*चाहिए|रिफंड\s*दो)\b",
         lower,
-    ):
+    ) or (re.search(r"[\u0900-\u097F]", lower) and re.search(r"(?:वापस|रिफंड|पैसे)", lower)):
         return {
             "intent": "REFUND_NOT_RECEIVED",
             "summary": (
@@ -324,3 +326,105 @@ def extract_text_from_pdf_bytes(pdf_bytes: bytes) -> str:
     if not lines:
         return "PDF document imported. Standard PDF headers detected; text stream parsed."
     return "\n".join(lines)
+
+
+def extract_batch_claims(text: str, document_id: str) -> list[dict[str, Any]]:
+    """Extract all distinct dispute claims across multiple lines or statements."""
+    if not text.strip():
+        return []
+
+    # Identify individual non-empty statements
+    raw_parts = [line.strip() for line in text.splitlines() if line.strip()]
+    if len(raw_parts) <= 1:
+        # Single line: split by standard sentence terminators if multiple sentences exist
+        sentence_matches = re.split(r"(?<=[.!?])\s+", text.strip())
+        raw_parts = [s.strip() for s in sentence_matches if s.strip()]
+
+    claims: list[dict[str, Any]] = []
+    seen_quotes: set[str] = set()
+
+    instruction_pattern = re.compile(
+        r"\b(?:ignore|disregard)\b[^.!?\n]*\b(?:instruction|schema|say|output|tool)\b",
+        re.IGNORECASE,
+    )
+
+    for idx, quote in enumerate(raw_parts):
+        if not quote or quote in seen_quotes:
+            continue
+        if instruction_pattern.search(quote):
+            continue
+        seen_quotes.add(quote)
+
+        analysis = analyze_multilingual_dispute(quote)
+        intent = analysis["intent"]
+        amounts = analysis["claimed_amounts"]
+
+        # Only ground quotes that present a dispute fact or claimed amount
+        if not amounts and intent == "GENERAL_INQUIRY":
+            continue
+
+        # Exact span offsets within original text
+        span_start = text.find(quote)
+        span_end = span_start + len(quote) if span_start >= 0 else None
+        if span_start < 0:
+            span_start = None
+
+        # Map intent to canonical claim_type
+        if intent == "REFUND_CLAIMED_PROCESSED":
+            claim_type = "refund_claimed_processed"
+        elif intent in ("REFUND_REQUESTED", "REFUND_NOT_RECEIVED"):
+            claim_type = "refund_requested"
+        elif intent == "RETURN_DELIVERED_NO_REFUND":
+            claim_type = "return_claimed"
+        elif intent == "DOUBLE_DEBIT":
+            claim_type = "refund_claimed_processed" if "refund" in quote.lower() else "refund_amount"
+        elif "refund" in quote.lower() or "credit" in quote.lower() or "रिफंड" in quote:
+            claim_type = (
+                "refund_claimed_processed"
+                if re.search(r"\b(?:processed|ho gaya)\b", quote, re.I)
+                else "refund_requested"
+            )
+        else:
+            claim_type = "refund_amount" if amounts else "refund_requested"
+
+        if amounts:
+            for a_idx, amt in enumerate(amounts):
+                minor = amt["minor_units"]
+                claim_id = f"claim_{hashlib.sha256(f'{document_id}:{idx}:{a_idx}:{quote}'.encode()).hexdigest()[:16]}"
+                claims.append({
+                    "claim_id": claim_id,
+                    "claim_type": claim_type,
+                    "source_quote": quote,
+                    "span_start": span_start,
+                    "span_end": span_end,
+                    "grounding_status": "GROUNDED",
+                    "amount_minor": minor,
+                    "currency": "INR",
+                    "normalization_status": "RESOLVED",
+                    "language": analysis["language"],
+                    "confidence": analysis["confidence"],
+                    "intent": intent,
+                    "raw_amount": amt["raw"],
+                    "normalized_inr": amt["normalized_inr"],
+                })
+        else:
+            # Statement without explicit amount
+            claim_id = f"claim_{hashlib.sha256(f'{document_id}:{idx}:no_amt:{quote}'.encode()).hexdigest()[:16]}"
+            claims.append({
+                "claim_id": claim_id,
+                "claim_type": claim_type,
+                "source_quote": quote,
+                "span_start": span_start,
+                "span_end": span_end,
+                "grounding_status": "GROUNDED",
+                "amount_minor": None,
+                "currency": "INR",
+                "normalization_status": "RESOLVED",
+                "language": analysis["language"],
+                "confidence": analysis["confidence"],
+                "intent": intent,
+                "raw_amount": None,
+                "normalized_inr": None,
+            })
+
+    return claims

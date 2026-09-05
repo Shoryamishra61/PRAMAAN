@@ -182,4 +182,29 @@ describe("nlpEngine", () => {
     expect(nlp.banksAndRails).toContain("Razorpay");
     expect(nlp.transactionReferences).toContain("RF-HI-01");
   });
+
+  it("extracts all batch statements from multi-statement communications", () => {
+    const multiCommunication = [
+      "Your INR 2500 refund was processed on 28 August",
+      "Aapka INR 3200 refund kal process ho gaya tha",
+      "कृपया मेरा 500 रुपये का रिफंड वापस करो",
+      "Debit of 4999 rupaye duplicate charged",
+    ].join("\n\n");
+
+    const nlp = analyzeMultilingualDisputeText(multiCommunication);
+    expect(nlp.claimedAmounts.length).toBeGreaterThanOrEqual(4);
+    expect(nlp.batchStatements.length).toBe(4);
+
+    const amounts = nlp.claimedAmounts.map((a) => a.normalizedInr);
+    expect(amounts).toContain("2500.00");
+    expect(amounts).toContain("3200.00");
+    expect(amounts).toContain("500.00");
+    expect(amounts).toContain("4999.00");
+
+    expect(nlp.batchStatements[0].quote).toContain("2500");
+    expect(nlp.batchStatements[1].quote).toContain("3200");
+    expect(nlp.batchStatements[2].quote).toContain("500");
+    expect(nlp.batchStatements[3].quote).toContain("4999");
+    expect(nlp.batchStatements[3].intent).toBe("DOUBLE_DEBIT");
+  });
 });

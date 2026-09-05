@@ -130,7 +130,12 @@ export function generateAuditPdf(
   drawRect(54, curY - 60, 487.28, 60, true, true);
 
   setFillColor(71, 85, 105);
-  text("F2", 9, 66, curY - 16, "EXTRACTED SOURCE QUOTE:");
+  const batchCount = result.claims?.length || (primaryClaim ? 1 : 0);
+  const headerText =
+    batchCount > 1
+      ? `EXTRACTED SOURCE QUOTE (Primary of ${batchCount} Grounded Claims):`
+      : "EXTRACTED SOURCE QUOTE:";
+  text("F2", 9, 66, curY - 16, headerText);
   setFillColor(15, 23, 42);
   const quote = primaryClaim?.source_quote || "No claim grounded (Extractor abstained).";
   const truncatedQuote = quote.length > 80 ? `${quote.slice(0, 77)}...` : quote;
@@ -140,7 +145,8 @@ export function generateAuditPdf(
   const claimAmtStr = primaryClaim?.amount_minor
     ? `INR ${(primaryClaim.amount_minor / 100).toFixed(2)}`
     : "None";
-  text("F1", 9, 66, curY - 48, `Claim Amount: ${claimAmtStr}  |  Grounding Status: ${primaryClaim?.grounding_status || "ABSTAINED"}  |  Normalization: ${primaryClaim?.normalization_status || "N/A"}`);
+  const batchSummary = batchCount > 1 ? `  |  Batch Grounded: ${batchCount} Claims` : "";
+  text("F1", 9, 66, curY - 48, `Claim Amount: ${claimAmtStr}${batchSummary}  |  Grounding: ${primaryClaim?.grounding_status || "ABSTAINED"}`);
 
   curY -= 85;
 

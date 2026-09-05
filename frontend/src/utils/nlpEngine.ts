@@ -27,6 +27,17 @@ export type DisputeIntent =
   | "UNAUTHORIZED_TRANSACTION"
   | "GENERAL_INQUIRY";
 
+export interface BatchStatementItem {
+  id: string;
+  quote: string;
+  spanStart: number;
+  spanEnd: number;
+  language: DetectedLanguage;
+  intent: DisputeIntent;
+  intentSummary: string;
+  amounts: { raw: string; normalizedInr: string; minorUnits: bigint }[];
+}
+
 export interface ExtractedEntities {
   language: DetectedLanguage;
   confidence: number;
@@ -38,6 +49,7 @@ export interface ExtractedEntities {
   transactionReferences: string[];
   datesFound: string[];
   keyTokens: string[];
+  batchStatements: BatchStatementItem[];
 }
 
 // 1. Places Dictionary (Top Indian cities, tech hubs, and commercial centers)
@@ -147,8 +159,8 @@ export function extractAmountsFromText(text: string): { raw: string; normalizedI
   const results: { raw: string; normalizedInr: string; minorUnits: bigint }[] = [];
   const seen = new Set<string>();
 
-  // 1. Explicit Currency Symbol / Code matching (e.g. ₹ 3,200.00, INR 4999, Rs. 500)
-  const explicitRegex = /(?:₹|INR|rs\.?|rupees?|rupaye?)\s*([0-9]+(?:,[0-9]+)*(?:\.[0-9]{1,2})?)/gi;
+  // 1. Explicit Currency Symbol / Code matching (e.g. ₹ 3,200.00, INR 4999, Rs. 500, रू 500)
+  const explicitRegex = /(?:₹|INR|rs\.?|rupees?|rupaye?|रुपये|रुपए|रू|টাকা|ரூபாய்|రూపాయలు|रु)\s*([0-9]+(?:,[0-9]+)*(?:\.[0-9]{1,2})?)/gi;
   let match: RegExpExecArray | null;
 
   while ((match = explicitRegex.exec(text)) !== null) {
@@ -163,10 +175,10 @@ export function extractAmountsFromText(text: string): { raw: string; normalizedI
     }
   }
 
-  // 2. Trailing currency matching (e.g. "3200 rupees", "500 rs", "4999 rupaye", "10k inr")
-  const trailingRegex = /\b([0-9]+(?:,[0-9]+)*(?:\.[0-9]{1,2})?)\s*(?:₹|INR|rs\.?|rupees?|rupaye?|paisa|bucks)\b/gi;
+  // 2. Trailing currency matching (e.g. "3200 rupees", "500 rs", "4999 rupaye", "500 रुपये")
+  const trailingRegex = /(?:^|[^0-9])([0-9]+(?:,[0-9]+)*(?:\.[0-9]{1,2})?)\s*(?:₹|INR|rs\.?|rupees?|rupaye?|रुपये|रुपए|रू|पैसा|पैसे|টাকা|ரூபாய்|రూపాయలు|रु|bucks|paisa)(?:\b|[\s,.!?]|$)/gi;
   while ((match = trailingRegex.exec(text)) !== null) {
-    const rawMatch = match[0];
+    const rawMatch = match[0].trim();
     const numPart = match[1].replace(/,/g, "");
     if (!seen.has(numPart)) {
       seen.add(numPart);
@@ -274,7 +286,7 @@ export function classifyDisputeIntent(text: string): { intent: DisputeIntent; su
 
   // Double debit detection
   if (
-    /\b(?:dobara|do\s*baar|twice|double\s*debit|two\s*times|kat\s*gaye\s*do\s*baar)\b/i.test(lower)
+    /\b(?:dobara|do\s*baar|twice|double\s*debit|two\s*times|kat\s*gaye\s*do\s*baar|duplicate\s*(?:charged?|debit|transaction|payment)?|duplicate)\b/i.test(lower)
   ) {
     return {
       intent: "DOUBLE_DEBIT",
@@ -284,7 +296,7 @@ export function classifyDisputeIntent(text: string): { intent: DisputeIntent; su
 
   // Positive claim: refund was already processed / issued
   if (
-    /\b(?:kal\s*process\s*ho\s*gaya|refund\s*was\s*processed|refund\s*has\s*been\s*processed|we\s*processed|already\s*refunded|credit\s*processed)\b/i.test(lower)
+    /\b(?:kal\s*process\s*ho\s*gaya|refund\s*was\s*processed|refund\s*has\s*been\s*processed|we\s*processed|already\s*refunded|credit\s*processed|process\s*ho\s*gaya)\b/i.test(lower)
   ) {
     return {
       intent: "REFUND_CLAIMED_PROCESSED",
@@ -305,7 +317,8 @@ export function classifyDisputeIntent(text: string): { intent: DisputeIntent; su
 
   // Negative refund claim: refund not received / missing
   if (
-    /\b(?:nahi\s*mila|not\s*received|never\s*processed|wapas\s*nahi|refund\s*kahan\s*hai|paise\s*bhejo|cut\s*gaye|deducted\s*but\s*failed|need\s*refund|want\s*refund|claim\s*refund)\b/i.test(lower)
+    /\b(?:nahi\s*mila|not\s*received|never\s*processed|wapas\s*nahi|refund\s*kahan\s*hai|paise\s*bhejo|cut\s*gaye|deducted\s*but\s*failed|need\s*refund|want\s*refund|claim\s*refund|वापस\s*करो|रिफंड\s*वापस|पैसे\s*वापस|रिफंड\s*चाहिए|रिफंड\s*दो)\b/i.test(lower) ||
+    (/[\u0900-\u097F]/.test(lower) && /(?:वापस|रिफंड|पैसे)/.test(lower))
   ) {
     return {
       intent: "REFUND_NOT_RECEIVED",
@@ -331,6 +344,48 @@ export function classifyDisputeIntent(text: string): { intent: DisputeIntent; su
   };
 }
 
+export function extractBatchStatementsFromText(text: string): BatchStatementItem[] {
+  if (!text.trim()) return [];
+
+  let rawLines = text.split(/\r?\n/).map((l) => l.trim()).filter((l) => l.length > 0);
+  if (rawLines.length <= 1) {
+    const sentences = text.trim().split(/(?<=[.!?])\s+/);
+    rawLines = sentences.map((s) => s.trim()).filter((s) => s.length > 0);
+  }
+
+  const items: BatchStatementItem[] = [];
+  const seenQuotes = new Set<string>();
+
+  for (let idx = 0; idx < rawLines.length; idx++) {
+    const quote = rawLines[idx];
+    if (!quote || seenQuotes.has(quote)) continue;
+    seenQuotes.add(quote);
+
+    const spanStart = text.indexOf(quote);
+    const spanEnd = spanStart >= 0 ? spanStart + quote.length : -1;
+
+    const { language } = detectTextLanguage(quote);
+    const { intent, summary } = classifyDisputeIntent(quote);
+    const amounts = extractAmountsFromText(quote);
+
+    // Only include statement if it has an amount or non-trivial intent
+    if (amounts.length === 0 && intent === "GENERAL_INQUIRY") continue;
+
+    items.push({
+      id: `stmt-${idx + 1}`,
+      quote,
+      spanStart,
+      spanEnd,
+      language,
+      intent,
+      intentSummary: summary,
+      amounts,
+    });
+  }
+
+  return items;
+}
+
 export function analyzeMultilingualDisputeText(text: string): ExtractedEntities {
   const { language, confidence } = detectTextLanguage(text);
   const { intent, summary } = classifyDisputeIntent(text);
@@ -338,6 +393,7 @@ export function analyzeMultilingualDisputeText(text: string): ExtractedEntities 
   const places = extractPlaces(text);
   const banksAndRails = extractFinancialEntities(text);
   const transactionReferences = extractTransactionReferences(text);
+  const batchStatements = extractBatchStatementsFromText(text);
 
   // Extract dates
   const dates = text.match(
@@ -363,5 +419,6 @@ export function analyzeMultilingualDisputeText(text: string): ExtractedEntities 
     transactionReferences,
     datesFound: Array.from(new Set(dates)),
     keyTokens: Array.from(new Set(keyTokens)),
+    batchStatements,
   };
 }
