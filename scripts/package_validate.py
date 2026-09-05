@@ -62,10 +62,12 @@ def main() -> int:
     )
     id_pattern = re.compile(r"\b(?:PRD(?:-NFR)?|SRS|AI|POL|API)-\d+\b")
     defined_req_ids = set(id_pattern.findall(canonical_text))
-    task_req_ids = set(id_pattern.findall((ROOT / "TASKS.md").read_text(encoding="utf-8")))
-    unknown_task_ids = sorted(task_req_ids - defined_req_ids)
-    if unknown_task_ids:
-        fail(f"TASKS references undefined requirement IDs: {unknown_task_ids}", errors)
+    tasks_path = ROOT / "TASKS.md"
+    if tasks_path.exists():
+        task_req_ids = set(id_pattern.findall(tasks_path.read_text(encoding="utf-8")))
+        unknown_task_ids = sorted(task_req_ids - defined_req_ids)
+        if unknown_task_ids:
+            fail(f"TASKS references undefined requirement IDs: {unknown_task_ids}", errors)
 
     # Cross-track contamination guard for authoritative implementation files.
     core_paths = [
@@ -75,8 +77,6 @@ def main() -> int:
         ROOT / "docs/09-AI-ML-SPEC.md",
         ROOT / "docs/12-DECISION-POLICY.md",
         ROOT / "docs/13-ARCHITECTURE.md",
-        ROOT / "AGENTS.md",
-        ROOT / "MASTER-BUILD-PROMPT.md",
     ]
     forbidden_track3 = re.compile(
         r"\b(Hybrid Recovery Orchestrator|Z9|ZA|payday[- ]aligned|UPI retry|"

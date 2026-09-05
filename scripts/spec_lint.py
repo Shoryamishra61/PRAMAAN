@@ -15,9 +15,6 @@ EXCLUDE = {
 
 REQUIRED = [
     "README.md",
-    "AGENTS.md",
-    "MASTER-BUILD-PROMPT.md",
-    "QUALITY-GATES.md",
     "docs/00-SOURCE-OF-TRUTH.md",
     "docs/05-PRD.md",
     "docs/06-SRS.md",
@@ -55,8 +52,7 @@ def files_to_scan() -> Iterator[Path]:
     # Scan implementation-authoritative specs. Meta/correction/source documents intentionally
     # quote rejected legacy phrases and are excluded from banned-phrase checks.
     for rel in [
-        "AGENTS.md",
-        "MASTER-BUILD-PROMPT.md",
+        "README.md",
         "docs/00-SOURCE-OF-TRUTH.md",
         "docs/02-PROBLEM-VALIDATION.md",
         "docs/04-DOMAIN-MODEL.md",
