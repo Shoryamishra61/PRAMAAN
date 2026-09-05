@@ -1,0 +1,12 @@
+.git
+.venv
+node_modules
+frontend/node_modules
+__pycache__
+*.pyc
+*.pyo
+.pytest_cache
+.mypy_cache
+.ruff_cache
+var/logs
+var/*.sqlite3*

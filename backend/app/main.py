@@ -3,11 +3,13 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from pathlib import Path
 from time import perf_counter
 from uuid import uuid4
 
 from fastapi import FastAPI, Header, Query, Request
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 from starlette.concurrency import run_in_threadpool
 
 from app.ai_lab_api import AiLabArtifactError, AiLabCaseResponse, build_case_ai_lab
@@ -379,6 +381,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             return _error_response(
                 "EVALUATION_ARTIFACT_INVALID", str(error), f"corr_{uuid4().hex}", 500
             )
+
+    dist_dir = Path(__file__).resolve().parents[2] / "frontend" / "dist"
+    if dist_dir.is_dir():
+        application.mount("/", StaticFiles(directory=str(dist_dir), html=True), name="frontend")
 
     return application
 
