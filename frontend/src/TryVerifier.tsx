@@ -1,28 +1,17 @@
-import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  type ChangeEvent,
-  type FormEvent,
-} from "react";
-import { useTutorial } from "./tutorial";
+import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+import { useTutorialActions } from "./tutorial";
 import {
   ArrowRight,
   Check,
   CircleNotch,
   CursorClick,
   DownloadSimple,
-  FileText,
-  Files,
   Info,
   Lightning,
   Scales,
   ShieldCheck,
-  UploadSimple,
   Warning,
   Wrench,
-  X,
 } from "@phosphor-icons/react";
 import {
   evaluateSandbox,
@@ -30,17 +19,13 @@ import {
   type SandboxEvaluateResponse,
 } from "./api";
 import { formatMoney as money, humanizeToken as readableToken } from "./format";
-import {
-  IntelligentReviewCard,
-  ProofCertificateView,
-} from "./components/primitives";
+import { IntelligentReviewCard } from "./components/primitives";
 import { EvidenceDropzone } from "./components/EvidenceDropzone";
-import { InteractiveTour } from "./components/InteractiveTour";
 import {
   type EvidenceFileRecord,
   type CrossFileAnalysisResult,
 } from "./utils/crossFileIntelligence";
-import { Sparkle } from "@phosphor-icons/react";
+import { isSandboxRequest } from "./utils/sandboxRequest";
 
 type ScenarioKey =
   | "wrong_amount"
@@ -188,45 +173,6 @@ const scenarios: Scenario[] = [
   },
 ];
 
-const refundStatuses = new Set([
-  "none",
-  "created",
-  "pending",
-  "processed",
-  "failed",
-  "cancelled",
-]);
-const simulations = new Set([
-  undefined,
-  "none",
-  "model_outage",
-  "hash_mismatch",
-  "ocr_corruption",
-]);
-
-function isSandboxRequest(value: unknown): value is SandboxEvaluateRequest {
-  if (!value || typeof value !== "object") return false;
-  const item = value as Record<string, unknown>;
-  return (
-    typeof item.raw_reason_code === "string" &&
-    item.raw_reason_code.length > 0 &&
-    item.raw_reason_code.length <= 128 &&
-    typeof item.payment_amount_inr === "string" &&
-    item.payment_amount_inr.length > 0 &&
-    item.payment_amount_inr.length <= 32 &&
-    typeof item.customer_communication === "string" &&
-    item.customer_communication.length > 0 &&
-    item.customer_communication.length <= 10_000 &&
-    typeof item.refund_ledger_complete === "boolean" &&
-    typeof item.refund_status === "string" &&
-    refundStatuses.has(item.refund_status) &&
-    (item.refund_amount_inr === null ||
-      (typeof item.refund_amount_inr === "string" &&
-        item.refund_amount_inr.length <= 32)) &&
-    simulations.has(item.simulation as string | undefined)
-  );
-}
-
 function findingLabel(code: string): string {
   const labels: Record<string, string> = {
     F_REFUND_AMOUNT_MISMATCH: "Refund amount does not match",
@@ -252,32 +198,26 @@ export function TryVerifier() {
   const [beforeRepair, setBeforeRepair] =
     useState<SandboxEvaluateResponse | null>(null);
   const [running, setRunning] = useState(false);
+  const [parsing, setParsing] = useState(false);
   const [analysisPhase, setAnalysisPhase] = useState<string | null>(null);
-  const [importedFiles, setImportedFiles] = useState<
-    { name: string; size: number; content: string }[]
-  >([]);
   const [evidenceFiles, setEvidenceFiles] = useState<EvidenceFileRecord[]>([]);
   const [crossFileAnalysis, setCrossFileAnalysis] =
     useState<CrossFileAnalysisResult | null>(null);
-  const [tourOpen, setTourOpen] = useState(false);
-  const [hasCheckedCase, setHasCheckedCase] = useState(false);
   const [journeyStep, setJourneyStep] = useState<1 | 2 | 3 | 4>(1);
   const [elapsedMs, setElapsedMs] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [rejected, setRejected] = useState(false);
   const [inputNotice, setInputNotice] = useState<string | null>(null);
 
-  const tutorial = useTutorial();
+  const tutorial = useTutorialActions();
   const updateAppContext = tutorial.updateAppContext;
 
   useEffect(() => {
     updateAppContext?.({
       journeyStep,
-      hasFiles:
-        evidenceFiles.length > 0 ||
-        importedFiles.length > 0 ||
-        selected !== null,
-      fileCount: evidenceFiles.length || importedFiles.length,
+      inputError: crossFileAnalysis?.errors[0] ?? error,
+      hasFiles: evidenceFiles.length > 0,
+      fileCount: evidenceFiles.length,
       hasResult: result !== null,
       isEvaluating: running,
       resultVerdict: result?.status ?? null,
@@ -287,8 +227,9 @@ export function TryVerifier() {
   }, [
     updateAppContext,
     journeyStep,
+    crossFileAnalysis,
+    error,
     evidenceFiles,
-    importedFiles,
     selected,
     result,
     running,
@@ -301,69 +242,28 @@ export function TryVerifier() {
     [selected],
   );
 
-  function buildCombinedCommunication(
-    files: { name: string; size: number; content: string }[],
-  ): string {
-    if (files.length === 0) return "";
-    if (files.length === 1 && files[0].name.toLowerCase().endsWith(".txt")) {
-      return files[0].content.trim();
-    }
-    const blocks = files.map((file, idx) => {
-      let body = file.content.trim();
-      if (file.name.toLowerCase().endsWith(".json")) {
-        try {
-          const parsed = JSON.parse(file.content) as Record<string, unknown>;
-          const candidate =
-            parsed.request && typeof parsed.request === "object"
-              ? (parsed.request as Record<string, unknown>)
-              : parsed;
-          if (
-            candidate.customer_communication &&
-            typeof candidate.customer_communication === "string"
-          ) {
-            body = candidate.customer_communication.trim();
-          }
-        } catch {
-          // Fallback to raw file text
-        }
-      }
-      return `=== Document ${idx + 1}: ${file.name} ===\n${body}`;
-    });
-    let joined = blocks.join("\n\n");
-    if (joined.length > 9800) {
-      joined = `${joined.slice(0, 9750)}\n\n[... Truncated to fit 10,000 char safety limit]`;
-    }
-    return joined;
+  function editRequest(next: SandboxEvaluateRequest) {
+    setRequest(next);
+    setResult(null);
+    setError(null);
+    setElapsedMs(null);
+    setSelected("custom");
   }
 
   async function run(nextRequest = request, preserveBefore = false) {
+    if (crossFileAnalysis?.errors.length) {
+      setError(
+        "Resolve the file errors or remove the affected files before checking.",
+      );
+      return null;
+    }
     const startedAt = performance.now();
     setRunning(true);
     setError(null);
     setRejected(false);
-    setHasCheckedCase(true);
-    setAnalysisPhase("Normalizing multi-document evidence bounds…");
+    setAnalysisPhase("Checking evidence with the local verifier…");
     try {
-      const isTestEnv =
-        typeof window !== "undefined" &&
-        window.navigator?.userAgent?.includes("jsdom");
-      const tick = (ms: number) =>
-        isTestEnv
-          ? Promise.resolve()
-          : new Promise((resolve) => setTimeout(resolve, ms));
-
-      await tick(60);
-      setAnalysisPhase("Grounded neural span extraction…");
-
-      const nextResultPromise = evaluateSandbox(nextRequest);
-
-      await tick(75);
-      setAnalysisPhase("Formal Z3 arithmetic ledger solver…");
-
-      await tick(65);
-      setAnalysisPhase("Safety policy certification & audit digest…");
-
-      const nextResult = await nextResultPromise;
+      const nextResult = await evaluateSandbox(nextRequest);
       setElapsedMs(performance.now() - startedAt);
       if (!preserveBefore) setBeforeRepair(null);
       setResult(nextResult);
@@ -386,9 +286,11 @@ export function TryVerifier() {
   }
 
   function chooseScenario(scenario: Scenario) {
+    if (running || parsing) return;
     setSelected(scenario.key);
     setRequest(scenario.request);
-    setImportedFiles([]);
+    setEvidenceFiles([]);
+    setCrossFileAnalysis(null);
     setResult(null);
     setBeforeRepair(null);
     setRejected(false);
@@ -403,7 +305,8 @@ export function TryVerifier() {
   async function loadSample(sample: SampleBundle) {
     setRunning(true);
     setError(null);
-    setImportedFiles([]);
+    setEvidenceFiles([]);
+    setCrossFileAnalysis(null);
     try {
       const response = await fetch(sample.path, {
         signal: AbortSignal.timeout(10_000),
@@ -434,125 +337,16 @@ export function TryVerifier() {
     }
   }
 
-  async function importEvidence(event: ChangeEvent<HTMLInputElement>) {
-    const rawFiles = Array.from(event.target.files ?? []);
-    event.target.value = "";
-    if (rawFiles.length === 0) return;
-    setError(null);
-    try {
-      for (const file of rawFiles) {
-        if (file.size > 256_000) {
-          throw new Error(`"${file.name}" exceeds 256 KB limit.`);
-        }
-      }
-      const loaded = await Promise.all(
-        rawFiles.map(async (file) => ({
-          name: file.name,
-          size: file.size,
-          content: await file.text(),
-        })),
-      );
-
-      const jsonCandidate = loaded.find((f) =>
-        f.name.toLowerCase().endsWith(".json"),
-      );
-      let baseRequest: SandboxEvaluateRequest = { ...request };
-
-      if (jsonCandidate && loaded.length === 1) {
-        const parsed = JSON.parse(jsonCandidate.content) as unknown;
-        if (!parsed || typeof parsed !== "object") {
-          throw new Error("JSON evidence must be an object.");
-        }
-        const record = parsed as Record<string, unknown>;
-        const candidate =
-          record.request && typeof record.request === "object"
-            ? record.request
-            : record;
-        if (
-          !("raw_reason_code" in candidate) ||
-          !("customer_communication" in candidate)
-        ) {
-          throw new Error("JSON evidence does not match carve-live-bundle-v1.");
-        }
-        if (!isSandboxRequest(candidate)) {
-          throw new Error("JSON evidence does not match carve-live-bundle-v1.");
-        }
-        baseRequest = candidate;
-        setImportedFiles([jsonCandidate]);
-        setInputNotice(
-          `${jsonCandidate.name} imported locally; nothing was uploaded to an external service.`,
-        );
-      } else {
-        if (jsonCandidate) {
-          try {
-            const parsed = JSON.parse(jsonCandidate.content) as unknown;
-            if (parsed && typeof parsed === "object") {
-              const record = parsed as Record<string, unknown>;
-              const candidate =
-                record.request && typeof record.request === "object"
-                  ? record.request
-                  : record;
-              if (isSandboxRequest(candidate)) {
-                baseRequest = { ...candidate };
-              }
-            }
-          } catch {
-            // treat as plain text
-          }
-        }
-
-        const newFilesList = [...importedFiles, ...loaded];
-        const dedupedFiles = Array.from(
-          new Map(newFilesList.map((f) => [f.name, f])).values(),
-        );
-        const combined = buildCombinedCommunication(dedupedFiles);
-        baseRequest.customer_communication = combined;
-        setImportedFiles(dedupedFiles);
-        const totalKb = (
-          dedupedFiles.reduce((acc, f) => acc + f.size, 0) / 1024
-        ).toFixed(1);
-        setInputNotice(
-          `${dedupedFiles.length} evidence file${dedupedFiles.length > 1 ? "s" : ""} (${dedupedFiles.map((f) => f.name).join(", ")}) loaded locally (${totalKb} KB total). Ready for verification.`,
-        );
-      }
-
-      setSelected("custom");
-      setRequest(baseRequest);
-      setResult(null);
-      setElapsedMs(null);
-      setJourneyStep(1);
-    } catch (reason) {
-      setRejected(true);
-      setResult(null);
-      setError(
-        reason instanceof Error
-          ? reason.message
-          : "Evidence file is malformed.",
-      );
-    }
-  }
-
-  function removeImportedFile(fileName: string) {
-    const remaining = importedFiles.filter((f) => f.name !== fileName);
-    setImportedFiles(remaining);
-    if (remaining.length === 0) {
-      setInputNotice("All imported files cleared.");
-    } else {
-      const combined = buildCombinedCommunication(remaining);
-      setRequest((prev) => ({ ...prev, customer_communication: combined }));
-      setInputNotice(
-        `${remaining.length} evidence file(s) remaining for evaluation.`,
-      );
-    }
-  }
-
-  function clearAllFiles() {
-    setImportedFiles([]);
-    setInputNotice("All imported files cleared.");
-  }
-
   async function repairEvidence() {
     if (!result) return;
+    if (selected === "custom") {
+      setBeforeRepair(result);
+      setJourneyStep(1);
+      setInputNotice(
+        "Edit or replace the source evidence and financial fields, then check the case again. No refund record was generated.",
+      );
+      return;
+    }
     const acquiringMissingRefund = selected === "missing_ledger";
     const repaired: SandboxEvaluateRequest = {
       ...request,
@@ -577,7 +371,7 @@ export function TryVerifier() {
 
   function submit(event: FormEvent) {
     event.preventDefault();
-    void run().then((nextResult) => {
+    void run(request, beforeRepair !== null).then((nextResult) => {
       if (nextResult) {
         setJourneyStep(2);
         tutorial?.notifyAction("submit");
@@ -625,15 +419,11 @@ export function TryVerifier() {
             className="tour-launch-chip"
             data-tour="hero-launch-tour"
             onClick={() => {
-              if (tutorial) {
-                tutorial.startTour();
-              } else {
-                setTourOpen(true);
-              }
+              tutorial.startTour();
             }}
             aria-label="Start interactive product tutorial"
           >
-            <Sparkle size={15} aria-hidden="true" />
+            <Info size={15} aria-hidden="true" />
             <span>Interactive Tutorial</span>
           </button>
         </div>
@@ -678,310 +468,233 @@ export function TryVerifier() {
       <div className="guided-stage" aria-live="polite" aria-busy={running}>
         {journeyStep === 1 && (
           <form className="guided-input" onSubmit={submit}>
-            <div className="stage-heading">
-              <span>Step 1 of 4</span>
-              <h2>Add the evidence</h2>
-              <p>
-                Start with a sample or edit the fields. Nothing runs until you
-                choose “Check this case”.
-              </p>
-            </div>
-
-            <div data-tour="evidence-dropzone">
-              <EvidenceDropzone
-                files={evidenceFiles}
-                onFilesChange={(newFiles) => {
-                  setEvidenceFiles(newFiles);
-                  const syncFiles = newFiles.map((f) => ({
-                    name: f.name,
-                    size: f.size,
-                    content: f.rawContent,
-                  }));
-                  setImportedFiles(syncFiles);
-                }}
-                analysis={crossFileAnalysis}
-                onAnalysisChange={(newAnalysis) => {
-                  setCrossFileAnalysis(newAnalysis);
-                  setRequest((prev) => ({
-                    ...prev,
-                    customer_communication:
-                      newAnalysis.combinedCommunication ||
-                      prev.customer_communication,
-                    payment_amount_inr:
-                      newAnalysis.inferredRequest.payment_amount_inr ??
-                      prev.payment_amount_inr,
-                    refund_amount_inr:
-                      newAnalysis.inferredRequest.refund_amount_inr !==
-                      undefined
-                        ? newAnalysis.inferredRequest.refund_amount_inr
-                        : prev.refund_amount_inr,
-                    refund_status:
-                      newAnalysis.inferredRequest.refund_status === "none" ||
-                      newAnalysis.inferredRequest.refund_status === "created" ||
-                      newAnalysis.inferredRequest.refund_status === "pending" ||
-                      newAnalysis.inferredRequest.refund_status ===
-                        "processed" ||
-                      newAnalysis.inferredRequest.refund_status === "failed" ||
-                      newAnalysis.inferredRequest.refund_status === "cancelled"
-                        ? newAnalysis.inferredRequest.refund_status
-                        : prev.refund_status,
-                  }));
-                  if (newAnalysis.totalFiles > 0) {
-                    setSelected("custom");
-                    setInputNotice(
-                      `${newAnalysis.totalFiles} evidence file${newAnalysis.totalFiles > 1 ? "s" : ""} loaded locally. Ready for verification.`,
-                    );
-                  }
-                }}
-                onLoadSample={(key) => {
-                  const scen = scenarios.find((s) => s.key === key);
-                  if (scen) chooseScenario(scen);
-                }}
-                disabled={running}
-              />
-            </div>
-
-            <fieldset className="case-examples" data-tour="sample-pills">
-              <legend>Try a case that demonstrates a safety behavior</legend>
-              {scenarios.map((scenario) => (
-                <button
-                  key={scenario.key}
-                  type="button"
-                  data-tour={
-                    scenario.key === "wrong_amount"
-                      ? "sample-pill-wrong-amount"
-                      : undefined
-                  }
-                  className={selected === scenario.key ? "active" : ""}
-                  aria-pressed={selected === scenario.key}
-                  onClick={() => chooseScenario(scenario)}
-                >
-                  <strong>{scenario.label}</strong>
-                  <span>{scenario.explanation}</span>
-                </button>
-              ))}
-            </fieldset>
-            <details className="sample-drawer">
-              <summary>More reproducible examples & downloads</summary>
-              <div className="sample-bundles">
-                {sampleBundles.map((sample) => (
-                  <div key={sample.key}>
-                    <button
-                      type="button"
-                      onClick={() => void loadSample(sample)}
-                    >
-                      {sample.label}
-                    </button>
-                    <a
-                      href={sample.path}
-                      download
-                      aria-label={`Download ${sample.label} sample JSON`}
-                    >
-                      <DownloadSimple aria-hidden="true" />
-                    </a>
-                  </div>
-                ))}
-                <a
-                  className="all-samples"
-                  href="/samples/carve-sample-bundles.zip"
-                  download
-                >
-                  <DownloadSimple aria-hidden="true" /> Download all
-                </a>
-                <label
-                  className="import-evidence"
-                  title="Select multiple .txt or .json evidence documents"
-                >
-                  <UploadSimple aria-hidden="true" /> Import files
-                  (multi-select)
-                  <input
-                    name="evidence_file"
-                    type="file"
-                    multiple
-                    accept=".json,.txt,application/json,text/plain"
-                    onChange={(event) => void importEvidence(event)}
-                  />
-                </label>
+            <fieldset
+              className="case-input-fields"
+              disabled={running || parsing}
+            >
+              <div className="stage-heading">
+                <span>Step 1 of 4</span>
+                <h2>Add the evidence</h2>
+                <p>
+                  Start with a sample or edit the fields. Nothing runs until you
+                  choose “Check this case”.
+                </p>
               </div>
-            </details>
-            {inputNotice && (
-              <p className="input-notice" role="status">
-                {inputNotice}
-              </p>
-            )}
-            {importedFiles.length > 0 && (
-              <div
-                className="imported-files-tray"
-                role="region"
-                aria-label="Loaded evidence files"
-              >
-                <div className="tray-header">
-                  <span>
-                    <Files size={14} aria-hidden="true" />
-                    <strong>
-                      {importedFiles.length} Staged Document
-                      {importedFiles.length > 1 ? "s" : ""}
-                    </strong>{" "}
-                    (combined for multi-source analysis)
-                  </span>
+
+              <div data-tour="evidence-dropzone">
+                <EvidenceDropzone
+                  onBusyChange={setParsing}
+                  files={evidenceFiles}
+                  onFilesChange={setEvidenceFiles}
+                  analysis={crossFileAnalysis}
+                  onAnalysisChange={(next) => {
+                    setCrossFileAnalysis(next);
+                    setResult(null);
+                    setBeforeRepair(null);
+                    setElapsedMs(null);
+                    setSelected("custom");
+                    setRequest((prev) => ({
+                      ...prev,
+                      ...(next.structuredRequest ?? {}),
+                      customer_communication: next.combinedCommunication,
+                      refund_ledger_complete:
+                        next.structuredRequest?.refund_ledger_complete ?? false,
+                    }));
+                    setInputNotice(
+                      next.totalFiles
+                        ? "Files retained locally. Confirm payment and refund fields before checking; imported records are not authenticated."
+                        : "All imported evidence removed. Add communication before checking.",
+                    );
+                  }}
+                  disabled={running}
+                />
+              </div>
+
+              <fieldset className="case-examples" data-tour="sample-pills">
+                <legend>Try a case that demonstrates a safety behavior</legend>
+                {scenarios.map((scenario) => (
                   <button
+                    key={scenario.key}
                     type="button"
-                    className="clear-files-btn"
-                    onClick={clearAllFiles}
+                    data-tour={
+                      scenario.key === "wrong_amount"
+                        ? "sample-pill-wrong-amount"
+                        : undefined
+                    }
+                    className={selected === scenario.key ? "active" : ""}
+                    aria-pressed={selected === scenario.key}
+                    onClick={() => chooseScenario(scenario)}
                   >
-                    Clear all
+                    <strong>{scenario.label}</strong>
+                    <span>{scenario.explanation}</span>
                   </button>
-                </div>
-                <ul className="file-chips-list">
-                  {importedFiles.map((file) => (
-                    <li key={file.name} className="file-chip">
-                      <FileText size={13} aria-hidden="true" />
-                      <span className="file-chip-name">{file.name}</span>
-                      <span className="file-chip-size">
-                        ({(file.size / 1024).toFixed(1)} KB)
-                      </span>
+                ))}
+              </fieldset>
+              <details className="sample-drawer">
+                <summary>More reproducible examples & downloads</summary>
+                <div className="sample-bundles">
+                  {sampleBundles.map((sample) => (
+                    <div key={sample.key}>
                       <button
                         type="button"
-                        className="file-chip-remove"
-                        aria-label={`Remove ${file.name}`}
-                        onClick={() => removeImportedFile(file.name)}
+                        onClick={() => void loadSample(sample)}
                       >
-                        <X size={12} aria-hidden="true" />
+                        {sample.label}
                       </button>
-                    </li>
+                      <a
+                        href={sample.path}
+                        download
+                        aria-label={`Download ${sample.label} sample JSON`}
+                      >
+                        <DownloadSimple aria-hidden="true" />
+                      </a>
+                    </div>
                   ))}
-                </ul>
-              </div>
-            )}
-            <label className="primary-field">
-              Customer communication
-              <textarea
-                name="customer_communication"
-                autoComplete="off"
-                value={request.customer_communication}
-                onChange={(event) =>
-                  setRequest({
-                    ...request,
-                    customer_communication: event.target.value,
-                  })
-                }
-                rows={5}
-                maxLength={10_000}
-              />
-            </label>
-            <div className="guided-fields">
-              <label>
-                Payment amount (INR)
-                <input
-                  name="payment_amount_inr"
-                  autoComplete="off"
-                  inputMode="decimal"
-                  maxLength={32}
-                  value={request.payment_amount_inr}
-                  onChange={(event) =>
-                    setRequest({
-                      ...request,
-                      payment_amount_inr: event.target.value,
-                    })
-                  }
-                />
-              </label>
-              <label>
-                Refund ledger status
-                <select
-                  name="refund_status"
-                  autoComplete="off"
-                  value={request.refund_status}
-                  onChange={(event) =>
-                    setRequest({
-                      ...request,
-                      refund_status: event.target
-                        .value as SandboxEvaluateRequest["refund_status"],
-                    })
-                  }
-                >
-                  <option value="none">No refund record</option>
-                  <option value="processed">Processed</option>
-                  <option value="pending">Pending</option>
-                  <option value="failed">Failed</option>
-                </select>
-              </label>
-              <label>
-                Recorded refund amount
-                <input
-                  name="refund_amount_inr"
-                  autoComplete="off"
-                  inputMode="decimal"
-                  maxLength={32}
-                  value={request.refund_amount_inr ?? ""}
-                  placeholder="No record…"
-                  onChange={(event) =>
-                    setRequest({
-                      ...request,
-                      refund_amount_inr: event.target.value || null,
-                    })
-                  }
-                />
-              </label>
-              <label className="check-label">
-                <input
-                  name="refund_ledger_complete"
-                  type="checkbox"
-                  checked={request.refund_ledger_complete}
-                  onChange={(event) =>
-                    setRequest({
-                      ...request,
-                      refund_ledger_complete: event.target.checked,
-                    })
-                  }
-                />
-                This ledger snapshot is complete
-              </label>
-            </div>
-            {error && (
-              <div className="safe-error" role="alert">
-                <Warning aria-hidden="true" />
-                <span>
-                  {error.includes("fetch") || error.includes("Failed to fetch")
-                    ? "Local backend service is unreachable. The local API server at http://127.0.0.1:18000 must be running to evaluate cases."
-                    : `${error} Fix the evidence and try again; no decision was produced.`}
-                </span>
-              </div>
-            )}
-            {rejected && (
-              <div className="safe-error" role="alert">
-                <Warning aria-hidden="true" />
-                <span>
-                  Payment amounts can have at most 2 decimal places. No
-                  financial decision was created.
-                </span>
-              </div>
-            )}
-            <button
-              className="guided-primary"
-              type="submit"
-              disabled={running}
-              data-tour="check-case-btn"
-            >
-              {running ? (
-                <CircleNotch className="spin" aria-hidden="true" />
-              ) : (
-                <ArrowRight aria-hidden="true" />
+                  <a
+                    className="all-samples"
+                    href="/samples/carve-sample-bundles.zip"
+                    download
+                  >
+                    <DownloadSimple aria-hidden="true" /> Download all
+                  </a>
+                </div>
+              </details>
+              {inputNotice && (
+                <p className="input-notice" role="status">
+                  {inputNotice}
+                </p>
               )}
-              {running
-                ? (analysisPhase ?? "Checking this case…")
-                : "Check this case"}
-            </button>
-            {running && analysisPhase && (
-              <div className="eval-pipeline-progress" role="status">
-                <CircleNotch className="spin" size={13} aria-hidden="true" />
-                <span>{analysisPhase}</span>
+              <label className="primary-field">
+                Customer communication
+                <textarea
+                  name="customer_communication"
+                  autoComplete="off"
+                  value={request.customer_communication}
+                  onChange={(event) =>
+                    editRequest({
+                      ...request,
+                      customer_communication: event.target.value,
+                    })
+                  }
+                  rows={5}
+                  maxLength={10_000}
+                />
+              </label>
+              <div className="guided-fields">
+                <label>
+                  Payment amount (INR)
+                  <input
+                    name="payment_amount_inr"
+                    autoComplete="off"
+                    inputMode="decimal"
+                    maxLength={32}
+                    value={request.payment_amount_inr}
+                    onChange={(event) =>
+                      editRequest({
+                        ...request,
+                        payment_amount_inr: event.target.value,
+                      })
+                    }
+                  />
+                </label>
+                <label>
+                  Refund ledger status
+                  <select
+                    name="refund_status"
+                    autoComplete="off"
+                    value={request.refund_status}
+                    onChange={(event) =>
+                      editRequest({
+                        ...request,
+                        refund_status: event.target
+                          .value as SandboxEvaluateRequest["refund_status"],
+                      })
+                    }
+                  >
+                    <option value="none">No refund record</option>
+                    <option value="processed">Processed</option>
+                    <option value="pending">Pending</option>
+                    <option value="failed">Failed</option>
+                  </select>
+                </label>
+                <label>
+                  Recorded refund amount
+                  <input
+                    name="refund_amount_inr"
+                    autoComplete="off"
+                    inputMode="decimal"
+                    maxLength={32}
+                    value={request.refund_amount_inr ?? ""}
+                    placeholder="No record…"
+                    onChange={(event) =>
+                      editRequest({
+                        ...request,
+                        refund_amount_inr: event.target.value || null,
+                      })
+                    }
+                  />
+                </label>
+                <label className="check-label">
+                  <input
+                    name="refund_ledger_complete"
+                    type="checkbox"
+                    checked={request.refund_ledger_complete}
+                    onChange={(event) =>
+                      editRequest({
+                        ...request,
+                        refund_ledger_complete: event.target.checked,
+                      })
+                    }
+                  />
+                  This ledger snapshot is complete
+                </label>
               </div>
-            )}
-            <p className="boundary-copy">
-              Runs locally with synthetic evidence · no external service · no
-              financial write
-            </p>
+              {error && (
+                <div className="safe-error" role="alert">
+                  <Warning aria-hidden="true" />
+                  <span>
+                    {error.includes("fetch") ||
+                    error.includes("Failed to fetch")
+                      ? "Local backend service is unreachable. The local API server at http://127.0.0.1:18000 must be running to evaluate cases."
+                      : `${error} Fix the evidence and try again; no decision was produced.`}
+                  </span>
+                </div>
+              )}
+              {rejected && (
+                <div className="safe-error" role="alert">
+                  <Warning aria-hidden="true" />
+                  <span>
+                    Payment amounts can have at most 2 decimal places. No
+                    financial decision was created.
+                  </span>
+                </div>
+              )}
+              <button
+                className="guided-primary"
+                type="submit"
+                disabled={running}
+                data-tour="check-case-btn"
+              >
+                {running ? (
+                  <CircleNotch className="spin" aria-hidden="true" />
+                ) : (
+                  <ArrowRight aria-hidden="true" />
+                )}
+                {running
+                  ? (analysisPhase ?? "Checking this case…")
+                  : "Check this case"}
+              </button>
+              {running && analysisPhase && (
+                <div className="eval-pipeline-progress" role="status">
+                  <CircleNotch className="spin" size={13} aria-hidden="true" />
+                  <span>{analysisPhase}</span>
+                </div>
+              )}
+              <p className="boundary-copy">
+                Runs locally with synthetic evidence · no external service · no
+                financial write
+              </p>
+            </fieldset>
           </form>
         )}
 
@@ -1227,50 +940,43 @@ export function TryVerifier() {
                     </span>
                   </strong>
                   <span className="speed-subtext">
-                    0ms cloud egress · Local compiled CPU tensor pass + Z3 SMT
-                    solver
+                    Browser-to-local-API elapsed time · no external model
+                    request or state mutation
                   </span>
                 </div>
               </div>
-              <details className="speed-faq" open>
+              <details className="speed-faq">
                 <summary>
                   <Info size={14} aria-hidden="true" />
-                  <strong>
-                    Why is the engine so fast? Is sub-30ms latency good for
-                    financial risk?
-                  </strong>
+                  <strong>What does this measured time include?</strong>
                 </summary>
                 <div className="speed-faq-content">
                   <p>
-                    <strong>
-                      Yes, sub-30ms latency is the gold standard for
-                      quantitative payment gateways like Razorpay.
-                    </strong>
+                    This value is the observed elapsed time for this local
+                    synthetic run. It is not a throughput benchmark, production
+                    SLA, or payment-network claim.
                   </p>
                   <ul>
                     <li>
-                      <strong>Real-Time Payment SLAs:</strong> Under peak loads
-                      (10,000+ dispute webhooks/sec), an external cloud LLM
-                      (e.g., GPT-4 taking 3,000–8,000ms) creates massive thread
-                      queues, network jitter, and risk of bank SLA expiration.
+                      <strong>Semantic boundary:</strong> The configured sandbox
+                      uses the versioned regex baseline plus exact quote
+                      grounding; it makes no external model call.
                     </li>
                     <li>
-                      <strong>Edge In-Memory Execution:</strong> PRAMAAN does
-                      not make external web requests. It runs a compiled 6-layer
-                      MiniLM bi-encoder locally on CPU (~12ms) and executes
-                      formal Z3 arithmetic ledger invariants in microseconds.
+                      <strong>Financial boundary:</strong> Integer minor-unit
+                      facts are checked by the deterministic compiler and gate
+                      policy used by the sandbox API.
                     </li>
                     <li>
-                      <strong>Zero Hallucination Risk:</strong> The speed comes
-                      from deterministic constraint compilation, not cutting
-                      corners. Financial amounts and ledger balances are
-                      mathematically proven, not generated probabilistically.
+                      <strong>Research boundary:</strong> CARVE-FECL evaluates
+                      supported invariant families with bounded Z3 separately;
+                      this timing does not pretend that research path ran.
                     </li>
                   </ul>
                 </div>
               </details>
             </div>
-            <details className="mechanics-overview" open>
+            <details className="mechanics-overview">
               <summary>How this was checked</summary>
               <ol>
                 <li>
@@ -1448,47 +1154,39 @@ export function TryVerifier() {
                 </li>
               </ol>
             </details>
-            {result.status === "BLOCK" && result.findings.length > 0 && (
-              <div style={{ margin: "1rem 0" }}>
-                <ProofCertificateView
-                  certificateId={`mcc_${result.run_id.slice(-8)}`}
-                  invariantId={findingLabel(result.findings[0].code)}
-                  proofSha256={
-                    result.proof.certificate?.proof_sha256 ??
-                    result.request_sha256
-                  }
-                  facts={[
-                    {
-                      kind: "Grounded Claim",
-                      field: "claimed_processed_refund",
-                      value:
-                        primaryClaim?.source_quote ??
-                        "Refund claimed processed",
-                      evidenceId: `doc_${result.request_sha256.slice(0, 8)}`,
-                    },
-                    {
-                      kind: "Authoritative Fact",
-                      field: "ledger_refund_amount",
-                      value: money(result.ledger.refund_amount_minor),
-                      evidenceId: result.ledger.payment_id,
-                    },
-                    {
-                      kind: "Formal Invariant",
-                      field: "AMOUNT_AND_STATUS_CONSISTENCY",
-                      value: "UNSAT (Strict Disagreement)",
-                    },
-                  ]}
-                />
-              </div>
+            {result.proof.certificate && (
+              <details className="technical-details">
+                <summary>Inspect the contradiction certificate</summary>
+                <p>
+                  Invariant:{" "}
+                  <code>{result.proof.certificate.invariant_id}</code>
+                </p>
+                <p>
+                  Compiler: <code>{result.proof.certificate.solver}</code>
+                </p>
+                <p>
+                  Sources: {result.proof.certificate.evidence_refs.join(", ")}
+                </p>
+                <p>
+                  SHA-256: <code>{result.proof.certificate.proof_sha256}</code>
+                </p>
+                <p>
+                  Minimal relative to the compiled constraints; not a universal
+                  proof of evidence authenticity.
+                </p>
+              </details>
             )}
             {result.status === "REVIEW" && result.next_evidence && (
               <div style={{ margin: "1rem 0" }}>
                 <IntelligentReviewCard
                   missingEvidenceId={result.next_evidence.evidence_id}
                   reason={result.next_evidence.reason}
-                  action="Acquire Authoritative Refund Export"
-                  costInr={result.next_evidence.acquisition_cost}
-                  decisionImpact="Acquiring authoritative ledger facts eliminates ambiguity and enables deterministic PASS or BLOCK verification."
+                  action={
+                    selected === "custom"
+                      ? "Edit source evidence"
+                      : "Simulate evidence repair"
+                  }
+                  decisionImpact="A complete refund record is needed to re-evaluate this case. This demo cannot fetch or authenticate an export."
                   onAcquire={() => void repairEvidence()}
                   busy={running}
                 />
@@ -1501,9 +1199,9 @@ export function TryVerifier() {
                   : "Test a causal repair"}
               </h3>
               <p>
-                {selected === "missing_ledger"
-                  ? "Request the lowest-cost authoritative source and rerun the same proof."
-                  : "Attach a matching ledger entry and see whether the evidence (not a score) changes the result."}
+                {selected === "custom"
+                  ? "Replace or edit the evidence and confirm the financial fields before rerunning."
+                  : "Simulate a repaired ledger using the scenario fixture. This does not acquire new evidence or change a payment."}
               </p>
               <button
                 type="button"
@@ -1513,9 +1211,9 @@ export function TryVerifier() {
                 disabled={running}
               >
                 <Wrench aria-hidden="true" />
-                {selected === "missing_ledger"
-                  ? `Acquire refund export · cost ${result.next_evidence?.acquisition_cost ?? 1}`
-                  : "Attach matching refund record & rerun"}
+                {selected === "custom"
+                  ? "Edit evidence & recheck"
+                  : "Simulate repaired ledger & rerun"}
               </button>
               {beforeRepair && (
                 <div className="decision-diff">
@@ -1601,14 +1299,6 @@ export function TryVerifier() {
           retain authority
         </span>
       </footer>
-      <InteractiveTour
-        isOpen={tourOpen}
-        onClose={() => setTourOpen(false)}
-        hasFiles={evidenceFiles.length > 0 || selected !== null}
-        hasResult={result !== null}
-        hasCheckedCase={hasCheckedCase}
-        currentJourneyStep={journeyStep}
-      />
     </section>
   );
 }

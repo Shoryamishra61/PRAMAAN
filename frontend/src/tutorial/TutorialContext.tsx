@@ -1,421 +1,569 @@
 import {
-  useState,
-  useEffect,
   useCallback,
+  useEffect,
+  useMemo,
   useRef,
+  useState,
   type ReactNode,
 } from "react";
-import { type TutorialAppContext, type RequiredActionType } from "./types";
+import type {
+  RequiredActionType,
+  TourMachineEvent,
+  TourMachineStatus,
+  TourPanelSize,
+  TourPlacement,
+  TourTargetStatus,
+  TutorialAppContext,
+} from "./types";
 import {
+  emitTutorialAnalytics,
+  TARGET_RESOLUTION_TIMEOUT_MS,
+  TUTORIAL_SESSION_KEY,
   TUTORIAL_STEPS,
   TUTORIAL_STORAGE_KEY,
-  TUTORIAL_COMPLETED_KEY,
-  emitTutorialAnalytics,
+  transitionTourStatus,
+  workflowNumberForIndex,
+  WORKFLOW_STEP_COUNT,
 } from "./tutorialEngine";
-import { TutorialContext, defaultAppContext } from "./useTutorial";
+import {
+  defaultAppContext,
+  TutorialActionsContext,
+  TutorialContext,
+  type TutorialActionsValue,
+} from "./useTutorial";
 
-export function TutorialProvider({ children }: { children: ReactNode }) {
-  const [isActive, setIsActive] = useState<boolean>(() => {
-    try {
-      const saved = localStorage.getItem(TUTORIAL_STORAGE_KEY);
-      return saved === "true";
-    } catch {
-      return false;
+interface TutorialProviderProps {
+  children: ReactNode;
+  route?: string;
+  onNavigate?: (route: string) => void;
+}
+
+interface SessionPreferences {
+  version: 1;
+  panelSize: TourPanelSize;
+  placement: TourPlacement;
+  userOffset: { x: number; y: number };
+}
+
+const RUNNING_STATES = new Set<TourMachineStatus>([
+  "STARTING",
+  "ACTIVE",
+  "WAITING_FOR_TARGET",
+  "TRANSITIONING",
+  "PAUSED",
+]);
+
+function readSessionPreferences(): SessionPreferences {
+  const fallback: SessionPreferences = {
+    version: 1,
+    panelSize: "standard",
+    placement: "auto",
+    userOffset: { x: 0, y: 0 },
+  };
+  try {
+    const parsed = JSON.parse(
+      sessionStorage.getItem(TUTORIAL_SESSION_KEY) ?? "null",
+    );
+    if (
+      parsed?.version === 1 &&
+      ["compact", "standard", "expanded"].includes(parsed.panelSize) &&
+      [
+        "auto",
+        "top-left",
+        "top-right",
+        "bottom-left",
+        "bottom-right",
+        "side-center",
+      ].includes(parsed.placement) &&
+      Number.isFinite(parsed.userOffset?.x) &&
+      Number.isFinite(parsed.userOffset?.y)
+    ) {
+      return parsed as SessionPreferences;
     }
-  });
+  } catch {
+    // Disabled or malformed session storage falls back to safe defaults.
+  }
+  return fallback;
+}
 
-  const [currentStepIndex, setCurrentStepIndex] = useState<number>(0);
-  const [appContext, setAppContext] =
-    useState<TutorialAppContext>(defaultAppContext);
+export function TutorialProvider({
+  children,
+  route = "proof",
+  onNavigate,
+}: TutorialProviderProps) {
+  const initialPreferences = useMemo(() => readSessionPreferences(), []);
+  const [status, setStatus] = useState<TourMachineStatus>("IDLE");
+  const [currentStepIndex, setCurrentStepIndex] = useState(0);
+  const [appContext, setAppContext] = useState<TutorialAppContext>({
+    ...defaultAppContext,
+    route,
+  });
   const [targetRect, setTargetRect] = useState<DOMRect | null>(null);
-  const [targetElement, setTargetElement] = useState<HTMLElement | null>(null);
-  const [isTargetVisible, setIsTargetVisible] = useState<boolean>(false);
-  const [stuckSeconds, setStuckSeconds] = useState<number>(0);
-  const [currentHintLevel, setCurrentHintLevel] = useState<number>(0);
-  const [userOffset, setUserOffset] = useState<{ x: number; y: number }>({
-    x: 0,
-    y: 0,
-  });
-  const [isDocked, setIsDocked] = useState<boolean>(false);
+  const [targetStatus, setTargetStatus] = useState<TourTargetStatus>("idle");
+  const [stuckSeconds, setStuckSeconds] = useState(0);
+  const [currentHintLevel, setCurrentHintLevel] = useState(0);
+  const [actionObserved, setActionObserved] = useState(false);
+  const [userOffset, setUserOffset] = useState(initialPreferences.userOffset);
+  const [panelSize, setPanelSize] = useState<TourPanelSize>(
+    initialPreferences.panelSize,
+  );
+  const [placement, setPlacement] = useState<TourPlacement>(
+    initialPreferences.placement,
+  );
+  const [isDocked, setIsDocked] = useState(false);
+  const currentStep = TUTORIAL_STEPS[currentStepIndex] ?? null;
+  const isActive = RUNNING_STATES.has(status);
+  const resolvedAppContext = useMemo(
+    () => (appContext.route === route ? appContext : { ...appContext, route }),
+    [appContext, route],
+  );
+  const actionSatisfied =
+    actionObserved || Boolean(currentStep?.isSatisfied(resolvedAppContext));
+  const stepStartedAtRef = useRef(0);
+  const tourStartedAtRef = useRef(0);
+  const launchFocusRef = useRef<HTMLElement | null>(null);
+  const observedJourneyRef = useRef(1);
 
-  const currentStep = TUTORIAL_STEPS[currentStepIndex] || null;
-  const advanceTimerRef = useRef<number | null>(null);
-  const stepStartTimeRef = useRef<number>(0);
+  const send = useCallback((event: TourMachineEvent) => {
+    setStatus((current) => transitionTourStatus(current, event));
+  }, []);
+
+  const restoreLaunchFocus = useCallback(() => {
+    window.setTimeout(() => launchFocusRef.current?.focus(), 0);
+  }, []);
 
   const updateAppContext = useCallback(
     (partial: Partial<TutorialAppContext>) => {
-      setAppContext((prev) => {
-        let changed = false;
-        for (const key of Object.keys(
-          partial,
-        ) as (keyof TutorialAppContext)[]) {
-          if (prev[key] !== partial[key]) {
-            changed = true;
-            break;
-          }
+      const stageChanged =
+        partial.journeyStep !== undefined &&
+        partial.journeyStep !== observedJourneyRef.current;
+      if (partial.journeyStep !== undefined)
+        observedJourneyRef.current = partial.journeyStep;
+      if (stageChanged && isActive && !isDocked && partial.hasResult) {
+        const stepId =
+          partial.journeyStep === 2
+            ? "semantic-grounding"
+            : partial.journeyStep === 3
+              ? "financial-state"
+              : partial.journeyStep === 4
+                ? "formal-verification"
+                : null;
+        if (stepId) {
+          setCurrentStepIndex(
+            TUTORIAL_STEPS.findIndex((step) => step.id === stepId),
+          );
+          setTargetRect(null);
+          setTargetStatus("resolving");
+          setCurrentHintLevel(0);
+          setActionObserved(false);
+          send("BEGIN_STEP");
         }
-        return changed ? { ...prev, ...partial } : prev;
+      }
+      setAppContext((previous) => {
+        const changed = (
+          Object.keys(partial) as (keyof TutorialAppContext)[]
+        ).some((key) => previous[key] !== partial[key]);
+        return changed ? { ...previous, ...partial } : previous;
       });
     },
-    [],
+    [isActive, isDocked, send],
   );
 
-  const startTour = useCallback((stepId?: string) => {
-    let index = 0;
-    if (stepId) {
-      const found = TUTORIAL_STEPS.findIndex((s) => s.id === stepId);
-      if (found !== -1) index = found;
-    }
-    setCurrentStepIndex(index);
-    setIsActive(true);
-    setStuckSeconds(0);
-    setCurrentHintLevel(0);
-    setUserOffset({ x: 0, y: 0 });
-    setIsDocked(false);
-    stepStartTimeRef.current = Date.now();
+  useEffect(() => {
     try {
-      localStorage.setItem(TUTORIAL_STORAGE_KEY, "true");
+      const preferences: SessionPreferences = {
+        version: 1,
+        panelSize,
+        placement,
+        userOffset,
+      };
+      sessionStorage.setItem(TUTORIAL_SESSION_KEY, JSON.stringify(preferences));
     } catch {
-      // ignore
+      // Preferences are optional and scoped to the current browser session.
     }
-    emitTutorialAnalytics({ type: "tour_started" });
-    if (TUTORIAL_STEPS[index]) {
+  }, [panelSize, placement, userOffset]);
+
+  const startTour = useCallback(
+    (stepId?: string) => {
+      const requested = stepId
+        ? TUTORIAL_STEPS.findIndex((step) => step.id === stepId)
+        : 0;
+      const index = requested >= 0 ? requested : 0;
+      launchFocusRef.current =
+        document.activeElement instanceof HTMLElement
+          ? document.activeElement
+          : null;
+      onNavigate?.(TUTORIAL_STEPS[index].route);
+      setCurrentStepIndex(index);
+      setTargetRect(null);
+      setTargetStatus("resolving");
+      setActionObserved(false);
+      setStuckSeconds(0);
+      setCurrentHintLevel(0);
+      setIsDocked(false);
+      tourStartedAtRef.current = Date.now();
+      stepStartedAtRef.current = Date.now();
+      send("START");
+      emitTutorialAnalytics({ type: "tour_started" });
       emitTutorialAnalytics({
         type: "step_entered",
         stepId: TUTORIAL_STEPS[index].id,
-        stepIndex: index + 1,
+        workflowNumber: workflowNumberForIndex(index),
       });
-    }
-  }, []);
+    },
+    [onNavigate, send],
+  );
 
   const stopTour = useCallback(() => {
     if (currentStep) {
+      emitTutorialAnalytics({ type: "tour_cancelled", stepId: currentStep.id });
+    }
+    send("CANCEL");
+    setTargetRect(null);
+    setTargetStatus("idle");
+    try {
+      localStorage.setItem(
+        TUTORIAL_STORAGE_KEY,
+        JSON.stringify({ version: 3, outcome: "cancelled" }),
+      );
+    } catch {
+      // Completion persistence is optional.
+    }
+    restoreLaunchFocus();
+  }, [currentStep, restoreLaunchFocus, send]);
+
+  const completeTour = useCallback(() => {
+    if (currentStep) {
       emitTutorialAnalytics({
-        type: "tour_skipped",
+        type: "step_completed",
         stepId: currentStep.id,
+        durationMs: Math.max(0, Date.now() - stepStartedAtRef.current),
       });
     }
-    setIsActive(false);
+    send("COMPLETE");
     setTargetRect(null);
-    setTargetElement(null);
+    setTargetStatus("idle");
     try {
-      localStorage.setItem(TUTORIAL_STORAGE_KEY, "false");
+      localStorage.setItem(
+        TUTORIAL_STORAGE_KEY,
+        JSON.stringify({
+          version: 3,
+          outcome: "completed",
+          completedAt: new Date().toISOString(),
+        }),
+      );
     } catch {
-      // ignore
+      // Completion persistence is optional.
     }
-  }, [currentStep]);
+    emitTutorialAnalytics({
+      type: "tour_completed",
+      totalDurationMs: Math.max(0, Date.now() - tourStartedAtRef.current),
+    });
+    restoreLaunchFocus();
+  }, [currentStep, restoreLaunchFocus, send]);
+
+  const enterStep = useCallback(
+    (index: number, event: "NEXT" | "BACK") => {
+      if (currentStep) {
+        emitTutorialAnalytics({
+          type: "step_completed",
+          stepId: currentStep.id,
+          durationMs: Math.max(0, Date.now() - stepStartedAtRef.current),
+        });
+      }
+      send(event);
+      onNavigate?.(TUTORIAL_STEPS[index].route);
+      setCurrentStepIndex(index);
+      setTargetRect(null);
+      setTargetStatus("resolving");
+      setActionObserved(false);
+      setStuckSeconds(0);
+      setCurrentHintLevel(0);
+      stepStartedAtRef.current = Date.now();
+      emitTutorialAnalytics({
+        type: "step_entered",
+        stepId: TUTORIAL_STEPS[index].id,
+        workflowNumber: workflowNumberForIndex(index),
+      });
+    },
+    [currentStep, onNavigate, send],
+  );
+
+  const nextStep = useCallback(() => {
+    if (currentStepIndex >= TUTORIAL_STEPS.length - 1) {
+      completeTour();
+      return;
+    }
+    enterStep(currentStepIndex + 1, "NEXT");
+  }, [completeTour, currentStepIndex, enterStep]);
+
+  const prevStep = useCallback(() => {
+    if (currentStepIndex > 0) enterStep(currentStepIndex - 1, "BACK");
+  }, [currentStepIndex, enterStep]);
+
+  const goToStep = useCallback(
+    (stepId: string) => {
+      const index = TUTORIAL_STEPS.findIndex((step) => step.id === stepId);
+      if (index >= 0 && index !== currentStepIndex) {
+        enterStep(index, index < currentStepIndex ? "BACK" : "NEXT");
+      }
+    },
+    [currentStepIndex, enterStep],
+  );
 
   const resetTour = useCallback(() => {
     try {
       localStorage.removeItem(TUTORIAL_STORAGE_KEY);
-      localStorage.removeItem(TUTORIAL_COMPLETED_KEY);
+      sessionStorage.removeItem(TUTORIAL_SESSION_KEY);
     } catch {
-      // ignore
+      // Storage is optional.
     }
-    startTour(TUTORIAL_STEPS[0].id);
-  }, [startTour]);
-
-  const goToStep = useCallback(
-    (stepId: string) => {
-      const idx = TUTORIAL_STEPS.findIndex((s) => s.id === stepId);
-      if (idx !== -1) {
-        if (currentStep) {
-          const duration =
-            stepStartTimeRef.current > 0
-              ? Date.now() - stepStartTimeRef.current
-              : 0;
-          emitTutorialAnalytics({
-            type: "step_completed",
-            stepId: currentStep.id,
-            durationMs: duration,
-          });
-        }
-        setCurrentStepIndex(idx);
-        setStuckSeconds(0);
-        setCurrentHintLevel(0);
-        stepStartTimeRef.current = Date.now();
-        emitTutorialAnalytics({
-          type: "step_entered",
-          stepId: TUTORIAL_STEPS[idx].id,
-          stepIndex: idx + 1,
-        });
-      }
-    },
-    [currentStep],
-  );
-
-  const nextStep = useCallback(() => {
-    if (currentStepIndex < TUTORIAL_STEPS.length - 1) {
-      if (currentStep) {
-        const duration =
-          stepStartTimeRef.current > 0
-            ? Date.now() - stepStartTimeRef.current
-            : 0;
-        emitTutorialAnalytics({
-          type: "step_completed",
-          stepId: currentStep.id,
-          durationMs: duration,
-        });
-      }
-      const nextIdx = currentStepIndex + 1;
-      setCurrentStepIndex(nextIdx);
-      setStuckSeconds(0);
-      setCurrentHintLevel(0);
-      stepStartTimeRef.current = Date.now();
-      emitTutorialAnalytics({
-        type: "step_entered",
-        stepId: TUTORIAL_STEPS[nextIdx].id,
-        stepIndex: nextIdx + 1,
-      });
-    } else {
-      // completed
-      try {
-        localStorage.setItem(TUTORIAL_COMPLETED_KEY, "true");
-        localStorage.setItem(TUTORIAL_STORAGE_KEY, "false");
-      } catch {
-        // ignore
-      }
-      const totalDur =
-        stepStartTimeRef.current > 0
-          ? Date.now() - stepStartTimeRef.current
-          : 0;
-      emitTutorialAnalytics({
-        type: "tour_completed",
-        totalDurationMs: totalDur,
-      });
-      setIsActive(false);
-    }
-  }, [currentStepIndex, currentStep]);
-
-  const prevStep = useCallback(() => {
-    if (currentStepIndex > 0) {
-      const prevIdx = currentStepIndex - 1;
-      setCurrentStepIndex(prevIdx);
-      setStuckSeconds(0);
-      setCurrentHintLevel(0);
-      stepStartTimeRef.current = Date.now();
-    }
-  }, [currentStepIndex]);
+    send("RESET");
+    setUserOffset({ x: 0, y: 0 });
+    setPanelSize("standard");
+    setPlacement("auto");
+    startTour();
+  }, [send, startTour]);
 
   const toggleDock = useCallback(() => {
-    setIsDocked((prev) => !prev);
-  }, []);
+    setIsDocked((docked) => {
+      send(docked ? "RESUME" : "PAUSE");
+      return !docked;
+    });
+  }, [send]);
 
   const notifyAction = useCallback(
     (actionType: RequiredActionType) => {
-      if (!isActive || !currentStep) return;
-      if (currentStep.requiredAction === actionType) {
-        // Short debounce before advancing so user sees the immediate effect
-        if (advanceTimerRef.current)
-          window.clearTimeout(advanceTimerRef.current);
-        advanceTimerRef.current = window.setTimeout(() => {
-          nextStep();
-        }, 350);
+      if (isActive && currentStep?.requiredAction === actionType) {
+        setActionObserved(true);
       }
     },
-    [isActive, currentStep, nextStep],
+    [currentStep, isActive],
   );
 
-  // Inactivity / hint escalation timer
   useEffect(() => {
-    if (!isActive || !currentStep) return;
+    if (!isActive || isDocked || !currentStep) return;
+    let seconds = 0;
     const interval = window.setInterval(() => {
-      setStuckSeconds((prev) => {
-        const next = prev + 1;
-        if (next === 12 && currentStep.hints.length > 0) {
-          setCurrentHintLevel(1);
-          emitTutorialAnalytics({
-            type: "hint_escalated",
-            stepId: currentStep.id,
-            hintLevel: 1,
-          });
-        } else if (next === 24 && currentStep.hints.length > 1) {
-          setCurrentHintLevel(2);
-          emitTutorialAnalytics({
-            type: "hint_escalated",
-            stepId: currentStep.id,
-            hintLevel: 2,
-          });
-        }
-        return next;
-      });
-    }, 1000);
-
+      seconds += 1;
+      if (seconds === 15 || seconds === 30) {
+        const level = seconds === 15 ? 1 : 2;
+        setStuckSeconds(seconds);
+        setCurrentHintLevel(level);
+        emitTutorialAnalytics({
+          type: "hint_escalated",
+          stepId: currentStep.id,
+          hintLevel: level,
+        });
+      }
+    }, 1_000);
     return () => window.clearInterval(interval);
-  }, [isActive, currentStep]);
+  }, [currentStep, currentStepIndex, isActive, isDocked]);
 
-  // Reactive state predicate evaluation
   useEffect(() => {
-    if (!isActive || !currentStep) return;
+    if (!isActive || isDocked || !currentStep) return;
 
-    // First check if step should be skipped based on current app state
-    if (currentStep.shouldSkip && currentStep.shouldSkip(appContext)) {
-      const timer = window.setTimeout(() => {
-        nextStep();
-      }, 0);
-      return () => window.clearTimeout(timer);
-    }
-
-    // Then check if the action or state change has already been satisfied
-    if (currentStep.isSatisfied(appContext)) {
-      if (advanceTimerRef.current) window.clearTimeout(advanceTimerRef.current);
-      advanceTimerRef.current = window.setTimeout(() => {
-        nextStep();
-      }, 400);
-      return () => {
-        if (advanceTimerRef.current)
-          window.clearTimeout(advanceTimerRef.current);
-      };
-    }
-  }, [isActive, currentStep, appContext, nextStep]);
-
-  // Target element locator, resize observer, and bounding rect tracker
-  useEffect(() => {
-    if (!isActive || !currentStep) {
-      return;
-    }
-
-    let isSubscribed = true;
-
-    const isTestEnv =
-      typeof window !== "undefined" &&
-      window.navigator?.userAgent?.includes("jsdom");
-
-    const isIntro =
-      currentStep.id === "step-welcome" ||
-      currentStep.preferredPlacement === "center";
-
-    function updateRect() {
-      if (!isSubscribed) return;
-      if (isIntro) {
-        setTargetElement(null);
-        setTargetRect(null);
-        setIsTargetVisible(true);
-        return;
-      }
-      const el =
-        document.querySelector<HTMLElement>(currentStep.targetSelector) ||
-        (currentStep.fallbackSelector
-          ? document.querySelector<HTMLElement>(currentStep.fallbackSelector)
-          : null);
-
-      if (el) {
-        const rect = el.getBoundingClientRect();
-        const isVisible =
-          rect.width > 0 &&
-          rect.height > 0 &&
-          rect.bottom >= 0 &&
-          rect.right >= 0 &&
-          rect.top <=
-            (window.innerHeight || document.documentElement.clientHeight) &&
-          rect.left <=
-            (window.innerWidth || document.documentElement.clientWidth);
-
-        setTargetElement(el);
-        setTargetRect((prev) => {
-          if (
-            prev &&
-            Math.abs(prev.top - rect.top) < 1 &&
-            Math.abs(prev.left - rect.left) < 1 &&
-            Math.abs(prev.width - rect.width) < 1 &&
-            Math.abs(prev.height - rect.height) < 1
-          ) {
-            return prev;
-          }
-          return rect;
-        });
-        setIsTargetVisible(isVisible);
-      } else {
-        setTargetElement(null);
-        setTargetRect(null);
-        setIsTargetVisible(false);
-      }
-    }
-
-    // Initial query and scroll (only when not intro modal)
-    const el = isIntro
-      ? null
-      : document.querySelector<HTMLElement>(currentStep.targetSelector) ||
-        (currentStep.fallbackSelector
-          ? document.querySelector<HTMLElement>(currentStep.fallbackSelector)
-          : null);
-
-    if (el) {
-      el.classList.add("tour-target-elevated");
-    }
-
-    if (el && !isTestEnv && typeof el.scrollIntoView === "function") {
-      try {
-        el.scrollIntoView({
-          behavior: "smooth",
-          block: "center",
-          inline: "center",
-        });
-      } catch {
-        // Fallback
-      }
-    }
-
-    updateRect();
-
-    // Re-check after 150ms in case smooth scroll or animation is ongoing
-    const timeout = window.setTimeout(updateRect, 150);
-
-    // Listeners for window resize and scroll
-    window.addEventListener("resize", updateRect, { passive: true });
-    window.addEventListener("scroll", updateRect, {
-      passive: true,
-      capture: true,
-    });
-
+    let active = true;
+    let resolvedElement: HTMLElement | null = null;
     let resizeObserver: ResizeObserver | null = null;
-    if (el && typeof ResizeObserver !== "undefined") {
-      resizeObserver = new ResizeObserver(updateRect);
-      resizeObserver.observe(el);
-    }
+    let observer: MutationObserver | null = null;
+    let resolutionTimeout: number | null = null;
+    let animationFrame: number | null = null;
+    let listenersConnected = false;
 
-    return () => {
-      isSubscribed = false;
-      if (el) {
-        el.classList.remove("tour-target-elevated");
+    const updateGeometry = () => {
+      if (!active || !resolvedElement) return;
+      const nextRect = resolvedElement.getBoundingClientRect();
+      setTargetRect((previous) => {
+        if (
+          previous &&
+          Math.abs(previous.top - nextRect.top) < 1 &&
+          Math.abs(previous.left - nextRect.left) < 1 &&
+          Math.abs(previous.width - nextRect.width) < 1 &&
+          Math.abs(previous.height - nextRect.height) < 1
+        ) {
+          return previous;
+        }
+        return nextRect;
+      });
+    };
+
+    const scheduleGeometry = () => {
+      if (animationFrame !== null) cancelAnimationFrame(animationFrame);
+      animationFrame = requestAnimationFrame(updateGeometry);
+    };
+
+    const connectElement = (
+      element: HTMLElement,
+      source: "primary" | "fallback",
+    ) => {
+      resolvedElement = element;
+      setTargetStatus(source);
+      updateGeometry();
+      send("TARGET_READY");
+      if (
+        typeof ResizeObserver !== "undefined" &&
+        !window.navigator.userAgent.includes("jsdom")
+      ) {
+        resizeObserver = new ResizeObserver(scheduleGeometry);
+        resizeObserver.observe(element);
       }
-      window.clearTimeout(timeout);
-      window.removeEventListener("resize", updateRect);
-      window.removeEventListener("scroll", updateRect, true);
-      if (resizeObserver) {
-        resizeObserver.disconnect();
+      const rect = element.getBoundingClientRect();
+      if (
+        (rect.bottom < 72 || rect.top > window.innerHeight - 40) &&
+        typeof element.scrollIntoView === "function" &&
+        !window.navigator.userAgent.includes("jsdom")
+      ) {
+        element.scrollIntoView({ block: "nearest", inline: "nearest" });
       }
     };
-  }, [isActive, currentStep, currentStepIndex]);
+
+    const resolve = (): boolean => {
+      if (resolvedElement) return true;
+      const primary = document.querySelector<HTMLElement>(
+        currentStep.targetSelector ?? "",
+      );
+      if (primary) {
+        connectElement(primary, "primary");
+        return true;
+      }
+      const fallback = currentStep.fallbackSelector
+        ? document.querySelector<HTMLElement>(currentStep.fallbackSelector)
+        : null;
+      if (fallback) {
+        connectElement(fallback, "fallback");
+        return true;
+      }
+      return false;
+    };
+
+    const initialize = () => {
+      if (!active) return;
+      setTargetRect(null);
+      setTargetStatus("resolving");
+      send("BEGIN_STEP");
+
+      if (currentStep.route !== route) return;
+      if (!currentStep.targetSelector) {
+        setTargetStatus("primary");
+        send("TARGET_READY");
+        return;
+      }
+
+      observer =
+        typeof MutationObserver === "undefined"
+          ? null
+          : new MutationObserver(() => {
+              if (resolve()) observer?.disconnect();
+            });
+      if (!resolve()) {
+        observer?.observe(document.body, { childList: true, subtree: true });
+      }
+      resolutionTimeout = window.setTimeout(() => {
+        if (!active || resolvedElement) return;
+        observer?.disconnect();
+        setTargetStatus("missing");
+        send("TARGET_MISSING");
+        emitTutorialAnalytics({
+          type: "target_missing",
+          stepId: currentStep.id,
+        });
+      }, TARGET_RESOLUTION_TIMEOUT_MS);
+
+      window.addEventListener("resize", scheduleGeometry, { passive: true });
+      window.addEventListener("scroll", scheduleGeometry, {
+        passive: true,
+        capture: true,
+      });
+      listenersConnected = true;
+    };
+
+    animationFrame = requestAnimationFrame(initialize);
+    return () => {
+      active = false;
+      observer?.disconnect();
+      resizeObserver?.disconnect();
+      if (resolutionTimeout !== null) window.clearTimeout(resolutionTimeout);
+      if (animationFrame !== null) cancelAnimationFrame(animationFrame);
+      if (listenersConnected) {
+        window.removeEventListener("resize", scheduleGeometry);
+        window.removeEventListener("scroll", scheduleGeometry, true);
+      }
+    };
+  }, [currentStep, currentStepIndex, isActive, isDocked, route, send]);
+
+  const actionsValue = useMemo<TutorialActionsValue>(
+    () => ({
+      startTour,
+      stopTour,
+      resetTour,
+      nextStep,
+      prevStep,
+      goToStep,
+      setUserOffset,
+      setPanelSize,
+      setPlacement,
+      toggleDock,
+      updateAppContext,
+      notifyAction,
+    }),
+    [
+      goToStep,
+      nextStep,
+      notifyAction,
+      prevStep,
+      resetTour,
+      startTour,
+      stopTour,
+      toggleDock,
+      updateAppContext,
+    ],
+  );
+
+  const contextValue = useMemo(
+    () => ({
+      ...actionsValue,
+      isActive,
+      status,
+      currentStep,
+      currentStepIndex,
+      workflowStepNumber: workflowNumberForIndex(currentStepIndex),
+      totalSteps: WORKFLOW_STEP_COUNT,
+      appContext: resolvedAppContext,
+      targetRect,
+      targetStatus,
+      stuckSeconds,
+      currentHintLevel,
+      actionSatisfied,
+      userOffset,
+      panelSize,
+      placement,
+      isDocked,
+    }),
+    [
+      actionSatisfied,
+      actionsValue,
+      currentStep,
+      currentStepIndex,
+      currentHintLevel,
+      isActive,
+      isDocked,
+      panelSize,
+      placement,
+      resolvedAppContext,
+      status,
+      stuckSeconds,
+      targetRect,
+      targetStatus,
+      userOffset,
+    ],
+  );
 
   return (
-    <TutorialContext.Provider
-      value={{
-        isActive,
-        currentStep,
-        currentStepIndex,
-        totalSteps: TUTORIAL_STEPS.length,
-        appContext,
-        targetRect,
-        targetElement,
-        isTargetVisible,
-        stuckSeconds,
-        currentHintLevel,
-        userOffset,
-        isDocked,
-        startTour,
-        stopTour,
-        resetTour,
-        nextStep,
-        prevStep,
-        goToStep,
-        setUserOffset,
-        toggleDock,
-        updateAppContext,
-        notifyAction,
-      }}
-    >
-      {children}
-    </TutorialContext.Provider>
+    <TutorialActionsContext.Provider value={actionsValue}>
+      <TutorialContext.Provider value={contextValue}>
+        {children}
+      </TutorialContext.Provider>
+    </TutorialActionsContext.Provider>
   );
 }

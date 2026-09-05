@@ -45,18 +45,19 @@ forms, failure states, accessibility semantics, responsive CSS, and repository p
 
 ## Ponytail complexity audit
 
-No dependency or abstraction was removed merely to reduce counts. LangGraph, Z3, scikit-learn,
-XGBoost, sentence-transformers, and historical FECL runners are retained because frozen research
-artifacts and reproducibility tests directly use them. Ignored environments, bytecode, generated
-builds, databases, logs, and render caches are runtime material, not release source.
+The no-op LangGraph sequence was removed from the active runner because typed Python calls already
+define the execution order and the extra framework added no measured value. Z3, scikit-learn,
+XGBoost, sentence-transformers, and historical FECL runners remain only where reproducibility tests
+or frozen research artifacts use them. Ignored environments, bytecode, generated builds, databases,
+logs, package metadata, and render caches are runtime material, not release source.
 
 The 2,000-line `App.tsx` remains the largest maintainability risk. Splitting it without changing
 behavior would move lines rather than remove complexity, so this pass fixed shared formatting,
 routing, request, and token boundaries first. A later extraction is justified only when a second
 team or independent release cadence requires route-level ownership.
 
-Ponytail verdict: no safe production dependency cut identified; zero speculative abstractions
-added.
+Ponytail verdict: one no-value orchestration dependency and its duplicate trace surface were
+removed; zero speculative abstractions were added.
 
 ## Verification
 

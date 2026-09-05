@@ -1,0 +1,351 @@
+{
+  "scope": "Final DEV runtime, frontend and training source; not a release or holdout freeze",
+  "git_head": "8e8fc55a23892c2caa6cb12df95af1f8d41e7d1e",
+  "dirty": true,
+  "files": [
+    {
+      "path": "backend/app/__init__.py",
+      "sha256": "60d634633e641fcd264cffe31aad8b41d2445c2ee405da4f2db4abc1103dbcc6"
+    },
+    {
+      "path": "backend/app/ai_lab_api.py",
+      "sha256": "f0248dd15a0e5bd4099ff25c36c04a3e83276d7736982a2e3348091b619c64c2"
+    },
+    {
+      "path": "backend/app/ai_lab_model.py",
+      "sha256": "43e424086b6251a726d7814fe141f059c31daa04c49a1eb6739c52991541d864"
+    },
+    {
+      "path": "backend/app/ai_lab_retrieval.py",
+      "sha256": "2de5d0d80fc2abe9499e09fcc2533b730bdd6e5bd27c7a97bf5a206329cbcba0"
+    },
+    {
+      "path": "backend/app/ai_research_api.py",
+      "sha256": "52e6cccc9ef9c496776ba91f045fd9c99f865cf3bfb931275d5d279dc26192a1"
+    },
+    {
+      "path": "backend/app/benchmark_generator.py",
+      "sha256": "0886ae40288b3fc64bebc9587a7ebc63a674f3eaf8676f7b099b079916e709ed"
+    },
+    {
+      "path": "backend/app/benchmark_integrity.py",
+      "sha256": "114f759413fd9c55b3ab1ba5245c2953360487dcd7a2b2f98b026b76ecd0c4f1"
+    },
+    {
+      "path": "backend/app/carve.py",
+      "sha256": "c5caf77f3c7f54f4a7542ea0bc476d5bdcd192050ff601760c59d37faa402341"
+    },
+    {
+      "path": "backend/app/carve_research_api.py",
+      "sha256": "c6e6184585b8c375db8f0a59c31bc08aedf8c76b1205631cf450cf4300a2ca8a"
+    },
+    {
+      "path": "backend/app/case_actions.py",
+      "sha256": "4a1e9b42482786e397711f63e58f6581fdf6831e5bcc81a59ac97e3435d0c5ea"
+    },
+    {
+      "path": "backend/app/case_api.py",
+      "sha256": "c4f0ad5133ee3036b4e8c8e834f2bcbfeeb3e69a4b3df3adc02d4d333b60e4f4"
+    },
+    {
+      "path": "backend/app/case_pipeline.py",
+      "sha256": "4e4b8fa8549a5b8b7ace735ca3e171b6596d96617495161e8d02b23ba0378e43"
+    },
+    {
+      "path": "backend/app/config.py",
+      "sha256": "a96bddbeffa84ee9ff3a50cd2c15289d6720b63c02d42b0f56b0d68c9ce92bdb"
+    },
+    {
+      "path": "backend/app/database.py",
+      "sha256": "79ec3d8fce530210523ac0b48a223c680d74677a5c8059a4c4216110f6cf5ae8"
+    },
+    {
+      "path": "backend/app/decision.py",
+      "sha256": "ff555de8b1c7567a0b764e5159a942be011acb6fba702a8705d5d7b3e0acd97e"
+    },
+    {
+      "path": "backend/app/domain.py",
+      "sha256": "2476af73f95efec93b07cee2a8dc6bd985c3208d06b05a40cd2c6862b4864c3d"
+    },
+    {
+      "path": "backend/app/evaluation_api.py",
+      "sha256": "a80d072f0978215e14539f7cb8f7f5f56007067b017cae41817d9b3b62a0d83a"
+    },
+    {
+      "path": "backend/app/evaluation_artifact.py",
+      "sha256": "1b672081c747a22a8c2abbb2aae3288aa7c03740004bc9a75f5121728f6f9c21"
+    },
+    {
+      "path": "backend/app/evaluation_metrics.py",
+      "sha256": "6db0db8bae39e709cbfe54056531933214ef4a5c723d329a346494faa7b6d399"
+    },
+    {
+      "path": "backend/app/evaluator.py",
+      "sha256": "55e37751af7e56165cdd2144f182c0995709d547fea40f8f7aa2a5560038a77c"
+    },
+    {
+      "path": "backend/app/extraction.py",
+      "sha256": "0d7e3397b1d205ca04166c076ecbb1fd1df78e515cb2f6762a3ccf6963a04678"
+    },
+    {
+      "path": "backend/app/grounding.py",
+      "sha256": "e22ed9c1f60bedc7afc34956d97f3dfd026a9e92063c9b485daade03d1dc833f"
+    },
+    {
+      "path": "backend/app/health.py",
+      "sha256": "85c99b6508005df5e2dc64d5464a10469bbb223008e7fc0bd5d7c48e99ceb825"
+    },
+    {
+      "path": "backend/app/ingestion.py",
+      "sha256": "62ad44726da5c90b7455eea5b1e7faff1d875a5001d41c8998ebc4ee19a73130"
+    },
+    {
+      "path": "backend/app/jobs.py",
+      "sha256": "8c8e239937256f391f9d6f2c45646ea1804b86d0129378120749cd2c7023cb89"
+    },
+    {
+      "path": "backend/app/main.py",
+      "sha256": "9a4d3c82798cc159dda901d91410b6ca990a243653de1aabf4f02216cbf4d988"
+    },
+    {
+      "path": "backend/app/observability.py",
+      "sha256": "e15f5ed526fc26bc25c0ccac9b71d40dbdee78b6729b7c34dc54a1ca84b8ef13"
+    },
+    {
+      "path": "backend/app/offline_replay.py",
+      "sha256": "1eba303cfa007d7252c11dc49601a3b65cbcf2875d6b66eb6f510747f9fe1780"
+    },
+    {
+      "path": "backend/app/profile.py",
+      "sha256": "bd27ae84f992e7f424e36bd4aa859d6cdb11a56f39412a2ac6b98ddd15c87b0e"
+    },
+    {
+      "path": "backend/app/regex_baseline.py",
+      "sha256": "01dc26f96b9fc09e3ca252a0f7c9538d41a3ac3afdc2cbfe233dd9b1b443e6c0"
+    },
+    {
+      "path": "backend/app/release_freeze.py",
+      "sha256": "708839dc24d70818ceb2dbae7313455a3f9493ad409f5bfcdc875cccc116d674"
+    },
+    {
+      "path": "backend/app/required_evidence.py",
+      "sha256": "041c44c352c419f5de0b3e6a79a6148d483f627e9cd45983be3ed86faab75c22"
+    },
+    {
+      "path": "backend/app/sandbox_api.py",
+      "sha256": "0510b48d9d310c02ce69c366ccbb8ed9ffd8d53a285ff15fa890318bc8a61ee4"
+    },
+    {
+      "path": "backend/app/security.py",
+      "sha256": "b254a901cc183e00312a48c22cc226f77c645439fea2c1304fa76e78d0450bb5"
+    },
+    {
+      "path": "backend/app/semantic_pipeline.py",
+      "sha256": "f6b1c455b2458793b0900660d419faebd4654d9434edcf4b603581d4e8a68a3b"
+    },
+    {
+      "path": "backend/app/source_text.py",
+      "sha256": "efac35b51d3c7e0761d4fe7131636cac4af2dc26e9f7d64c638884563ac328eb"
+    },
+    {
+      "path": "backend/app/verification.py",
+      "sha256": "05d2e1bdbcaa463d896fcd51748576e77cd8f2168f72496ed274dd599e1da321"
+    },
+    {
+      "path": "contracts/evaluation-result.schema.json",
+      "sha256": "d9dbcb525900a67fe2f0b61fce6186b4ee8154d21bf5f13a2138e4f54b9969be"
+    },
+    {
+      "path": "contracts/gate-decision.schema.json",
+      "sha256": "ab1b27b6e04386364c1e5f18b2d337d620e12eaba9b867f55c90feb9e48d202a"
+    },
+    {
+      "path": "contracts/grounded-claim.schema.json",
+      "sha256": "f03810a9444c5bc3da9dc993355ff985e48bc7eec503d6f2c0a969230082aea3"
+    },
+    {
+      "path": "contracts/refund_not_processed_v1.yaml",
+      "sha256": "294ed9d1c0b233249bab962d5c8fb594e0eaeef30a26d3878509f354b9291ebe"
+    },
+    {
+      "path": "frontend/package-lock.json",
+      "sha256": "dc47ff5edc2af2297e65ae988ba6448e91e5549ae612738b38e0aa53026ea49c"
+    },
+    {
+      "path": "frontend/src/api.ts",
+      "sha256": "9b4a4cfde8700e23acf552b95124147c8e0dac3470f9b6bf9e215c6bbb8f2c41"
+    },
+    {
+      "path": "frontend/src/App.test.tsx",
+      "sha256": "4d6ebb57acee7975e208edd2ef99244ce97b083e518ae8e59b1c76e8aa8f9792"
+    },
+    {
+      "path": "frontend/src/App.tsx",
+      "sha256": "b32e41599259dba81f2b99d92a9acc389e6adefce57ffc9dc4434e38c6c22919"
+    },
+    {
+      "path": "frontend/src/carve-research.css",
+      "sha256": "b7885ea38902460b1b4d358e5a70c220069ce36c1cd01f437ac8a0476b394133"
+    },
+    {
+      "path": "frontend/src/CarveResearchLab.tsx",
+      "sha256": "986864ce2b1656e20f60af8f6f2fd0b1c0262ab8d0ab41be89c52c8a5c10397b"
+    },
+    {
+      "path": "frontend/src/components/EvidenceDropzone.tsx",
+      "sha256": "e0bcd7626b312d68b569dc2ff910ca654d9826fe7c69feba018227dee1283182"
+    },
+    {
+      "path": "frontend/src/components/primitives.tsx",
+      "sha256": "e2f587a52d18b1b8c011b4ee0aa5a70241cd0a2748ec2a83dddd2c2718e031eb"
+    },
+    {
+      "path": "frontend/src/components/UnifiedNavigation.tsx",
+      "sha256": "30c09edeb14d69e0ad401c0d10734c38b5e72b663b02460d555355f8caacfe72"
+    },
+    {
+      "path": "frontend/src/design-system.css",
+      "sha256": "f5b21ec8f2daa13d09d076fbdc63af3722c27c641d270df47c3e87c11bfb91d6"
+    },
+    {
+      "path": "frontend/src/FeclResearchPanel.tsx",
+      "sha256": "bf3f86fca51b9ec6d846154c2ea34539cc35e86e11119bffb8067610eace2a1b"
+    },
+    {
+      "path": "frontend/src/format.ts",
+      "sha256": "3467d42ca303ce712761185696028013eba4bbc4c21d506cd6a1b6399d9976e5"
+    },
+    {
+      "path": "frontend/src/main.tsx",
+      "sha256": "0650be4b771fade0d7003e47935db52204094b4696d532201c741781575e4ed2"
+    },
+    {
+      "path": "frontend/src/proof-console.css",
+      "sha256": "6b83cf541e01a7fcc17a8738877fdca8a089d826143064d480b660cb22828c67"
+    },
+    {
+      "path": "frontend/src/ProofConsole.tsx",
+      "sha256": "978ba542532737049835ac4949f84e7e33f85e3501f9d0a6e50d8a3bd1f5c923"
+    },
+    {
+      "path": "frontend/src/styles.css",
+      "sha256": "f752d803ea40653b51c3bb12fafc909c9769b27a3398da03e8e72a2461c16f19"
+    },
+    {
+      "path": "frontend/src/test-setup.ts",
+      "sha256": "9b328c4843431fa76d8de00008fc159e95f99a840211085ff3b8f25e53d14409"
+    },
+    {
+      "path": "frontend/src/TryVerifier.instrument.test.tsx",
+      "sha256": "ad9928671fff444ce378a5c41f26f44af912536a0c8cd7864b704054eee699fb"
+    },
+    {
+      "path": "frontend/src/TryVerifier.tsx",
+      "sha256": "d490ca6cd3f6d5116b74f9b542675e1eb4c20282beb31255a7d0db0af074e4bd"
+    },
+    {
+      "path": "frontend/src/tutorial/index.ts",
+      "sha256": "228dc2f99e6ffcdf9dae7f45c12a99c5fd835c2a7fb33b7deba85e7a558c4f12"
+    },
+    {
+      "path": "frontend/src/tutorial/TutorialComponents.test.tsx",
+      "sha256": "a230805f0fa415d43a2b593918a9f35c113e41a67892ec544e2f646869713ac5"
+    },
+    {
+      "path": "frontend/src/tutorial/TutorialContext.tsx",
+      "sha256": "42e9885d0f585aa747a83ad356d1ad098918212786a0e1c13c3031c2b1ac0c99"
+    },
+    {
+      "path": "frontend/src/tutorial/tutorialEngine.test.ts",
+      "sha256": "913856ded903cc8b48ad7ee7f1b03dac3b1641bdd1a80fea9fceaa601e8cb91a"
+    },
+    {
+      "path": "frontend/src/tutorial/tutorialEngine.ts",
+      "sha256": "4a1e9b82b78bb20a859a010c784ece5152e65d945f994131646d47a37dc5508c"
+    },
+    {
+      "path": "frontend/src/tutorial/TutorialSpotlight.tsx",
+      "sha256": "22bb0afc4b53e0649f89b00ffd32951a436d25a11f117b611c7f5f73f11b6f1f"
+    },
+    {
+      "path": "frontend/src/tutorial/TutorialTooltip.tsx",
+      "sha256": "608600c8891569617a1a44f75ba203a64ba651e35b72a3d6d9ec464f0c97f495"
+    },
+    {
+      "path": "frontend/src/tutorial/types.ts",
+      "sha256": "0e001fb5cfd69446a20db41168795dd2da9d51b59d31562ce1c35d9f4ba25ca0"
+    },
+    {
+      "path": "frontend/src/tutorial/useTutorial.ts",
+      "sha256": "863a9e589ecc00e99f908c5d64ca52e439526856d4c19eb62e06fb82e1323b3f"
+    },
+    {
+      "path": "frontend/src/utils/crossFileIntelligence.test.ts",
+      "sha256": "b7b40366fbc5c0c571f1f4cbc53c39a5e99a31ac087fdad67dc41924cc105b48"
+    },
+    {
+      "path": "frontend/src/utils/crossFileIntelligence.ts",
+      "sha256": "bde6246d9c1c992c36e9819652cdbc104e87d83da88886594502806f230ddfe9"
+    },
+    {
+      "path": "frontend/src/utils/sandboxRequest.ts",
+      "sha256": "cc3de65d735a966ccd591cf5afb5d4818b592c8281cd9aeddeb4a7dc759bae8d"
+    },
+    {
+      "path": "frontend/src/vite-env.d.ts",
+      "sha256": "65996936fbb042915f7b74a200fcdde7e410f32a669b1ab9597cfaa4b0faddb5"
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "3d94b01ac1c9a178b7328a1f620c8e490c82ea3b7c9cc4aec9f75e4f6d83c767"
+    },
+    {
+      "path": "scripts/check.ps1",
+      "sha256": "22e0cd63368d6d883d33c764bfb8a84c54bc50ee093a78661ad7cdc348f5d7a1"
+    },
+    {
+      "path": "scripts/evaluate_benchmark.py",
+      "sha256": "b711436f9d08ab5a5528c6d78b2896b581f8dfefcac4bb3cca89938a8d318469"
+    },
+    {
+      "path": "scripts/freeze_release.py",
+      "sha256": "877856ddd86b35dbf5a297e43410f0e51f06c087b76113070632fa3b45a71833"
+    },
+    {
+      "path": "scripts/train_local_semantic_model.py",
+      "sha256": "701dd0bc3976437b8ec8b5bb3dfd95676e5cd98152aaf4b77a2f4b19a04e9c75"
+    },
+    {
+      "path": "training/__init__.py",
+      "sha256": "1db18f56707c7ad427aebe38971685abc6ba655702c5563eb5b46fcde45233f9"
+    },
+    {
+      "path": "training/carve_pytorch_model.py",
+      "sha256": "780b3e3fcee6a9f77f8541cbaa5e77b8a87747b8b796c8bcc7f04cfcd65ebd3a"
+    },
+    {
+      "path": "training/falsification_smoke_test.py",
+      "sha256": "b82d7e100a3583072e4a97ec1b933cdb5ca264e6b6509cb5a53febee668a0386"
+    },
+    {
+      "path": "training/run_comprehensive_empirical_audit.py",
+      "sha256": "d272cb49a42388faebc354d125bb6af5107e3248ced4403470470c93194636ae"
+    },
+    {
+      "path": "training/run_empirical_study.py",
+      "sha256": "93aba7b71f47daea34f2c2c6a0a274bf5725e125c7c0ef52a431f76a7c4776da"
+    },
+    {
+      "path": "training/save_five_seed_checkpoints.py",
+      "sha256": "b6cc0a042816b7c5cc0bef49bf40ced00666fc1b19c2e315a1c5c3837b0c085f"
+    },
+    {
+      "path": "training/verify_gpu.py",
+      "sha256": "6a27aba6421638cf22184e0f4a5f457ff580a2c2280b0a317d5cfc45c4a2ccde"
+    },
+    {
+      "path": "uv.lock",
+      "sha256": "89b968c8b55cf362d8f5fca21bd0024b1c5915bff8debab0df6b3bfc8ac36019"
+    }
+  ]
+}

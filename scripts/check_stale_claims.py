@@ -57,7 +57,7 @@ def scan_for_stale_claims(repo_root: Path) -> list[str]:
         parts = path.parts
         if any(p.startswith(".") or p in {"node_modules", "venv", ".venv"} for p in parts):
             continue
-        if path.suffix not in {".md", ".py", ".json", ".txt"}:
+        if path.suffix not in {".md", ".py", ".json", ".txt", ".ts", ".tsx"}:
             continue
         if path.name in EXEMPT_FILES:
             continue
@@ -95,7 +95,10 @@ def main() -> int:
         )
         return 1
 
-    print("[OK] Zero stale research or marketing claims detected across repository.")
+    print(
+        "[OK] No configured forbidden claim patterns found; "
+        "this scan does not validate every metric."
+    )
     return 0
 
 

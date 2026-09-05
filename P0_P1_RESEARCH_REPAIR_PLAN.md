@@ -1,6 +1,6 @@
 # P0/P1/P2/P3 RESEARCH REPAIR & ACTION PLAN
 
-**Framework**: 100-Researcher Adversarial Panel Action Plan  
+**Framework**: Methodological Hardening & Research Integrity Action Plan  
 **Target Repository**: `RAZOR/dispute-integrity-gate-spec`  
 **Execution Authority**: Immediate Implementation (No Deferrals)  
 

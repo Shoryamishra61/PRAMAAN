@@ -87,7 +87,7 @@
     "trainable_parameters": 0
   },
   "checkpoint_selection_rule": "Lowest validation expected merchant loss on partition 'validation'",
-  "status": "TRAINING_COMPLETE_AND_FROZEN",
+  "status": "HISTORICAL_CONFIGURATION_NOT_TRAINING_RECEIPT",
   "empirical_execution": {
     "status": "VERIFIED_PYTORCH_TRAINING_EXECUTED",
     "device": "cpu",

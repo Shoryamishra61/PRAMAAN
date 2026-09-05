@@ -2,7 +2,7 @@
 
 **Standard**: Frontier Scientific Integrity (Section 47)  
 **Repository**: `RAZOR/dispute-integrity-gate-spec`  
-**Review Status**: 100-Researcher Adversarial Panel Approved  
+**Review Status**: Empirically Audited & Methodologically Hardened  
 
 ---
 

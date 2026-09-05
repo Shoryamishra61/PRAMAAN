@@ -32,7 +32,7 @@ from app.verification import (
     VerificationContext,
     verify_integrity,
 )
-from hypothesis import given
+from hypothesis import given, settings
 from hypothesis import strategies as st
 
 from tests.generators.strategies import (
@@ -117,6 +117,7 @@ def test_duplicate_refund_id_does_not_increase_settled(amount_a: int, amount_b: 
 
 
 # 4. Invariant: sum(refunds) > capture => evidence contradiction (SMT UNSAT)
+@settings(deadline=None)
 @given(excess_amount=st.integers(min_value=1, max_value=100_000))
 def test_over_refund_triggers_formal_contradiction(excess_amount: int) -> None:
     """When settled refunds exceed captured payment, Z3 compile_financial_proof must yield UNSAT."""

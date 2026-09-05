@@ -144,9 +144,9 @@ domain-reviewed labels, a newly frozen holdout, and the same promotion gates.
 ## Reproducibility
 
 ```powershell
-uv run --isolated --with "sentence-transformers>=3,<4" --with "xgboost>=2.1,<4" --with "langgraph>=0.6,<1" scripts/run_ai_research_study.py --split dev --include-embeddings --include-nli --include-xgboost
-uv run --isolated --with "sentence-transformers>=3,<4" --with "xgboost>=2.1,<4" --with "langgraph>=0.6,<1" scripts/run_ai_research_study.py --freeze-dev
-uv run --isolated --with "sentence-transformers>=3,<4" --with "xgboost>=2.1,<4" --with "langgraph>=0.6,<1" scripts/run_ai_research_study.py --split holdout --include-embeddings --confirm-final-holdout
+uv run --isolated --with "sentence-transformers>=3,<4" --with "xgboost>=2.1,<4" scripts/run_ai_research_study.py --split dev --include-embeddings --include-nli --include-xgboost
+uv run --isolated --with "sentence-transformers>=3,<4" --with "xgboost>=2.1,<4" scripts/run_ai_research_study.py --freeze-dev
+uv run --isolated --with "sentence-transformers>=3,<4" --with "xgboost>=2.1,<4" scripts/run_ai_research_study.py --split holdout --include-embeddings --confirm-final-holdout
 uv run --extra dev python scripts/audit_ai_holdout_grounding.py --confirm-posthoc
 ```
 

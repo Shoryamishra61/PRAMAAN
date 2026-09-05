@@ -31,6 +31,7 @@ def run_full_evaluation() -> dict[str, object]:
     ablations = run_ablation_benchmarks()
 
     summary = {
+        "evidence_status": "HISTORICAL_ILLUSTRATIVE_NOT_EMPIRICAL",
         "benchmark_id": "DIG-RNP-SYN-V1",
         "causal_minimal_pairs": {
             "sensitivity": causal.counterfactual_sensitivity,

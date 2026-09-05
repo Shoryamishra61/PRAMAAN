@@ -141,6 +141,17 @@ def test_timezone_offsets_normalize_to_utc(base_dt: datetime) -> None:
     assert utc_normalized.timestamp() == base_dt.timestamp()
 
 
+def test_point_in_time_comparison_uses_instants_not_iso_text_order() -> None:
+    row = _sample_row_with_evidence(
+        avail_1="2026-03-01T15:30:00+05:30",
+        avail_2="not-a-timestamp",
+    )
+
+    snapshot = point_in_time_snapshot(row, "2026-03-01T10:00:00Z")
+
+    assert [item["evidence_id"] for item in snapshot["complete_evidence_inventory"]] == ["ev_early"]
+
+
 # 4. Inversion property: refund settled before payment capture
 @given(
     capture_dt=valid_timestamp_dt_st,

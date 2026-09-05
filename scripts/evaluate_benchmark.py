@@ -20,6 +20,7 @@ def main() -> int:
     parser.add_argument("--release-freeze", type=Path)
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--created-at")
+    parser.add_argument("--code-commit", default="UNAVAILABLE_NOT_RECORDED")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     split = cast(Literal["dev", "holdout"], args.split)
@@ -37,6 +38,7 @@ def main() -> int:
             created_at=created_at,
             confirm_frozen=args.confirm_frozen,
             release_freeze_path=args.release_freeze,
+            code_commit=args.code_commit,
         )
     )
     written = write_evaluation_artifact(args.output, artifact)

@@ -1,3 +1,6 @@
+import type { SandboxEvaluateRequest } from "../api";
+import { isSandboxRequest } from "./sandboxRequest";
+
 /**
  * Cross-File Evidence Ingestion and Synthesis Engine
  * Provides multi-format parsing (.json, .txt, .csv), per-file lifecycle tracking,
@@ -37,6 +40,7 @@ export interface EvidenceFileRecord {
   errorMessage?: string;
   warnings: string[];
   processedAt: string;
+  structuredRequest?: SandboxEvaluateRequest;
 }
 
 export interface CrossFileAnomaly {
@@ -58,16 +62,22 @@ export interface CrossFileAnalysisResult {
   combinedCommunication: string;
   anomalies: CrossFileAnomaly[];
   corroborations: string[];
-  inferredRequest: {
-    payment_amount_inr?: string;
-    refund_amount_inr?: string | null;
-    refund_status?: string;
-    refund_ledger_complete?: boolean;
-    raw_reason_code?: string;
-  };
+  structuredRequest?: SandboxEvaluateRequest;
+  errors: string[];
+  sources: { id: string; name: string; start: number; end: number }[];
 }
 
 const MAX_FILE_BYTES = 256 * 1024; // 256 KB safety limit per file
+
+export function parseMoneyMinorUnits(value: string): bigint | null {
+  const normalized = value
+    .trim()
+    .replace(/^(?:₹|INR|rs\.?)\s*/i, "")
+    .replaceAll(",", "");
+  if (!/^\d+(?:\.\d{1,2})?$/.test(normalized)) return null;
+  const [whole, fraction = ""] = normalized.split(".");
+  return BigInt(whole) * 100n + BigInt(fraction.padEnd(2, "0"));
+}
 
 export function detectFileType(fileName: string): FileType {
   const lower = fileName.toLowerCase();
@@ -78,36 +88,60 @@ export function detectFileType(fileName: string): FileType {
 }
 
 export function parseCsvRows(content: string): Record<string, string>[] {
-  const lines = content
-    .split(/\r?\n/)
-    .map((l) => l.trim())
-    .filter((l) => l.length > 0);
-  if (lines.length < 2) return [];
-
-  const delimiter = lines[0].includes(",")
+  const firstLine = content.replace(/^\uFEFF/, "").split(/\r?\n/, 1)[0];
+  const delimiter = firstLine.includes(",")
     ? ","
-    : lines[0].includes(";")
+    : firstLine.includes(";")
       ? ";"
       : "\t";
-  const headers = lines[0].split(delimiter).map((h) =>
-    h
-      .replace(/^["']|["']$/g, "")
-      .trim()
-      .toLowerCase(),
-  );
-
-  const rows: Record<string, string>[] = [];
-  for (let i = 1; i < lines.length; i++) {
-    const cells = lines[i]
-      .split(delimiter)
-      .map((c) => c.replace(/^["']|["']$/g, "").trim());
-    const row: Record<string, string> = {};
-    headers.forEach((h, idx) => {
-      row[h] = cells[idx] ?? "";
-    });
-    rows.push(row);
+  const rows: string[][] = [];
+  let row: string[] = [];
+  let field = "";
+  let quoted = false;
+  let closed = false;
+  const input = content.replace(/^\uFEFF/, "");
+  for (let i = 0; i < input.length; i++) {
+    const char = input[i];
+    if (quoted) {
+      if (char === '"') {
+        if (input[i + 1] === '"') {
+          field += '"';
+          i++;
+        } else {
+          quoted = false;
+          closed = true;
+        }
+      } else field += char;
+    } else if (char === delimiter || char === "\n" || char === "\r") {
+      row.push(field);
+      field = "";
+      closed = false;
+      if (char !== delimiter) {
+        if (row.some((cell) => cell !== "")) rows.push(row);
+        row = [];
+        if (char === "\r" && input[i + 1] === "\n") i++;
+      }
+    } else if (char === '"' && field === "" && !closed) {
+      quoted = true;
+    } else {
+      if (closed || char === '"') throw new Error("Malformed CSV quoting.");
+      field += char;
+    }
   }
-  return rows;
+  if (quoted) throw new Error("CSV contains an unterminated quoted field.");
+  row.push(field);
+  if (row.some((cell) => cell !== "")) rows.push(row);
+  if (!rows.length) return [];
+  const headers = rows[0].map((h) => h.trim().toLowerCase());
+  if (headers.some((h) => !h) || new Set(headers).size !== headers.length)
+    throw new Error("CSV headers must be nonempty and unique.");
+  return rows.slice(1).map((cells, index) => {
+    if (cells.length !== headers.length)
+      throw new Error(
+        `CSV record ${index + 2} has ${cells.length} fields; expected ${headers.length}.`,
+      );
+    return Object.fromEntries(headers.map((header, i) => [header, cells[i]]));
+  });
 }
 
 export async function processEvidenceFile(
@@ -171,7 +205,7 @@ export async function processEvidenceFile(
     if (type === "json") {
       let parsed: unknown;
       try {
-        parsed = JSON.parse(content);
+        parsed = JSON.parse(content.replace(/^\uFEFF/, ""));
       } catch (err) {
         return {
           ...baseRecord,
@@ -180,7 +214,7 @@ export async function processEvidenceFile(
         };
       }
 
-      if (!parsed || typeof parsed !== "object") {
+      if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
         return {
           ...baseRecord,
           status: "failed",
@@ -196,6 +230,28 @@ export async function processEvidenceFile(
           : record
       ) as Record<string, unknown>;
 
+      if (!candidate || Array.isArray(candidate))
+        throw new Error("JSON request must be an object.");
+      const hasFinancialFields = [
+        "payment_amount_inr",
+        "refund_amount_inr",
+        "refund_status",
+        "refund_ledger_complete",
+      ].some((key) => key in candidate);
+      if (hasFinancialFields && !isSandboxRequest(candidate)) {
+        throw new Error(
+          "Financial JSON must match the sample request schema, including raw_reason_code and explicit ledger completeness.",
+        );
+      }
+      if (isSandboxRequest(candidate)) baseRecord.structuredRequest = candidate;
+      if (
+        typeof candidate.customer_communication !== "string" &&
+        typeof candidate.message !== "string"
+      ) {
+        throw new Error(
+          "JSON has no supported customer_communication or message field.",
+        );
+      }
       const comm =
         typeof candidate.customer_communication === "string"
           ? candidate.customer_communication
@@ -263,9 +319,13 @@ export async function processEvidenceFile(
 
       rows.forEach((row) => {
         Object.entries(row).forEach(([key, val]) => {
-          if (/amount|payment|refund/i.test(key) && val) {
-            const num = val.replace(/[^\d.]/g, "");
-            if (num) baseRecord.facts.ledgerAmounts.push(num);
+          if (
+            /^(?:amount|payment_amount_inr|refund_amount_inr)$/i.test(key) &&
+            val
+          ) {
+            if (parseMoneyMinorUnits(val) === null)
+              throw new Error(`Invalid amount in CSV field ${key}.`);
+            baseRecord.facts.ledgerAmounts.push(val);
           }
           if (/status/i.test(key) && val) {
             baseRecord.facts.refundStatuses.push(val.toLowerCase());
@@ -279,7 +339,10 @@ export async function processEvidenceFile(
         });
       });
 
-      baseRecord.status = "complete";
+      baseRecord.warnings.push(
+        "CSV is retained for inspection. Confirm payment, currency, refund relationship and completeness in the form; CSV does not populate authoritative fields.",
+      );
+      baseRecord.status = "warning";
       return baseRecord;
     }
 
@@ -297,145 +360,94 @@ export async function processEvidenceFile(
 export function analyzeCrossFileEvidence(
   files: EvidenceFileRecord[],
 ): CrossFileAnalysisResult {
-  const validFiles = files.filter(
+  const valid = files.filter(
     (f) => f.status === "complete" || f.status === "warning",
   );
-  const failedFiles = files.filter((f) => f.status === "failed");
-
-  const anomalies: CrossFileAnomaly[] = [];
-  const corroborations: string[] = [];
-
-  const inferred: CrossFileAnalysisResult["inferredRequest"] = {
-    refund_ledger_complete: true,
-    raw_reason_code: "raw_demo_refund_mismatch",
-  };
-
-  // 1. Gather all communication blocks
-  const commBlocks: string[] = [];
-  files.forEach((f, idx) => {
-    if (f.status === "failed") return;
-    const body =
-      f.facts.communicationSnippet || (f.type === "txt" ? f.rawContent : "");
-    if (body.trim()) {
-      commBlocks.push(`=== Document ${idx + 1}: ${f.name} ===\n${body.trim()}`);
-    } else if (f.type === "csv") {
-      commBlocks.push(
-        `=== Document ${idx + 1}: ${f.name} (Structured Ledger) ===\nRows: ${f.facts.sourceLineCount - 1} records extracted.`,
-      );
-    }
-  });
-
-  let combinedCommunication = commBlocks.join("\n\n");
-  if (combinedCommunication.length > 9800) {
-    combinedCommunication = `${combinedCommunication.slice(0, 9750)}\n\n[... Truncated for safety]`;
+  const failed = files.filter((f) => f.status === "failed");
+  const errors = failed.map(
+    (f) => `${f.name}: ${f.errorMessage ?? "Could not read evidence."}`,
+  );
+  const sources: CrossFileAnalysisResult["sources"] = [];
+  let combinedCommunication = "";
+  for (const file of valid) {
+    const body = file.facts.communicationSnippet;
+    if (!body) continue;
+    if (combinedCommunication) combinedCommunication += "\n\n";
+    const start = combinedCommunication.length;
+    combinedCommunication += body;
+    sources.push({
+      id: file.id,
+      name: file.name,
+      start,
+      end: combinedCommunication.length,
+    });
   }
-
-  // 2. Check amount discrepancies across documents
-  const allClaimedAmounts = Array.from(
-    new Set(validFiles.flatMap((f) => f.facts.claimedAmounts)),
-  );
-  const allLedgerAmounts = Array.from(
-    new Set(validFiles.flatMap((f) => f.facts.ledgerAmounts)),
-  );
-
-  if (allClaimedAmounts.length > 0 && allLedgerAmounts.length > 0) {
-    const claimVal = parseFloat(allClaimedAmounts[0]);
-    const ledgerVal = parseFloat(allLedgerAmounts[0]);
-    if (
-      !isNaN(claimVal) &&
-      !isNaN(ledgerVal) &&
-      Math.abs(claimVal - ledgerVal) > 0.01
-    ) {
-      anomalies.push({
-        type: "AMOUNT_DISCREPANCY",
-        severity: "high",
-        title: "Cross-document amount mismatch",
-        description: `Customer document claims ₹${claimVal.toLocaleString("en-IN")}, but authoritative ledger records ₹${ledgerVal.toLocaleString("en-IN")}.`,
-        sources: validFiles.map((f) => f.name),
-      });
-      inferred.payment_amount_inr = String(claimVal);
-      inferred.refund_amount_inr = String(ledgerVal);
-    } else if (!isNaN(claimVal) && !isNaN(ledgerVal)) {
-      corroborations.push(
-        `Consistent transaction amount ₹${claimVal.toLocaleString("en-IN")} verified across ${validFiles.length} documents.`,
-      );
-      inferred.payment_amount_inr = String(claimVal);
-      inferred.refund_amount_inr = String(ledgerVal);
-    }
-  } else if (allClaimedAmounts.length > 0) {
-    inferred.payment_amount_inr = allClaimedAmounts[0];
-  } else if (allLedgerAmounts.length > 0) {
-    inferred.payment_amount_inr = allLedgerAmounts[0];
-  }
-
-  // 3. Check refund status consistency
-  const allStatuses = Array.from(
-    new Set(validFiles.flatMap((f) => f.facts.refundStatuses)),
-  );
-  if (allStatuses.includes("failed") || allStatuses.includes("none")) {
-    if (
-      combinedCommunication.toLowerCase().includes("refund processed") ||
-      combinedCommunication.toLowerCase().includes("promised refund")
-    ) {
-      anomalies.push({
-        type: "STATUS_CONFLICT",
-        severity: "high",
-        title: "Refund claim vs ledger state conflict",
-        description: `Communication claims a refund occurred, but ledger status is '${allStatuses.find((s) => s === "failed" || s === "none")}'.`,
-        sources: validFiles.map((f) => f.name),
-      });
-      inferred.refund_status = allStatuses.find(
-        (s) => s === "failed" || s === "none",
-      );
-    }
-  } else if (allStatuses.includes("processed")) {
-    inferred.refund_status = "processed";
-    corroborations.push(
-      "Refund ledger confirms record with status 'processed'.",
+  if (combinedCommunication.length > 10_000)
+    errors.push(
+      "Combined communication exceeds 10,000 characters. Remove files or select a smaller evidence packet; no text was truncated.",
     );
-  }
-
-  // 4. Check duplicate inputs
-  const nameSet = new Set<string>();
-  files.forEach((f) => {
-    if (nameSet.has(f.name)) {
+  const requests = valid.flatMap((f) =>
+    f.structuredRequest ? [f.structuredRequest] : [],
+  );
+  if (requests.length > 1)
+    errors.push(
+      "More than one financial request bundle is present. Keep one bundle per case; records are not merged by assumption.",
+    );
+  const anomalies: CrossFileAnomaly[] = [];
+  const names = new Set<string>();
+  for (const file of files) {
+    if (names.has(file.name))
       anomalies.push({
         type: "DUPLICATE_EVIDENCE",
         severity: "low",
-        title: "Duplicate file detected",
-        description: `Multiple files named "${f.name}" uploaded. Deduplicating content for SMT verification.`,
-        sources: [f.name],
+        title: "Repeated filename",
+        description: `Both copies of ${file.name} are retained. Inspect their contents before removing a duplicate.`,
+        sources: [file.name],
       });
-    }
-    nameSet.add(f.name);
-  });
-
+    names.add(file.name);
+  }
   return {
     totalFiles: files.length,
-    successfulFiles: validFiles.length,
-    failedFiles: failedFiles.length,
+    successfulFiles: valid.length,
+    failedFiles: failed.length,
     combinedCommunication,
     anomalies,
-    corroborations,
-    inferredRequest: inferred,
+    corroborations: [],
+    errors,
+    sources,
+    structuredRequest: requests.length === 1 ? requests[0] : undefined,
   };
 }
 
 export async function parseEvidenceFile(
   file: File,
 ): Promise<EvidenceFileRecord> {
-  const text = await file.text();
-  return processEvidenceFile(file.name, file.size, text);
+  if (file.size > MAX_FILE_BYTES || detectFileType(file.name) === "unsupported")
+    return processEvidenceFile(file.name, file.size, "");
+  try {
+    const content =
+      typeof file.arrayBuffer === "function"
+        ? new TextDecoder("utf-8", { fatal: true }).decode(
+            await file.arrayBuffer(),
+          )
+        : await file.text();
+    if (content.includes("\u0000"))
+      throw new Error("Binary content is not supported.");
+    return processEvidenceFile(file.name, file.size, content);
+  } catch (error) {
+    const record = await processEvidenceFile(file.name, file.size, "");
+    return {
+      ...record,
+      status: "failed",
+      errorMessage: `Could not read UTF-8 evidence. Select the file again. ${error instanceof Error ? error.message : "Read failed."}`,
+    };
+  }
 }
 
 export async function processMultiFileBatch(
   files: File[],
 ): Promise<EvidenceFileRecord[]> {
-  return Promise.all(files.map((file) => parseEvidenceFile(file)));
-}
-
-export function detectCrossFileAnomalies(
-  files: EvidenceFileRecord[],
-): CrossFileAnomaly[] {
-  return analyzeCrossFileEvidence(files).anomalies;
+  const results: EvidenceFileRecord[] = [];
+  for (const file of files) results.push(await parseEvidenceFile(file));
+  return results;
 }

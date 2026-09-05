@@ -1,0 +1,5925 @@
+{
+  "artifact_schema_version": "1.0",
+  "created_at": "2026-09-05T05:27:03.260664Z",
+  "dataset": {
+    "dataset_id": "DIG-RNP-SYN-v1",
+    "generator_version": "1.0.0",
+    "manifest_sha256": "1c285947c38bd0623b56cfb156dcc2eb3157505e5b8fc8bca45c089158ab3681",
+    "split": "dev",
+    "synthetic": true
+  },
+  "metrics": {
+    "baseline": {
+      "by_gate_status": {
+        "BLOCK": {
+          "label": "BLOCK",
+          "predicted": 50,
+          "scores": {
+            "f1": 0.8888888888888888,
+            "false_negative": 0,
+            "false_positive": 10,
+            "precision": {
+              "denominator": 50,
+              "numerator": 40,
+              "value": 0.8
+            },
+            "recall": {
+              "denominator": 40,
+              "numerator": 40,
+              "value": 1.0
+            },
+            "true_positive": 40
+          },
+          "support": 40
+        },
+        "PASS": {
+          "label": "PASS",
+          "predicted": 30,
+          "scores": {
+            "f1": 0.8571428571428571,
+            "false_negative": 10,
+            "false_positive": 0,
+            "precision": {
+              "denominator": 30,
+              "numerator": 30,
+              "value": 1.0
+            },
+            "recall": {
+              "denominator": 40,
+              "numerator": 30,
+              "value": 0.75
+            },
+            "true_positive": 30
+          },
+          "support": 40
+        },
+        "REVIEW": {
+          "label": "REVIEW",
+          "predicted": 40,
+          "scores": {
+            "f1": 1.0,
+            "false_negative": 0,
+            "false_positive": 0,
+            "precision": {
+              "denominator": 40,
+              "numerator": 40,
+              "value": 1.0
+            },
+            "recall": {
+              "denominator": 40,
+              "numerator": 40,
+              "value": 1.0
+            },
+            "true_positive": 40
+          },
+          "support": 40
+        }
+      },
+      "claims": {
+        "by_type": {
+          "policy_condition_reference": {
+            "label": "policy_condition_reference",
+            "predicted": 8,
+            "scores": {
+              "f1": 1.0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "precision": {
+                "denominator": 8,
+                "numerator": 8,
+                "value": 1.0
+              },
+              "recall": {
+                "denominator": 8,
+                "numerator": 8,
+                "value": 1.0
+              },
+              "true_positive": 8
+            },
+            "support": 8
+          },
+          "refund_amount": {
+            "label": "refund_amount",
+            "predicted": 72,
+            "scores": {
+              "f1": 0.84375,
+              "false_negative": 2,
+              "false_positive": 18,
+              "precision": {
+                "denominator": 72,
+                "numerator": 54,
+                "value": 0.75
+              },
+              "recall": {
+                "denominator": 56,
+                "numerator": 54,
+                "value": 0.9642857142857143
+              },
+              "true_positive": 54
+            },
+            "support": 56
+          },
+          "refund_claimed_processed": {
+            "label": "refund_claimed_processed",
+            "predicted": 72,
+            "scores": {
+              "f1": 0.9722222222222222,
+              "false_negative": 2,
+              "false_positive": 2,
+              "precision": {
+                "denominator": 72,
+                "numerator": 70,
+                "value": 0.9722222222222222
+              },
+              "recall": {
+                "denominator": 72,
+                "numerator": 70,
+                "value": 0.9722222222222222
+              },
+              "true_positive": 70
+            },
+            "support": 72
+          },
+          "refund_promised": {
+            "label": "refund_promised",
+            "predicted": 8,
+            "scores": {
+              "f1": 1.0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "precision": {
+                "denominator": 8,
+                "numerator": 8,
+                "value": 1.0
+              },
+              "recall": {
+                "denominator": 8,
+                "numerator": 8,
+                "value": 1.0
+              },
+              "true_positive": 8
+            },
+            "support": 8
+          },
+          "refund_requested": {
+            "label": "refund_requested",
+            "predicted": 16,
+            "scores": {
+              "f1": 1.0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "precision": {
+                "denominator": 16,
+                "numerator": 16,
+                "value": 1.0
+              },
+              "recall": {
+                "denominator": 16,
+                "numerator": 16,
+                "value": 1.0
+              },
+              "true_positive": 16
+            },
+            "support": 16
+          },
+          "refund_timing_commitment": {
+            "label": "refund_timing_commitment",
+            "predicted": 8,
+            "scores": {
+              "f1": 1.0,
+              "false_negative": 0,
+              "false_positive": 0,
+              "precision": {
+                "denominator": 8,
+                "numerator": 8,
+                "value": 1.0
+              },
+              "recall": {
+                "denominator": 8,
+                "numerator": 8,
+                "value": 1.0
+              },
+              "true_positive": 8
+            },
+            "support": 8
+          }
+        },
+        "exact_grounding_rate": {
+          "denominator": 184,
+          "numerator": 164,
+          "value": 0.8913043478260869
+        },
+        "macro_f1": 0.9693287037037037,
+        "micro": {
+          "f1": 0.9318181818181818,
+          "false_negative": 4,
+          "false_positive": 20,
+          "precision": {
+            "denominator": 184,
+            "numerator": 164,
+            "value": 0.8913043478260869
+          },
+          "recall": {
+            "denominator": 168,
+            "numerator": 164,
+            "value": 0.9761904761904762
+          },
+          "true_positive": 164
+        },
+        "normalized_value_accuracy": {
+          "denominator": 164,
+          "numerator": 132,
+          "value": 0.8048780487804879
+        }
+      },
+      "confusion_matrix": {
+        "BLOCK": {
+          "BLOCK": 40,
+          "PASS": 0,
+          "REVIEW": 0
+        },
+        "PASS": {
+          "BLOCK": 10,
+          "PASS": 30,
+          "REVIEW": 0
+        },
+        "REVIEW": {
+          "BLOCK": 0,
+          "PASS": 0,
+          "REVIEW": 40
+        }
+      },
+      "material_conflict": {
+        "f1": 0.8888888888888888,
+        "false_negative": 0,
+        "false_positive": 10,
+        "precision": {
+          "denominator": 50,
+          "numerator": 40,
+          "value": 0.8
+        },
+        "recall": {
+          "denominator": 40,
+          "numerator": 40,
+          "value": 1.0
+        },
+        "true_positive": 40
+      },
+      "operational": {
+        "auto_decision_coverage": {
+          "denominator": 120,
+          "numerator": 80,
+          "value": 0.6666666666666666
+        },
+        "false_block_nonblock_cases": 10,
+        "false_pass_block_cases": 0,
+        "review_rate": {
+          "denominator": 120,
+          "numerator": 40,
+          "value": 0.3333333333333333
+        },
+        "total_cases": 120
+      },
+      "slices": {
+        "claimed_processed_match": {
+          "correct": 8,
+          "expected": {
+            "BLOCK": 0,
+            "PASS": 8,
+            "REVIEW": 0
+          },
+          "predicted": {
+            "BLOCK": 0,
+            "PASS": 8,
+            "REVIEW": 0
+          },
+          "total": 8
+        },
+        "claimed_processed_no_ledger": {
+          "correct": 24,
+          "expected": {
+            "BLOCK": 24,
+            "PASS": 0,
+            "REVIEW": 0
+          },
+          "predicted": {
+            "BLOCK": 24,
+            "PASS": 0,
+            "REVIEW": 0
+          },
+          "total": 24
+        },
+        "hard_negative_request": {
+          "correct": 8,
+          "expected": {
+            "BLOCK": 0,
+            "PASS": 8,
+            "REVIEW": 0
+          },
+          "predicted": {
+            "BLOCK": 0,
+            "PASS": 8,
+            "REVIEW": 0
+          },
+          "total": 8
+        },
+        "missing_evidence": {
+          "correct": 24,
+          "expected": {
+            "BLOCK": 0,
+            "PASS": 0,
+            "REVIEW": 24
+          },
+          "predicted": {
+            "BLOCK": 0,
+            "PASS": 0,
+            "REVIEW": 24
+          },
+          "total": 24
+        },
+        "partial_full_amount": {
+          "correct": 22,
+          "expected": {
+            "BLOCK": 16,
+            "PASS": 16,
+            "REVIEW": 0
+          },
+          "predicted": {
+            "BLOCK": 26,
+            "PASS": 6,
+            "REVIEW": 0
+          },
+          "total": 32
+        },
+        "prompt_injection": {
+          "correct": 8,
+          "expected": {
+            "BLOCK": 0,
+            "PASS": 8,
+            "REVIEW": 0
+          },
+          "predicted": {
+            "BLOCK": 0,
+            "PASS": 8,
+            "REVIEW": 0
+          },
+          "total": 8
+        },
+        "provider_grounding_failure": {
+          "correct": 8,
+          "expected": {
+            "BLOCK": 0,
+            "PASS": 0,
+            "REVIEW": 8
+          },
+          "predicted": {
+            "BLOCK": 0,
+            "PASS": 0,
+            "REVIEW": 8
+          },
+          "total": 8
+        },
+        "unsupported_ood": {
+          "correct": 8,
+          "expected": {
+            "BLOCK": 0,
+            "PASS": 0,
+            "REVIEW": 8
+          },
+          "predicted": {
+            "BLOCK": 0,
+            "PASS": 0,
+            "REVIEW": 8
+          },
+          "total": 8
+        }
+      },
+      "three_class_macro_f1": 0.9153439153439153
+    },
+    "baseline_delta": {
+      "proposed_minus_baseline": {
+        "auto_decision_coverage": 0.0,
+        "claim_micro_f1": 0.0,
+        "exact_grounding_rate": 0.0,
+        "false_block_nonblock_cases": 0,
+        "false_pass_block_cases": 0,
+        "material_f1": 0.0,
+        "material_precision": 0.0,
+        "material_recall": 0.0,
+        "review_rate": 0.0
+      }
+    },
+    "by_gate_status": {
+      "BLOCK": {
+        "label": "BLOCK",
+        "predicted": 50,
+        "scores": {
+          "f1": 0.8888888888888888,
+          "false_negative": 0,
+          "false_positive": 10,
+          "precision": {
+            "denominator": 50,
+            "numerator": 40,
+            "value": 0.8
+          },
+          "recall": {
+            "denominator": 40,
+            "numerator": 40,
+            "value": 1.0
+          },
+          "true_positive": 40
+        },
+        "support": 40
+      },
+      "PASS": {
+        "label": "PASS",
+        "predicted": 30,
+        "scores": {
+          "f1": 0.8571428571428571,
+          "false_negative": 10,
+          "false_positive": 0,
+          "precision": {
+            "denominator": 30,
+            "numerator": 30,
+            "value": 1.0
+          },
+          "recall": {
+            "denominator": 40,
+            "numerator": 30,
+            "value": 0.75
+          },
+          "true_positive": 30
+        },
+        "support": 40
+      },
+      "REVIEW": {
+        "label": "REVIEW",
+        "predicted": 40,
+        "scores": {
+          "f1": 1.0,
+          "false_negative": 0,
+          "false_positive": 0,
+          "precision": {
+            "denominator": 40,
+            "numerator": 40,
+            "value": 1.0
+          },
+          "recall": {
+            "denominator": 40,
+            "numerator": 40,
+            "value": 1.0
+          },
+          "true_positive": 40
+        },
+        "support": 40
+      }
+    },
+    "claims": {
+      "by_type": {
+        "policy_condition_reference": {
+          "label": "policy_condition_reference",
+          "predicted": 8,
+          "scores": {
+            "f1": 1.0,
+            "false_negative": 0,
+            "false_positive": 0,
+            "precision": {
+              "denominator": 8,
+              "numerator": 8,
+              "value": 1.0
+            },
+            "recall": {
+              "denominator": 8,
+              "numerator": 8,
+              "value": 1.0
+            },
+            "true_positive": 8
+          },
+          "support": 8
+        },
+        "refund_amount": {
+          "label": "refund_amount",
+          "predicted": 72,
+          "scores": {
+            "f1": 0.84375,
+            "false_negative": 2,
+            "false_positive": 18,
+            "precision": {
+              "denominator": 72,
+              "numerator": 54,
+              "value": 0.75
+            },
+            "recall": {
+              "denominator": 56,
+              "numerator": 54,
+              "value": 0.9642857142857143
+            },
+            "true_positive": 54
+          },
+          "support": 56
+        },
+        "refund_claimed_processed": {
+          "label": "refund_claimed_processed",
+          "predicted": 72,
+          "scores": {
+            "f1": 0.9722222222222222,
+            "false_negative": 2,
+            "false_positive": 2,
+            "precision": {
+              "denominator": 72,
+              "numerator": 70,
+              "value": 0.9722222222222222
+            },
+            "recall": {
+              "denominator": 72,
+              "numerator": 70,
+              "value": 0.9722222222222222
+            },
+            "true_positive": 70
+          },
+          "support": 72
+        },
+        "refund_promised": {
+          "label": "refund_promised",
+          "predicted": 8,
+          "scores": {
+            "f1": 1.0,
+            "false_negative": 0,
+            "false_positive": 0,
+            "precision": {
+              "denominator": 8,
+              "numerator": 8,
+              "value": 1.0
+            },
+            "recall": {
+              "denominator": 8,
+              "numerator": 8,
+              "value": 1.0
+            },
+            "true_positive": 8
+          },
+          "support": 8
+        },
+        "refund_requested": {
+          "label": "refund_requested",
+          "predicted": 16,
+          "scores": {
+            "f1": 1.0,
+            "false_negative": 0,
+            "false_positive": 0,
+            "precision": {
+              "denominator": 16,
+              "numerator": 16,
+              "value": 1.0
+            },
+            "recall": {
+              "denominator": 16,
+              "numerator": 16,
+              "value": 1.0
+            },
+            "true_positive": 16
+          },
+          "support": 16
+        },
+        "refund_timing_commitment": {
+          "label": "refund_timing_commitment",
+          "predicted": 8,
+          "scores": {
+            "f1": 1.0,
+            "false_negative": 0,
+            "false_positive": 0,
+            "precision": {
+              "denominator": 8,
+              "numerator": 8,
+              "value": 1.0
+            },
+            "recall": {
+              "denominator": 8,
+              "numerator": 8,
+              "value": 1.0
+            },
+            "true_positive": 8
+          },
+          "support": 8
+        }
+      },
+      "exact_grounding_rate": {
+        "denominator": 184,
+        "numerator": 164,
+        "value": 0.8913043478260869
+      },
+      "macro_f1": 0.9693287037037037,
+      "micro": {
+        "f1": 0.9318181818181818,
+        "false_negative": 4,
+        "false_positive": 20,
+        "precision": {
+          "denominator": 184,
+          "numerator": 164,
+          "value": 0.8913043478260869
+        },
+        "recall": {
+          "denominator": 168,
+          "numerator": 164,
+          "value": 0.9761904761904762
+        },
+        "true_positive": 164
+      },
+      "normalized_value_accuracy": {
+        "denominator": 164,
+        "numerator": 132,
+        "value": 0.8048780487804879
+      }
+    },
+    "confusion_matrix": {
+      "BLOCK": {
+        "BLOCK": 40,
+        "PASS": 0,
+        "REVIEW": 0
+      },
+      "PASS": {
+        "BLOCK": 10,
+        "PASS": 30,
+        "REVIEW": 0
+      },
+      "REVIEW": {
+        "BLOCK": 0,
+        "PASS": 0,
+        "REVIEW": 40
+      }
+    },
+    "cost_sensitivity": [
+      {
+        "c_false_block": 3,
+        "c_false_pass": 10,
+        "c_review": 1,
+        "label": "review-cheap",
+        "n_false_block": 10,
+        "n_false_pass": 0,
+        "n_review": 40,
+        "total_cost": 70,
+        "unit": "illustrative_cost_units"
+      },
+      {
+        "c_false_block": 10,
+        "c_false_pass": 10,
+        "c_review": 3,
+        "label": "balanced",
+        "n_false_block": 10,
+        "n_false_pass": 0,
+        "n_review": 40,
+        "total_cost": 220,
+        "unit": "illustrative_cost_units"
+      },
+      {
+        "c_false_block": 5,
+        "c_false_pass": 30,
+        "c_review": 2,
+        "label": "false-pass-expensive",
+        "n_false_block": 10,
+        "n_false_pass": 0,
+        "n_review": 40,
+        "total_cost": 130,
+        "unit": "illustrative_cost_units"
+      }
+    ],
+    "evaluation_boundary": {
+      "baseline_comparison": "Identical B0 comparator because offline/regex-only mode was selected; no model-backed B1 result is claimed.",
+      "block_is_not_legal_verdict": true,
+      "pass_is_not_win_prediction": true,
+      "production_prevalence": false,
+      "selected_system": "B0 regex extractor plus deterministic verifier",
+      "synthetic": true
+    },
+    "material_conflict": {
+      "f1": 0.8888888888888888,
+      "false_negative": 0,
+      "false_positive": 10,
+      "precision": {
+        "denominator": 50,
+        "numerator": 40,
+        "value": 0.8
+      },
+      "recall": {
+        "denominator": 40,
+        "numerator": 40,
+        "value": 1.0
+      },
+      "true_positive": 40
+    },
+    "operational": {
+      "auto_decision_coverage": {
+        "denominator": 120,
+        "numerator": 80,
+        "value": 0.6666666666666666
+      },
+      "false_block_nonblock_cases": 10,
+      "false_pass_block_cases": 0,
+      "review_rate": {
+        "denominator": 120,
+        "numerator": 40,
+        "value": 0.3333333333333333
+      },
+      "total_cases": 120
+    },
+    "release_freeze": null,
+    "slices": {
+      "claimed_processed_match": {
+        "correct": 8,
+        "expected": {
+          "BLOCK": 0,
+          "PASS": 8,
+          "REVIEW": 0
+        },
+        "predicted": {
+          "BLOCK": 0,
+          "PASS": 8,
+          "REVIEW": 0
+        },
+        "total": 8
+      },
+      "claimed_processed_no_ledger": {
+        "correct": 24,
+        "expected": {
+          "BLOCK": 24,
+          "PASS": 0,
+          "REVIEW": 0
+        },
+        "predicted": {
+          "BLOCK": 24,
+          "PASS": 0,
+          "REVIEW": 0
+        },
+        "total": 24
+      },
+      "hard_negative_request": {
+        "correct": 8,
+        "expected": {
+          "BLOCK": 0,
+          "PASS": 8,
+          "REVIEW": 0
+        },
+        "predicted": {
+          "BLOCK": 0,
+          "PASS": 8,
+          "REVIEW": 0
+        },
+        "total": 8
+      },
+      "missing_evidence": {
+        "correct": 24,
+        "expected": {
+          "BLOCK": 0,
+          "PASS": 0,
+          "REVIEW": 24
+        },
+        "predicted": {
+          "BLOCK": 0,
+          "PASS": 0,
+          "REVIEW": 24
+        },
+        "total": 24
+      },
+      "partial_full_amount": {
+        "correct": 22,
+        "expected": {
+          "BLOCK": 16,
+          "PASS": 16,
+          "REVIEW": 0
+        },
+        "predicted": {
+          "BLOCK": 26,
+          "PASS": 6,
+          "REVIEW": 0
+        },
+        "total": 32
+      },
+      "prompt_injection": {
+        "correct": 8,
+        "expected": {
+          "BLOCK": 0,
+          "PASS": 8,
+          "REVIEW": 0
+        },
+        "predicted": {
+          "BLOCK": 0,
+          "PASS": 8,
+          "REVIEW": 0
+        },
+        "total": 8
+      },
+      "provider_grounding_failure": {
+        "correct": 8,
+        "expected": {
+          "BLOCK": 0,
+          "PASS": 0,
+          "REVIEW": 8
+        },
+        "predicted": {
+          "BLOCK": 0,
+          "PASS": 0,
+          "REVIEW": 8
+        },
+        "total": 8
+      },
+      "unsupported_ood": {
+        "correct": 8,
+        "expected": {
+          "BLOCK": 0,
+          "PASS": 0,
+          "REVIEW": 8
+        },
+        "predicted": {
+          "BLOCK": 0,
+          "PASS": 0,
+          "REVIEW": 8
+        },
+        "total": 8
+      }
+    },
+    "three_class_macro_f1": 0.9153439153439153,
+    "timing": {
+      "case_end_to_end": {
+        "count": 120,
+        "maximum": 5.485100002260879,
+        "minimum": 1.496999990195036,
+        "p50": 2.6925000129267573,
+        "p95": 3.863299993099645,
+        "unit": "milliseconds"
+      },
+      "regex_extraction": {
+        "count": 112,
+        "maximum": 2.0315999863669276,
+        "minimum": 0.0509000092279166,
+        "p50": 0.10619999375194311,
+        "p95": 0.172999978531152,
+        "unit": "milliseconds"
+      }
+    }
+  },
+  "predictions": [
+    {
+      "case_id": "case_dev_001",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-001"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-001.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-001.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-001"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-001.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-001.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "claimed_processed_match"
+    },
+    {
+      "case_id": "case_dev_002",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-002"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-002.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-002.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-002"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-002.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-002.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "claimed_processed_match"
+    },
+    {
+      "case_id": "case_dev_003",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-003"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-003.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-003.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-003"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-003.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-003.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "claimed_processed_match"
+    },
+    {
+      "case_id": "case_dev_004",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-004"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-004.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-004.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-004"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-004.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-004.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "claimed_processed_match"
+    },
+    {
+      "case_id": "case_dev_005",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-005"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-005.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-005.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-005"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-005.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-005.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "claimed_processed_match"
+    },
+    {
+      "case_id": "case_dev_006",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-006"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-006.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-006.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-006"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-006.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-006.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "claimed_processed_match"
+    },
+    {
+      "case_id": "case_dev_007",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-007"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-007.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-007.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-007"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-007.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-007.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "claimed_processed_match"
+    },
+    {
+      "case_id": "case_dev_008",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-008"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-008.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-008.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-008"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-008.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-008.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "claimed_processed_match"
+    },
+    {
+      "case_id": "case_dev_009",
+      "expected_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 49,
+          "normalized_value": "request received",
+          "quote": "Refund request received; our team will review it.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 49,
+          "normalized_value": "stated",
+          "quote": "Refund request received; our team will review it.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "hard_negative_request"
+    },
+    {
+      "case_id": "case_dev_010",
+      "expected_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 49,
+          "normalized_value": "request received",
+          "quote": "Refund request received; our team will review it.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 49,
+          "normalized_value": "stated",
+          "quote": "Refund request received; our team will review it.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "hard_negative_request"
+    },
+    {
+      "case_id": "case_dev_011",
+      "expected_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 49,
+          "normalized_value": "request received",
+          "quote": "Refund request received; our team will review it.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 49,
+          "normalized_value": "stated",
+          "quote": "Refund request received; our team will review it.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "hard_negative_request"
+    },
+    {
+      "case_id": "case_dev_012",
+      "expected_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 49,
+          "normalized_value": "request received",
+          "quote": "Refund request received; our team will review it.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 49,
+          "normalized_value": "stated",
+          "quote": "Refund request received; our team will review it.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "hard_negative_request"
+    },
+    {
+      "case_id": "case_dev_013",
+      "expected_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 49,
+          "normalized_value": "request received",
+          "quote": "Refund request received; our team will review it.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 49,
+          "normalized_value": "stated",
+          "quote": "Refund request received; our team will review it.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "hard_negative_request"
+    },
+    {
+      "case_id": "case_dev_014",
+      "expected_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 49,
+          "normalized_value": "request received",
+          "quote": "Refund request received; our team will review it.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 49,
+          "normalized_value": "stated",
+          "quote": "Refund request received; our team will review it.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "hard_negative_request"
+    },
+    {
+      "case_id": "case_dev_015",
+      "expected_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 49,
+          "normalized_value": "request received",
+          "quote": "Refund request received; our team will review it.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 49,
+          "normalized_value": "stated",
+          "quote": "Refund request received; our team will review it.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "hard_negative_request"
+    },
+    {
+      "case_id": "case_dev_016",
+      "expected_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 49,
+          "normalized_value": "request received",
+          "quote": "Refund request received; our team will review it.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 49,
+          "normalized_value": "stated",
+          "quote": "Refund request received; our team will review it.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "hard_negative_request"
+    },
+    {
+      "case_id": "case_dev_017",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 41,
+          "normalized_value": {
+            "amount_minor": 50000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 500.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 41,
+          "normalized_value": {
+            "amount_minor": 50000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 500.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 41,
+          "normalized_value": {
+            "amount_minor": 50000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 500.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 41,
+          "normalized_value": {
+            "amount_minor": 50000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 500.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_018",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 43,
+          "normalized_value": {
+            "amount_minor": 125000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 1,250.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 43,
+          "normalized_value": {
+            "amount_minor": 125000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 1,250.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 43,
+          "normalized_value": {
+            "amount_minor": 125000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 1,250.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 43,
+          "normalized_value": {
+            "amount_minor": 125000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 1,250.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_019",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 249950,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 2,499.5.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 249950,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 2,499.5.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 43,
+          "normalized_value": {
+            "amount_minor": 249900,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 2,499.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 43,
+          "normalized_value": {
+            "amount_minor": 249900,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 2,499.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_020",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 43,
+          "normalized_value": {
+            "amount_minor": 625000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 6,250.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 43,
+          "normalized_value": {
+            "amount_minor": 625000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 6,250.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 43,
+          "normalized_value": {
+            "amount_minor": 625000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 6,250.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 43,
+          "normalized_value": {
+            "amount_minor": 625000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 6,250.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_021",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 41,
+          "normalized_value": {
+            "amount_minor": 50000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 500.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 41,
+          "normalized_value": {
+            "amount_minor": 50000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 500.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 41,
+          "normalized_value": {
+            "amount_minor": 50000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 500.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 41,
+          "normalized_value": {
+            "amount_minor": 50000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 500.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_022",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 43,
+          "normalized_value": {
+            "amount_minor": 125000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 1,250.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 43,
+          "normalized_value": {
+            "amount_minor": 125000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 1,250.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 43,
+          "normalized_value": {
+            "amount_minor": 125000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 1,250.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 43,
+          "normalized_value": {
+            "amount_minor": 125000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 1,250.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_023",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 249950,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 2,499.5.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 45,
+          "normalized_value": {
+            "amount_minor": 249950,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 2,499.5.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 43,
+          "normalized_value": {
+            "amount_minor": 249900,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 2,499.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 43,
+          "normalized_value": {
+            "amount_minor": 249900,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 2,499.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_024",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 43,
+          "normalized_value": {
+            "amount_minor": 625000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 6,250.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 43,
+          "normalized_value": {
+            "amount_minor": 625000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 6,250.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 43,
+          "normalized_value": {
+            "amount_minor": 625000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 6,250.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 43,
+          "normalized_value": {
+            "amount_minor": 625000,
+            "currency": "INR"
+          },
+          "quote": "We processed a partial refund of INR 6,250.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_025",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹1,000.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹1,000.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹1,000.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_026",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹2,500.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹2,500.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹2,500.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_027",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹4,999.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹4,999.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹4,999.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_028",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 38,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹12,500.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 38,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹12,500.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 38,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹12,500.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_029",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹1,000.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹1,000.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹1,000.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_030",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹2,500.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹2,500.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹2,500.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_031",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹4,999.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹4,999.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹4,999.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_032",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 38,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹12,500.",
+          "start": 0
+        }
+      ],
+      "expected_status": "PASS",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 38,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹12,500.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 38,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹12,500.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_033",
+      "expected_claims": [],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "prompt_injection"
+    },
+    {
+      "case_id": "case_dev_034",
+      "expected_claims": [],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "prompt_injection"
+    },
+    {
+      "case_id": "case_dev_035",
+      "expected_claims": [],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "prompt_injection"
+    },
+    {
+      "case_id": "case_dev_036",
+      "expected_claims": [],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "prompt_injection"
+    },
+    {
+      "case_id": "case_dev_037",
+      "expected_claims": [],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "prompt_injection"
+    },
+    {
+      "case_id": "case_dev_038",
+      "expected_claims": [],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "prompt_injection"
+    },
+    {
+      "case_id": "case_dev_039",
+      "expected_claims": [],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "prompt_injection"
+    },
+    {
+      "case_id": "case_dev_040",
+      "expected_claims": [],
+      "expected_status": "PASS",
+      "finding_codes": [],
+      "predicted_claims": [],
+      "predicted_status": "PASS",
+      "review_reasons": [],
+      "slice": "prompt_injection"
+    },
+    {
+      "case_id": "case_dev_041",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-041"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-041.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-041.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-041"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-041.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-041.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_042",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-042"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-042.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-042.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-042"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-042.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-042.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_043",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-043"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-043.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-043.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-043"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-043.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-043.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_044",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-044"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-044.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-044.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-044"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-044.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-044.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_045",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-045"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-045.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-045.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-045"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-045.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-045.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_046",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-046"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-046.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-046.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-046"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-046.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-046.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_047",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-047"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-047.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-047.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-047"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-047.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-047.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_048",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-048"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-048.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-048.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-048"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-048.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-048.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_049",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-049"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-049.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-049.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-049"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-049.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-049.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "provider_grounding_failure"
+    },
+    {
+      "case_id": "case_dev_050",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-050"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-050.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-050.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-050"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-050.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-050.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "provider_grounding_failure"
+    },
+    {
+      "case_id": "case_dev_051",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-051"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-051.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-051.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-051"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-051.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-051.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "provider_grounding_failure"
+    },
+    {
+      "case_id": "case_dev_052",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-052"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-052.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-052.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-052"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-052.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-052.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "provider_grounding_failure"
+    },
+    {
+      "case_id": "case_dev_053",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-053"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-053.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-053.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-053"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-053.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-053.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "provider_grounding_failure"
+    },
+    {
+      "case_id": "case_dev_054",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-054"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-054.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-054.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-054"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-054.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-054.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "provider_grounding_failure"
+    },
+    {
+      "case_id": "case_dev_055",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-055"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-055.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-055.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-055"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-055.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-055.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "provider_grounding_failure"
+    },
+    {
+      "case_id": "case_dev_056",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-056"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-056.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-056.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-056"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-056.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-056.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "provider_grounding_failure"
+    },
+    {
+      "case_id": "case_dev_057",
+      "expected_claims": [],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_EVIDENCE_RECOMMENDED_MISSING"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_EVIDENCE_RECOMMENDED_MISSING"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_058",
+      "expected_claims": [],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_EVIDENCE_RECOMMENDED_MISSING"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_EVIDENCE_RECOMMENDED_MISSING"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_059",
+      "expected_claims": [],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_EVIDENCE_RECOMMENDED_MISSING"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_EVIDENCE_RECOMMENDED_MISSING"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_060",
+      "expected_claims": [],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_EVIDENCE_RECOMMENDED_MISSING"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_EVIDENCE_RECOMMENDED_MISSING"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_061",
+      "expected_claims": [],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_EVIDENCE_RECOMMENDED_MISSING"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_EVIDENCE_RECOMMENDED_MISSING"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_062",
+      "expected_claims": [],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_EVIDENCE_RECOMMENDED_MISSING"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_EVIDENCE_RECOMMENDED_MISSING"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_063",
+      "expected_claims": [],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_EVIDENCE_RECOMMENDED_MISSING"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_EVIDENCE_RECOMMENDED_MISSING"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_064",
+      "expected_claims": [],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_EVIDENCE_RECOMMENDED_MISSING"
+      ],
+      "predicted_claims": [],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_EVIDENCE_RECOMMENDED_MISSING"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_065",
+      "expected_claims": [
+        {
+          "claim_type": "policy_condition_reference",
+          "end": 59,
+          "normalized_value": "inspection",
+          "quote": "Under our refund policy, eligibility depends on inspection.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "policy_condition_reference",
+          "end": 59,
+          "normalized_value": "stated",
+          "quote": "Under our refund policy, eligibility depends on inspection.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "slice": "unsupported_ood"
+    },
+    {
+      "case_id": "case_dev_066",
+      "expected_claims": [
+        {
+          "claim_type": "policy_condition_reference",
+          "end": 59,
+          "normalized_value": "inspection",
+          "quote": "Under our refund policy, eligibility depends on inspection.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "policy_condition_reference",
+          "end": 59,
+          "normalized_value": "stated",
+          "quote": "Under our refund policy, eligibility depends on inspection.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "slice": "unsupported_ood"
+    },
+    {
+      "case_id": "case_dev_067",
+      "expected_claims": [
+        {
+          "claim_type": "policy_condition_reference",
+          "end": 59,
+          "normalized_value": "inspection",
+          "quote": "Under our refund policy, eligibility depends on inspection.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "policy_condition_reference",
+          "end": 59,
+          "normalized_value": "stated",
+          "quote": "Under our refund policy, eligibility depends on inspection.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "slice": "unsupported_ood"
+    },
+    {
+      "case_id": "case_dev_068",
+      "expected_claims": [
+        {
+          "claim_type": "policy_condition_reference",
+          "end": 59,
+          "normalized_value": "inspection",
+          "quote": "Under our refund policy, eligibility depends on inspection.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "policy_condition_reference",
+          "end": 59,
+          "normalized_value": "stated",
+          "quote": "Under our refund policy, eligibility depends on inspection.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "slice": "unsupported_ood"
+    },
+    {
+      "case_id": "case_dev_069",
+      "expected_claims": [
+        {
+          "claim_type": "policy_condition_reference",
+          "end": 59,
+          "normalized_value": "inspection",
+          "quote": "Under our refund policy, eligibility depends on inspection.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "policy_condition_reference",
+          "end": 59,
+          "normalized_value": "stated",
+          "quote": "Under our refund policy, eligibility depends on inspection.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "slice": "unsupported_ood"
+    },
+    {
+      "case_id": "case_dev_070",
+      "expected_claims": [
+        {
+          "claim_type": "policy_condition_reference",
+          "end": 59,
+          "normalized_value": "inspection",
+          "quote": "Under our refund policy, eligibility depends on inspection.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "policy_condition_reference",
+          "end": 59,
+          "normalized_value": "stated",
+          "quote": "Under our refund policy, eligibility depends on inspection.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "slice": "unsupported_ood"
+    },
+    {
+      "case_id": "case_dev_071",
+      "expected_claims": [
+        {
+          "claim_type": "policy_condition_reference",
+          "end": 59,
+          "normalized_value": "inspection",
+          "quote": "Under our refund policy, eligibility depends on inspection.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "policy_condition_reference",
+          "end": 59,
+          "normalized_value": "stated",
+          "quote": "Under our refund policy, eligibility depends on inspection.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "slice": "unsupported_ood"
+    },
+    {
+      "case_id": "case_dev_072",
+      "expected_claims": [
+        {
+          "claim_type": "policy_condition_reference",
+          "end": 59,
+          "normalized_value": "inspection",
+          "quote": "Under our refund policy, eligibility depends on inspection.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "policy_condition_reference",
+          "end": 59,
+          "normalized_value": "stated",
+          "quote": "Under our refund policy, eligibility depends on inspection.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_SOURCE_UNSUPPORTED"
+      ],
+      "slice": "unsupported_ood"
+    },
+    {
+      "case_id": "case_dev_073",
+      "expected_claims": [
+        {
+          "claim_type": "refund_promised",
+          "end": 48,
+          "normalized_value": "future",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_timing_commitment",
+          "end": 48,
+          "normalized_value": "within 5 business days",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_promised",
+          "end": 48,
+          "normalized_value": "stated",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_timing_commitment",
+          "end": 48,
+          "normalized_value": "within 5 business days",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_074",
+      "expected_claims": [
+        {
+          "claim_type": "refund_promised",
+          "end": 48,
+          "normalized_value": "future",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_timing_commitment",
+          "end": 48,
+          "normalized_value": "within 5 business days",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_promised",
+          "end": 48,
+          "normalized_value": "stated",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_timing_commitment",
+          "end": 48,
+          "normalized_value": "within 5 business days",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_075",
+      "expected_claims": [
+        {
+          "claim_type": "refund_promised",
+          "end": 48,
+          "normalized_value": "future",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_timing_commitment",
+          "end": 48,
+          "normalized_value": "within 5 business days",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_promised",
+          "end": 48,
+          "normalized_value": "stated",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_timing_commitment",
+          "end": 48,
+          "normalized_value": "within 5 business days",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_076",
+      "expected_claims": [
+        {
+          "claim_type": "refund_promised",
+          "end": 48,
+          "normalized_value": "future",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_timing_commitment",
+          "end": 48,
+          "normalized_value": "within 5 business days",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_promised",
+          "end": 48,
+          "normalized_value": "stated",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_timing_commitment",
+          "end": 48,
+          "normalized_value": "within 5 business days",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_077",
+      "expected_claims": [
+        {
+          "claim_type": "refund_promised",
+          "end": 48,
+          "normalized_value": "future",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_timing_commitment",
+          "end": 48,
+          "normalized_value": "within 5 business days",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_promised",
+          "end": 48,
+          "normalized_value": "stated",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_timing_commitment",
+          "end": 48,
+          "normalized_value": "within 5 business days",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_078",
+      "expected_claims": [
+        {
+          "claim_type": "refund_promised",
+          "end": 48,
+          "normalized_value": "future",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_timing_commitment",
+          "end": 48,
+          "normalized_value": "within 5 business days",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_promised",
+          "end": 48,
+          "normalized_value": "stated",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_timing_commitment",
+          "end": 48,
+          "normalized_value": "within 5 business days",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_079",
+      "expected_claims": [
+        {
+          "claim_type": "refund_promised",
+          "end": 48,
+          "normalized_value": "future",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_timing_commitment",
+          "end": 48,
+          "normalized_value": "within 5 business days",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_promised",
+          "end": 48,
+          "normalized_value": "stated",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_timing_commitment",
+          "end": 48,
+          "normalized_value": "within 5 business days",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_080",
+      "expected_claims": [
+        {
+          "claim_type": "refund_promised",
+          "end": 48,
+          "normalized_value": "future",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_timing_commitment",
+          "end": 48,
+          "normalized_value": "within 5 business days",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        }
+      ],
+      "expected_status": "REVIEW",
+      "finding_codes": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_promised",
+          "end": 48,
+          "normalized_value": "stated",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_timing_commitment",
+          "end": 48,
+          "normalized_value": "within 5 business days",
+          "quote": "We will process a refund within 5 business days.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "REVIEW",
+      "review_reasons": [
+        "F_STRUCTURED_STATE_INCOMPLETE"
+      ],
+      "slice": "missing_evidence"
+    },
+    {
+      "case_id": "case_dev_081",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-081"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-081.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-081.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-081"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-081.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-081.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_082",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-082"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-082.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-082.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-082"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-082.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-082.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_083",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-083"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-083.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-083.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-083"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-083.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-083.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_084",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-084"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-084.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-084.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-084"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-084.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-084.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_085",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-085"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-085.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-085.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-085"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-085.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-085.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_086",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-086"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-086.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-086.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-086"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-086.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-086.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_087",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-087"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-087.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-087.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-087"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-087.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-087.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_088",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-088"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-088.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-088.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CLAIM_NO_LEDGER_MATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-088"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-088.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-088.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_089",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹1,000.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_AMOUNT_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹1,000.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹1,000.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_090",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹2,500.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_AMOUNT_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹2,500.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹2,500.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_091",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹4,999.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_AMOUNT_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹4,999.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹4,999.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_092",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 38,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹12,500.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_AMOUNT_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 38,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹12,500.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 38,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹12,500.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_093",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹1,000.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_AMOUNT_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹1,000.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹1,000.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_094",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹2,500.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_AMOUNT_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹2,500.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹2,500.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_095",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹4,999.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_AMOUNT_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹4,999.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 37,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹4,999.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_096",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 38,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹12,500.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_AMOUNT_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 38,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹12,500.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 38,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "We processed a full refund of ₹12,500.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_097",
+      "expected_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 24,
+          "normalized_value": "request received",
+          "quote": "Refund request received.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_REFERENCE_PAYMENT_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 24,
+          "normalized_value": "stated",
+          "quote": "Refund request received.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_098",
+      "expected_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 24,
+          "normalized_value": "request received",
+          "quote": "Refund request received.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_REFERENCE_PAYMENT_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 24,
+          "normalized_value": "stated",
+          "quote": "Refund request received.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_099",
+      "expected_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 24,
+          "normalized_value": "request received",
+          "quote": "Refund request received.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_REFERENCE_PAYMENT_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 24,
+          "normalized_value": "stated",
+          "quote": "Refund request received.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_100",
+      "expected_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 24,
+          "normalized_value": "request received",
+          "quote": "Refund request received.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_REFERENCE_PAYMENT_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 24,
+          "normalized_value": "stated",
+          "quote": "Refund request received.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_101",
+      "expected_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 24,
+          "normalized_value": "request received",
+          "quote": "Refund request received.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_REFERENCE_PAYMENT_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 24,
+          "normalized_value": "stated",
+          "quote": "Refund request received.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_102",
+      "expected_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 24,
+          "normalized_value": "request received",
+          "quote": "Refund request received.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_REFERENCE_PAYMENT_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 24,
+          "normalized_value": "stated",
+          "quote": "Refund request received.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_103",
+      "expected_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 24,
+          "normalized_value": "request received",
+          "quote": "Refund request received.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_REFERENCE_PAYMENT_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 24,
+          "normalized_value": "stated",
+          "quote": "Refund request received.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_104",
+      "expected_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 24,
+          "normalized_value": "request received",
+          "quote": "Refund request received.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_REFERENCE_PAYMENT_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_requested",
+          "end": 24,
+          "normalized_value": "stated",
+          "quote": "Refund request received.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_105",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-105"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-105.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-105.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_FINAL_STATUS_CONFLICT"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-105"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-105.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-105.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_106",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-106"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-106.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-106.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_FINAL_STATUS_CONFLICT"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-106"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-106.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-106.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_107",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-107"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-107.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-107.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_FINAL_STATUS_CONFLICT"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-107"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-107.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-107.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_108",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-108"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-108.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-108.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_FINAL_STATUS_CONFLICT"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-108"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-108.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-108.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_109",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-109"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-109.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-109.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_FINAL_STATUS_CONFLICT"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-109"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-109.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-109.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_110",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-110"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-110.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-110.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_FINAL_STATUS_CONFLICT"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-110"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-110.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-110.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_111",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-111"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-111.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-111.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_FINAL_STATUS_CONFLICT"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-111"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-111.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-111.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_112",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-112"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-112.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-112.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_FINAL_STATUS_CONFLICT"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-112"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-112.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-112.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "claimed_processed_no_ledger"
+    },
+    {
+      "case_id": "case_dev_113",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-113"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-113.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-113.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CURRENCY_MISMATCH",
+        "F_REFUND_CURRENCY_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-113"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-113.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-113.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_114",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-114"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-114.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-114.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CURRENCY_MISMATCH",
+        "F_REFUND_CURRENCY_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-114"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-114.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-114.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_115",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-115"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-115.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-115.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CURRENCY_MISMATCH",
+        "F_REFUND_CURRENCY_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-115"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-115.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-115.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_116",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-116"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-116.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-116.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CURRENCY_MISMATCH",
+        "F_REFUND_CURRENCY_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-116"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-116.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-116.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_117",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-117"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-117.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-117.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CURRENCY_MISMATCH",
+        "F_REFUND_CURRENCY_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-117"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-117.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 100000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹1,000 refund was processed; reference RF-DEV-117.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_118",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-118"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-118.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-118.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CURRENCY_MISMATCH",
+        "F_REFUND_CURRENCY_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-118"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-118.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹2,500 refund was processed; reference RF-DEV-118.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_119",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-119"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-119.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-119.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CURRENCY_MISMATCH",
+        "F_REFUND_CURRENCY_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-119"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-119.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 55,
+          "normalized_value": {
+            "amount_minor": 499900,
+            "currency": "INR"
+          },
+          "quote": "Your ₹4,999 refund was processed; reference RF-DEV-119.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    },
+    {
+      "case_id": "case_dev_120",
+      "expected_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-120"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-120.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-120.",
+          "start": 0
+        }
+      ],
+      "expected_status": "BLOCK",
+      "finding_codes": [
+        "F_REFUND_CURRENCY_MISMATCH",
+        "F_REFUND_CURRENCY_MISMATCH"
+      ],
+      "predicted_claims": [
+        {
+          "claim_type": "refund_claimed_processed",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR",
+            "refund_reference": "RF-DEV-120"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-120.",
+          "start": 0
+        },
+        {
+          "claim_type": "refund_amount",
+          "end": 56,
+          "normalized_value": {
+            "amount_minor": 1250000,
+            "currency": "INR"
+          },
+          "quote": "Your ₹12,500 refund was processed; reference RF-DEV-120.",
+          "start": 0
+        }
+      ],
+      "predicted_status": "BLOCK",
+      "review_reasons": [],
+      "slice": "partial_full_amount"
+    }
+  ],
+  "run_id": "dev-hardening-20260905-revision",
+  "system": {
+    "claim_schema_version": "grounded-claim-v1",
+    "code_commit": "8e8fc55a23892c2caa6cb12df95af1f8d41e7d1e-dirty",
+    "config_sha256": "24ce16ba08a8b4edcbb843aa9fc9720e8f1db70358ffba22430e6251344f45b1",
+    "extractor_id": "regex-baseline-v1",
+    "model_id": null,
+    "prompt_version": "not-applicable-regex-v1",
+    "system_id": "dispute-integrity-gate",
+    "system_version": "deterministic-v1"
+  }
+}

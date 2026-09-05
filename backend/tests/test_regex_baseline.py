@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import pytest
 from app.extraction import ClaimType, ExtractedClaim, ExtractionRequest
+from app.grounding import ground_and_normalize_claim
 from app.regex_baseline import BASELINE_ID, RegexBaselineExtractor
 from app.semantic_pipeline import SemanticPipelineStatus, run_semantic_pipeline
 
@@ -58,14 +59,17 @@ async def test_request_received_is_requested_not_approved_or_processed() -> None
     assert ClaimType.REFUND_CLAIMED_PROCESSED not in types
 
 
+@pytest.mark.parametrize("amount", ["1000", "2,499.5", "2,499.50", "2,499.501"])
 @pytest.mark.asyncio
-async def test_partial_refund_amount_is_preserved_without_full_inference() -> None:
-    claims = await extract("We processed a partial refund of INR 1000.")
+async def test_partial_refund_amount_is_preserved_without_full_inference(amount: str) -> None:
+    text = f"We processed a partial refund of INR {amount}."
+    claims = await extract(text + " Please retain this receipt.")
     processed = next(
         claim for claim in claims if claim.claim_type is ClaimType.REFUND_CLAIMED_PROCESSED
     )
 
-    assert processed.value == "INR 1000"
+    assert processed.value == f"INR {amount}"
+    assert processed.quote == text
     assert "full" not in str(processed.value).lower()
 
 
@@ -94,3 +98,14 @@ async def test_baseline_uses_same_grounding_pipeline() -> None:
     result = await RegexBaselineExtractor().extract(request)
     assert result.extractor_id == BASELINE_ID
     assert result.model_id is None
+
+
+@pytest.mark.parametrize("amount", ["1000.501", "1,23", "-1000", "10.2.3"])
+@pytest.mark.asyncio
+async def test_invalid_amount_is_preserved_and_rejected_by_normalization(amount: str) -> None:
+    text = f"We processed a partial refund of INR {amount}."
+    claims = await extract(text)
+    for item in claims:
+        grounded = ground_and_normalize_claim(item, text)
+        assert grounded.amount_minor is None
+        assert "AMOUNT_UNRESOLVED" in grounded.normalization_errors

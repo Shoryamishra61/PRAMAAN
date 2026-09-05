@@ -4,15 +4,20 @@
 
 ## Product identity
 
-**Name:** Dispute Integrity Gate  
-**Competition:** Razorpay AI Buildathon 2026  
-**Track:** 02 — AI Risk Manager  
-**Loss class:** Refund / Credit Not Processed disputes  
+**Product:** PRAMAAN — AI Risk Manager & Dispute Integrity Gate
+**Research engine:** CARVE-FECL
+**Competition:** Razorpay AI Buildathon 2026
+**Track:** 02 — AI Risk Manager
+**Loss class:** Refund / Credit Not Processed disputes
 **MVP profile:** `refund_not_processed_v1`
 
 ## Product thesis
 
 Merchants can assemble dispute evidence that is individually plausible yet mutually inconsistent. Razorpay already supports dispute evidence fields, contest/accept workflows, and an `action_required` event when submitted evidence is insufficient, unreadable, or mismatched. The product adds a **merchant-side pre-submission verification checkpoint** before a human decides whether a packet is ready to contest.
+
+PRAMAAN is the operator-facing verifier. CARVE-FECL is the bounded research engine used to test
+semantic candidates, calibration, formal invariant implementations, and abstention behavior; it
+does not own the product decision or any payment action.
 
 The verifier:
 1. preserves Razorpay dispute/payment state;

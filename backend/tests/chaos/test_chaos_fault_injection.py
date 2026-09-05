@@ -5,7 +5,6 @@ Validates the core safety invariants under technical failure:
 2. Extractor Exception / Malformed JSON: Degrades safely to REVIEW_REQUIRED.
 3. Database Busy / Lock Contention: Fails with rollback, preserving atomic consistency.
 4. Checkpoint / Freeze Corruption: Byte tampering triggers ReleaseFreezeError.
-5. Circuit Breaker Transitions: Dynamic risk-budget exhaustion triggers DEGRADED and REVIEW_ONLY.
 """
 
 from __future__ import annotations
@@ -16,10 +15,8 @@ from pathlib import Path
 
 import pytest
 from app.case_pipeline import CaseEvaluationInput, evaluate_case
-from app.database import connect_database, initialize_database
 from app.decision import GateStatus
 from app.extraction import ExtractionRequest, ExtractionResult, SemanticExtractor
-from app.quant_risk_api import load_quant_risk_research
 from app.release_freeze import (
     ReleaseFreezeError,
     create_release_freeze,
@@ -117,72 +114,3 @@ def test_checkpoint_corruption_fails_verification(tmp_path: Path) -> None:
     # 4. Verification must raise ReleaseFreezeError
     with pytest.raises(ReleaseFreezeError):
         verify_release_freeze(repo_root, freeze_path)
-
-
-def test_circuit_breaker_transitions_under_load_and_risk(tmp_path: Path) -> None:
-    """Risk-budget exhaustion drives circuit breaker from AUTOMATION_ENABLED to REVIEW_ONLY."""
-    db_path = tmp_path / "circuit_breaker.db"
-    initialize_database(db_path)
-
-    now_iso = "2026-09-03T12:00:00Z"
-
-    # 1. Empty/low decisions -> AUTOMATION_ENABLED
-    response_init = load_quant_risk_research(database_path=db_path)
-    assert response_init.circuit_breaker_state == "AUTOMATION_ENABLED"
-
-    # 2. Insert heavy REVIEW volume -> pushes review capacity utilized >= 90% -> DEGRADED
-    with connect_database(db_path) as conn:
-        for i in range(460):
-            case_id = f"case_rev_{i}"
-            conn.execute(
-                """
-                INSERT INTO dispute_cases (
-                    id, razorpay_dispute_id, payment_id, amount_minor, currency,
-                    reason_profile, processing_status, workflow_status, created_at, updated_at
-                ) VALUES (?, ?, 'pay_1', 1000, 'INR', 'refund_not_processed_v1',
-                          'RECEIVED', 'REVIEW_PENDING', ?, ?)
-                """,
-                (case_id, f"disp_rev_{i}", now_iso, now_iso),
-            )
-            conn.execute(
-                """
-                INSERT INTO gate_decisions (
-                    id, case_id, status, primary_reason_code, engine_version,
-                    decision_json, created_at
-                ) VALUES (?, ?, 'REVIEW', 'F_MANUAL_REVIEW', '1.0', '{}', ?)
-                """,
-                (f"dec_rev_{i}", case_id, now_iso),
-            )
-        conn.commit()
-
-    response_degraded = load_quant_risk_research(database_path=db_path)
-    assert response_degraded.circuit_breaker_state == "DEGRADED"
-
-    # 3. Insert excessive PASS decisions -> pushes daily_risk_budget >= 100% -> REVIEW_ONLY
-    # consumed_risk = (passes * 0.25) + (blocks * 0.05). For 100%, need 400+ passes.
-    with connect_database(db_path) as conn:
-        for i in range(410):
-            case_id = f"case_pass_{i}"
-            conn.execute(
-                """
-                INSERT INTO dispute_cases (
-                    id, razorpay_dispute_id, payment_id, amount_minor, currency,
-                    reason_profile, processing_status, workflow_status, created_at, updated_at
-                ) VALUES (?, ?, 'pay_2', 1000, 'INR', 'refund_not_processed_v1',
-                          'RECEIVED', 'READY_FOR_CONTEST', ?, ?)
-                """,
-                (case_id, f"disp_pass_{i}", now_iso, now_iso),
-            )
-            conn.execute(
-                """
-                INSERT INTO gate_decisions (
-                    id, case_id, status, primary_reason_code, engine_version,
-                    decision_json, created_at
-                ) VALUES (?, ?, 'PASS', 'CONTEST_READY', '1.0', '{}', ?)
-                """,
-                (f"dec_pass_{i}", case_id, now_iso),
-            )
-        conn.commit()
-
-    response_review_only = load_quant_risk_research(database_path=db_path)
-    assert response_review_only.circuit_breaker_state == "REVIEW_ONLY"

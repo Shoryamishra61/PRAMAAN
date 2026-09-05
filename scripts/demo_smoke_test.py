@@ -88,12 +88,11 @@ def run_demo_smoke_test(repo_root: Path) -> dict[str, Any]:
         # 5. Research & Quant-Risk Endpoints
         print("[5/5] Verifying Research & Quant-Risk projections...")
         quant_resp = client.get("/api/v1/research/quant-risk")
-        assert quant_resp.status_code == 200, (
+        assert quant_resp.status_code == 410, (
             f"Quant-risk failed: {quant_resp.status_code} {quant_resp.text}"
         )
         quant_data = quant_resp.json()
-        assert "circuit_breaker_state" in quant_data
-        assert "daily_risk_budget_consumed_pct" in quant_data
+        assert "net_merchant_edge_inr" not in quant_data
 
         ai_resp = client.get("/api/v1/ai-research")
         assert ai_resp.status_code == 200, f"AI-research failed: {ai_resp.status_code}"
@@ -104,10 +103,13 @@ def run_demo_smoke_test(repo_root: Path) -> dict[str, Any]:
         eval_resp = client.get("/api/v1/evaluation/latest")
         assert eval_resp.status_code == 200, f"Evaluation latest failed: {eval_resp.status_code}"
 
-        print("      [OK] Quant-Risk, AI-Research, CARVE, and Evaluation APIs responding 200")
+        print(
+            "      [OK] Legacy projection retired (410); "
+            "artifact-backed research and evaluation available"
+        )
 
     print("\n" + "=" * 70)
-    print("  STATUS: LIVE DEMO SMOKE TEST PASSED -- SYSTEM DEMO-READY")
+    print("  STATUS: API DEMO SMOKE PASSED -- VISUAL QA IS A SEPARATE GATE")
     print("=" * 70 + "\n")
     return {
         "status": "PASS",

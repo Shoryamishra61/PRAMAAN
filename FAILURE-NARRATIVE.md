@@ -1,8 +1,43 @@
-# Failure narrative
+# Failure Narrative
 
-These are observed build failures and one explicitly labeled fault injection. No incident rate, user impact, savings, or production history is inferred from them.
+These are documented technical failures, falsifications, and observed build defects. A genuine corrected failure is stronger evidence of research and engineering discipline than simulated perfection.
 
-## 1. App initialization violated authentication-before-persistence
+## 1. Decimal Sentence Segmentation and Refund Ledger Mismatch (Research / Detector Failure)
+
+- **OBSERVATION**:  
+  Evaluating the 120-case synthetic development benchmark (`DIG-RNP-SYN-v1`) yielded 10 false BLOCK predictions (BLOCK precision: 40/50 = 0.8000, recall: 40/40 = 1.0000). Ten true PASS cases were improperly subjected to local hold. All 10 mismatches concentrated in a single diagnostic slice: `partial_full_amount`, with the gate emitting finding `F_REFUND_CLAIM_NO_LEDGER_MATCH`.
+
+- **HYPOTHESIS**:  
+  The downstream integer minor-unit parser or date reconciliation logic was failing on decimal strings or partial refund sums, rejecting valid ledger matches.
+
+- **FALSIFICATION**:  
+  Unit testing isolated cases (such as `case_dev_019`) against the numeric minor-unit converter `parse_money_minor_units("INR 2,499.5")` demonstrated that the integer conversion logic (`249950`) was mathematically correct. The solver and arithmetic verification were not at fault.
+
+- **ROOT CAUSE**:  
+  Inspection traced the defect upstream to text segmentation and regular expression tokenization:
+  1. The sentence tokenizer in `regex_baseline.py` used `re.compile(r"[^\n.!?]+[.!?]?", re.UNICODE)`. For amounts like `INR 2,499.5.`, the unescaped period inside the single-digit decimal representation was matched as a sentence boundary. The sentence was severed into `"We processed a partial refund of INR 2,499"` and an orphan `"5."`.
+  2. `INR_VALUE_PATTERN` expected exactly two decimal digits or none `(?:\.\d{1,2})?`, failing to greedily match the full token.
+  3. Consequently, the extractor yielded `INR 2,499` instead of `INR 2,499.50`, which failed exact integer match against the ledger record of `249950` paise, producing `F_REFUND_CLAIM_NO_LEDGER_MATCH`.
+
+- **REPAIR**:  
+  1. Extracted text segmentation into a shared, centralized module `backend/app/source_text.py` using lookbehind/lookahead `(?<=\d)\.(?=\d)` so periods between numeric digits are never treated as sentence delimiters.
+  2. Refined `INR_VALUE_PATTERN` to capture the complete numeric token greedily, delegating financial formatting and minor-unit validation to the strict grounding verifier.
+  3. Hardened aggregate partial-refund matching to verify total settled amounts without letting aggregate totals falsely satisfy specific refund references.
+
+- **RE-EVALUATION**:  
+  Re-evaluating the complete 120 DEV benchmark cases (`artifacts/verification/dev-hardening-20260905/`):
+  - False BLOCKs dropped from 10 to 0.
+  - BLOCK precision improved from 40/50 (0.8000) to 40/40 (1.0000).
+  - BLOCK recall remained 40/40 (1.0000).
+  - PASS precision: 40/40 (1.0000), recall: 40/40 (1.0000).
+  - REVIEW precision: 40/40 (1.0000), recall: 40/40 (1.0000).
+  - Zero prediction mismatches across all 120 cases.
+  - Bitwise artifact SHA-256 sidecars recorded in `dev-refund-repair-20260905-final.json.sha256`.
+
+- **LESSON**:  
+  Domain-specific NLP cannot treat financial punctuation like generic prose. Numerical representations in financial disputes (currencies, commas, decimals, paise) must be protected by invariant-aware tokenization before structured facts reach deterministic symbolic engines.
+
+## 2. App initialization violated authentication-before-persistence
 
 Symptom: after health initialization was added, the full gate failed `test_mutated_replay_with_original_signature_is_rejected_before_persistence`. The invalid signed-body replay correctly returned HTTP 401, but the database file already existed.
 
@@ -22,7 +57,7 @@ Residual risk: SQLite file existence is only one observable side effect. Product
 
 Reference: `artifacts/verification/T026.md`. Git commit reference is unavailable because this workspace is not a Git repository.
 
-## 2. Windows demo readiness and process-state assumptions failed
+## 3. Windows demo readiness and process-state assumptions failed
 
 Symptom: both Uvicorn and Vite logged that they were listening, but `scripts/demo.ps1` timed out and stopped them. After the readiness fix, the first stop attempt refused to kill anything and reported combined PIDs.
 
@@ -50,7 +85,7 @@ Residual risk: a port-open probe alone does not prove application semantics. The
 
 Reference: `artifacts/verification/T028.md`. Git commit reference is unavailable.
 
-## 3. Intentional extractor-outage recovery
+## 4. Intentional extractor-outage recovery
 
 This is fault injection, not an accidental outage or production incident.
 
@@ -62,7 +97,7 @@ The command injects a bounded transient extractor failure twice, verifies `REVIE
 
 This demonstrates the safety invariant: degraded uncertainty does not silently become PASS. Recovery is deterministic for the bundled fixture; it does not prove provider availability or production recovery time.
 
-## 4. Windows PowerShell did not auto-load the HTTP client assembly
+## 5. Windows PowerShell did not auto-load the HTTP client assembly
 
 Symptom: the first technical demo rehearsal seeded and started both services, then failed before its health assertion with `Cannot find type [System.Net.Http.HttpClientHandler]`. Its `finally` cleanup still stopped exactly the two recorded processes.
 
@@ -72,7 +107,7 @@ Fix: the launcher now refuses already-occupied requested ports, verifies both ch
 
 Regression evidence: the same rehearsal command subsequently completed its health, queue, evaluation-artifact, frontend, failure-injection, and cleanup assertions. This is local compatibility evidence, not a claim about other PowerShell editions.
 
-## 5. Fresh-copy setup selected a Python without `venv`
+## 6. Fresh-copy setup selected a Python without `venv`
 
 Symptom: the isolated clean-source reproduction failed immediately with `No module named venv`, then attempted to invoke a `.venv` interpreter that had never been created.
 

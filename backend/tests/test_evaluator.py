@@ -27,9 +27,11 @@ async def test_dev_evaluator_writes_only_computed_case_level_metrics() -> None:
         DATASET_ROOT,
         split="dev",
         run_id="dev-regression",
+        code_commit="test-revision-dirty",
         created_at=EVALUATED_AT,
     )
 
+    assert artifact.system.code_commit == "test-revision-dirty"
     assert artifact.dataset.split == "dev"
     assert artifact.dataset.synthetic is True
     assert len(artifact.predictions) == 120

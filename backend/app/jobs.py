@@ -91,16 +91,20 @@ def claim_next_job(
         )
 
 
-def complete_job(database_path: Path, job_id: str, now: datetime) -> None:
-    """Mark a successfully processed claimed job complete."""
+def complete_job(database_path: Path, job: ClaimedJob, now: datetime) -> None:
+    """Complete a job only while this worker still owns its exact lease."""
     with connect_database(database_path) as connection:
         cursor = connection.execute(
             """
             UPDATE jobs
             SET status = 'COMPLETED', lease_until = NULL, last_error_code = NULL, updated_at = ?
-            WHERE id = ? AND status = 'PROCESSING'
+            WHERE id = ? AND status = 'PROCESSING' AND lease_until = ?
             """,
-            (to_storage_timestamp(require_utc(now)), job_id),
+            (
+                to_storage_timestamp(require_utc(now)),
+                job.id,
+                to_storage_timestamp(job.lease_until),
+            ),
         )
         if cursor.rowcount != 1:
             raise PermanentJobError("JOB_STATE_CONFLICT")
@@ -126,7 +130,7 @@ def fail_job(
             UPDATE jobs
             SET status = ?, available_at = ?, lease_until = NULL,
                 last_error_code = ?, updated_at = ?
-            WHERE id = ? AND status = 'PROCESSING'
+            WHERE id = ? AND status = 'PROCESSING' AND lease_until = ?
             """,
             (
                 status,
@@ -134,6 +138,7 @@ def fail_job(
                 error_code,
                 to_storage_timestamp(now_utc),
                 job.id,
+                to_storage_timestamp(job.lease_until),
             ),
         )
         if cursor.rowcount != 1:
@@ -208,7 +213,7 @@ async def run_worker_once(
             )
         )
     else:
-        complete_job(database_path, job.id, now)
+        complete_job(database_path, job, now)
         emit_log(
             StructuredLogEvent(
                 module="worker",

@@ -5,6 +5,9 @@ import json
 from pathlib import Path
 from typing import Any
 
+import app.carve as carve
+import z3
+from _pytest.monkeypatch import MonkeyPatch
 from app.carve import (
     AutomationRiskBudget,
     CircuitBreakerState,
@@ -98,6 +101,29 @@ def test_point_in_time_snapshot_filters_future_evidence() -> None:
     visible_ids = {i["evidence_id"] for i in snap["complete_evidence_inventory"]}
     assert row["complete_evidence_inventory"][0]["evidence_id"] in visible_ids
     assert row["complete_evidence_inventory"][1]["evidence_id"] not in visible_ids
+
+
+def test_production_solver_unknown_fails_closed(monkeypatch: MonkeyPatch) -> None:
+    class UnknownSolver:
+        def set(self, *_args: object) -> None:
+            pass
+
+        def assert_and_track(self, *_args: object) -> None:
+            pass
+
+        def check(self) -> z3.CheckSatResult:
+            return z3.unknown
+
+        def reason_unknown(self) -> str:
+            return "timeout"
+
+    monkeypatch.setattr(carve, "_new_solver", UnknownSolver)
+    row = next(row for row in _rows("dev") if row["material_contradiction"] == 0)
+
+    proof = compile_financial_proof(row, _all_evidence(row))
+
+    assert proof.status == "ERROR"
+    assert apply_hard_precedence(proof, None, None).status is DecisionStatus.REVIEW
 
 
 def test_automation_risk_budget_and_circuit_breaker() -> None:

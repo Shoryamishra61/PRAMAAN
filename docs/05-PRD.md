@@ -131,9 +131,9 @@ result exposes the exact extracted quote/span, normalized structured values, rul
 PASS/REVIEW/BLOCK state. The sandbox is bounded, ephemeral, visibly synthetic, and performs no
 external request, persistence, holdout access, or Razorpay write. Raw `reason_code` is preserved
 verbatim and never mapped to a card-network code by assumption. Incomplete or unsupported state
-must route to REVIEW. Preset cases execute directly rather than only populating fields. Every run
-shows an observable staged trace and brings the output into view on stacked layouts. Any deliberate
-UI pacing must be disclosed as presentation and must not be reported as model or network latency.
+must route to REVIEW. Preset cases execute directly rather than only populating fields. Every run shows a truthful pending state and brings the output into view on stacked layouts.
+Completed extraction, reconciliation and policy details come from the returned result, not timed
+client-side phase simulations.
 The default surface is an evidence debugger rather than a dashboard: it provides deliberate wrong-
 amount, incomplete-ledger, contradictory-communication, prompt-injection, malformed-input, and
 extractor-outage cases. Every finding links to the exact communication and/or ledger evidence that

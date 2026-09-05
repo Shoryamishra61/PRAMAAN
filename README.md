@@ -2,7 +2,13 @@
 
 Razorpay AI Buildathon 2026 · Track 02 · Powered by CARVE-FECL Engine
 
-**PRAMAAN** is a defensive, read-only pre-submission integrity gate for merchant chargeback loss prevention. It extracts bounded, source-grounded claims from customer communication, reconciles them against trusted payment and refund records with formal Z3 SMT arithmetic constraints, and returns PASS (CONTEST_READY), REVIEW (REVIEW_REQUIRED), or BLOCK (INSUFFICIENT_OR_CONTRADICTORY_EVIDENCE) before a merchant contests unwinnable disputes.
+**PRAMAAN** is a defensive, read-only pre-submission integrity gate for merchant chargeback loss
+prevention. It extracts bounded, source-grounded claims from customer communication, reconciles
+them against trusted payment and refund records with deterministic integer minor-unit rules, and
+returns PASS (CONTEST_READY), REVIEW (REVIEW_REQUIRED), or BLOCK
+(INSUFFICIENT_OR_CONTRADICTORY_EVIDENCE) before a human decides the local next step. **CARVE-FECL**
+is the research engine that evaluates learned candidates, calibration, and bounded Z3
+cross-checks; it has no payment or product-decision authority.
 
 It does not generate chargeback letters, predict dispute wins, issue a legal verdict, or call Razorpay accept, contest, refund, or payment write endpoints.
 
@@ -24,6 +30,24 @@ cases. Its neuro-symbolic research candidate improves frozen-test F1 over litera
 generated model tournament, counterfactual evidence pairs, calibration damage, OOD behavior, and
 the unchanged deterministic runtime. The reproducible manuscript is in `paper/main.tex`; the
 compiled artifact is `paper/dispute-integrity-gate-research.pdf`.
+
+## Current hardening evidence (2026-09-05)
+
+The saved August HOLDOUT result belongs to its frozen baseline; current runtime bytes differ.
+It is not an evaluation of this working tree. No frozen HOLDOUT was rerun for these repairs.
+
+On the 120 synthetic DEV cases, regression analysis found decimal amounts split at the period
+and valid aggregate refunds falling through to a missing-ledger finding. Fixing both reduced
+false BLOCKs from 10 to 0 (BLOCK precision 40/50 to 40/40; recall stayed 40/40). Forty cases
+still abstain to REVIEW. These are development results used to repair the implementation,
+not generalization evidence. Claim extraction is not perfect: refund-amount precision is 56/72.
+
+Fresh family-grouped DEV training kept TF-IDF/logistic regression **NOT_PROMOTED**:
+precision 0.814, recall 0.972, F1 0.886, below the regex comparator on that separate
+communication-classification protocol. A weaker learned model does not gain decision authority.
+See the [before/after artifacts and reproduction commands](artifacts/verification/dev-hardening-20260905/README.md)
+and [current release receipt](artifacts/verification/RELEASE-GATES.md). Rendered UI validation
+remains pending; automated component tests do not establish visual quality.
 
 ## 60-second local demo
 
@@ -80,7 +104,6 @@ PASS means no supported integrity problem was detected in the available evidence
 | Interactive evidence debugger with six break modes, exact-source findings, deterministic reconciliation, live repair diff, and artifact-only evaluation | Working locally |
 | Ephemeral custom-input verifier using the real regex extraction, exact grounding, deterministic rules, and three-state gate API | Working locally; synthetic input, no persistence/network/write |
 | Generated model tournament, grouped ablations, calibration/conformal/OOD, TreeSHAP, NLI challenge, and per-example predictions | Working locally at `/ai`; learned extractors `NOT_PROMOTED`, no gate authority |
-| Typed LangGraph evidence-to-review research orchestration and local MLflow-style trace artifact | Working locally; sequencing only, deterministic decision input |
 | Local TF-IDF retrieval over an allowlisted exact-citation corpus | Working locally as guidance only; no generated evidence or network call |
 | Dispute events, payment/refund state, communications, expected labels | Synthetic fixtures; not real Razorpay or merchant data |
 | Offline extraction cache | Precomputed from the regex fixture extractor and visibly labeled; not model output |
@@ -97,7 +120,7 @@ The configuration enum validates that a hypothetical live mode has a key, but th
 Open `http://127.0.0.1:5173/ai`. The lab switches the same exact evidence sentence among rules,
 TF-IDF, MiniLM, a fixed ensemble, XGBoost, and hard-negative XGBoost. It renders generated
 leaderboard, confusion, PR, calibration, risk–coverage, conformal/OOD, TreeSHAP, latency/size,
-per-example failures, NLI slices, and LangGraph spans. Scores are explicitly model scores, not
+per-example failures, and NLI slices. Scores are explicitly model scores, not
 customer confidence or financial truth.
 
 Grouped DEV extraction results:
@@ -122,7 +145,7 @@ Full methodology, negative results, hashes, and commands are in
 [`artifacts/research/ai-systems-study-v1.md`](artifacts/research/ai-systems-study-v1.md). The older
 whole-document TF-IDF artifact remains historical evidence; it is not the current tournament.
 
-## Final synthetic HOLDOUT result
+## Saved synthetic HOLDOUT result (frozen 2026-08-23)
 
 Source of every number below: `results/holdout-regex-v1-20260823-final.json`, exact-byte SHA-256 `15349fd24f2fbceb1c6a38edafee92d5953f22af2e9611efcda17ba20f1992b8`.
 
@@ -144,7 +167,7 @@ Dataset: `DIG-RNP-SYN-v1`, 60 frozen HOLDOUT cases, family-separated from 120 DE
 
 The key failure slice is `partial_full_amount`: all 10 cases were expected BLOCK but predicted PASS. This is a serious limitation of the selected regex-only semantic boundary, not a result to hide or tune after holdout.
 
-The selected system is B0: `regex-baseline-v1` plus the deterministic verifier. Because the user selected offline/regex-only operation, the saved comparator is the identical B0 protocol and all baseline deltas are exactly zero. No model-backed B1 result is claimed.
+The evaluated frozen system was B0: `regex-baseline-v1` plus the deterministic verifier. Because the user selected offline/regex-only operation, the saved comparator is the identical B0 protocol and all baseline deltas are exactly zero. No model-backed B1 result is claimed.
 
 Saved local evaluation timing for this run was 1.2395 ms p50 / 1.5737 ms p95 per end-to-end case and 0.0604 ms p50 / 0.0943 ms p95 for regex extraction. These are measurements from this local synthetic run, not latency guarantees or provider measurements.
 
@@ -158,32 +181,25 @@ The artifact also computes three explicitly illustrative, unitless cost scenario
 - The final run was executed once after the complete pre-holdout gate passed.
 - Detector/evaluator bundle SHA-256: `77e178b83e427fc4d5328cef1aa15582b5e22ae087088d258d17a7061a519996`.
 - Extractor/config SHA-256: `24ce16ba08a8b4edcbb843aa9fc9720e8f1db70358ffba22430e6251344f45b1`.
-- Git commit is reported as `UNAVAILABLE_NOT_A_GIT_REPOSITORY`; no revision was invented.
+- The historical artifact records `UNAVAILABLE_NOT_A_GIT_REPOSITORY`. The present checkout has Git metadata; its revision and uncommitted state are recorded in the release receipt.
+- Current runtime hardening changed detector bytes after that freeze. These saved measurements are historical baseline evidence, not a fresh evaluation of the current revision. No test set was retuned or rewritten.
 - The dashboard verifies the artifact sidecar and never computes client-side placeholder metrics.
 
 ## Failure behavior and security boundary
 
 Missing evidence, unsupported input, malformed schema, cache/provider failure, or ungrounded/ambiguous quotes route to REVIEW. No generic technical failure becomes BLOCK or PASS. The semantic boundary has no tools, secrets, database access, or state authority. Its output schema rejects confidence, decision, status, offsets, and tool-call fields.
 
-Logs accept only allowlisted IDs, hashes, versions, status, measured latency, and failure classes. They have no raw-evidence, prompt, credential, or raw-response field. SQL is parameterized. The MVP accepts only seeded/canonical text and JSON; arbitrary file upload is absent.
+Logs accept only allowlisted IDs, hashes, versions, status, measured latency, and failure classes. They have no raw-evidence, prompt, credential, or raw-response field. SQL is parameterized. The browser accepts bounded UTF-8 JSON/TXT/CSV locally. A single ingestion path retains same-name files, isolates read/parse errors, preserves full communication with source offsets, and rejects oversized combined input without truncation. Only a schema-valid JSON request may populate financial fields; text and CSV never establish authoritative values or ledger completeness. Imported records are not authenticated.
 
-The release guard parses backend imports, runtime endpoint strings, browser fetch targets, and the FastAPI route surface to prove that no Razorpay write client or write path exists.
+The release guard parses backend imports, runtime endpoint strings, browser fetch targets, and the FastAPI route surface for prohibited Razorpay write clients and paths. This is a bounded static check, complemented by API tests, not a universal proof of runtime behavior.
 
 ## Reproducibility evidence
 
-The final local gate passed:
+Current verification and its limitations are recorded in [the release receipt](artifacts/verification/RELEASE-GATES.md). Run `scripts/check.ps1` for formatting, lint, types, boundary checks, artifact validation, backend tests, and frontend tests/build. The ML smoke test executes real forward/loss/backward/optimizer steps and verifies identical checkpoint reload outputs; it is not a model-quality evaluation.
 
-- 191 backend tests;
-- 11 frontend tests;
-- Ruff formatting/lint;
-- strict mypy;
-- spec/package/source validation;
-- no-Razorpay-write static/integration guard;
-- Prettier and ESLint;
-- TypeScript production build;
-- Vitest.
+The UI uses one light-mode token system and a single file-ingestion path. Sample repairs are visibly simulated; custom cases require editing actual source inputs. Tour explanations react to input errors, file count, pending requests and observed decisions. Browser visual, responsive and keyboard verification remains a separate release gate.
 
-An isolated clean-source copy before this UI addition completed setup, the full gate, and the offline technical rehearsal under freshly resolved Python 3.14 dependencies. The current workspace full gate passes on Python 3.10; a new clean-source rehearsal has not been claimed. Setup may use package registries; runtime inference remains offline. Automated frontend tests cover the editable evidence debugger, deliberate break modes, repair diff, generated-artifact evaluation, analyst handoff, text-labeled states, exact-source focus, dialog focus trapping, Escape focus restoration, and inspection-gated override. This is accessibility pattern evidence, not a WCAG certification or a substitute for screen-reader/manual QA.
+The legacy `/api/v1/research/quant-risk` endpoint returns 410: its typed-in merchant economics and made-up budget percentages are retired. `training/run_all.py` was removed because it wrote a completion manifest without training. The old training manifest is explicitly historical configuration; the saved surrogate-feature experiments do not prove language understanding, graph learning or real merchant benefit. Use the current artifact-backed extraction study and CARVE v4.5 evaluation for the submission, with their synthetic limitations.
 
 ## Limitations and responsible next step
 
@@ -206,8 +222,8 @@ The evidence registry and supported claims are in `docs/24-SOURCE-LEDGER.md`.
 
 For evaluators from the Razorpay AI Hiring Committee, Risk Engineering, and Research Review Panels:
 
-1. **[FINAL_RAZORPAY_JUDGE_BRIEF.md](FINAL_RAZORPAY_JUDGE_BRIEF.md)**: Curated 5-minute adjudication path, competitor comparisons (vs. LLM agents & naive XGBoost), and answers to 10 hostile questions.
-2. **[100_RESEARCHER_PANEL.md](100_RESEARCHER_PANEL.md)**: Independent adversarial review across 100 senior researcher perspectives (NeurIPS/ICML ACs, formal methods, causal inference, and fintech risk).
+1. **[FINAL_RAZORPAY_JUDGE_BRIEF.md](FINAL_RAZORPAY_JUDGE_BRIEF.md)**: Curated 5-minute adjudication path, competitor comparisons (vs. LLM agents & naive XGBoost), and answers to hostile review questions.
+2. **[FAILURE-NARRATIVE.md](FAILURE-NARRATIVE.md)**: Technically rigorous 7-stage failure post-mortem (Observation → Hypothesis → Falsification → Root Cause → Repair → Re-evaluation → Lesson).
 3. **[REAL_TRAINING_RECEIPT.md](REAL_TRAINING_RECEIPT.md)**: Reproducible PyTorch training receipt with pre/post parameter SHA-256 hashes, L2 norms, 5-seed empirical learning curves, and bitwise zero-drift reload checks.
 4. **[RESEARCH_NEGATIVE_RESULTS.md](RESEARCH_NEGATIVE_RESULTS.md)**: Honest scientific post-mortem detailing falsified analytical curves, excision of tabular label leakage, and what was learned.
 5. **[P0_P1_RESEARCH_REPAIR_PLAN.md](P0_P1_RESEARCH_REPAIR_PLAN.md)**: Prioritized action plan tracking resolution of all submission-blocking (P0) and research-critical (P1) issues.
@@ -221,7 +237,7 @@ For evaluators from the Razorpay AI Hiring Committee, Risk Engineering, and Rese
 
 ### Fast Reproduction Command
 ```powershell
-# Verify entire test and quality gate suite (11 gates, 237 pytest tests, full frontend build)
+# Verify entire test and quality gate suite (11 gates, 313 pytest tests, 38 frontend tests, full build)
 powershell -ExecutionPolicy Bypass -File scripts/check.ps1
 ```
 

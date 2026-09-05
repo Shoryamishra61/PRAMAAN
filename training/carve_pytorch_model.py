@@ -84,14 +84,21 @@ class CarveMultiViewNet(nn.Module):
             logits_contradiction: (batch_size, 2)
             sufficiency_score: (batch_size, 1) in [0, 1]
         """
-        # ponytail: Pretrained text embeddings (all-MiniLM-L6-v2) are intentionally kept frozen during multi-view
-        # fine-tuning to prevent catastrophic forgetting and preserve verbatim quote grounding integrity.
+        # Text embeddings are precomputed; the encoder is outside this network.
         if text_emb.ndim != 2 or text_emb.shape[-1] != self.text_dim:
-            raise ValueError(f"text_emb must have shape (batch_size, {self.text_dim}), got {text_emb.shape}")
+            raise ValueError(
+                f"text_emb must have shape (batch_size, {self.text_dim}), got {text_emb.shape}"
+            )
         if tabular_feats.ndim != 2 or tabular_feats.shape[-1] != self.tabular_dim:
-            raise ValueError(f"tabular_feats must have shape (batch_size, {self.tabular_dim}), got {tabular_feats.shape}")
+            raise ValueError(
+                f"tabular_feats must have shape (batch_size, {self.tabular_dim}), "
+                f"got {tabular_feats.shape}"
+            )
         if graph_feats.ndim != 2 or graph_feats.shape[-1] != self.graph_dim:
-            raise ValueError(f"graph_feats must have shape (batch_size, {self.graph_dim}), got {graph_feats.shape}")
+            raise ValueError(
+                f"graph_feats must have shape (batch_size, {self.graph_dim}), "
+                f"got {graph_feats.shape}"
+            )
 
         # Project non-text modalities
         z_tab = self.tab_mlp(tabular_feats)

@@ -27,13 +27,9 @@ def test_carve_research_endpoint() -> None:
     assert response.json()["test"]["synthetic_only"] is True
 
 
-def test_quant_risk_endpoint() -> None:
+def test_retired_quant_risk_endpoint_cannot_serve_fabricated_metrics() -> None:
     response = TestClient(app).get("/api/v1/research/quant-risk")
-    assert response.status_code == 200
-    data = response.json()
-    assert data["benchmark_id"] == "DIG-RNP-SYN-V1"
-    assert data["circuit_breaker_state"] == "AUTOMATION_ENABLED"
-    assert len(data["baseline_ladder"]) >= 7
-    assert data["merchant_economics"]["net_merchant_edge_inr"] == 3434000.0
-    b10_tail = next(m for m in data["tail_risk"]["models"] if m["model_id"] == "B10")
-    assert b10_tail["cvar_99"] == 3.75
+    assert response.status_code == 410
+    assert "RESEARCH_PROJECTION_RETIRED" in response.text
+    assert "net_merchant_edge_inr" not in response.text
+    assert "daily_risk_budget_consumed_pct" not in response.text

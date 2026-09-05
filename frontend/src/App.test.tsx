@@ -399,7 +399,7 @@ test("opens on the evidence debugger, exercises safe break cases, repairs the le
   ).toBeVisible();
   fireEvent.click(
     screen.getByRole("button", {
-      name: "Acquire refund export · cost 1",
+      name: "Simulate repaired ledger & rerun",
     }),
   );
   expect(
@@ -408,7 +408,9 @@ test("opens on the evidence debugger, exercises safe break cases, repairs the le
   expect(
     screen.getByText("BLOCK", { selector: ".decision-summary > span" }),
   ).toBeVisible();
-  expect(screen.getByText("Minimum contradiction certificate")).toBeVisible();
+  expect(
+    screen.queryByText("Inspect the contradiction certificate"),
+  ).not.toBeInTheDocument();
 
   fireEvent.click(screen.getByRole("button", { name: "Try another case" }));
   fireEvent.click(screen.getByRole("button", { name: /Malformed evidence/ }));
@@ -422,7 +424,7 @@ test("opens on the evidence debugger, exercises safe break cases, repairs the le
   fireEvent.click(screen.getByRole("button", { name: "Generated evaluation" }));
   expect(
     await screen.findByRole("heading", {
-      name: "Only generated results belong here.",
+      name: "Held-out evaluation",
     }),
   ).toBeVisible();
   expect(screen.getByText("50.0%")).toBeVisible();
@@ -573,11 +575,6 @@ test("shows the generated DEV tournament and exact evidence switching", async ()
           xgboost_hard_negative_probability: 0.99,
         },
       ],
-      orchestration: {
-        engine: "LangGraph",
-        authority: "SEQUENCING_ONLY",
-        trace: [{ node: "evidence_ingestion", latency_ms: 0.01 }],
-      },
       feasibility: {
         constrained_llm_extraction: {
           status: "NOT_RUN",

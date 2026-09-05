@@ -1,4 +1,4 @@
-P# AGENTS.md — Engineering Constitution
+# AGENTS.md — Engineering Constitution
 
 This file governs every coding-agent action in this repository.
 

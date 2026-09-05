@@ -134,14 +134,12 @@ regression and the deterministic reconciler without any increase in false PASS. 
 explanation of the fitted tree score, never causal evidence. An ensemble is retained only if it
 clears the same extractor gates as a standalone candidate.
 
-## Orchestration and tracing
+## Execution and tracing
 
-The research workflow uses a typed LangGraph state graph with nodes for ingestion, bounded
-retrieval/context, claim extraction, exact grounding, feature engineering, semantic/NLI analysis,
-deterministic reconciliation, uncertainty/OOD routing, human review, and evaluation trace. Nodes
-emit local JSON-compatible spans with dataset/model/prompt revisions, latency, abstention,
-grounding, and decision metadata. LangGraph controls sequencing only. It has no tools, credentials,
-payment write path, or authority to replace deterministic reconciliation.
+The research runner uses ordinary typed Python functions in an explicit sequence. Generated JSON
+artifacts record dataset/model revisions, seeds, configuration, calibration, latency, predictions,
+abstention behavior, and promotion outcomes. No orchestration framework, agent, tool loop,
+credential, payment write path, or model-owned decision is required.
 
 RAG remains a bounded exact-citation comparator until a measured retrieval ablation shows lift.
 MCP is documented as a future typed integration boundary only; no connector is introduced without

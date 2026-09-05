@@ -19,7 +19,8 @@ def test_research_artifacts_exist_and_parse() -> None:
     results_path = ROOT / "research/final_results.json"
     assert results_path.exists()
     data = json.loads(results_path.read_text(encoding="utf-8"))
-    assert data["primary_hypothesis_result"]["status"] == "CONFIRMED"
+    assert data["primary_hypothesis_result"]["status"] == "UNVERIFIED_TYPED_IN"
+    assert data["evidence_status"] == "HISTORICAL_MIXED_UNVERIFIED_NOT_SUBMISSION_EVIDENCE"
     assert len(data["baseline_ladder"]) >= 6
 
     protocol_path = ROOT / "research/protocol.md"

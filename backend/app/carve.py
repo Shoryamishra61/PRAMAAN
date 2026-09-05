@@ -9,7 +9,7 @@ from __future__ import annotations
 import copy
 import hashlib
 import json
-from datetime import date
+from datetime import date, datetime, timezone
 from enum import Enum
 from typing import Any, Literal
 
@@ -185,22 +185,32 @@ def _value(value: Any) -> z3.ArithRef | z3.SeqRef | z3.BoolRef:
     return z3.StringVal(str(value))
 
 
+def _new_solver() -> z3.Solver:
+    solver = z3.Solver()
+    solver.set("timeout", SOLVER_TIMEOUT_MS)
+    return solver
+
+
 def _minimize_unsat(
     assertions: list[tuple[str, z3.BoolRef]],
-) -> list[tuple[str, z3.BoolRef]]:
+) -> tuple[list[tuple[str, z3.BoolRef]], bool]:
     selected = list(assertions)
     changed = True
+    proved_minimal = True
     while changed:
         changed = False
         for item in list(selected):
             trial = [candidate for candidate in selected if candidate is not item]
-            solver = z3.Solver()
+            solver = _new_solver()
             solver.add([expression for _, expression in trial])
-            if solver.check() == z3.unsat:
+            result = solver.check()
+            if result == z3.unsat:
                 selected = trial
                 changed = True
                 break
-    return selected
+            if result == z3.unknown:
+                proved_minimal = False
+    return selected, proved_minimal
 
 
 def _proof(
@@ -221,21 +231,31 @@ def _proof(
         ("authority", authority_var == _value(authoritative_value)),
         ("invariant", invariant_expression(claim_var, authority_var)),
     ]
-    solver = z3.Solver()
+    solver = _new_solver()
     labels: dict[str, z3.BoolRef] = {}
     for name, expression in assertions:
         label = z3.Bool(f"track_{name}")
         labels[name] = label
         solver.assert_and_track(expression, label)
-    if solver.check() != z3.unsat:
+    result = solver.check()
+    if result == z3.sat:
         return InvariantResult(
             case_id=case_id,
             status="SAT",
             invariant_id=invariant_id,
             reason="Compiled supported invariant is satisfiable.",
         )
+    if result == z3.unknown:
+        return InvariantResult(
+            case_id=case_id,
+            status="ERROR",
+            invariant_id=invariant_id,
+            reason=f"Bounded solver did not decide the invariant: {solver.reason_unknown()}.",
+        )
     core_names = {name for name, label in labels.items() if label in set(solver.unsat_core())}
-    minimized = _minimize_unsat([item for item in assertions if item[0] in core_names])
+    minimized, proved_minimal = _minimize_unsat(
+        [item for item in assertions if item[0] in core_names]
+    )
     minimized_names = {name for name, _ in minimized}
     facts = []
     if "claim" in minimized_names:
@@ -282,7 +302,7 @@ def _proof(
         invariant_id=invariant_id,
         facts=tuple(facts),
         evidence_ids=evidence_ids,
-        minimal_relative_to_compiled_constraints=True,
+        minimal_relative_to_compiled_constraints=proved_minimal,
         proof_sha256=hashlib.sha256(canonical(proof_payload)).hexdigest(),
     )
     return InvariantResult(
@@ -541,6 +561,9 @@ def compile_financial_proof(row: dict[str, Any], visible_evidence_ids: set[str])
     contradiction = next((result for result in checks if result.status == "UNSAT"), None)
     if contradiction is not None:
         return contradiction
+    solver_error = next((result for result in checks if result.status == "ERROR"), None)
+    if solver_error is not None:
+        return solver_error
     if missing:
         return _incomplete(
             case_id, sorted(missing), "Applicable invariant evidence is not visible."
@@ -613,18 +636,32 @@ def point_in_time_snapshot(row: dict[str, Any], decision_time: str) -> dict[str,
     Only evidence items where available_time <= decision_time are visible.
     """
     snapshot = copy.deepcopy(row)
+    try:
+        decision_at = datetime.fromisoformat(decision_time.replace("Z", "+00:00"))
+        if decision_at.tzinfo is None:
+            raise ValueError("decision_time must include a timezone")
+        decision_at = decision_at.astimezone(timezone.utc)
+    except (TypeError, ValueError) as error:
+        raise ValueError(
+            "decision_time must be a valid timezone-aware ISO-8601 timestamp"
+        ) from error
     visible_inventory: list[dict[str, Any]] = []
     for item in snapshot.get("complete_evidence_inventory", []):
         # Invariant: Evidence without valid temporal provenance is strictly excluded (fail closed)
         avail = item.get("available_time") or item.get("ingested_at")
-        if avail is not None and avail <= decision_time:
+        if not isinstance(avail, str):
+            continue
+        try:
+            available_at = datetime.fromisoformat(avail.replace("Z", "+00:00"))
+            if available_at.tzinfo is None:
+                continue
+            available_at = available_at.astimezone(timezone.utc)
+        except ValueError:
+            continue
+        if available_at <= decision_at:
             visible_inventory.append(item)
     snapshot["complete_evidence_inventory"] = visible_inventory
     return snapshot
-
-# ponytail: In-memory Z3 SMT solving intentionally executes on local CPU in sub-30ms for deterministic financial
-# constraints. Distributed multi-party formal solving should be moved to dedicated cluster workers before
-# supporting 10,000+ disputes/sec.
 
 
 class AutomationRiskBudget(BaseModel):
@@ -660,3 +697,6 @@ class AutomationRiskBudget(BaseModel):
             self.consumed_risk += estimated_error_prob * economic_loss_if_wrong
             if self.consumed_risk >= self.daily_risk_budget:
                 self.circuit_breaker_state = CircuitBreakerState.REVIEW_ONLY
+
+
+SOLVER_TIMEOUT_MS = 50

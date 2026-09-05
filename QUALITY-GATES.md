@@ -1,6 +1,6 @@
 # Quality Gates
 
-A release candidate is valid only if every mandatory gate below is green.
+A release candidate is valid only if every mandatory gate below is green. Historical checked items below do not certify a changed revision; the dated acceptance record takes precedence. Rendered UI QA is currently pending because no browser is connected.
 
 Acceptance record: `artifacts/verification/RELEASE-GATES.md` and `artifacts/verification/MUST-COVERAGE.md`.
 
@@ -35,11 +35,12 @@ Acceptance record: `artifacts/verification/RELEASE-GATES.md` and `artifacts/veri
 
 ## QG-05 Security
 - [x] Webhook missing/invalid signature rejected.
-- [x] Secrets excluded from the package/logs; no Git-history claim is made because this workspace has no Git metadata.
+- [x] Secrets excluded from the package/logs; no new Git-history secret scan is claimed.
 - [x] SQL is parameterized.
 - [x] Semantic extractor has no tools/secrets.
 - [x] External/untrusted text is clearly segregated and output schema validated.
-- [x] Uploads are disabled; the extractor contract allowlists only v1 text/JSON types.
+- [x] Arbitrary server-side uploads are disabled; bounded browser-side JSON/TXT/CSV imports are
+  normalized into the typed sandbox request and remain ephemeral.
 - [x] Audit hash chain is not implemented; the conditional verification gate is not applicable.
 
 ## QG-06 Reliability
@@ -48,6 +49,8 @@ Acceptance record: `artifacts/verification/RELEASE-GATES.md` and `artifacts/veri
 - [x] Model timeout/schema failure/grounding failure routes to REVIEW.
 - [x] No generic error is misclassified as BLOCK.
 - [x] Deterministic financial invariants have property tests.
+- [x] Reclaimed worker leases are fenced; stale workers cannot complete or fail the current lease.
+- [x] Z3 timeout/unknown is bounded and routes to REVIEW, never SAT/PASS.
 
 ## QG-07 UX/accessibility
 - [x] All gate states use text/icon, not color alone.
@@ -56,9 +59,11 @@ Acceptance record: `artifacts/verification/RELEASE-GATES.md` and `artifacts/veri
 - [x] BLOCK override requires inspection acknowledgement + structured reason.
 - [x] No artificial 50-character/gibberish rule.
 - [x] No pseudo-precise AI confidence badge unless a validated classifier later exists.
+- [x] One canonical tour provides manual escape paths, bounded target fallback, keyboard controls,
+  responsive placement, and no behavioral-score theater.
 
 ## QG-08 Demo/repo
-- [x] Isolated clean-source setup works; Git-clone provenance is unavailable in this non-Git workspace.
+- [x] Isolated clean-source setup works; historical clean-source evidence does not certify the current uncommitted checkout.
 - [x] One command starts seeded local demo.
 - [x] One command runs tests.
 - [x] 2-minute golden demo works offline/reliably.

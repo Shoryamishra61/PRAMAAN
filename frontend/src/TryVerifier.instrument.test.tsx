@@ -168,15 +168,22 @@ test("imports multiple evidence files, combines documents, and executes verifica
 
   fireEvent.change(fileInput, { target: { files: [file1, file2] } });
 
-  expect(await screen.findByText(/2 evidence files/)).toBeVisible();
+  expect(await screen.findByText(/Files retained locally/)).toBeVisible();
   expect(screen.getByText("email_log.txt")).toBeVisible();
   expect(screen.getByText("chat_transcript.txt")).toBeVisible();
 
   const textarea = screen.getByRole("textbox", {
     name: /Customer communication/i,
   }) as HTMLTextAreaElement;
-  expect(textarea.value).toContain("=== Document 1: email_log.txt ===");
-  expect(textarea.value).toContain("=== Document 2: chat_transcript.txt ===");
+  expect(textarea.value).toContain(
+    "Customer email: refund of INR 2,500 was promised.",
+  );
+  expect(textarea.value).toContain(
+    "Support chat transcript: confirmed refund of INR 2,500.",
+  );
+  expect(
+    screen.getByRole("textbox", { name: "Payment amount (INR)" }),
+  ).toHaveValue("4999.00");
 
   fireEvent.click(screen.getByRole("button", { name: "Check this case" }));
   expect(
@@ -184,4 +191,29 @@ test("imports multiple evidence files, combines documents, and executes verifica
       name: "Understand the customer’s claim",
     }),
   ).toBeVisible();
+});
+
+test("preserves the case while an evidence file is still being read", async () => {
+  render(<TryVerifier />);
+  let finishRead!: (content: string) => void;
+  const pending = new Promise<string>((resolve) => {
+    finishRead = resolve;
+  });
+  const file = new File(["receipt"], "receipt.txt", { type: "text/plain" });
+  Object.defineProperty(file, "arrayBuffer", { value: undefined });
+  Object.defineProperty(file, "text", { value: () => pending });
+  const input = document.querySelector(
+    'input[name="evidence_file"]',
+  ) as HTMLInputElement;
+  fireEvent.change(input, { target: { files: [file] } });
+  expect(
+    screen.getByRole("button", { name: "Check this case" }),
+  ).toBeDisabled();
+  expect(
+    screen.getByRole("textbox", { name: "Payment amount (INR)" }),
+  ).toBeDisabled();
+  expect(screen.getByRole("button", { name: "Normal" })).toBeDisabled();
+  finishRead("Your refund was processed.");
+  expect(await screen.findByText(/Files retained locally/)).toBeVisible();
+  expect(screen.getByRole("button", { name: "Check this case" })).toBeEnabled();
 });

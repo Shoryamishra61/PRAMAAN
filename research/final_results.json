@@ -1,4 +1,10 @@
 {
+  "evidence_status": "HISTORICAL_MIXED_UNVERIFIED_NOT_SUBMISSION_EVIDENCE",
+  "limitation": "This legacy document mixes typed-in estimates, formulas and later empirical overlays. It is not a canonical evaluation and is not served by the API. Use artifacts/ml/carve-v4.5 and the saved extraction studies.",
+  "primary_hypothesis_result": {
+    "status": "UNVERIFIED_TYPED_IN",
+    "interpretation": "The prior confirmation and p-value were not backed by raw prediction recomputation."
+  },
   "benchmark": {
     "dataset_id": "DIG-RNP-SYN-V1",
     "evaluation_frozen": true,
@@ -15,12 +21,6 @@
       -0.58,
       -0.22
     ]
-  },
-  "primary_hypothesis_result": {
-    "status": "CONFIRMED",
-    "cost_delta": -0.4,
-    "p_value": 0.008,
-    "interpretation": "18.6% expected cost reduction over static rules (p=0.008)."
   },
   "baseline_ladder": [
     {

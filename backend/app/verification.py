@@ -215,6 +215,22 @@ def verify_integrity(context: VerificationContext) -> VerificationResult:
             )
         )
 
+    processed_total = sum(
+        refund.amount_minor
+        for refund in context.refunds
+        if refund.local_status is RefundStatus.PROCESSED
+    )
+    if processed_total > context.captured_amount_minor:
+        structured_state_valid = False
+        findings.append(
+            _finding(
+                "F_STRUCTURED_STATE_INCOMPLETE",
+                FindingEffect.REVIEW,
+                "Processed refund total exceeds the captured payment amount.",
+                f"payment:{context.payment_id}",
+            )
+        )
+
     for claim in context.claims:
         if claim.grounding_status is not GroundingStatus.GROUNDED:
             findings.append(
@@ -372,7 +388,11 @@ def verify_integrity(context: VerificationContext) -> VerificationResult:
         if processed_matches:
             continue
 
-        if claim.amount_minor == context.captured_amount_minor and processed:
+        if (
+            claim.amount_minor == context.captured_amount_minor
+            and claim.refund_reference is None
+            and processed
+        ):
             comparable = [
                 refund
                 for refund in processed
@@ -380,6 +400,8 @@ def verify_integrity(context: VerificationContext) -> VerificationResult:
                 and (claim.currency is None or refund.currency == claim.currency)
             ]
             processed_total = sum(refund.amount_minor for refund in comparable)
+            if processed_total == claim.amount_minor:
+                continue
             if processed_total != claim.amount_minor:
                 findings.append(
                     _finding(

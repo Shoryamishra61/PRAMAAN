@@ -6,6 +6,7 @@ Verified on **2026-08-23** unless stated otherwise.
 
 ### SRC-RZP-01 — Razorpay AI Buildathon
 URL: https://razorpay.com/buildathon/
+Rechecked 2026-09-05: Track 02 still requires one defensive merchant-loss detector/verifier, held-out precision/recall and honest false-positive cost.
 Supports:
 - student-only hiring program;
 - public repo, 5-minute pitch video, architecture;

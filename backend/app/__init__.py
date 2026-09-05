@@ -1,1 +1,1 @@
-"""Dispute Integrity Gate application package."""
+"""PRAMAAN product application and CARVE-FECL research package."""

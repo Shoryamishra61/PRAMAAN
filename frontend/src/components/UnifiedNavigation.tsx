@@ -1,5 +1,5 @@
-import { Fingerprint, ShieldCheck, Sparkle } from "@phosphor-icons/react";
-import { useTutorial } from "../tutorial";
+import { Info } from "@phosphor-icons/react";
+import { useTutorialActions } from "../tutorial";
 
 export type NavRoute =
   | "proof"
@@ -24,13 +24,17 @@ export function UnifiedNavigation({
   currentView = "debugger",
   onNavigate,
 }: UnifiedNavigationProps) {
-  const tutorial = useTutorial();
+  const tutorial = useTutorialActions();
   const tutorialStartTour = tutorial.startTour;
 
   function handleNav(
     route: NavRoute,
     view?: "debugger" | "evaluation" | "cases",
   ) {
+    tutorial.notifyAction("tab", route);
+    if (route === "proof" && view === "debugger") {
+      tutorial.notifyAction("tab", "debugger");
+    }
     if (onNavigate) {
       onNavigate(route, view);
     } else {
@@ -75,15 +79,11 @@ export function UnifiedNavigation({
           onClick={() => handleNav("proof", "debugger")}
           aria-label="PRAMAAN Dispute Integrity Gate"
         >
-          <span className="brand-mark" aria-hidden="true">
-            <Fingerprint size={20} />
-          </span>
           <span className="brand-title-wrap">
             <span className="brand-main-line">
               <strong>PRAMAAN</strong>
-              <span className="brand-chip">CARVE-FECL</span>
             </span>
-            <small>Dispute Integrity Gate · Razorpay Track 02</small>
+            <small>Refund evidence verification</small>
           </span>
         </button>
 
@@ -91,6 +91,7 @@ export function UnifiedNavigation({
           <button
             type="button"
             data-tour="nav-debugger"
+            aria-current={isDebuggerActive ? "page" : undefined}
             className={isDebuggerActive ? "active" : ""}
             onClick={() => handleNav("proof", "debugger")}
           >
@@ -99,6 +100,7 @@ export function UnifiedNavigation({
           <button
             type="button"
             data-tour="nav-queue"
+            aria-current={isCasesActive ? "page" : undefined}
             className={isCasesActive ? "active" : ""}
             onClick={() => handleNav("workspace", "cases")}
           >
@@ -107,6 +109,7 @@ export function UnifiedNavigation({
           <button
             type="button"
             data-tour="nav-evaluation"
+            aria-current={isEvalActive ? "page" : undefined}
             className={isEvalActive ? "active" : ""}
             onClick={() => handleNav("evaluation", "evaluation")}
           >
@@ -115,6 +118,7 @@ export function UnifiedNavigation({
           <button
             type="button"
             data-tour="nav-research"
+            aria-current={isResearchActive ? "page" : undefined}
             className={isResearchActive ? "active" : ""}
             onClick={() => handleNav("research")}
           >
@@ -123,6 +127,7 @@ export function UnifiedNavigation({
           <button
             type="button"
             data-tour="nav-decision-engine"
+            aria-current={isDecisionActive ? "page" : undefined}
             className={isDecisionActive ? "active" : ""}
             onClick={() => handleNav("decision-engine")}
           >
@@ -130,7 +135,7 @@ export function UnifiedNavigation({
           </button>
         </nav>
 
-        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        <div className="unified-nav-actions">
           <button
             type="button"
             className="tour-nav-launch-btn"
@@ -146,13 +151,12 @@ export function UnifiedNavigation({
             title="Launch interactive element-level tutorial"
             aria-label="Launch interactive product tutorial"
           >
-            <Sparkle size={14} aria-hidden="true" />
+            <Info size={14} aria-hidden="true" />
             <span>Interactive Guide</span>
           </button>
 
           <div className="unified-nav-badge">
-            <ShieldCheck size={16} aria-hidden="true" />
-            <span>OFFLINE REPLAY | ZERO WRITES | Z3 SMT</span>
+            <span>Local demo · Synthetic evidence</span>
           </div>
         </div>
       </div>

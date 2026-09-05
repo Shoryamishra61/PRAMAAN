@@ -3,10 +3,8 @@ import {
   ArrowLeft,
   ArrowRight,
   ArrowsLeftRight,
-  Brain,
   Check,
   CheckCircle,
-  Database,
   Flask,
   Quotes,
   ShieldCheck,
@@ -45,16 +43,7 @@ import {
   TutorialProvider,
   TutorialSpotlight,
   TutorialTooltip,
-  useTutorial,
 } from "./tutorial";
-
-function TutorialRouteSync({ route }: { route: string }) {
-  const { updateAppContext } = useTutorial();
-  useEffect(() => {
-    updateAppContext({ route });
-  }, [updateAppContext, route]);
-  return null;
-}
 
 const statusCopy: Record<GateStatus, { label: string; summary: string }> = {
   PASS: {
@@ -828,6 +817,10 @@ function EvaluationView() {
       <header className="evaluation-header">
         <div>
           <p className="section-kicker">Saved result artifact</p>
+          <p>
+            Historical baseline evidence. These metrics do not evaluate the
+            repaired current runtime.
+          </p>
           <h2 id="evaluation-title">Evaluation · {evaluation.run_id}</h2>
         </div>
         <span className="synthetic-label">SYNTHETIC BENCHMARK</span>
@@ -1713,9 +1706,6 @@ function DecisionEngineView({
   const [error, setError] = useState<string | null>(null);
   const [selectedModel, setSelectedModel] = useState("regex");
   const [selectedExample, setSelectedExample] = useState(0);
-  const [activeTier, setActiveTier] = useState<
-    "all" | "primary" | "secondary" | "advanced"
-  >("all");
   useEffect(() => {
     let active = true;
     const load = async () => {
@@ -1750,7 +1740,8 @@ function DecisionEngineView({
       active = false;
     };
   }, [caseId]);
-  const percent = (value: number) => `${(value * 100).toFixed(1)}%`;
+  const percent = (value: number | undefined) =>
+    value === undefined ? "Not measured" : `${(value * 100).toFixed(1)}%`;
   const artifact = research?.artifact;
   const models = artifact
     ? ([
@@ -1796,7 +1787,11 @@ function DecisionEngineView({
           else window.location.href = "/" + route;
         }}
       />
-      <section className="ai-lab" aria-labelledby="ai-lab-title">
+      <section
+        className="ai-lab"
+        aria-labelledby="ai-lab-title"
+        data-tour="decision-engine"
+      >
         <button className="product-quiet ai-back" onClick={onBack}>
           <ArrowLeft size={16} /> Back to product
         </button>
@@ -1820,49 +1815,6 @@ function DecisionEngineView({
           </div>
         </div>
 
-        <nav
-          className="decision-tier-nav"
-          role="tablist"
-          aria-label="Progressive Disclosure Layers"
-        >
-          <button
-            type="button"
-            role="tab"
-            aria-selected={activeTier === "all"}
-            className={activeTier === "all" ? "active" : ""}
-            onClick={() => setActiveTier("all")}
-          >
-            All Information Layers
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={activeTier === "primary"}
-            className={activeTier === "primary" ? "active" : ""}
-            onClick={() => setActiveTier("primary")}
-          >
-            Layer 1: Primary Operational Verdict
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={activeTier === "secondary"}
-            className={activeTier === "secondary" ? "active" : ""}
-            onClick={() => setActiveTier("secondary")}
-          >
-            Layer 2: Model Explanations & Evidence
-          </button>
-          <button
-            type="button"
-            role="tab"
-            aria-selected={activeTier === "advanced"}
-            className={activeTier === "advanced" ? "active" : ""}
-            onClick={() => setActiveTier("advanced")}
-          >
-            Layer 3: Advanced Tournament & Research
-          </button>
-        </nav>
-
         {error && (
           <p role="alert" className="error-banner">
             {error}
@@ -1875,91 +1827,42 @@ function DecisionEngineView({
         )}
         {lab && artifact && research && (
           <>
-            {(activeTier === "all" || activeTier === "primary") && (
-              <div className="tier-primary-section">
-                <div className="operational-primer-card">
-                  <div className="primer-item">
-                    <strong>01 · What can I do here?</strong>
-                    <span>
-                      Review verified dispute risk, inspect candidate ML
-                      extractors, and understand why uncalibrated ML cannot
-                      override financial ground truth.
-                    </span>
-                  </div>
-                  <div className="primer-item">
-                    <strong>02 · What should I provide?</strong>
-                    <span>
-                      Customer communication transcripts, payment ledger
-                      snapshots, and refund proofs (via Evidence Debugger).
-                    </span>
-                  </div>
-                  <div className="primer-item">
-                    <strong>03 · What is the system doing?</strong>
-                    <span>
-                      Evaluating extractors against labeled ground truth,
-                      checking exact grounding invariants, and verifying
-                      financial state consistency.
-                    </span>
-                  </div>
-                  <div className="primer-item">
-                    <strong>04 · What result will I receive?</strong>
-                    <span>
-                      A calibrated defense decision (PASS, REVIEW, or BLOCK)
-                      backed by mathematical proof certificates with zero
-                      external writes.
-                    </span>
-                  </div>
-                  <div className="primer-item">
-                    <strong>05 · What should I do next?</strong>
-                    <span>
-                      PASS: submit defense evidence. REVIEW: inspect missing
-                      ledger data. BLOCK: place a defensive hold to prevent fee
-                      loss.
-                    </span>
-                  </div>
-                </div>
-
-                <div className="action-recommendation-box" role="note">
-                  <ShieldCheck size={22} aria-hidden="true" />
-                  <div>
-                    <strong>
-                      Recommended Next Action: Defense-Only Human Review
-                    </strong>
-                    <p>
-                      Evidence claims disagree with local financial ledger
-                      records. System placed a defensive hold. Contesting
-                      without ledger match incurs high false-positive merchant
-                      loss.
-                    </p>
-                  </div>
-                </div>
-
-                <section className="ai-verdict">
-                  <div>
-                    <p className="product-eyebrow">
-                      Predeclared promotion decision
-                    </p>
-                    <h2>
-                      {artifact.promotion.extractor_status.replace("_", " ")}
-                    </h2>
-                    <p>
-                      No learned extractor improved both precision and recall
-                      over rules. NLI is{" "}
-                      {artifact.promotion.nli_status
-                        .replace("_", " ")
-                        .toLowerCase()}{" "}
-                      for contradiction research only.
-                    </p>
-                  </div>
-                  <div className="ai-selected">
-                    <span>Selected extractor</span>
-                    <strong className="product-mono">
-                      {artifact.promotion.selected_runtime_extractor}
-                    </strong>
-                  </div>
-                </section>
+            <div className="action-recommendation-box" role="note">
+              <ShieldCheck size={22} aria-hidden="true" />
+              <div>
+                <strong>
+                  Recommended Next Action: Defense-Only Human Review
+                </strong>
+                <p>
+                  Evidence claims disagree with local financial ledger records.
+                  System placed a defensive hold. Contesting without ledger
+                  match incurs high false-positive merchant loss.
+                </p>
               </div>
-            )}
+            </div>
+
+            <section className="ai-verdict">
+              <div>
+                <p className="product-eyebrow">
+                  Predeclared promotion decision
+                </p>
+                <h2>{artifact.promotion.extractor_status.replace("_", " ")}</h2>
+                <p>
+                  No learned extractor improved both precision and recall over
+                  rules. NLI is{" "}
+                  {artifact.promotion.nli_status
+                    .replace("_", " ")
+                    .toLowerCase()}{" "}
+                  for contradiction research only.
+                </p>
+              </div>
+              <div className="ai-selected">
+                <span>Selected extractor</span>
+                <strong className="product-mono">
+                  {artifact.promotion.selected_runtime_extractor}
+                </strong>
+              </div>
+            </section>
             {fecl && <FeclResearchPanel research={fecl} />}
             <section className="ai-research-panel">
               <div className="ai-panel-head">
@@ -2190,17 +2093,17 @@ function DecisionEngineView({
                 <strong>
                   {percent(
                     artifact.claim_extraction.embedding_logistic.ood
-                      ?.ood_rejection_rate ?? 0,
+                      ?.ood_rejection_rate,
                   )}{" "}
                   rejected
                 </strong>
                 <small>
                   {artifact.claim_extraction.embedding_logistic.ood
-                    ?.ood_count ?? 0}{" "}
+                    ?.ood_count ?? "Not measured"}{" "}
                   constructed inputs · AUROC{" "}
-                  {(
-                    artifact.claim_extraction.embedding_logistic.ood?.auroc ?? 0
-                  ).toFixed(3)}
+                  {artifact.claim_extraction.embedding_logistic.ood?.auroc.toFixed(
+                    3,
+                  ) ?? "Not measured"}
                 </small>
               </div>
               <div>
@@ -2217,9 +2120,6 @@ function DecisionEngineView({
 
             <div className="ai-story-grid">
               <section className="ai-story">
-                <span className="ai-icon">
-                  <Brain size={22} />
-                </span>
                 <p className="product-eyebrow">07 · TreeSHAP</p>
                 <h2>XGBoost mostly learned to copy rules</h2>
                 <div className="ai-shap">
@@ -2288,28 +2188,10 @@ function DecisionEngineView({
                   Experimental only.
                 </p>
               </section>
-              <section className="ai-story ai-retrieval">
-                <span className="ai-icon">
-                  <Database size={22} />
-                </span>
-                <p className="product-eyebrow">09 · Systems boundary</p>
-                <h2>
-                  {artifact.orchestration.engine} sequences; deterministic code
-                  decides
-                </h2>
-                <ol className="ai-trace">
-                  {artifact.orchestration.trace.map((span, index) => (
-                    <li key={`${span.node}-${index}`}>
-                      <span>{span.node.replaceAll("_", " ")}</span>
-                      <code>{span.latency_ms.toFixed(3)} ms</code>
-                    </li>
-                  ))}
-                </ol>
-              </section>
             </div>
 
             <section className="ai-research-panel">
-              <p className="product-eyebrow">10 · Rejected complexity ledger</p>
+              <p className="product-eyebrow">09 · Rejected complexity ledger</p>
               <div className="ai-rejection-grid">
                 {Object.entries(artifact.feasibility).map(([name, item]) => (
                   <article key={name}>
@@ -2455,8 +2337,10 @@ export function App({
   }
 
   return (
-    <TutorialProvider>
-      <TutorialRouteSync route={route} />
+    <TutorialProvider
+      route={route}
+      onNavigate={(next) => navigate(next as ProductRoute)}
+    >
       <TutorialSpotlight />
       <TutorialTooltip />
       {content}

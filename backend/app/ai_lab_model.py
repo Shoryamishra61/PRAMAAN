@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import hashlib
 import json
-import re
 from pathlib import Path
 from typing import Any, Literal, cast
 
@@ -14,10 +13,11 @@ from sklearn.feature_extraction.text import TfidfVectorizer  # type: ignore[impo
 from sklearn.linear_model import LogisticRegression  # type: ignore[import-untyped]
 from sklearn.pipeline import FeatureUnion, Pipeline  # type: ignore[import-untyped]
 
+from app.source_text import sentences as sentences
+
 MODEL_ID = "local-tfidf-logreg-processed-v1"
 MODEL_VERSION = "1.0.0"
 MODEL_SEED = 20260823
-SENTENCE_PATTERN = re.compile(r"[^\n.!?]+[.!?]?", re.UNICODE)
 
 
 class FeatureContribution(BaseModel):
@@ -34,15 +34,6 @@ class SemanticNomination(BaseModel):
     claim_type: Literal["refund_claimed_processed"]
     source_quote: str = Field(min_length=1)
     feature_contributions: tuple[FeatureContribution, ...]
-
-
-def sentences(text: str) -> tuple[str, ...]:
-    """Return exact source sentences; predictions never invent a quote."""
-    return tuple(
-        sentence
-        for match in SENTENCE_PATTERN.finditer(text)
-        if (sentence := match.group(0).strip())
-    )
 
 
 def build_pipeline() -> Pipeline:

@@ -1,210 +1,396 @@
-import {
-  type GuidedTourStep,
-  type TutorialAppContext,
-  type TutorialAnalyticsEvent,
+import type {
+  GuidedTourStep,
+  TutorialAppContext,
+  ResolvedTourPlacement,
+  TourMachineEvent,
+  TourMachineStatus,
+  TutorialAnalyticsEvent,
 } from "./types";
 
-export const TUTORIAL_STORAGE_KEY = "pramaan_interactive_tutorial_v2";
-export const TUTORIAL_COMPLETED_KEY = "pramaan_tutorial_completed_v2";
+export const TUTORIAL_STORAGE_KEY = "pramaan.tour.state.v3";
+export const TUTORIAL_SESSION_KEY = "pramaan.tour.preferences.v1";
+export const TUTORIAL_ANALYTICS_KEY = "pramaan.tour.telemetry.v3";
+export const TARGET_RESOLUTION_TIMEOUT_MS = 1_800;
 
-export const TUTORIAL_STEPS: GuidedTourStep[] = [
+export const TOUR_TARGETS = {
+  hero: '[data-tour="verifier-hero"]',
+  scenarios: '[data-tour="sample-pills"]',
+  evidenceDropzone: '[data-tour="evidence-dropzone"]',
+  runVerification: '[data-tour="check-case-btn"]',
+  extractedClaim: '[data-tour="extracted-claim-box"]',
+  financialState: '[data-tour="truth-layer"]',
+  inspectFinancialState: '[data-tour="step2-next-btn"]',
+  inspectDecision: '[data-tour="step3-next-btn"]',
+  verdict: '[data-tour="verdict-banner"]',
+  evaluation: '[data-tour="metrics-summary"]',
+  decisionEngine: '[data-tour="decision-engine"]',
+  debuggerNavigation: '[data-tour="nav-debugger"]',
+} as const;
+
+export const TUTORIAL_STEPS: readonly GuidedTourStep[] = [
   {
-    id: "step-welcome",
-    stepIndex: 1,
-    title: "PRAMAAN AI Risk Manager: Dispute Integrity Gate",
-    targetSelector: '[data-tour="verifier-hero"]',
-    roleExplanation:
-      "When dispute chargebacks arrive, merchants lose money by contesting unwinnable claims or missing valid evidence. PRAMAAN verifies evidence deterministically before mounting any contest.",
+    id: "welcome",
+    kind: "welcome",
+    title: "Trace one dispute from evidence to a bounded decision",
+    route: "proof",
+    targetSelector: null,
+    summary:
+      "PRAMAAN is the defensive product. CARVE-FECL is its research engine for testing evidence, models, calibration, and formal financial invariants without granting a model payment authority.",
     actionDirective:
-      "Click 'Start Guided Walkthrough' to begin the interactive verification workflow.",
+      "Start the walkthrough, or skip it and use every screen directly.",
     whyItMatters:
-      "Blind dispute contests incur card network penalties and merchant fees. Pre-contest verification prevents guaranteed financial losses.",
+      "A reviewer should be able to trace source evidence, deterministic findings, uncertainty, and the local decision without trusting a score or hidden automation.",
     requiredAction: "click",
-    preferredPlacement: "center",
-    hints: [
-      "Click the 'Start Guided Walkthrough' button in this guidance card to begin.",
-      "The tutorial will guide you step-by-step through ingesting, analyzing, and repairing evidence.",
-    ],
-    isSatisfied: () => false, // Advanced by clicking Start button
-  },
-  {
-    id: "step-select-sample",
-    stepIndex: 2,
-    title: "Step 1: Evidence Ingestion & Test Scenario",
-    targetSelector: '[data-tour="sample-pill-wrong-amount"]',
-    fallbackSelector: '[data-tour="evidence-dropzone"]',
-    roleExplanation:
-      "In a real workflow, you drag-and-drop multiple customer emails, order invoices, and bank statements into the dropzone. For this walkthrough, we will test a case where the customer communication contradicts the refund ledger.",
-    actionDirective:
-      "Click the highlighted 'Wrong refund amount' scenario button to load the test case.",
-    whyItMatters:
-      "Multi-document disputes contain inconsistent claims. Robust systems isolate file parsing errors and normalize amounts for verification.",
-    requiredAction: "click",
-    preferredPlacement: "bottom",
-    hints: [
-      "Click the highlighted 'Wrong refund amount' button below.",
-      "You can also drag and drop any JSON evidence file into the Evidence Dropzone.",
-    ],
-    isSatisfied: (ctx: TutorialAppContext) =>
-      ctx.selectedScenario === "wrong_amount" || ctx.hasFiles,
-    shouldSkip: (ctx: TutorialAppContext) =>
-      ctx.hasResult && ctx.journeyStep > 1,
-  },
-  {
-    id: "step-run-verification",
-    stepIndex: 3,
-    title: "Step 2: Execute SMT Financial Logic Solver",
-    targetSelector: '[data-tour="check-case-btn"]',
-    roleExplanation:
-      "Instead of letting a generative LLM guess whether a refund occurred, PRAMAAN compiles financial rules into formal Z3 SMT arithmetic constraints. It executes offline in sub-30ms with zero network writes.",
-    actionDirective:
-      "Click 'Check this case' to run the formal verification engine on this evidence.",
-    whyItMatters:
-      "Financial risk systems require mathematical certitude. Automated AI must never guess on payment balances.",
-    requiredAction: "submit",
-    preferredPlacement: "top",
-    hints: [
-      "Click the blue 'Check this case' button highlighted below.",
-      "The engine will run locally and extract grounded facts without modifying any external records.",
-    ],
-    isSatisfied: (ctx: TutorialAppContext) => ctx.hasResult || ctx.isEvaluating,
-    shouldSkip: (ctx: TutorialAppContext) =>
-      ctx.hasResult && ctx.journeyStep > 1,
-  },
-  {
-    id: "step-inspect-claim",
-    stepIndex: 4,
-    title: "Step 3: Grounded Semantic Claim Span",
-    targetSelector: '[data-tour="extracted-claim-box"]',
-    fallbackSelector: '[data-tour="step-nav-2"]',
-    roleExplanation:
-      "Notice the extracted quote: 'Your INR 4,999 refund was processed...'. Every extracted semantic fact is strictly anchored to an exact verbatim quotation in the customer's text to prevent LLM hallucinations.",
-    actionDirective:
-      "Click the 'Check payment truth' button or navigation tab to examine the authoritative ledger.",
-    whyItMatters:
-      "Generative models frequently invent amounts and dates. Anchoring every claim to a verbatim text quote ensures full legal and card-network auditability.",
-    requiredAction: "tab",
-    preferredPlacement: "top",
-    hints: [
-      "Click the 'Check payment truth' button at the bottom of the card or the tab at the top.",
-      "This advances the investigation to compare the claim against the payment ledger.",
-    ],
-    isSatisfied: (ctx: TutorialAppContext) => ctx.journeyStep >= 3,
-  },
-  {
-    id: "step-smt-truth-layer",
-    stepIndex: 5,
-    title: "Step 4: Formal SMT Arithmetic Contradiction",
-    targetSelector: '[data-tour="truth-layer"]',
-    fallbackSelector: '[data-tour="step-nav-3"]',
-    roleExplanation:
-      "Here is the contradiction: the customer communication claimed ₹4,999, but the authoritative bank ledger records ₹499. The arithmetic inequality is formally unsatisfiable.",
-    actionDirective:
-      "Click 'See the decision' to view the resulting gate verdict.",
-    whyItMatters:
-      "Discrepancies between customer communications and bank ledgers are a primary source of merchant chargeback loss.",
-    requiredAction: "tab",
-    preferredPlacement: "top",
-    hints: [
-      "Click 'See the decision' button or tab to view the final verdict.",
-      "Notice the formal constraint details verifying the ₹4,500 mismatch.",
-    ],
-    isSatisfied: (ctx: TutorialAppContext) => ctx.journeyStep >= 4,
-  },
-  {
-    id: "step-verdict-analysis",
-    stepIndex: 6,
-    title:
-      "Step 5: Calibrated Verdict: BLOCK (INSUFFICIENT OR CONTRADICTORY EVIDENCE)",
-    targetSelector: '[data-tour="verdict-banner"]',
-    roleExplanation:
-      "The gate returned a BLOCK verdict (INSUFFICIENT OR CONTRADICTORY EVIDENCE). Contesting this dispute with contradictory evidence guarantees a loss and network fines. The gate stops merchant losses locally.",
-    actionDirective:
-      "Click 'Repair evidence & re-check' to see how the system behaves when the ledger is reconciled.",
-    whyItMatters:
-      "A defensive gate's most important job is knowing when NOT to contest. Blocking invalid disputes protects merchant chargeback ratios.",
-    requiredAction: "repair",
-    preferredPlacement: "bottom",
-    hints: [
-      "Click the highlighted 'Repair evidence & re-check' button.",
-      "This updates the refund ledger to ₹4,999 and automatically re-verifies the case.",
-    ],
-    isSatisfied: (ctx: TutorialAppContext) =>
-      ctx.hasRepaired || (ctx.hasResult && ctx.resultVerdict === "PASS"),
-  },
-  {
-    id: "step-repair-pass",
-    stepIndex: 7,
-    title: "Step 6: Mathematical Proof Satisfied: PASS (CONTEST READY)",
-    targetSelector: '[data-tour="verdict-banner"]',
-    roleExplanation:
-      "The ledger has been reconciled! The customer claim of ₹4,999 now matches the ledger record of ₹4,999. The Z3 solver proved satisfiability, and the gate issues a confident PASS (CONTEST READY) verdict.",
-    actionDirective:
-      "Click 'Generated evaluation' in the top navigation bar to inspect held-out benchmark metrics.",
-    whyItMatters:
-      "Merchants should only contest disputes when evidence is mathematically verified and defensible.",
-    requiredAction: "tab",
-    preferredPlacement: "bottom",
-    hints: [
-      "Click the 'Generated evaluation' tab in the top navigation bar.",
-      "This will take you to the measured benchmark evaluation page.",
-    ],
-    isSatisfied: (ctx: TutorialAppContext) =>
-      ctx.evaluationView === "evaluation" || ctx.route === "evaluation",
-  },
-  {
-    id: "step-heldout-evaluation",
-    stepIndex: 8,
-    title: "Step 7: Frozen Benchmark Evaluation",
-    targetSelector: '[data-tour="nav-decision-engine"]',
-    fallbackSelector: '[data-tour="metrics-summary"]',
-    roleExplanation:
-      "All metrics here are computed on 1,000 synthetic held-out cases with zero decorative counters. We track precision, recall, and false-pass cost explicitly.",
-    actionDirective:
-      "Click 'Decision Engine' in the top navigation bar to inspect model competition & calibration.",
-    whyItMatters:
-      "Evaluation artifacts must be reproducible and frozen. Model promotion requires measured safety gains.",
-    requiredAction: "tab",
-    preferredPlacement: "bottom",
-    hints: [
-      "Click 'Decision Engine' in the top navigation bar.",
-      "You will see the model tournament and risk calibration curves.",
-    ],
-    isSatisfied: (ctx: TutorialAppContext) =>
-      ctx.route === "decision-engine" || ctx.route === "ai",
-  },
-  {
-    id: "step-decision-engine",
-    stepIndex: 9,
-    title: "Step 8: Full Risk Lifecycle Mastered",
-    targetSelector: '[data-tour="nav-debugger"]',
-    roleExplanation:
-      "You have completed the full PRAMAAN guided tour! You know how to ingest multi-file evidence, run deterministic SMT verification, evaluate held-out benchmarks, and inspect model governance.",
-    actionDirective:
-      "Click 'Evidence Debugger' to return to interactive testing, or click 'Finish Tutorial' below.",
-    whyItMatters:
-      "PRAMAAN gives fintech risk teams an unassailable audit trail with zero external writes.",
-    requiredAction: "observe",
-    preferredPlacement: "bottom",
-    hints: [
-      "Click 'Evidence Debugger' in the top navigation bar to return to the workbench.",
-      "You can re-launch this interactive tour anytime using the top navigation button.",
-    ],
+    hints: ["Select Start to begin with the editable case intake."],
     isSatisfied: () => false,
   },
-];
+  {
+    id: "case-intake",
+    kind: "workflow",
+    title: "Case intake and scenario scope",
+    route: "proof",
+    targetSelector: TOUR_TARGETS.scenarios,
+    fallbackSelector: TOUR_TARGETS.hero,
+    summary:
+      "Choose a bounded synthetic scenario or keep the default wrong-amount case. Sample labels describe expected test behavior, not production prevalence.",
+    actionDirective:
+      "Choose a scenario to load its communication and structured refund state. Next is always available.",
+    whyItMatters:
+      "Explicit scope prevents unsupported evidence or reason codes from being treated as verified.",
+    requiredAction: "click",
+    hints: ["The scenario controls are below the evidence dropzone."],
+    isSatisfied: (context) => context.selectedScenario !== null,
+  },
+  {
+    id: "evidence-requirements",
+    kind: "workflow",
+    title: "Evidence requirements",
+    route: "proof",
+    targetSelector: TOUR_TARGETS.evidenceDropzone,
+    fallbackSelector: TOUR_TARGETS.scenarios,
+    summary:
+      "Communication can support a grounded claim; only the structured payment and refund ledger can establish financial state. Missing or malformed authoritative evidence must abstain to REVIEW.",
+    actionDirective:
+      "Optionally import bounded JSON, TXT, or CSV evidence, then continue.",
+    whyItMatters:
+      "Separating narrative evidence from authoritative state prevents fluent text from becoming financial truth.",
+    requiredAction: "upload",
+    hints: [
+      "You can continue with the loaded synthetic sample; upload is optional.",
+    ],
+    isSatisfied: (context) => context.hasFiles,
+  },
+  {
+    id: "evidence-ingestion",
+    kind: "workflow",
+    title: "Evidence ingestion and normalization",
+    route: "proof",
+    targetSelector: TOUR_TARGETS.runVerification,
+    fallbackSelector: TOUR_TARGETS.evidenceDropzone,
+    summary:
+      "The sandbox validates bounded input and exact two-decimal INR strings before running the real local extraction, grounding, reconciliation, and decision-policy path.",
+    actionDirective:
+      "Run Check this case, or continue to inspect the contract first.",
+    whyItMatters:
+      "Invalid money precision or unsupported input is rejected instead of being rounded or silently dropped.",
+    requiredAction: "submit",
+    hints: ["Check this case is the primary action below the evidence fields."],
+    isSatisfied: (context) => context.isEvaluating || context.hasResult,
+  },
+  {
+    id: "semantic-grounding",
+    kind: "workflow",
+    title: "Semantic extraction and exact grounding",
+    route: "proof",
+    targetSelector: TOUR_TARGETS.extractedClaim,
+    fallbackSelector: TOUR_TARGETS.runVerification,
+    summary:
+      "The replaceable semantic layer may nominate a typed claim only when its exact source quotation can be located unambiguously. It never decides PASS, REVIEW, or BLOCK.",
+    actionDirective:
+      "Run the case if needed, then inspect the exact quote and its source boundary.",
+    whyItMatters:
+      "Exact spans make hallucinated or ambiguous claims unable to influence the deterministic policy.",
+    requiredAction: "observe",
+    hints: [
+      "After a run, the grounded quote appears in the second journey stage.",
+    ],
+    isSatisfied: (context) => context.hasResult && context.journeyStep >= 2,
+  },
+  {
+    id: "financial-state",
+    kind: "workflow",
+    title: "Authoritative financial state",
+    route: "proof",
+    targetSelector: TOUR_TARGETS.inspectFinancialState,
+    fallbackSelector: TOUR_TARGETS.financialState,
+    summary:
+      "The normalized claim is compared with complete structured refund state using integer minor units and explicit ledger completeness.",
+    actionDirective:
+      "Open Check payment truth when available, or use Next to continue.",
+    whyItMatters:
+      "Narrative text cannot override the ledger, and an incomplete ledger cannot prove absence.",
+    requiredAction: "tab",
+    hints: [
+      "Check payment truth advances the case journey without changing external state.",
+    ],
+    isSatisfied: (context) => context.journeyStep >= 3,
+  },
+  {
+    id: "formal-verification",
+    kind: "workflow",
+    title: "Formal verification and abstention",
+    route: "proof",
+    targetSelector: TOUR_TARGETS.inspectDecision,
+    fallbackSelector: TOUR_TARGETS.financialState,
+    summary:
+      "PRAMAAN evaluates deterministic compiled constraints. CARVE-FECL separately cross-checks supported invariant families with a bounded Z3 solver; timeout or unknown is never treated as SAT.",
+    actionDirective:
+      "Inspect the compiled constraints, then open See the decision or continue.",
+    whyItMatters:
+      "A technical failure must remain visible and route to human review rather than silently becoming contest-ready.",
+    requiredAction: "tab",
+    hints: [
+      "Constraint details identify their evidence layer and resolved state.",
+    ],
+    isSatisfied: (context) => context.journeyStep >= 4,
+  },
+  {
+    id: "risk-evaluation",
+    kind: "workflow",
+    title: "Artifact-backed risk and uncertainty",
+    route: "evaluation",
+    targetSelector: TOUR_TARGETS.evaluation,
+    fallbackSelector: TOUR_TARGETS.debuggerNavigation,
+    summary:
+      "The evaluation screen reads digest-verified saved artifacts. Counts, slices, calibration, and false-pass cost assumptions remain labeled synthetic and are never hard-coded into the tour.",
+    actionDirective:
+      "Inspect the dataset identity and exact numerators before trusting any metric.",
+    whyItMatters:
+      "Model selection is defensible only when splits, artifacts, uncertainty, and negative results remain reproducible.",
+    requiredAction: "observe",
+    hints: [
+      "The route changes automatically; loading and missing-artifact states remain usable.",
+    ],
+    isSatisfied: (context) => context.route === "evaluation",
+  },
+  {
+    id: "decision-provenance",
+    kind: "workflow",
+    title: "Final decision, provenance, and human authority",
+    route: "decision-engine",
+    targetSelector: TOUR_TARGETS.decisionEngine,
+    fallbackSelector: TOUR_TARGETS.debuggerNavigation,
+    summary:
+      "The Decision Engine exposes retained and rejected research candidates while deterministic evidence rules and human review keep authority. No Razorpay write path exists.",
+    actionDirective:
+      "Finish the tour. You can return to the Evidence Debugger from global navigation.",
+    whyItMatters:
+      "A defensible fintech system shows why a decision happened, what failed, which artifact was used, and who still owns the next action.",
+    requiredAction: "observe",
+    hints: [
+      "Finish records completion locally; it does not submit or mutate a dispute.",
+    ],
+    isSatisfied: (context) => context.route === "decision-engine",
+  },
+] as const;
 
-export function emitTutorialAnalytics(event: TutorialAnalyticsEvent) {
+export const WORKFLOW_STEP_COUNT = TUTORIAL_STEPS.filter(
+  (step) => step.kind === "workflow",
+).length;
+
+const TRANSITIONS: Record<
+  TourMachineStatus,
+  Partial<Record<TourMachineEvent, TourMachineStatus>>
+> = {
+  IDLE: { START: "STARTING", RESET: "IDLE" },
+  STARTING: {
+    START: "STARTING",
+    BEGIN_STEP: "WAITING_FOR_TARGET",
+    TARGET_READY: "ACTIVE",
+    TARGET_MISSING: "ACTIVE",
+    COMPLETE: "COMPLETED",
+    CANCEL: "CANCELLED",
+    FAIL: "ERROR",
+  },
+  ACTIVE: {
+    START: "STARTING",
+    NEXT: "TRANSITIONING",
+    BACK: "TRANSITIONING",
+    BEGIN_STEP: "WAITING_FOR_TARGET",
+    PAUSE: "PAUSED",
+    COMPLETE: "COMPLETED",
+    CANCEL: "CANCELLED",
+    FAIL: "ERROR",
+  },
+  WAITING_FOR_TARGET: {
+    START: "STARTING",
+    TARGET_READY: "ACTIVE",
+    TARGET_MISSING: "ACTIVE",
+    NEXT: "TRANSITIONING",
+    BACK: "TRANSITIONING",
+    PAUSE: "PAUSED",
+    COMPLETE: "COMPLETED",
+    CANCEL: "CANCELLED",
+    FAIL: "ERROR",
+  },
+  TRANSITIONING: {
+    START: "STARTING",
+    BEGIN_STEP: "WAITING_FOR_TARGET",
+    TARGET_READY: "ACTIVE",
+    TARGET_MISSING: "ACTIVE",
+    COMPLETE: "COMPLETED",
+    CANCEL: "CANCELLED",
+    FAIL: "ERROR",
+  },
+  PAUSED: {
+    START: "STARTING",
+    RESUME: "WAITING_FOR_TARGET",
+    COMPLETE: "COMPLETED",
+    CANCEL: "CANCELLED",
+  },
+  COMPLETED: { START: "STARTING", RESET: "IDLE" },
+  CANCELLED: { START: "STARTING", RESET: "IDLE" },
+  ERROR: { START: "STARTING", RESET: "IDLE", CANCEL: "CANCELLED" },
+};
+
+export function transitionTourStatus(
+  status: TourMachineStatus,
+  event: TourMachineEvent,
+): TourMachineStatus {
+  return TRANSITIONS[status][event] ?? status;
+}
+
+export function workflowNumberForIndex(index: number): number | null {
+  if (TUTORIAL_STEPS[index]?.kind !== "workflow") return null;
+  return TUTORIAL_STEPS.slice(0, index + 1).filter(
+    (step) => step.kind === "workflow",
+  ).length;
+}
+
+type Rect = Pick<
+  DOMRect,
+  "left" | "right" | "top" | "bottom" | "width" | "height"
+>;
+
+function overlapArea(a: Rect, b: Rect): number {
+  return (
+    Math.max(0, Math.min(a.right, b.right) - Math.max(a.left, b.left)) *
+    Math.max(0, Math.min(a.bottom, b.bottom) - Math.max(a.top, b.top))
+  );
+}
+
+export function tourPanelCoordinates(
+  placement: ResolvedTourPlacement,
+  target: Rect | null,
+  viewportWidth: number,
+  viewportHeight: number,
+  panelWidth: number,
+  panelHeight: number,
+  margin = 16,
+): { left: number; top: number } {
+  const right = Math.max(margin, viewportWidth - panelWidth - margin);
+  const bottom = Math.max(margin, viewportHeight - panelHeight - margin);
+  if (placement === "top-left") return { left: margin, top: margin };
+  if (placement === "top-right") return { left: right, top: margin };
+  if (placement === "bottom-left") return { left: margin, top: bottom };
+  if (placement === "bottom-right") return { left: right, top: bottom };
+  const targetOnLeft = target
+    ? target.left + target.width / 2 < viewportWidth / 2
+    : true;
+  return {
+    left: targetOnLeft ? right : margin,
+    top: Math.max(
+      margin,
+      Math.min(
+        bottom,
+        (target?.top ?? viewportHeight / 2) +
+          (target?.height ?? 0) / 2 -
+          panelHeight / 2,
+      ),
+    ),
+  };
+}
+
+export function chooseTourPlacement(
+  target: Rect | null,
+  viewportWidth: number,
+  viewportHeight: number,
+  panelWidth: number,
+  panelHeight: number,
+): ResolvedTourPlacement {
+  if (!target) return "bottom-right";
+  const choices: readonly ResolvedTourPlacement[] = [
+    "top-left",
+    "top-right",
+    "bottom-left",
+    "bottom-right",
+    "side-center",
+  ];
+  const targetCenterX = target.left + target.width / 2;
+  const targetCenterY = target.top + target.height / 2;
+  return choices.reduce(
+    (best, placement) => {
+      const point = tourPanelCoordinates(
+        placement,
+        target,
+        viewportWidth,
+        viewportHeight,
+        panelWidth,
+        panelHeight,
+      );
+      const candidate = {
+        left: point.left,
+        top: point.top,
+        right: point.left + panelWidth,
+        bottom: point.top + panelHeight,
+        width: panelWidth,
+        height: panelHeight,
+      };
+      const distance = Math.hypot(
+        point.left + panelWidth / 2 - targetCenterX,
+        point.top + panelHeight / 2 - targetCenterY,
+      );
+      const score = overlapArea(candidate, target) * 1_000 - distance;
+      return score < best.score ? { placement, score } : best;
+    },
+    { placement: choices[0], score: Number.POSITIVE_INFINITY },
+  ).placement;
+}
+
+export function emitTutorialAnalytics(event: TutorialAnalyticsEvent): void {
   try {
-    const history = JSON.parse(
-      localStorage.getItem("pramaan_tutorial_analytics") || "[]",
-    ) as unknown[];
+    const parsed = JSON.parse(
+      localStorage.getItem(TUTORIAL_ANALYTICS_KEY) ?? "[]",
+    );
+    const history = Array.isArray(parsed) ? parsed : [];
     history.push({ ...event, timestamp: new Date().toISOString() });
     localStorage.setItem(
-      "pramaan_tutorial_analytics",
+      TUTORIAL_ANALYTICS_KEY,
       JSON.stringify(history.slice(-100)),
     );
   } catch {
-    // Ignore storage quota or disabled localStorage in sandboxes
+    // Telemetry is local, bounded, optional, and contains no evidence or identifiers.
   }
+}
+
+/** Explain observed local state; this guide has no model or decision authority. */
+export function contextualTourGuidance(
+  context: TutorialAppContext,
+): string | null {
+  if (context.route !== "proof") return null;
+  if (context.inputError)
+    return `The case needs input repair: ${context.inputError}`;
+  if (context.isEvaluating)
+    return "The local verifier is running. Your evidence is retained; the decision will appear when the request completes.";
+  if (context.hasResult) {
+    if (context.resultVerdict === "BLOCK")
+      return "This case has a local hold. Inspect the cited quote and refund record, then repair the conflicting evidence. BLOCK is not a fraud accusation.";
+    if (context.resultVerdict === "REVIEW")
+      return "This case needs review. Inspect the stated missing evidence or extraction failure; add the required source and check again.";
+    if (context.resultVerdict === "PASS")
+      return "No supported integrity issue was detected. Inspect the evidence before a human decides the next step; PASS does not predict a dispute win.";
+  }
+  if (context.hasFiles)
+    return `${context.fileCount} local file${context.fileCount === 1 ? " is" : "s are"} staged. Open each source, confirm the financial fields, then check the case. Text and CSV never establish ledger completeness.`;
+  return null;
 }

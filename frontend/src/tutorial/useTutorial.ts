@@ -1,23 +1,15 @@
 import { createContext, useContext } from "react";
-import {
-  type GuidedTourStep,
-  type TutorialAppContext,
-  type RequiredActionType,
+import type {
+  GuidedTourStep,
+  RequiredActionType,
+  TourMachineStatus,
+  TourPanelSize,
+  TourPlacement,
+  TourTargetStatus,
+  TutorialAppContext,
 } from "./types";
 
-export interface TutorialContextValue {
-  isActive: boolean;
-  currentStep: GuidedTourStep | null;
-  currentStepIndex: number;
-  totalSteps: number;
-  appContext: TutorialAppContext;
-  targetRect: DOMRect | null;
-  targetElement: HTMLElement | null;
-  isTargetVisible: boolean;
-  stuckSeconds: number;
-  currentHintLevel: number;
-  userOffset: { x: number; y: number };
-  isDocked: boolean;
+export interface TutorialActionsValue {
   startTour: (stepId?: string) => void;
   stopTour: () => void;
   resetTour: () => void;
@@ -25,9 +17,30 @@ export interface TutorialContextValue {
   prevStep: () => void;
   goToStep: (stepId: string) => void;
   setUserOffset: (offset: { x: number; y: number }) => void;
+  setPanelSize: (size: TourPanelSize) => void;
+  setPlacement: (placement: TourPlacement) => void;
   toggleDock: () => void;
   updateAppContext: (partial: Partial<TutorialAppContext>) => void;
   notifyAction: (actionType: RequiredActionType, payload?: unknown) => void;
+}
+
+export interface TutorialContextValue extends TutorialActionsValue {
+  isActive: boolean;
+  status: TourMachineStatus;
+  currentStep: GuidedTourStep | null;
+  currentStepIndex: number;
+  workflowStepNumber: number | null;
+  totalSteps: number;
+  appContext: TutorialAppContext;
+  targetRect: DOMRect | null;
+  targetStatus: TourTargetStatus;
+  stuckSeconds: number;
+  currentHintLevel: number;
+  actionSatisfied: boolean;
+  userOffset: { x: number; y: number };
+  panelSize: TourPanelSize;
+  placement: TourPlacement;
+  isDocked: boolean;
 }
 
 export const defaultAppContext: TutorialAppContext = {
@@ -39,24 +52,12 @@ export const defaultAppContext: TutorialAppContext = {
   isEvaluating: false,
   resultVerdict: null,
   hasRepaired: false,
-  selectedScenario: "wrong_amount",
+  selectedScenario: null,
   evaluationView: "debugger",
   activeTab: "debugger",
 };
 
-const defaultContextValue: TutorialContextValue = {
-  isActive: false,
-  currentStep: null,
-  currentStepIndex: 0,
-  totalSteps: 9,
-  appContext: defaultAppContext,
-  targetRect: null,
-  targetElement: null,
-  isTargetVisible: false,
-  stuckSeconds: 0,
-  currentHintLevel: 0,
-  userOffset: { x: 0, y: 0 },
-  isDocked: false,
+const defaultActionsValue: TutorialActionsValue = {
   startTour: () => {},
   stopTour: () => {},
   resetTour: () => {},
@@ -64,14 +65,41 @@ const defaultContextValue: TutorialContextValue = {
   prevStep: () => {},
   goToStep: () => {},
   setUserOffset: () => {},
+  setPanelSize: () => {},
+  setPlacement: () => {},
   toggleDock: () => {},
   updateAppContext: () => {},
   notifyAction: () => {},
 };
 
+const defaultContextValue: TutorialContextValue = {
+  isActive: false,
+  status: "IDLE",
+  currentStep: null,
+  currentStepIndex: 0,
+  workflowStepNumber: null,
+  totalSteps: 8,
+  appContext: defaultAppContext,
+  targetRect: null,
+  targetStatus: "idle",
+  stuckSeconds: 0,
+  currentHintLevel: 0,
+  actionSatisfied: false,
+  userOffset: { x: 0, y: 0 },
+  panelSize: "standard",
+  placement: "auto",
+  isDocked: false,
+  ...defaultActionsValue,
+};
+
 export const TutorialContext = createContext<TutorialContextValue | null>(null);
+export const TutorialActionsContext =
+  createContext<TutorialActionsValue | null>(null);
 
 export function useTutorial(): TutorialContextValue {
-  const ctx = useContext(TutorialContext);
-  return ctx ?? defaultContextValue;
+  return useContext(TutorialContext) ?? defaultContextValue;
+}
+
+export function useTutorialActions(): TutorialActionsValue {
+  return useContext(TutorialActionsContext) ?? defaultActionsValue;
 }

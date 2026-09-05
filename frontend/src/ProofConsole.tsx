@@ -7,7 +7,7 @@ import {
   UnifiedNavigation,
   type NavRoute,
 } from "./components/UnifiedNavigation";
-import { useTutorial } from "./tutorial";
+import { useTutorialActions } from "./tutorial";
 import "./proof-console.css";
 
 type View = "debugger" | "evaluation";
@@ -38,7 +38,7 @@ export function ProofConsole({
 }: {
   onNavigate?: (route: string) => void;
 } = {}) {
-  const tutorial = useTutorial();
+  const tutorial = useTutorialActions();
 
   const [view, setView] = useState<View>(() =>
     new URLSearchParams(window.location.search).get("view") === "evaluation"
@@ -143,11 +143,11 @@ export function ProofConsole({
           >
             <header>
               <p className="eyebrow">ARTIFACT-BACKED EVALUATION</p>
-              <h1 id="evaluation-title">Only generated results belong here.</h1>
+              <h1 id="evaluation-title">Held-out evaluation</h1>
               <p>
-                No decorative counters, confidence scores, or typed-in benchmark
-                claims. Every value below is loaded from the latest saved
-                evaluation artifact.
+                Inspect measured conflict detection, false holds and missed
+                conflicts. Results come from saved synthetic benchmark
+                predictions; they do not measure merchant outcomes.
               </p>
             </header>
 
@@ -185,8 +185,13 @@ export function ProofConsole({
                 <div className="synthetic-warning">
                   <Flask aria-hidden="true" />
                   <div>
-                    <strong>SYNTHETIC HOLDOUT</strong>
+                    <strong>Saved synthetic holdout</strong>
                     <p>{evaluation.synthetic_warning}</p>
+                    <p>
+                      These metrics describe the saved baseline, not the
+                      repaired current runtime. Current changes have DEV
+                      regression evidence only.
+                    </p>
                   </div>
                 </div>
                 <section

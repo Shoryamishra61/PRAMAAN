@@ -18,7 +18,7 @@ versioned case snapshots
 
 - **DESIGN DECISION:** Dataset, label, feature, code, model, calibration and policy versions are independent lineage dimensions.
 - **DESIGN DECISION:** MLflow-style local artifacts are sufficient for the hackathon; a hosted MLflow/W&B/Langfuse service is added only when multiple users/runs require coordination.
-- **DESIGN DECISION:** LangGraph may sequence evidence -> extraction -> grounding -> reconciliation -> uncertainty -> review nodes; it does not make financial decisions and is not a model.
+- **DESIGN DECISION:** Typed Python functions sequence evidence -> extraction -> grounding -> reconciliation -> uncertainty -> review; an orchestration framework adds no measured value here.
 - **DESIGN DECISION:** RAG is limited to versioned, exact-citation policy guidance and cannot alter claims/findings/decisions.
 - **DESIGN DECISION:** MCP is a future connector boundary only if an authenticated merchant ledger/document system benefits from standardized tools.
 
@@ -69,4 +69,3 @@ canonical snapshot
 
 - **DESIGN DECISION:** Run trace includes `run_id`, hypothesis, parent baseline, data/split/code hashes, package/model revisions, parameters, seeds, start/end, hardware, metrics, curves, per-case predictions, errors, cost, reviewer and promotion outcome.
 - **DESIGN DECISION:** Inference trace includes node timings and hashes, but raw evidence and prompts are excluded from general logs.
-

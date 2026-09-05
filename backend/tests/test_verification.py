@@ -159,3 +159,29 @@ def test_refund_above_payment_is_invalid_state_not_block(amount_minor: int) -> N
 
     assert codes(result) == {"F_STRUCTURED_STATE_INCOMPLETE"}
     assert all(finding.effect is FindingEffect.REVIEW for finding in result.findings)
+
+
+def test_cumulative_processed_refunds_above_capture_fail_closed() -> None:
+    result = verify_integrity(
+        context(
+            captured_amount_minor=10_000,
+            refunds=(
+                refund(id="rfnd_1", amount_minor=6_000),
+                refund(id="rfnd_2", amount_minor=6_000),
+            ),
+        )
+    )
+
+    assert codes(result) == {"F_STRUCTURED_STATE_INCOMPLETE"}
+    assert all(finding.effect is FindingEffect.REVIEW for finding in result.findings)
+
+
+def test_full_refund_can_be_satisfied_by_multiple_final_refunds() -> None:
+    refunds = (refund(id="a", amount_minor=100_000), refund(id="b", amount_minor=150_000))
+    assert verify_integrity(context(refunds=refunds, claims=(claim(),))).findings == ()
+
+
+def test_aggregate_cannot_replace_a_specific_refund_reference() -> None:
+    refunds = (refund(id="a", amount_minor=100_000), refund(id="b", amount_minor=150_000))
+    result = verify_integrity(context(refunds=refunds, claims=(claim(refund_reference="RF-101"),)))
+    assert "F_REFUND_CLAIM_NO_LEDGER_MATCH" in codes(result)

@@ -1,4 +1,4 @@
-"""FastAPI entry point for Dispute Integrity Gate."""
+"""FastAPI entry point for the PRAMAAN Dispute Integrity Gate."""
 
 from __future__ import annotations
 
@@ -48,11 +48,6 @@ from app.evaluation_api import (
 from app.health import HealthResponse, read_health
 from app.ingestion import IngestPayloadError, IngestResult, ingest_event
 from app.observability import StructuredLogEvent, emit_log
-from app.quant_risk_api import (
-    QuantRiskError,
-    QuantRiskResponse,
-    load_quant_risk_research,
-)
 from app.sandbox_api import (
     SandboxEvaluateRequest,
     SandboxEvaluateResponse,
@@ -79,7 +74,7 @@ def _error_response(code: str, message: str, correlation_id: str, status: int) -
 def create_app(settings: Settings | None = None) -> FastAPI:
     """Build the application without performing external network calls."""
     application = FastAPI(
-        title="Dispute Integrity Gate",
+        title="PRAMAAN Dispute Integrity Gate",
         version="0.1.0",
         description="Read-only evidence integrity verifier; not a dispute outcome predictor.",
     )
@@ -297,17 +292,16 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                 503,
             )
 
-    @application.get("/api/v1/research/quant-risk", response_model=QuantRiskResponse)
-    def quant_risk_research() -> QuantRiskResponse | JSONResponse:
-        try:
-            return load_quant_risk_research(runtime_settings.database_path)
-        except QuantRiskError as error:
-            return _error_response(
-                "QUANT_RISK_ARTIFACT_UNAVAILABLE",
-                str(error),
-                f"corr_{uuid4().hex}",
-                503,
-            )
+    @application.get("/api/v1/research/quant-risk", deprecated=True)
+    def quant_risk_research() -> JSONResponse:
+        return _error_response(
+            "RESEARCH_PROJECTION_RETIRED",
+            "Legacy economic projections were not derived from validated predictions. "
+            "Use /api/v1/evaluation/latest or /api/v1/research/carve-v4.5 for saved, "
+            "artifact-backed synthetic evaluations.",
+            f"corr_{uuid4().hex}",
+            410,
+        )
 
     @application.post("/api/v1/cases/{case_id}/reprocess", response_model=QueuedReprocess)
     def reprocess_case(

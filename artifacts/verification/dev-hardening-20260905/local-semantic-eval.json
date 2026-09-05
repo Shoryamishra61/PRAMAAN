@@ -1,0 +1,58 @@
+{
+  "artifact_version": "ai-lab-dev-eval-v1",
+  "boundary": {
+    "external_api_calls": false,
+    "gate_authority": false,
+    "holdout_accessed": false,
+    "probability_exposed": false,
+    "split": "DEV",
+    "synthetic": true
+  },
+  "candidate": {
+    "architecture": "word+character TF-IDF with class-weighted logistic regression",
+    "evaluation": "5-fold scenario-family-grouped out-of-fold predictions",
+    "metrics": {
+      "confusion": {
+        "fn": 2,
+        "fp": 16,
+        "tn": 32,
+        "tp": 70
+      },
+      "f1": 0.886076,
+      "precision": 0.813953,
+      "recall": 0.972222
+    },
+    "model_id": "local-tfidf-logreg-processed-v1",
+    "model_sha256": "8da9b00b629add3aeb09b07be171df051b5cea2a115b0a8bee9f7d1f17b61adc",
+    "model_version": "1.0.0",
+    "random_seed": 20260823
+  },
+  "comparator": {
+    "extractor_id": "regex-baseline-v1",
+    "metrics": {
+      "confusion": {
+        "fn": 0,
+        "fp": 0,
+        "tn": 48,
+        "tp": 72
+      },
+      "f1": 1.0,
+      "precision": 1.0,
+      "recall": 1.0
+    }
+  },
+  "created_at": "2026-09-05T05:36:18.308730Z",
+  "dataset": {
+    "content_sha256": "983a9537ef4cc17a19e26c9342730f45f13cc1e455b394e8b651fe32262fb152",
+    "dataset_id": "DIG-RNP-SYN-v1",
+    "examples": 120,
+    "path": "data/benchmark/v1/dev",
+    "scenario_families": 15
+  },
+  "promotion": {
+    "reason": "Candidate did not beat the deterministic regex comparator on DEV.",
+    "rule": "candidate F1 must exceed regex F1 without reducing precision",
+    "selected_extractor": "regex-baseline-v1",
+    "status": "NOT_PROMOTED"
+  }
+}

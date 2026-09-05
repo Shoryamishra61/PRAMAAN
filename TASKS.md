@@ -67,3 +67,17 @@ Every task references only requirement IDs that are actually defined in the cano
 - Kafka/Redis/Celery/Kubernetes
 - OCR/scanned-image support in MVP
 - broad multi-reason-code coverage
+
+
+## Current hardening follow-up — 2026-09-05
+
+Earlier checked tasks are historical implementation records, not current release certification.
+
+- [x] Centralize bounded multi-file ingestion; preserve source offsets and malformed-file recovery; prevent narrative text from establishing financial state.
+- [x] Remove fabricated certificates, timed processing phases, and typed-in quant-risk projections; preserve artifact-backed research and honest abstention.
+- [x] Fix decimal source segmentation and aggregate-refund matching using DEV failures and regression tests; retain the weaker trained model as unpromoted.
+- [x] Simplify light-mode surfaces and make tour guidance follow actual input errors and case stages; prevent edits during parsing/evaluation.
+- [ ] Complete rendered desktop/mobile, keyboard, contrast, loading/error/retry, and full tour walkthrough checks. No browser surface was available on this run.
+- [ ] Establish new independent held-out/external evidence before making claims about the repaired runtime's generalization or merchant-loss savings.
+
+Evidence: `artifacts/verification/RELEASE-GATES.md` and `artifacts/verification/dev-hardening-20260905/README.md`.

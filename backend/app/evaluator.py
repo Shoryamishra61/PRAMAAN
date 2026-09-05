@@ -39,7 +39,6 @@ from app.extraction import (
 from app.grounding import GroundedNormalizedClaim, ground_and_normalize_claim
 from app.regex_baseline import RegexBaselineExtractor
 from app.release_freeze import (
-    CODE_COMMIT_UNAVAILABLE,
     CONFIG_PATHS,
     ReleaseFreeze,
     verify_release_freeze,
@@ -214,6 +213,7 @@ async def evaluate_benchmark(
     created_at: datetime,
     confirm_frozen: bool = False,
     release_freeze_path: Path | None = None,
+    code_commit: str = "UNAVAILABLE_NOT_RECORDED",
 ) -> EvaluationResultArtifact:
     """Evaluate one split without exposing labels to the runtime detector."""
     freeze: ReleaseFreeze | None = None
@@ -289,7 +289,7 @@ async def evaluate_benchmark(
             prompt_version="not-applicable-regex-v1",
             claim_schema_version=CLAIM_SCHEMA_VERSION,
             config_sha256=config_sha256,
-            code_commit=CODE_COMMIT_UNAVAILABLE,
+            code_commit=code_commit,
         ),
         dataset=read_dataset_provenance(dataset_root, split),
         predictions=prediction_tuple,

@@ -1,157 +1,126 @@
-import { describe, it, expect, beforeEach } from "vitest";
+import { contextualTourGuidance } from "./tutorialEngine";
+import { defaultAppContext } from "./useTutorial";
+import { beforeEach, describe, expect, it } from "vitest";
 import {
-  TUTORIAL_STEPS,
-  TUTORIAL_STORAGE_KEY,
-  TUTORIAL_COMPLETED_KEY,
+  chooseTourPlacement,
   emitTutorialAnalytics,
+  TUTORIAL_ANALYTICS_KEY,
+  TUTORIAL_STEPS,
+  tourPanelCoordinates,
+  transitionTourStatus,
+  workflowNumberForIndex,
+  WORKFLOW_STEP_COUNT,
 } from "./tutorialEngine";
-import { type TutorialAppContext } from "./types";
 
 describe("tutorialEngine", () => {
-  const baseContext: TutorialAppContext = {
-    route: "proof",
-    journeyStep: 1,
-    hasFiles: false,
-    fileCount: 0,
-    hasResult: false,
-    isEvaluating: false,
-    resultVerdict: null,
-    hasRepaired: false,
-    selectedScenario: null,
-    evaluationView: "debugger",
-    activeTab: "debugger",
-  };
+  beforeEach(() => localStorage.clear());
 
-  beforeEach(() => {
-    localStorage.clear();
+  it("owns one welcome plus eight numbered workflow steps", () => {
+    expect(TUTORIAL_STEPS).toHaveLength(9);
+    expect(TUTORIAL_STEPS[0].kind).toBe("welcome");
+    expect(WORKFLOW_STEP_COUNT).toBe(8);
+    expect(
+      TUTORIAL_STEPS.slice(1).map((_, index) =>
+        workflowNumberForIndex(index + 1),
+      ),
+    ).toEqual([1, 2, 3, 4, 5, 6, 7, 8]);
+    expect(new Set(TUTORIAL_STEPS.map((step) => step.id)).size).toBe(9);
   });
 
-  it("contains 9 structured, action-gated tutorial steps", () => {
-    expect(TUTORIAL_STORAGE_KEY).toBeTruthy();
-    expect(TUTORIAL_COMPLETED_KEY).toBeTruthy();
-    expect(TUTORIAL_STEPS.length).toBe(9);
+  it("keeps copy truthful and derives all targets from one registry", () => {
+    const copy = TUTORIAL_STEPS.map(
+      (step) => `${step.title} ${step.summary} ${step.whyItMatters}`,
+    ).join(" ");
+    expect(copy).not.toMatch(
+      /guarantees? a loss|unassailable|confusion score|sub-30ms/i,
+    );
     for (const step of TUTORIAL_STEPS) {
-      expect(step.id).toBeTruthy();
-      expect(step.title).toBeTruthy();
-      expect(step.targetSelector).toBeTruthy();
-      expect(step.roleExplanation).toBeTruthy();
-      expect(step.actionDirective).toBeTruthy();
-      expect(step.whyItMatters).toBeTruthy();
+      expect(step.route).toBeTruthy();
       expect(step.hints.length).toBeGreaterThan(0);
-      expect([
-        "click",
-        "upload",
-        "submit",
-        "tab",
-        "observe",
-        "repair",
-      ]).toContain(step.requiredAction);
     }
   });
 
-  it("satisfies step-select-sample when a scenario or file is loaded", () => {
-    const step = TUTORIAL_STEPS.find((s) => s.id === "step-select-sample")!;
-    expect(step.isSatisfied(baseContext)).toBe(false);
-
-    expect(
-      step.isSatisfied({
-        ...baseContext,
-        selectedScenario: "wrong_amount",
-      }),
-    ).toBe(true);
-
-    expect(
-      step.isSatisfied({
-        ...baseContext,
-        hasFiles: true,
-        fileCount: 2,
-      }),
-    ).toBe(true);
+  it("enforces explicit terminal lifecycle transitions", () => {
+    expect(transitionTourStatus("IDLE", "START")).toBe("STARTING");
+    expect(transitionTourStatus("STARTING", "BEGIN_STEP")).toBe(
+      "WAITING_FOR_TARGET",
+    );
+    expect(transitionTourStatus("WAITING_FOR_TARGET", "TARGET_MISSING")).toBe(
+      "ACTIVE",
+    );
+    expect(transitionTourStatus("ACTIVE", "NEXT")).toBe("TRANSITIONING");
+    expect(transitionTourStatus("TRANSITIONING", "BEGIN_STEP")).toBe(
+      "WAITING_FOR_TARGET",
+    );
+    expect(transitionTourStatus("ACTIVE", "COMPLETE")).toBe("COMPLETED");
+    expect(transitionTourStatus("COMPLETED", "NEXT")).toBe("COMPLETED");
+    expect(transitionTourStatus("ACTIVE", "CANCEL")).toBe("CANCELLED");
   });
 
-  it("satisfies step-run-verification when evaluation runs or produces a result", () => {
-    const step = TUTORIAL_STEPS.find((s) => s.id === "step-run-verification")!;
-    expect(step.isSatisfied(baseContext)).toBe(false);
-
-    expect(
-      step.isSatisfied({
-        ...baseContext,
-        isEvaluating: true,
-      }),
-    ).toBe(true);
-
-    expect(
-      step.isSatisfied({
-        ...baseContext,
-        hasResult: true,
-      }),
-    ).toBe(true);
+  it("places the panel within bounds and away from a bottom-right target", () => {
+    const target = {
+      left: 1180,
+      right: 1380,
+      top: 720,
+      bottom: 800,
+      width: 200,
+      height: 80,
+    } as DOMRect;
+    const placement = chooseTourPlacement(target, 1440, 900, 380, 460);
+    expect(placement).not.toBe("bottom-right");
+    const point = tourPanelCoordinates(placement, target, 1440, 900, 380, 460);
+    expect(point.left).toBeGreaterThanOrEqual(16);
+    expect(point.top).toBeGreaterThanOrEqual(16);
+    expect(point.left + 380).toBeLessThanOrEqual(1424);
+    expect(point.top + 460).toBeLessThanOrEqual(884);
   });
 
-  it("satisfies step-inspect-claim when journeyStep advances to 3", () => {
-    const step = TUTORIAL_STEPS.find((s) => s.id === "step-inspect-claim")!;
-    expect(step.isSatisfied(baseContext)).toBe(false);
-    expect(step.isSatisfied({ ...baseContext, journeyStep: 2 })).toBe(false);
-    expect(step.isSatisfied({ ...baseContext, journeyStep: 3 })).toBe(true);
-    expect(step.isSatisfied({ ...baseContext, journeyStep: 4 })).toBe(true);
-  });
-
-  it("satisfies step-smt-truth-layer when journeyStep advances to 4", () => {
-    const step = TUTORIAL_STEPS.find((s) => s.id === "step-smt-truth-layer")!;
-    expect(step.isSatisfied(baseContext)).toBe(false);
-    expect(step.isSatisfied({ ...baseContext, journeyStep: 3 })).toBe(false);
-    expect(step.isSatisfied({ ...baseContext, journeyStep: 4 })).toBe(true);
-  });
-
-  it("satisfies step-verdict-analysis when ledger is repaired or verdict is PASS", () => {
-    const step = TUTORIAL_STEPS.find((s) => s.id === "step-verdict-analysis")!;
-    expect(step.isSatisfied(baseContext)).toBe(false);
-    expect(
-      step.isSatisfied({
-        ...baseContext,
-        hasRepaired: true,
-      }),
-    ).toBe(true);
-    expect(
-      step.isSatisfied({
-        ...baseContext,
-        hasResult: true,
-        resultVerdict: "PASS",
-      }),
-    ).toBe(true);
-  });
-
-  it("satisfies step-repair-pass when evaluation view is opened", () => {
-    const step = TUTORIAL_STEPS.find((s) => s.id === "step-repair-pass")!;
-    expect(step.isSatisfied(baseContext)).toBe(false);
-    expect(
-      step.isSatisfied({
-        ...baseContext,
-        evaluationView: "evaluation",
-      }),
-    ).toBe(true);
-    expect(
-      step.isSatisfied({
-        ...baseContext,
-        route: "evaluation",
-      }),
-    ).toBe(true);
-  });
-
-  it("records analytics safely in localStorage", () => {
+  it("stores only bounded local lifecycle telemetry", () => {
     emitTutorialAnalytics({ type: "tour_started" });
     emitTutorialAnalytics({
       type: "step_entered",
-      stepId: "step-welcome",
-      stepIndex: 1,
+      stepId: "welcome",
+      workflowNumber: null,
     });
-
     const stored = JSON.parse(
-      localStorage.getItem("pramaan_tutorial_analytics") || "[]",
+      localStorage.getItem(TUTORIAL_ANALYTICS_KEY) ?? "[]",
     );
-    expect(stored.length).toBe(2);
-    expect(stored[0].type).toBe("tour_started");
-    expect(stored[1].type).toBe("step_entered");
-    expect(stored[1].stepId).toBe("step-welcome");
+    expect(stored).toHaveLength(2);
+    expect(stored[1]).toMatchObject({
+      stepId: "welcome",
+      workflowNumber: null,
+    });
+  });
+});
+
+describe("observed case guidance", () => {
+  it("prioritizes input repair, waiting and actual outcomes over generic steps", () => {
+    const context = {
+      ...defaultAppContext,
+      route: "proof",
+      hasFiles: true,
+      fileCount: 2,
+    };
+    expect(contextualTourGuidance(context)).toContain("2 local files");
+    expect(
+      contextualTourGuidance({ ...context, inputError: "Invalid CSV" }),
+    ).toContain("Invalid CSV");
+    expect(
+      contextualTourGuidance({ ...context, isEvaluating: true }),
+    ).toContain("running");
+    expect(
+      contextualTourGuidance({
+        ...context,
+        hasResult: true,
+        resultVerdict: "BLOCK",
+      }),
+    ).toContain("local hold");
+    expect(
+      contextualTourGuidance({
+        ...context,
+        hasResult: true,
+        resultVerdict: "PASS",
+      }),
+    ).toContain("does not predict");
   });
 });

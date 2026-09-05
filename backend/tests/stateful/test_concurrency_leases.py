@@ -97,13 +97,13 @@ def test_stale_worker_lease_recovery_and_late_completion_rejection(tmp_path: Pat
     assert job_b.id == job_a.id
     assert job_b.attempt_count == 2
 
-    # 4. Worker B completes the job
-    complete_job(db_path, job_b.id, t_stale + timedelta(seconds=1))
-
-    # 5. Worker A wakes up late and tries to complete: MUST raise PermanentJobError
+    # 4. Worker A wakes up while B is still processing. Its old lease must be rejected.
     with pytest.raises(PermanentJobError) as exc_info:
-        complete_job(db_path, job_a.id, t_stale + timedelta(seconds=2))
+        complete_job(db_path, job_a, t_stale + timedelta(seconds=1))
     assert exc_info.value.code == "JOB_STATE_CONFLICT"
+
+    # 5. The current lease holder can still complete the job.
+    complete_job(db_path, job_b, t_stale + timedelta(seconds=2))
 
 
 def test_lease_boundary_timing(tmp_path: Path) -> None:

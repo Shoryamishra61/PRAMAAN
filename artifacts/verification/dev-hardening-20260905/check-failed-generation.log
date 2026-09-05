@@ -1,0 +1,131 @@
+168 files already formatted
+All checks passed!
+Success: no issues found in 157 source files
+SPEC LINT PASSED
+PACKAGE VALIDATION PASSED
+PRD requirements traced: 28
+External source IDs referenced: 19 / defined: 57
+JSON contracts: valid
+No Razorpay write client, host, endpoint pattern, or non-local frontend fetch found.
+[OK] No configured forbidden claim patterns found; this scan does not validate every metric.
+C:\code_shit\RAZOR\dispute-integrity-gate-spec\.venv\lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+  from starlette.testclient import TestClient as TestClient  # noqa
+======================================================================
+  PRAMAAN / CARVE-FECL -- LIVE DEMO SMOKE TEST
+======================================================================
+[1/5] Seeding canonical dispute cases into demo_smoke.sqlite3...
+      [OK] Canonical cases loaded: pass -> PASS, review -> REVIEW, block -> BLOCK
+[2/5] Initializing API test client with runtime settings...
+[3/5] Verifying API health endpoints...
+      [OK] Health status: OK, Database: READY
+[4/5] Verifying Case API projections...
+      [OK] All 3 case details, evidence documents, and decisions verified
+[5/5] Verifying Research & Quant-Risk projections...
+      [OK] Legacy projection retired (410); artifact-backed research and evaluation available
+
+======================================================================
+  STATUS: API DEMO SMOKE PASSED -- VISUAL QA IS A SEPARATE GATE
+======================================================================
+
+============================= test session starts =============================
+platform win32 -- Python 3.10.11, pytest-8.4.2, pluggy-1.6.0
+rootdir: C:\code_shit\RAZOR\dispute-integrity-gate-spec
+configfile: pyproject.toml
+plugins: anyio-4.14.2, hypothesis-6.167.1, langsmith-0.11.2, asyncio-0.26.0
+asyncio: mode=strict, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 313 items
+
+backend\tests\adversarial\test_adversarial_judge_cases.py .........      [  2%]
+backend\tests\chaos\test_chaos_fault_injection.py ...                    [  3%]
+backend\tests\ml\test_calibration_and_ood.py ....                        [  5%]
+backend\tests\ml\test_counterfactual_minimal_pairs.py ...                [  6%]
+backend\tests\ml\test_data_split_integrity.py ...                        [  7%]
+backend\tests\ml\test_ml_leakage.py ...                                  [  7%]
+backend\tests\property\test_money_properties.py F......                  [ 10%]
+backend\tests\property\test_provenance_and_grounding.py ....             [ 11%]
+backend\tests\property\test_required_evidence_powerset.py .              [ 11%]
+backend\tests\property\test_temporal_properties.py .....                 [ 13%]
+backend\tests\property\test_z3_differential_oracle.py ..                 [ 14%]
+backend\tests\security\test_security_adversarial.py ....                 [ 15%]
+backend\tests\stateful\test_concurrency_leases.py ....                   [ 16%]
+backend\tests\stateful\test_crash_consistency.py ...                     [ 17%]
+backend\tests\stateful\test_state_machine.py .                           [ 17%]
+backend\tests\test_ai_lab_api.py .                                       [ 18%]
+backend\tests\test_ai_lab_model.py ....                                  [ 19%]
+backend\tests\test_ai_research_api.py ....                               [ 20%]
+backend\tests\test_ai_research_study.py .....                            [ 22%]
+backend\tests\test_benchmark_generator.py .....                          [ 23%]
+backend\tests\test_benchmark_integrity.py .....                          [ 25%]
+backend\tests\test_carve_proof.py ........                               [ 28%]
+backend\tests\test_carve_research_api.py ...                             [ 29%]
+backend\tests\test_case_api.py .........                                 [ 31%]
+backend\tests\test_case_pipeline.py .......                              [ 34%]
+backend\tests\test_config.py ..                                          [ 34%]
+backend\tests\test_database.py .....                                     [ 36%]
+backend\tests\test_decision.py .....                                     [ 38%]
+backend\tests\test_demo_fixtures.py .......                              [ 40%]
+backend\tests\test_demo_script.py ..                                     [ 40%]
+backend\tests\test_evaluation_api.py ...                                 [ 41%]
+backend\tests\test_evaluation_artifact.py .....                          [ 43%]
+backend\tests\test_evaluation_metrics.py .....                           [ 45%]
+backend\tests\test_evaluator.py ...                                      [ 46%]
+backend\tests\test_extraction.py ...........                             [ 49%]
+backend\tests\test_failure_demo.py .                                     [ 49%]
+backend\tests\test_fecl_v2_artifacts.py .....                            [ 51%]
+backend\tests\test_fecl_v4_1_integrity.py ...                            [ 52%]
+backend\tests\test_fecl_v4_2_integrity.py ....                           [ 53%]
+backend\tests\test_fecl_v4_benchmark.py ......                           [ 55%]
+backend\tests\test_grounding.py ...................                      [ 61%]
+backend\tests\test_health.py ...                                         [ 62%]
+backend\tests\test_hft_fintech_invariants.py ........                    [ 65%]
+backend\tests\test_ingestion.py .......                                  [ 67%]
+backend\tests\test_jobs.py ......                                        [ 69%]
+backend\tests\test_no_razorpay_writes.py ..                              [ 69%]
+backend\tests\test_observability.py ...                                  [ 70%]
+backend\tests\test_offline_replay.py .....                               [ 72%]
+backend\tests\test_profile.py ....                                       [ 73%]
+backend\tests\test_regex_baseline.py .................                   [ 79%]
+backend\tests\test_required_evidence.py ...                              [ 80%]
+backend\tests\test_research_evaluation.py .............                  [ 84%]
+backend\tests\test_sandbox_api.py ..........                             [ 87%]
+backend\tests\test_security.py ........                                  [ 90%]
+backend\tests\test_seed_demo.py ...                                      [ 91%]
+backend\tests\test_semantic_pipeline.py .........                        [ 93%]
+backend\tests\test_verification.py ................                      [ 99%]
+backend\tests\test_webhook_replay.py ...                                 [100%]
+
+================================== FAILURES ===================================
+_________________ test_refund_summation_ordering_independence _________________
+
+    @given(st.lists(valid_amount_minor_st, min_size=1, max_size=30))
+>   def test_refund_summation_ordering_independence(refunds: list[int]) -> None:
+E   hypothesis.errors.FailedHealthCheck: Input generation is slow: Hypothesis only generated 2 valid inputs after 1.37 seconds.
+E   
+E               count | fraction |    slowest draws (seconds)
+E     refunds |    2  |    100%  |      --      --      --      --   1.369
+E   
+E   This could be for a few reasons:
+E   1. This strategy could be generating too much data per input. Try decreasing the amount of data generated, for example by decreasing the minimum size of collection strategies like st.lists().
+E   2. Some other expensive computation could be running during input generation. For example, if @st.composite or st.data() is interspersed with an expensive computation, HealthCheck.too_slow is likely to trigger. If this computation is unrelated to input generation, move it elsewhere. Otherwise, try making it more efficient, or disable this health check if that is not possible.
+E   
+E   If you expect input generation to take this long, you can disable this health check with @settings(suppress_health_check=[HealthCheck.too_slow]). See https://hypothesis.readthedocs.io/en/latest/reference/api.html#hypothesis.HealthCheck for details.
+
+backend\tests\property\test_money_properties.py:58: FailedHealthCheck
+--------------------------------- Hypothesis ----------------------------------
+You can reproduce this failure by adding @seed(283513784638438228525180196612813832133) to this test, or by running pytest with --hypothesis-seed=283513784638438228525180196612813832133.
+============================== warnings summary ===============================
+.venv\lib\site-packages\fastapi\testclient.py:1
+  C:\code_shit\RAZOR\dispute-integrity-gate-spec\.venv\lib\site-packages\fastapi\testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED backend/tests/property/test_money_properties.py::test_refund_summation_ordering_independence
+============ 1 failed, 312 passed, 1 warning in 215.24s (0:03:35) =============
+Backend tests failed with exit code 1.
+At C:\code_shit\RAZOR\dispute-integrity-gate-spec\scripts\check.ps1:11 char:9
++         throw "$Label failed with exit code $LASTEXITCODE."
++         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : OperationStopped: (Backend tests failed with exit code 1.:String) [], RuntimeException
+    + FullyQualifiedErrorId : Backend tests failed with exit code 1.
+ 

@@ -82,14 +82,39 @@ def test_data_manifest_counts_match_disk_files() -> None:
             )
 
 
-def test_checkpoint_reproducibility_smoke() -> None:
-    """Verify that checkpoint manifest contains valid SHA-256 hashes and parameter counts."""
-    manifest_path = ROOT / "research/training_manifest.json"
-    if not manifest_path.exists():
-        pytest.skip("Training manifest not found")
+def test_checkpoint_reproducibility_smoke(tmp_path: Path) -> None:
+    """Check real gradients, a weight update and reload; not predictive performance."""
+    torch = pytest.importorskip("torch", reason="Requires the research extra")
+    from training.carve_pytorch_model import (
+        CarveMultiViewNet,
+        compute_model_parameter_hash,
+        count_trainable_parameters,
+    )
 
-    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    total_params = manifest.get("total_trainable_parameters", 0)
-
-    # Must accurately reflect 297,475 audited parameter count
-    assert total_params == 297475, f"Unexpected parameter count {total_params}"
+    manifest = json.loads((ROOT / "research/training_manifest.json").read_text(encoding="utf-8"))
+    with torch.random.fork_rng(devices=[]):
+        torch.manual_seed(42)
+        model = CarveMultiViewNet(dropout_p=0.0)
+        assert count_trainable_parameters(model) == manifest["total_trainable_parameters"]
+        inputs = (torch.randn(4, 384), torch.randn(4, 48), torch.randn(4, 32))
+        before = compute_model_parameter_hash(model)
+        optimizer = torch.optim.AdamW(model.parameters(), lr=0.0002)
+        logits, sufficiency = model(*inputs)
+        loss = torch.nn.functional.cross_entropy(logits, torch.tensor([0, 1, 0, 1]))
+        loss = loss + torch.nn.functional.mse_loss(sufficiency, torch.tensor([[0.0], [1.0]] * 2))
+        optimizer.zero_grad()
+        loss.backward()
+        for parameter in model.parameters():
+            assert parameter.grad is not None
+            assert torch.isfinite(parameter.grad).all()
+        optimizer.step()
+        assert compute_model_parameter_hash(model) != before
+        checkpoint = tmp_path / "gradient-smoke.pt"
+        torch.save(model.state_dict(), checkpoint)
+        restored = CarveMultiViewNet(dropout_p=0.0)
+        restored.load_state_dict(torch.load(checkpoint, weights_only=True, map_location="cpu"))
+        model.eval()
+        restored.eval()
+        with torch.no_grad():
+            for expected, actual in zip(model(*inputs), restored(*inputs), strict=True):
+                torch.testing.assert_close(actual, expected, rtol=0, atol=0)

@@ -13,14 +13,11 @@ from app.extraction import (
     ExtractionRequest,
     ExtractionResult,
 )
+from app.source_text import sentences
 
 BASELINE_ID = "regex-baseline-v1"
-SENTENCE_PATTERN = re.compile(r"[^\n.!?]+[.!?]?", re.UNICODE)
-INR_VALUE_PATTERN = re.compile(
-    r"(?:₹\s*(?:\d{1,3}(?:,\d{2})*,\d{3}|\d{1,3}(?:,\d{3})+|\d+)(?:\.\d{1,2})?"
-    r"|INR\s+(?:\d{1,3}(?:,\d{2})*,\d{3}|\d{1,3}(?:,\d{3})+|\d+)(?:\.\d{1,2})?)",
-    re.IGNORECASE,
-)
+# Capture the complete numeric token; grounding validates grouping and precision.
+INR_VALUE_PATTERN = re.compile(r"(?:₹\s*|INR\s+)[+-]?\d[\d,]*(?:\.\d+)*", re.IGNORECASE)
 REFERENCE_PATTERN = re.compile(
     r"\b(?:reference|ref)\b(?:\s*[:#-]\s*|\s+)([A-Za-z0-9][A-Za-z0-9_-]{1,127})\b",
     re.IGNORECASE,
@@ -114,14 +111,6 @@ TIMING_PATTERN = re.compile(
 )
 
 
-def _sentences(text: str) -> tuple[str, ...]:
-    return tuple(
-        sentence
-        for match in SENTENCE_PATTERN.finditer(text)
-        if (sentence := match.group(0).strip())
-    )
-
-
 def _claim_id(document_id: str, claim_type: ClaimType, quote: str, ordinal: int) -> str:
     digest = hashlib.sha256(
         f"{document_id}\x00{claim_type.value}\x00{quote}\x00{ordinal}".encode()
@@ -164,7 +153,7 @@ class RegexBaselineExtractor:
         allowed = set(request.allowed_claim_types)
         claims: list[ExtractedClaim] = []
         ordinal = 0
-        for sentence in _sentences(request.canonical_text):
+        for sentence in sentences(request.canonical_text):
             if INSTRUCTION_PATTERN.search(sentence):
                 continue
             sentence_has_refund = bool(re.search(r"\b(?:refund|credit)\b", sentence, re.I))

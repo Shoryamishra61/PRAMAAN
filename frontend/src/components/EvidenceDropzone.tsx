@@ -9,13 +9,12 @@ import {
   XCircle,
   Trash,
   ArrowClockwise,
-  ShieldCheck,
-  Sparkle,
 } from "@phosphor-icons/react";
 import {
   type EvidenceFileRecord,
   type CrossFileAnalysisResult,
-  processEvidenceFile,
+  processMultiFileBatch,
+  parseEvidenceFile,
   analyzeCrossFileEvidence,
 } from "../utils/crossFileIntelligence";
 
@@ -24,8 +23,8 @@ interface EvidenceDropzoneProps {
   onFilesChange: (files: EvidenceFileRecord[]) => void;
   analysis: CrossFileAnalysisResult | null;
   onAnalysisChange: (analysis: CrossFileAnalysisResult) => void;
-  onLoadSample?: (sampleKey: string) => void;
   disabled?: boolean;
+  onBusyChange?: (busy: boolean) => void;
 }
 
 export function EvidenceDropzone({
@@ -33,45 +32,47 @@ export function EvidenceDropzone({
   onFilesChange,
   analysis,
   onAnalysisChange,
-  onLoadSample,
   disabled = false,
+  onBusyChange,
 }: EvidenceDropzoneProps) {
   const [isDragging, setIsDragging] = useState(false);
   const [processing, setProcessing] = useState(false);
+  const busyRef = useRef(false);
+  const originals = useRef(new Map<string, File>());
+  const [batchError, setBatchError] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   async function handleIncomingFiles(fileList: File[]) {
-    if (fileList.length === 0) return;
-    setProcessing(true);
-
-    const processedList: EvidenceFileRecord[] = [];
-    for (const file of fileList) {
-      const content = await file.text();
-      const record = await processEvidenceFile(file.name, file.size, content);
-      processedList.push(record);
+    if (fileList.length === 0 || disabled || busyRef.current) return;
+    if (files.length + fileList.length > 20) {
+      setBatchError(
+        "Keep at most 20 files per case. No files from this selection were added.",
+      );
+      return;
     }
-
-    // Merge with existing files, deduplicating by filename
-    const merged = [...files];
-    processedList.forEach((incoming) => {
-      const existingIdx = merged.findIndex((f) => f.name === incoming.name);
-      if (existingIdx >= 0) {
-        merged[existingIdx] = incoming;
-      } else {
-        merged.push(incoming);
-      }
-    });
-
-    onFilesChange(merged);
-    const newAnalysis = analyzeCrossFileEvidence(merged);
-    onAnalysisChange(newAnalysis);
-    setProcessing(false);
+    busyRef.current = true;
+    setProcessing(true);
+    onBusyChange?.(true);
+    setBatchError(null);
+    try {
+      const processed = await processMultiFileBatch(fileList);
+      processed.forEach((record, i) =>
+        originals.current.set(record.id, fileList[i]),
+      );
+      const merged = [...files, ...processed];
+      onFilesChange(merged);
+      onAnalysisChange(analyzeCrossFileEvidence(merged));
+    } finally {
+      busyRef.current = false;
+      setProcessing(false);
+      onBusyChange?.(false);
+    }
   }
 
   function handleDragOver(e: DragEvent<HTMLDivElement>) {
     e.preventDefault();
     e.stopPropagation();
-    if (!disabled) setIsDragging(true);
+    if (!disabled && !processing) setIsDragging(true);
   }
 
   function handleDragLeave(e: DragEvent<HTMLDivElement>) {
@@ -84,7 +85,7 @@ export function EvidenceDropzone({
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
-    if (disabled) return;
+    if (disabled || processing) return;
     const droppedFiles = Array.from(e.dataTransfer.files ?? []);
     void handleIncomingFiles(droppedFiles);
   }
@@ -96,6 +97,8 @@ export function EvidenceDropzone({
   }
 
   function removeFile(fileId: string) {
+    if (disabled || busyRef.current) return;
+    originals.current.delete(fileId);
     const remaining = files.filter((f) => f.id !== fileId);
     onFilesChange(remaining);
     const newAnalysis = analyzeCrossFileEvidence(remaining);
@@ -103,15 +106,24 @@ export function EvidenceDropzone({
   }
 
   async function retryFile(fileRecord: EvidenceFileRecord) {
-    const retried = await processEvidenceFile(
-      fileRecord.name,
-      fileRecord.size,
-      fileRecord.rawContent,
-    );
-    const updated = files.map((f) => (f.id === fileRecord.id ? retried : f));
-    onFilesChange(updated);
-    const newAnalysis = analyzeCrossFileEvidence(updated);
-    onAnalysisChange(newAnalysis);
+    const original = originals.current.get(fileRecord.id);
+    if (!original || disabled || busyRef.current) return;
+    busyRef.current = true;
+    setProcessing(true);
+    onBusyChange?.(true);
+    try {
+      const retried = {
+        ...(await parseEvidenceFile(original)),
+        id: fileRecord.id,
+      };
+      const updated = files.map((f) => (f.id === fileRecord.id ? retried : f));
+      onFilesChange(updated);
+      onAnalysisChange(analyzeCrossFileEvidence(updated));
+    } finally {
+      busyRef.current = false;
+      setProcessing(false);
+      onBusyChange?.(false);
+    }
   }
 
   function getFileIcon(type: EvidenceFileRecord["type"]) {
@@ -158,19 +170,21 @@ export function EvidenceDropzone({
     <section
       className="evidence-dropzone-wrapper"
       aria-label="Evidence File Ingestion"
+      aria-busy={processing}
     >
       <div
-        className={`evidence-dropzone ${isDragging ? "dragging" : ""} ${disabled ? "disabled" : ""}`}
+        className={`evidence-dropzone ${isDragging ? "dragging" : ""} ${disabled || processing ? "disabled" : ""}`}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
-        onClick={() => !disabled && inputRef.current?.click()}
+        onClick={() => !disabled && !processing && inputRef.current?.click()}
         role="button"
-        tabIndex={disabled ? -1 : 0}
+        aria-disabled={disabled || processing}
+        tabIndex={disabled || processing ? -1 : 0}
         onKeyDown={(e) => {
           if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
-            if (!disabled) inputRef.current?.click();
+            if (!disabled && !processing) inputRef.current?.click();
           }
         }}
         aria-describedby="dropzone-instructions"
@@ -178,7 +192,10 @@ export function EvidenceDropzone({
         <input
           ref={inputRef}
           type="file"
+          name="evidence_file"
           multiple
+          disabled={disabled || processing}
+          aria-label="Import evidence files"
           accept=".json,.txt,.csv,application/json,text/plain,text/csv"
           onChange={handleFileInput}
           style={{ display: "none" }}
@@ -194,8 +211,8 @@ export function EvidenceDropzone({
             <p id="dropzone-instructions">
               Supports <strong>.json</strong> (dispute bundles),{" "}
               <strong>.txt</strong> (customer chat / emails), and{" "}
-              <strong>.csv</strong> (authoritative refund ledger exports) up to
-              256 KB.
+              <strong>.csv</strong> (ledger exports for inspection) up to 256 KB
+              per file; 20 files per case. UTF-8 text only.
             </p>
           </div>
           <div className="dropzone-formats-badge">
@@ -212,42 +229,12 @@ export function EvidenceDropzone({
         </div>
       </div>
 
-      {onLoadSample && (
-        <div className="sample-quick-load">
-          <span className="sample-quick-title">Or load a sample case:</span>
-          <div className="sample-quick-buttons">
-            <button
-              type="button"
-              className="sample-pill"
-              onClick={() => onLoadSample("wrong_amount")}
-            >
-              Amount Mismatch
-            </button>
-            <button
-              type="button"
-              className="sample-pill"
-              onClick={() => onLoadSample("missing_ledger")}
-            >
-              Missing Ledger
-            </button>
-            <button
-              type="button"
-              className="sample-pill"
-              onClick={() => onLoadSample("contradiction")}
-            >
-              Contradictory Email
-            </button>
-            <button
-              type="button"
-              className="sample-pill"
-              onClick={() => onLoadSample("prompt_injection")}
-            >
-              Prompt Injection
-            </button>
-          </div>
-        </div>
-      )}
-
+      {batchError && <p role="alert">{batchError}</p>}
+      {analysis?.errors.map((message) => (
+        <p key={message} role="alert">
+          {message}
+        </p>
+      ))}
       {files.length > 0 && (
         <div className="evidence-tray" aria-label="Ingested Evidence Files">
           <div className="evidence-tray-header">
@@ -256,7 +243,7 @@ export function EvidenceDropzone({
               {files.length > 1 ? "s" : ""})
             </h4>
             <span className="evidence-tray-summary">
-              {files.filter((f) => f.status === "complete").length} verified ·{" "}
+              {files.filter((f) => f.status === "complete").length} parsed ·{" "}
               {(files.reduce((sum, f) => sum + f.size, 0) / 1024).toFixed(1)} KB
               total
             </span>
@@ -271,9 +258,26 @@ export function EvidenceDropzone({
                 <div className="card-left">
                   {getFileIcon(file.type)}
                   <div className="card-meta">
-                    <strong className="card-name" title={file.name}>
-                      {file.name}
-                    </strong>
+                    <details className="source-preview">
+                      <summary className="card-name">{file.name}</summary>
+                      <p>
+                        Original local text. Reading a file does not
+                        authenticate its source.
+                      </p>
+                      <pre>
+                        {file.rawContent ||
+                          "No readable text retained. Retry or select the file again."}
+                      </pre>
+                      {analysis?.sources
+                        .filter((source) => source.id === file.id)
+                        .map((source) => (
+                          <p key={source.id}>
+                            Communication offsets [{source.start}, {source.end})
+                            in the combined input. The body is preserved
+                            verbatim.
+                          </p>
+                        ))}
+                    </details>
                     <span className="card-size">
                       {(file.size / 1024).toFixed(1)} KB ·{" "}
                       {file.type.toUpperCase()} · {file.facts.sourceLineCount}{" "}
@@ -299,7 +303,8 @@ export function EvidenceDropzone({
                     <button
                       type="button"
                       className="card-btn btn-retry"
-                      title="Retry parsing file"
+                      disabled={disabled || processing}
+                      title="Read and parse the file again"
                       onClick={(e) => {
                         e.stopPropagation();
                         void retryFile(file);
@@ -311,6 +316,8 @@ export function EvidenceDropzone({
                   <button
                     type="button"
                     className="card-btn btn-remove"
+                    disabled={disabled || processing}
+                    aria-label={`Remove ${file.name}`}
                     title="Remove file"
                     onClick={(e) => {
                       e.stopPropagation();
@@ -325,13 +332,10 @@ export function EvidenceDropzone({
           </div>
 
           {analysis && analysis.anomalies.length > 0 && (
-            <div
-              className="cross-file-insights"
-              aria-label="Cross-File Synthesis"
-            >
+            <div className="cross-file-insights" aria-label="File review notes">
               <div className="insights-header">
-                <Sparkle size={18} />
-                <h5>Cross-Document Case Intelligence</h5>
+                <Warning size={18} />
+                <h5>Files to inspect</h5>
               </div>
               <ul className="anomalies-list">
                 {analysis.anomalies.map((anomaly, idx) => (
@@ -350,12 +354,6 @@ export function EvidenceDropzone({
                   </li>
                 ))}
               </ul>
-              {analysis.corroborations.length > 0 && (
-                <div className="corroborations-list">
-                  <ShieldCheck size={16} />
-                  <span>{analysis.corroborations.join(" ")}</span>
-                </div>
-              )}
             </div>
           )}
         </div>

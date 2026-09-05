@@ -759,18 +759,6 @@ def study_dev(include_embeddings: bool, include_nli: bool, include_xgboost: bool
             value = values[index]
             record[name] = round(float(value), 6) if isinstance(value, float) else value
         per_example.append(record)
-    from app.research_graph import build_research_graph
-
-    graph_example = next((row for row in examples if row["label"]), examples[0])
-    graph_result = build_research_graph().invoke(
-        {
-            "evidence": graph_example["text"],
-            "claims": [{"source_quote": graph_example["text"]}],
-            "deterministic_decision": "REVIEW",
-            "model_revision": EMBEDDING_REVISION,
-            "trace": [],
-        }
-    )
     return {
         "artifact_version": "ai-research-study-v1",
         "created_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
@@ -793,7 +781,7 @@ def study_dev(include_embeddings: bool, include_nli: bool, include_xgboost: bool
             "platform": platform.platform(),
             "packages": {
                 name: importlib.metadata.version(name)
-                for name in ("langgraph", "scikit-learn", "sentence-transformers", "xgboost")
+                for name in ("scikit-learn", "sentence-transformers", "xgboost")
             },
             "grouped_folds": 5,
             "threshold": 0.5,
@@ -810,7 +798,7 @@ def study_dev(include_embeddings: bool, include_nli: bool, include_xgboost: bool
                 "contains_instruction",
             ],
             "external_inference_cost_usd": 0.0,
-            "trace_style": "local JSON artifact compatible with MLflow-style run comparison",
+            "trace_style": "local JSON artifact with per-example predictions",
         },
         "dataset": {
             "id": "DIG-RNP-SYN-v1",
@@ -822,12 +810,6 @@ def study_dev(include_embeddings: bool, include_nli: bool, include_xgboost: bool
         },
         "claim_extraction": candidates,
         "contradiction_detection": nli,
-        "orchestration": {
-            "engine": "LangGraph",
-            "authority": "SEQUENCING_ONLY",
-            "trace": graph_result["trace"],
-            "final_decision": graph_result["final_decision"],
-        },
         "promotion": {
             "extractor_status": "PROMOTED" if promoted else "NOT_PROMOTED",
             "promoted_extractors": promoted,

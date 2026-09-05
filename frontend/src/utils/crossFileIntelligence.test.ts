@@ -3,12 +3,13 @@ import {
   analyzeCrossFileEvidence,
   parseEvidenceFile,
   processMultiFileBatch,
-  type EvidenceFileRecord,
+  parseMoneyMinorUnits,
 } from "./crossFileIntelligence";
 
 describe("crossFileIntelligence", () => {
   it("successfully parses valid JSON evidence", async () => {
     const jsonContent = JSON.stringify({
+      raw_reason_code: "RZP04",
       customer_communication: "Your INR 2,500 refund was processed.",
       payment_amount_inr: "2500.00",
       refund_amount_inr: "2500.00",
@@ -37,7 +38,7 @@ txn_101,499.00,INR,failed,2026-08-25T10:00:00Z`;
     });
 
     const parsed = await parseEvidenceFile(file);
-    expect(parsed.status).toBe("complete");
+    expect(parsed.status).toBe("warning");
     expect(parsed.type).toBe("csv");
     expect(parsed.facts.ledgerAmounts).toContain("499.00");
     expect(parsed.facts.refundStatuses).toContain("failed");
@@ -97,104 +98,94 @@ txn_101,499.00,INR,failed,2026-08-25T10:00:00Z`;
     expect(results[1].errorMessage).toContain("Malformed JSON");
   });
 
-  it("detects cross-file amount contradictions between communication and ledger", () => {
-    const files: EvidenceFileRecord[] = [
-      {
-        id: "f1",
-        name: "chat.txt",
-        size: 100,
-        type: "txt",
-        status: "complete",
-        rawContent: "Refund claimed for ₹4,999.00",
-        facts: {
-          claimedAmounts: ["4999"],
-          ledgerAmounts: [],
-          transactionIds: [],
-          refundStatuses: [],
-          datesFound: [],
-          sourceLineCount: 1,
-          communicationSnippet: "Refund claimed for ₹4,999.00",
-        },
-        warnings: [],
-        processedAt: new Date().toISOString(),
-      },
-      {
-        id: "f2",
-        name: "ledger.csv",
-        size: 100,
-        type: "csv",
-        status: "complete",
-        rawContent: "amount,status\n499.00,processed",
-        facts: {
-          claimedAmounts: [],
-          ledgerAmounts: ["499"],
-          transactionIds: [],
-          refundStatuses: ["processed"],
-          datesFound: [],
-          sourceLineCount: 2,
-        },
-        warnings: [],
-        processedAt: new Date().toISOString(),
-      },
-    ];
-
-    const result = analyzeCrossFileEvidence(files);
-    const amountAnomaly = result.anomalies.find(
-      (a) => a.type === "AMOUNT_DISCREPANCY",
+  it("never promotes communication amounts or CSV fields to financial authority", async () => {
+    const files = await processMultiFileBatch([
+      new File(["Refund processed for INR 90071992547409.93"], "claim.txt"),
+      new File(["amount,status\n499,processed"], "ledger.csv"),
+    ]);
+    const analysis = analyzeCrossFileEvidence(files);
+    expect(analysis.structuredRequest).toBeUndefined();
+    expect(analysis.anomalies).toEqual([]);
+    expect(analysis.corroborations).toEqual([]);
+    expect(parseMoneyMinorUnits("90,071,992,547,409.93")).toBe(
+      9007199254740993n,
     );
-    expect(amountAnomaly).toBeDefined();
-    expect(amountAnomaly?.severity).toBe("high");
-    expect(amountAnomaly?.description).toContain("claims ₹4,999");
-    expect(amountAnomaly?.description).toContain("records ₹499");
+    expect(parseMoneyMinorUnits("1.001")).toBeNull();
   });
 
-  it("detects cross-file status contradictions when communication claims processed but ledger shows failed", () => {
-    const files: EvidenceFileRecord[] = [
-      {
-        id: "f1",
-        name: "customer_claim.txt",
-        size: 100,
-        type: "txt",
-        status: "complete",
-        rawContent: "They promised refund processed yesterday.",
-        facts: {
-          claimedAmounts: ["1000"],
-          ledgerAmounts: [],
-          transactionIds: [],
-          refundStatuses: [],
-          datesFound: [],
-          sourceLineCount: 1,
-          communicationSnippet: "They promised refund processed yesterday.",
-        },
-        warnings: [],
-        processedAt: new Date().toISOString(),
-      },
-      {
-        id: "f2",
-        name: "bank_ledger.csv",
-        size: 100,
-        type: "csv",
-        status: "complete",
-        rawContent: "amount,status\n1000,failed",
-        facts: {
-          claimedAmounts: [],
-          ledgerAmounts: ["1000"],
-          transactionIds: [],
-          refundStatuses: ["failed"],
-          datesFound: [],
-          sourceLineCount: 2,
-        },
-        warnings: [],
-        processedAt: new Date().toISOString(),
-      },
-    ];
+  it("retains same-name evidence and exact source offsets without truncation", async () => {
+    const body = "  source text\n".repeat(900);
+    const files = await processMultiFileBatch([
+      new File([body], "claim.txt"),
+      new File(["second source"], "claim.txt"),
+    ]);
+    const analysis = analyzeCrossFileEvidence(files);
+    expect(analysis.totalFiles).toBe(2);
+    expect(analysis.errors[0]).toContain("no text was truncated");
+    for (const [index, source] of analysis.sources.entries()) {
+      expect(
+        analysis.combinedCommunication.slice(source.start, source.end),
+      ).toBe(files[index].rawContent);
+    }
+    expect(analysis.anomalies[0].type).toBe("DUPLICATE_EVIDENCE");
+  });
 
-    const result = analyzeCrossFileEvidence(files);
-    const statusAnomaly = result.anomalies.find(
-      (a) => a.type === "STATUS_CONFLICT",
+  it("isolates disk read failures and does not read oversized files", async () => {
+    const broken = new File(["x"], "broken.txt");
+    Object.defineProperty(broken, "arrayBuffer", {
+      value: () => Promise.reject(new Error("Access denied")),
+    });
+    const oversized = new File(["x"], "huge.txt");
+    Object.defineProperty(oversized, "size", { value: 300_000 });
+    Object.defineProperty(oversized, "arrayBuffer", {
+      value: () => {
+        throw new Error("Must not read");
+      },
+    });
+    const results = await processMultiFileBatch([
+      broken,
+      oversized,
+      new File(["valid"], "ok.txt"),
+    ]);
+    expect(results.map((r) => r.status)).toEqual([
+      "failed",
+      "failed",
+      "complete",
+    ]);
+    expect(results[0].errorMessage).toContain("Access denied");
+    expect(results[1].errorMessage).toContain("256 KB");
+  });
+
+  it("parses quoted CSV fields and rejects silent column loss", async () => {
+    const valid = await parseEvidenceFile(
+      new File(
+        ['amount,note\r\n"1,000.00","line one\nline ""two"""'],
+        "ledger.csv",
+      ),
     );
-    expect(statusAnomaly).toBeDefined();
-    expect(statusAnomaly?.severity).toBe("high");
-    expect(statusAnomaly?.description).toContain("failed");
+    expect(valid.status).toBe("warning");
+    expect(valid.facts.ledgerAmounts).toEqual(["1,000.00"]);
+    for (const content of [
+      "amount,status\n1,processed,extra",
+      "amount,amount\n1,2",
+      'amount,note\n1,"unclosed',
+    ]) {
+      expect(
+        (await parseEvidenceFile(new File([content], "bad.csv"))).status,
+      ).toBe("failed");
+    }
+  });
+
+  it("rejects ambiguous financial JSON rather than dropping invalid fields", async () => {
+    for (const value of [
+      [],
+      { customer_communication: "refund", refund_amount_inr: 100 },
+      { request: [] },
+    ]) {
+      expect(
+        (await parseEvidenceFile(new File([JSON.stringify(value)], "bad.json")))
+          .status,
+      ).toBe("failed");
+    }
   });
 });

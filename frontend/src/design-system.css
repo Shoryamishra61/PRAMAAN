@@ -1,6 +1,6 @@
 /**
  * CARVE & Dispute Integrity Gate: Unified Design System
- * Production-grade tokens for typography, surfaces, borders, elevations,
+ * Shared tokens for typography, surfaces, borders, elevations,
  * status feedback, and accessible focus states across all research views.
  */
 
@@ -37,14 +37,14 @@
   --ds-ink: #0f172a;
   --ds-ink-secondary: #334155;
   --ds-ink-muted: #64748b;
-  --ds-ink-faint: #94a3b8;
+  --ds-ink-faint: #64748b;
 
   --ds-border: #e2e8f0;
   --ds-border-subtle: #f1f5f9;
   --ds-border-strong: #cbd5e1;
 
-  /* Semantic Status Colors (WCAG AA Contrast Guaranteed) */
-  /* PASS: Authoritative Integrity Verified (Forest Green) */
+  /* Semantic status colors */
+  /* PASS: No supported integrity issue detected (Forest Green) */
   --ds-pass-ink: #14532d;
   --ds-pass-bg: #ecfdf5;
   --ds-pass-border: #a7f3d0;
@@ -66,7 +66,7 @@
   --ds-info-ink: #0c4a6e;
   --ds-info-bg: #f0f9ff;
   --ds-info-border: #bae6fd;
-  --ds-info-solid: #0284c7;
+  --ds-info-solid: #0369a1;
 
   /* Spacing Scale */
   --space-1: 0.25rem; /* 4px */
@@ -81,26 +81,22 @@
 
   /* Radii */
   --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 10px;
-  --radius-xl: 14px;
-  --radius-full: 9999px;
+  --radius-md: 4px;
+  --radius-lg: 4px;
+  --radius-xl: 4px;
+  --radius-full: 4px;
 
   /* Shadows */
-  --shadow-xs: 0 1px 2px rgba(20, 31, 26, 0.04);
-  --shadow-sm:
-    0 1px 3px rgba(20, 31, 26, 0.06), 0 1px 2px rgba(20, 31, 26, 0.04);
-  --shadow-md:
-    0 4px 6px -1px rgba(20, 31, 26, 0.07), 0 2px 4px -1px rgba(20, 31, 26, 0.04);
-  --shadow-lg:
-    0 10px 15px -3px rgba(20, 31, 26, 0.08),
-    0 4px 6px -2px rgba(20, 31, 26, 0.04);
+  --shadow-xs: none;
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
   --shadow-modal:
     0 20px 25px -5px rgba(20, 31, 26, 0.15),
     0 8px 10px -6px rgba(20, 31, 26, 0.1);
 
   /* Focus & Motion */
-  --focus-ring: 0 0 0 3px rgba(2, 132, 199, 0.4);
+  --focus-color: #0369a1;
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -144,7 +140,7 @@
   color: #ffffff;
   display: grid;
   place-items: center;
-  font-weight: 800;
+  font-weight: 600;
   font-size: var(--text-sm);
   font-family: var(--font-mono);
 }
@@ -168,7 +164,7 @@
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
-  transition: all var(--transition-fast);
+  transition: background-color var(--transition-fast);
 }
 
 .ds-nav-btn:hover {
@@ -256,15 +252,15 @@
   line-height: 1.25;
   border: 1px solid transparent;
   cursor: pointer;
-  transition: all var(--transition-fast);
+  transition: background-color var(--transition-fast);
   text-decoration: none;
   font-family: inherit;
   min-height: 38px;
 }
 
 .ds-btn:focus-visible {
-  outline: none;
-  box-shadow: var(--focus-ring);
+  outline: 3px solid var(--focus-color);
+  outline-offset: 2px;
 }
 
 .ds-btn-primary {
@@ -316,11 +312,9 @@
 
 /* Card & Panel Primitives */
 .ds-card {
-  background: var(--ds-surface);
-  border: 1px solid var(--ds-border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-sm);
   overflow: hidden;
+  border-bottom: 1px solid var(--ds-border);
+  background: transparent;
 }
 
 .ds-card-header {
@@ -354,12 +348,11 @@
 /* Metric Display Cards */
 .ds-metric-stat {
   padding: var(--space-4) var(--space-5);
-  border-radius: var(--radius-lg);
-  background: var(--ds-surface);
-  border: 1px solid var(--ds-border);
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
+  border-bottom: 1px solid var(--ds-border);
+  background: transparent;
 }
 
 .ds-metric-stat span {
@@ -373,7 +366,7 @@
 
 .ds-metric-stat strong {
   font-size: var(--text-2xl);
-  font-weight: 800;
+  font-weight: 600;
   color: var(--ds-ink);
   letter-spacing: -0.02em;
   line-height: 1.1;
@@ -450,7 +443,6 @@
   position: fixed;
   inset: 0;
   background: rgba(20, 31, 26, 0.45);
-  backdrop-filter: blur(2px);
   display: grid;
   place-items: center;
   padding: var(--space-4);
@@ -462,20 +454,8 @@
   background: var(--ds-surface);
   border-radius: var(--radius-xl);
   border: 1px solid var(--ds-border);
-  box-shadow: var(--shadow-modal);
+  box-shadow: none;
   overflow: hidden;
-  animation: dsModalFadeIn 150ms cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes dsModalFadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.97) translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
 }
 
 /* Accessibility & Print Media */
