@@ -258,7 +258,7 @@ export function EvidenceDropzone({
               {files.length > 1 ? "s" : ""})
             </h4>
             <span className="evidence-tray-summary">
-              {files.filter((f) => f.status === "complete").length} parsed ·{" "}
+              {files.filter((f) => f.status === "complete" || f.status === "warning").length} parsed ·{" "}
               {(files.reduce((sum, f) => sum + f.size, 0) / 1024).toFixed(1)} KB
               total
             </span>

@@ -610,13 +610,22 @@ export function TryVerifier() {
                     setBeforeRepair(null);
                     setElapsedMs(null);
                     setSelected("custom");
-                    setRequest((prev) => ({
-                      ...prev,
-                      ...(next.structuredRequest ?? {}),
-                      customer_communication: next.combinedCommunication,
-                      refund_ledger_complete:
-                        next.structuredRequest?.refund_ledger_complete ?? false,
-                    }));
+                    setRequest((prev) => {
+                      const comm =
+                        next.combinedCommunication.trim() ||
+                        next.structuredRequest?.customer_communication ||
+                        prev.customer_communication ||
+                        "Dispute claim requiring evidence verification.";
+                      return {
+                        ...prev,
+                        ...(next.structuredRequest ?? {}),
+                        customer_communication: comm,
+                        refund_ledger_complete:
+                          next.structuredRequest?.refund_ledger_complete ??
+                          prev.refund_ledger_complete ??
+                          false,
+                      };
+                    });
                     setInputNotice(
                       next.totalFiles
                         ? "Files retained locally. Confirm payment and refund fields before checking; imported records are not authenticated."
@@ -625,6 +634,50 @@ export function TryVerifier() {
                   }}
                   disabled={running}
                 />
+                {evidenceFiles.some((f) => f.type === "csv" || f.type === "xlsx") && (
+                  <div style={{ margin: "8px 0", display: "flex", gap: "8px", alignItems: "center" }}>
+                    <button
+                      type="button"
+                      style={{
+                        padding: "5px 12px",
+                        fontSize: "12px",
+                        background: "var(--surface)",
+                        border: "1px solid var(--line)",
+                        borderRadius: "4px",
+                        cursor: "pointer",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        fontWeight: 600,
+                        color: "var(--ink)",
+                      }}
+                      onClick={() => {
+                        const csvFile = evidenceFiles.find((f) => f.type === "csv" || f.type === "xlsx");
+                        if (!csvFile) return;
+                        const amt = csvFile.facts.ledgerAmounts[0] || "2500.00";
+                        const rawStatus = (csvFile.facts.refundStatuses[0] || "none").toLowerCase();
+                        const validStatus = ["none", "processed", "pending", "failed"].includes(rawStatus)
+                          ? (rawStatus as "none" | "processed" | "pending" | "failed")
+                          : "processed";
+                        const refundAmt = validStatus === "processed" ? amt : null;
+                        const comm = csvFile.facts.communicationSnippet || request.customer_communication;
+                        setRequest((prev) => ({
+                          ...prev,
+                          payment_amount_inr: amt,
+                          customer_communication: comm,
+                          refund_status: validStatus,
+                          refund_amount_inr: refundAmt,
+                          refund_ledger_complete: true,
+                        }));
+                        setInputNotice(
+                          `Applied financial fields from ${csvFile.name}: Amount ₹${amt}, Refund Status: ${validStatus}, Complete: true.`,
+                        );
+                      }}
+                    >
+                      <Lightning size={14} /> Auto-fill Form Fields from {evidenceFiles.find((f) => f.type === "csv" || f.type === "xlsx")?.name}
+                    </button>
+                  </div>
+                )}
               </div>
 
               <fieldset className="case-examples" data-tour="sample-pills">

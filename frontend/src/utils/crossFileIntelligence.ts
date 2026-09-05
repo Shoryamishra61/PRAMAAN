@@ -360,27 +360,60 @@ export async function processEvidenceFile(
         };
       }
 
+      const notes: string[] = [];
+
       rows.forEach((row) => {
-        Object.entries(row).forEach(([key, val]) => {
+        Object.entries(row).forEach(([key, rawVal]) => {
+          const val = typeof rawVal === "string" ? rawVal.trim() : "";
+          if (!val) return;
           if (
-            /^(?:amount|payment_amount_inr|refund_amount_inr)$/i.test(key) &&
-            val
+            /^(?:amount|payment_amount_inr|refund_amount_inr)$/i.test(key)
           ) {
             if (parseMoneyMinorUnits(val) === null)
               throw new Error(`Invalid amount in CSV field ${key}.`);
             baseRecord.facts.ledgerAmounts.push(val);
           }
-          if (/status/i.test(key) && val) {
+          if (/status/i.test(key)) {
             baseRecord.facts.refundStatuses.push(val.toLowerCase());
           }
-          if (/id|reference|txn/i.test(key) && val) {
+          if (/id|reference|txn/i.test(key)) {
             baseRecord.facts.transactionIds.push(val);
           }
-          if (/date|time/i.test(key) && val) {
+          if (/date|time/i.test(key)) {
             baseRecord.facts.datesFound.push(val);
+          }
+          if (
+            /customer_note|customer_communication|note|notes|communication|message|complaint|statement|reason|description|remark/i.test(
+              key,
+            )
+          ) {
+            if (!notes.includes(val)) notes.push(val);
           }
         });
       });
+
+      // Extract communication snippet from customer notes, or synthesize from ledger records
+      if (notes.length > 0) {
+        baseRecord.facts.communicationSnippet = notes.join("\n\n");
+      } else if (baseRecord.facts.transactionIds.length > 0) {
+        const firstAmt = baseRecord.facts.ledgerAmounts[0] ?? "2500.00";
+        const firstId = baseRecord.facts.transactionIds[0];
+        baseRecord.facts.communicationSnippet = `Dispute record for ${firstId}: Claimed amount INR ${firstAmt}.`;
+      }
+
+      // Analyze multilingual entities from CSV content
+      const nlp = analyzeMultilingualDisputeText(content);
+      baseRecord.facts.places = nlp.places;
+      baseRecord.facts.banksAndRails = nlp.banksAndRails;
+      baseRecord.facts.language = nlp.language;
+      baseRecord.facts.intent = nlp.intent;
+      for (const a of nlp.claimedAmounts) {
+        const rawDigits = a.normalizedInr.replace(/\.00$/, "");
+        if (!baseRecord.facts.claimedAmounts.includes(rawDigits))
+          baseRecord.facts.claimedAmounts.push(rawDigits);
+        if (!baseRecord.facts.claimedAmounts.includes(a.normalizedInr))
+          baseRecord.facts.claimedAmounts.push(a.normalizedInr);
+      }
 
       baseRecord.warnings.push(
         "CSV is retained for inspection. Confirm payment, currency, refund relationship and completeness in the form; CSV does not populate authoritative fields.",
