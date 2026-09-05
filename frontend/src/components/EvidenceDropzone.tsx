@@ -4,6 +4,8 @@ import {
   FileCode,
   FileText,
   FileCsv,
+  FilePdf,
+  FileImage,
   CheckCircle,
   Warning,
   XCircle,
@@ -132,6 +134,10 @@ export function EvidenceDropzone({
         return <FileCode size={20} className="file-icon json-icon" />;
       case "csv":
         return <FileCsv size={20} className="file-icon csv-icon" />;
+      case "pdf":
+        return <FilePdf size={20} className="file-icon pdf-icon" />;
+      case "image":
+        return <FileImage size={20} className="file-icon img-icon" />;
       default:
         return <FileText size={20} className="file-icon txt-icon" />;
     }
@@ -196,7 +202,7 @@ export function EvidenceDropzone({
           multiple
           disabled={disabled || processing}
           aria-label="Import evidence files"
-          accept=".json,.txt,.csv,application/json,text/plain,text/csv"
+          accept=".json,.txt,.csv,.pdf,.png,.jpg,.jpeg,.webp,application/json,text/plain,text/csv,application/pdf,image/*"
           onChange={handleFileInput}
           style={{ display: "none" }}
           tabIndex={-1}
@@ -210,15 +216,19 @@ export function EvidenceDropzone({
             <h3>Drag & drop dispute evidence files here</h3>
             <p id="dropzone-instructions">
               Supports <strong>.json</strong> (dispute bundles),{" "}
-              <strong>.txt</strong> (customer chat / emails), and{" "}
-              <strong>.csv</strong> (ledger exports for inspection) up to 256 KB
-              per file; 20 files per case. UTF-8 text only.
+              <strong>.txt</strong> (customer chat / emails),{" "}
+              <strong>.csv</strong> (ledger exports),{" "}
+              <strong>.pdf</strong> (documents / invoices), and{" "}
+              <strong>images</strong> (UPI & transaction receipts) up to 2 MB;
+              20 files per case.
             </p>
           </div>
           <div className="dropzone-formats-badge">
             <span>JSON</span>
             <span>TXT</span>
             <span>CSV</span>
+            <span>PDF</span>
+            <span>IMG / OCR</span>
           </div>
           {processing && (
             <div className="dropzone-processing-bar" role="status">
@@ -282,6 +292,9 @@ export function EvidenceDropzone({
                       {(file.size / 1024).toFixed(1)} KB ·{" "}
                       {file.type.toUpperCase()} · {file.facts.sourceLineCount}{" "}
                       lines
+                      {file.facts.language && ` · ${file.facts.language}`}
+                      {file.facts.places && file.facts.places.length > 0 && ` · 📍 ${file.facts.places.slice(0, 2).join(", ")}`}
+                      {file.facts.claimedAmounts && file.facts.claimedAmounts.length > 0 && ` · ₹${file.facts.claimedAmounts[0]}`}
                     </span>
                   </div>
                 </div>

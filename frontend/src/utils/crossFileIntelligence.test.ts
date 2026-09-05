@@ -61,8 +61,8 @@ txn_101,499.00,INR,failed,2026-08-25T10:00:00Z`;
   });
 
   it("rejects unsupported file formats gracefully without throwing", async () => {
-    const file = new File(["dummy pdf content"], "statement.pdf", {
-      type: "application/pdf",
+    const file = new File(["dummy bin content"], "statement.bin", {
+      type: "application/octet-stream",
     });
 
     const parsed = await parseEvidenceFile(file);
@@ -187,5 +187,32 @@ txn_101,499.00,INR,failed,2026-08-25T10:00:00Z`;
           .status,
       ).toBe("failed");
     }
+  });
+
+  it("extracts text and entities from PDF document evidence", async () => {
+    // Simulated PDF with readable BT ... ET text block
+    const pdfContent = `%PDF-1.4\n1 0 obj\n<< /Length 120 >>\nstream\nBT\n/F1 12 Tf\n(Your INR 3,200 refund was processed in Bengaluru via Razorpay, reference RF-HI-01.) Tj\nET\nendstream\nendobj\ntrailer\n<< /Root 1 0 R >>\n%%EOF`;
+    const file = new File([pdfContent], "invoice_receipt.pdf", {
+      type: "application/pdf",
+    });
+
+    const parsed = await parseEvidenceFile(file);
+    expect(parsed.status).toBe("complete");
+    expect(parsed.type).toBe("pdf");
+    expect(parsed.facts.claimedAmounts).toContain("3200.00");
+    expect(parsed.facts.places).toContain("Bengaluru");
+    expect(parsed.facts.banksAndRails).toContain("Razorpay");
+    expect(parsed.facts.transactionIds).toContain("RF-HI-01");
+  });
+
+  it("handles image evidence and extracts metadata", async () => {
+    const fakeImage = new File(["fake binary png data"], "upi_screenshot.png", {
+      type: "image/png",
+    });
+
+    const parsed = await parseEvidenceFile(fakeImage);
+    expect(parsed.status).toBe("complete");
+    expect(parsed.type).toBe("image");
+    expect(parsed.rawContent).toContain("upi_screenshot.png");
   });
 });

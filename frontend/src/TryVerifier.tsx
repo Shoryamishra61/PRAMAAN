@@ -26,6 +26,8 @@ import {
   type CrossFileAnalysisResult,
 } from "./utils/crossFileIntelligence";
 import { isSandboxRequest } from "./utils/sandboxRequest";
+import { downloadAuditPdf } from "./utils/pdfGenerator";
+import { analyzeMultilingualDisputeText } from "./utils/nlpEngine";
 
 type ScenarioKey =
   | "wrong_amount"
@@ -253,6 +255,11 @@ export function TryVerifier() {
   const [error, setError] = useState<string | null>(null);
   const [rejected, setRejected] = useState(false);
   const [inputNotice, setInputNotice] = useState<string | null>(null);
+
+  const nlpInsight = useMemo(() => {
+    if (!request.customer_communication?.trim()) return null;
+    return analyzeMultilingualDisputeText(request.customer_communication);
+  }, [request.customer_communication]);
 
   const tutorial = useTutorialActions();
   const updateAppContext = tutorial.updateAppContext;
@@ -624,6 +631,70 @@ export function TryVerifier() {
                   maxLength={10_000}
                 />
               </label>
+              {nlpInsight && (
+                <div
+                  className="nlp-intelligence-panel"
+                  role="region"
+                  aria-label="Multilingual NLP and Entity Intelligence"
+                >
+                  <div className="nlp-header">
+                    <span className="nlp-title">NLP & Entity Intelligence</span>
+                    <span className="nlp-lang-badge">
+                      {nlpInsight.language} ({(nlpInsight.confidence * 100).toFixed(0)}%)
+                    </span>
+                    <span className="nlp-intent-badge">
+                      Intent: {nlpInsight.intent}
+                    </span>
+                  </div>
+                  <div className="nlp-details-grid">
+                    {nlpInsight.claimedAmounts.length > 0 && (
+                      <div className="nlp-item">
+                        <span className="nlp-label">Detected Amount:</span>
+                        <span className="nlp-value">
+                          INR {nlpInsight.claimedAmounts[0].normalizedInr} ({nlpInsight.claimedAmounts[0].raw})
+                        </span>
+                      </div>
+                    )}
+                    {nlpInsight.places.length > 0 && (
+                      <div className="nlp-item">
+                        <span className="nlp-label">Places:</span>
+                        <span className="nlp-value">📍 {nlpInsight.places.join(", ")}</span>
+                      </div>
+                    )}
+                    {nlpInsight.banksAndRails.length > 0 && (
+                      <div className="nlp-item">
+                        <span className="nlp-label">Rails / Banks:</span>
+                        <span className="nlp-value">🏦 {nlpInsight.banksAndRails.join(", ")}</span>
+                      </div>
+                    )}
+                    {nlpInsight.transactionReferences.length > 0 && (
+                      <div className="nlp-item">
+                        <span className="nlp-label">References:</span>
+                        <span className="nlp-value">🆔 {nlpInsight.transactionReferences.join(", ")}</span>
+                      </div>
+                    )}
+                  </div>
+                  {nlpInsight.claimedAmounts.length > 0 && (
+                    <button
+                      type="button"
+                      className="nlp-apply-btn"
+                      onClick={() => {
+                        const firstAmt = nlpInsight.claimedAmounts[0].normalizedInr;
+                        editRequest({
+                          ...request,
+                          payment_amount_inr: firstAmt,
+                          refund_amount_inr:
+                            request.refund_status !== "none"
+                              ? firstAmt
+                              : request.refund_amount_inr,
+                        });
+                      }}
+                    >
+                      Auto-fill Amount from NLP (INR {nlpInsight.claimedAmounts[0].normalizedInr})
+                    </button>
+                  )}
+                </div>
+              )}
               <div className="guided-fields">
                 <label>
                   Payment amount (INR)
@@ -1025,6 +1096,14 @@ export function TryVerifier() {
                 <DownloadSimple size={15} aria-hidden="true" /> Export Case Evidence:
               </span>
               <div className="export-receipt-buttons">
+                <button
+                  type="button"
+                  className="product-quiet export-btn export-pdf-btn"
+                  onClick={() => downloadAuditPdf(result, primaryClaim)}
+                  title="Download verified dispute audit certificate in PDF format"
+                >
+                  Certificate (.pdf)
+                </button>
                 <button
                   type="button"
                   className="product-quiet export-btn"

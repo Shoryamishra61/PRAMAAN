@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import base64
 from datetime import datetime, timezone
 from pathlib import Path
 from time import perf_counter
@@ -51,9 +52,15 @@ from app.health import HealthResponse, read_health
 from app.ingestion import IngestPayloadError, IngestResult, ingest_event
 from app.observability import StructuredLogEvent, emit_log
 from app.sandbox_api import (
+    DocumentExtractRequest,
+    DocumentExtractResponse,
+    NlpAnalyzeRequest,
+    NlpAnalyzeResponse,
     SandboxEvaluateRequest,
     SandboxEvaluateResponse,
+    analyze_nlp_text,
     evaluate_sandbox_input,
+    extract_document_payload,
 )
 from app.security import WebhookSignatureError, verify_webhook_signature
 
@@ -95,6 +102,32 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             return await evaluate_sandbox_input(request)
         except ValueError as error:
             return _error_response("SANDBOX_INPUT_INVALID", str(error), f"corr_{uuid4().hex}", 400)
+
+    @application.post("/api/v1/sandbox/nlp-analyze", response_model=NlpAnalyzeResponse)
+    def sandbox_nlp_analyze(request: NlpAnalyzeRequest) -> NlpAnalyzeResponse | JSONResponse:
+        """Multilingual NLP and entity recognition for dispute text."""
+        try:
+            return analyze_nlp_text(request)
+        except Exception as error:
+            return _error_response("NLP_ANALYSIS_FAILED", str(error), f"corr_{uuid4().hex}", 400)
+
+    @application.post("/api/v1/sandbox/extract-document", response_model=DocumentExtractResponse)
+    def sandbox_extract_document(
+        request: DocumentExtractRequest,
+    ) -> DocumentExtractResponse | JSONResponse:
+        """Extract text and entities from an uploaded PDF, image, or text dispute document."""
+        try:
+            if request.content_base64:
+                content = base64.b64decode(request.content_base64)
+            elif request.content_text is not None:
+                content = request.content_text.encode("utf-8")
+            else:
+                content = b""
+            return extract_document_payload(request.filename, content)
+        except Exception as error:
+            return _error_response("DOCUMENT_EXTRACTION_FAILED", str(error), f"corr_{uuid4().hex}", 400)
+
+
 
     @application.post("/api/v1/webhooks/razorpay", response_model=IngestResult, status_code=202)
     async def razorpay_webhook(request: Request) -> IngestResult | JSONResponse:

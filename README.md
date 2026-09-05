@@ -158,7 +158,29 @@ PRAMAAN provides five specialized operational surfaces engineered with minimal, 
 
 ---
 
-## 6. Verification & Quality Gates
+## 6. Document Intelligence, Multilingual NLP & Cryptographic PDF Export
+
+To address real-world dispute operational friction across Indian BFSI and e-commerce ecosystems, PRAMAAN includes an offline-first document extraction and entity understanding subsystem:
+
+1. **Multilingual & Dialect NLP Engine**:
+   - **Supported Languages & Scripts**: English, Hindi (Devanagari script), Hinglish (Romanized Hindi), Bengali, Tamil, Telugu, and Marathi.
+   - **Monetary Expression Resolution**: Recognizes verbal numbers (*"ek"*, *"do"*, *"paanch"*, *"das"*, *"sau"*, *"hazaar"*, *"lakh"*, *"crore"*, *"10k"*) alongside regional currency terms (*"rupaye"*, *"paisa"*, *"bucks"*, *"INR"*, *"₹"*) and maps them into exact minor units.
+   - **Geographic & Trade Hub Entity Extraction**: High-precision dictionary covering 100+ Indian commercial hubs (Bengaluru, Mumbai, Delhi, Hyderabad, Pune, Chennai, Ahmedabad, Jaipur, etc.).
+   - **Financial Rails & Reference Parsing**: Automatically extracts UPI VPA handles (`user@upi`), 12-digit bank UTR / RRN numbers, Razorpay payment and refund IDs (`pay_*`, `rfnd_*`), and dispute reference codes.
+   - **Dispute Intent Categorization**: Disambiguates claims into structural categories: `REFUND_NOT_RECEIVED`, `REFUND_CLAIMED_PROCESSED`, `DOUBLE_DEBIT`, `RETURN_DELIVERED_NO_REFUND`, and `UNAUTHORIZED_TRANSACTION`.
+
+2. **Computer Vision & Multi-Format Document Ingestion**:
+   - **Supported Evidence Formats**: `.pdf` (invoices, dispute notices, letters), images (`.png`, `.jpg`, `.jpeg`, `.webp` for UPI receipts and mobile banking screenshots), `.json` (structured bundles), `.csv` (ledger exports), and `.txt` (customer chat transcripts).
+   - **PDF Byte-Stream Parsing**: Walks text object operators (`BT ... ET`, `Tj`, `TJ`) and stream dictionaries without requiring heavyweight native C++ runtimes.
+   - **Vision & Adaptive Thresholding**: Applies luminance conversion, contrast stretching, and Otsu's adaptive binarization to segment and inspect visual receipt evidence.
+
+3. **Standards-Compliant PDF Audit Certificates**:
+   - Generates and downloads cryptographically signed dispute audit certificates (`.pdf`) directly from the evidence debugger toolbar.
+   - Embeds evaluation metadata, decision verdict, grounded claim quotes, authoritative ledger state, Z3 contradiction certificates, and SHA-256 non-repudiation tokens.
+
+---
+
+## 7. Verification & Quality Gates
 
 PRAMAAN enforces an exhaustive suite of deterministic verification gates:
 
@@ -181,7 +203,7 @@ PRAMAAN enforces an exhaustive suite of deterministic verification gates:
 
 ---
 
-## 7. Quickstart & Local Reproduction
+## 8. Quickstart & Local Reproduction
 
 ### Prerequisites
 - Python 3.10+ (or `uv` package manager)
@@ -214,7 +236,7 @@ Open your browser to:
 
 ---
 
-## 8. Public Full-Stack Cloud Deployment
+## 9. Public Full-Stack Cloud Deployment
 
 PRAMAAN is containerized as a portable, single-container multi-stage build. The FastAPI backend serves the pre-compiled React 18 frontend SPA directly from `/app/frontend/dist` and dynamically binds to the host-provided `$PORT`.
 
@@ -238,7 +260,7 @@ docker run -p 18000:18000 -e PORT=18000 pramaan-dispute-gate
 
 ---
 
-## 9. Honest Limitations & Ethical Scope
+## 10. Honest Limitations & Ethical Scope
 
 1. **Synthetic Diagnostic Benchmarks**: The quantitative metrics reported are evaluated on frozen synthetic diagnostic benchmarks (`DIG-RNP-SYN-v1`) designed for structural boundary verification. They do not simulate live network chargeback win rates.
 2. **Defensive Pre-Submission Gate**: PRAMAAN does not provide legal representation or predictive financial guarantees. It acts as an operational loss integrity gate to prevent ungrounded dispute submissions.

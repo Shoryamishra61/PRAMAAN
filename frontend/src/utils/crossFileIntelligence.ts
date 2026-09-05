@@ -1,13 +1,15 @@
 import type { SandboxEvaluateRequest } from "../api";
 import { isSandboxRequest } from "./sandboxRequest";
+import { extractDocumentContent } from "./documentExtractor";
+import { analyzeMultilingualDisputeText } from "./nlpEngine";
 
 /**
  * Cross-File Evidence Ingestion and Synthesis Engine
- * Provides multi-format parsing (.json, .txt, .csv), per-file lifecycle tracking,
+ * Provides multi-format parsing (.json, .txt, .csv, .pdf, image/receipts), per-file lifecycle tracking,
  * fault isolation, and cross-document contradiction detection for dispute integrity verification.
  */
 
-export type FileType = "json" | "txt" | "csv" | "unsupported";
+export type FileType = "json" | "txt" | "csv" | "pdf" | "image" | "unsupported";
 
 export type IngestionStatus =
   | "queued"
@@ -27,6 +29,11 @@ export interface ExtractedCaseFacts {
   refundStatuses: string[];
   datesFound: string[];
   sourceLineCount: number;
+  // Multilingual & entity additions
+  language?: string;
+  intent?: string;
+  places?: string[];
+  banksAndRails?: string[];
 }
 
 export interface EvidenceFileRecord {
@@ -67,7 +74,8 @@ export interface CrossFileAnalysisResult {
   sources: { id: string; name: string; start: number; end: number }[];
 }
 
-const MAX_FILE_BYTES = 256 * 1024; // 256 KB safety limit per file
+const MAX_FILE_BYTES = 256 * 1024; // 256 KB safety limit per text file
+const MAX_DOC_BYTES = 2048 * 1024; // 2 MB safety limit for PDF and image evidence
 
 export function parseMoneyMinorUnits(value: string): bigint | null {
   const normalized = value
@@ -84,6 +92,14 @@ export function detectFileType(fileName: string): FileType {
   if (lower.endsWith(".json")) return "json";
   if (lower.endsWith(".txt") || lower.endsWith(".log")) return "txt";
   if (lower.endsWith(".csv")) return "csv";
+  if (lower.endsWith(".pdf")) return "pdf";
+  if (
+    lower.endsWith(".png") ||
+    lower.endsWith(".jpg") ||
+    lower.endsWith(".jpeg") ||
+    lower.endsWith(".webp")
+  )
+    return "image";
   return "unsupported";
 }
 
@@ -178,15 +194,16 @@ export async function processEvidenceFile(
       ...baseRecord,
       status: "failed",
       errorMessage:
-        "Unsupported file format. Please upload .json, .txt, or .csv files.",
+        "Unsupported file format. Please upload .json, .txt, .csv, .pdf, or image files.",
     };
   }
 
-  if (size > MAX_FILE_BYTES) {
+  const limit = type === "pdf" || type === "image" ? MAX_DOC_BYTES : MAX_FILE_BYTES;
+  if (size > limit) {
     return {
       ...baseRecord,
       status: "failed",
-      errorMessage: `File size exceeds the 256 KB safety limit (${(size / 1024).toFixed(1)} KB).`,
+      errorMessage: `File size exceeds the ${(limit / 1024).toFixed(0)} KB safety limit (${(size / 1024).toFixed(1)} KB).`,
     };
   }
 
@@ -260,11 +277,20 @@ export async function processEvidenceFile(
             : "";
       if (comm) {
         baseRecord.facts.communicationSnippet = comm;
-        const amounts =
-          comm.match(/(?:₹|INR|rs\.?)\s*([\d,]+(?:\.\d{1,2})?)/gi) ?? [];
-        baseRecord.facts.claimedAmounts = amounts.map((a) =>
-          a.replace(/[^\d.]/g, ""),
-        );
+        const nlp = analyzeMultilingualDisputeText(comm);
+        const amountsList: string[] = [];
+        for (const a of nlp.claimedAmounts) {
+          const rawDigits = a.normalizedInr.replace(/\.00$/, "");
+          if (!amountsList.includes(rawDigits)) amountsList.push(rawDigits);
+          if (!amountsList.includes(a.normalizedInr)) amountsList.push(a.normalizedInr);
+        }
+        baseRecord.facts.claimedAmounts = amountsList;
+        baseRecord.facts.transactionIds = nlp.transactionReferences;
+        baseRecord.facts.datesFound = nlp.datesFound;
+        baseRecord.facts.places = nlp.places;
+        baseRecord.facts.banksAndRails = nlp.banksAndRails;
+        baseRecord.facts.language = nlp.language;
+        baseRecord.facts.intent = nlp.intent;
       }
 
       if (typeof candidate.payment_amount_inr === "string") {
@@ -283,24 +309,35 @@ export async function processEvidenceFile(
       return baseRecord;
     }
 
-    if (type === "txt") {
+    if (type === "txt" || type === "pdf" || type === "image") {
       baseRecord.status = "extracting";
       baseRecord.facts.communicationSnippet = content;
-      const amounts =
-        content.match(/(?:₹|INR|rs\.?)\s*([\d,]+(?:\.\d{1,2})?)/gi) ?? [];
-      baseRecord.facts.claimedAmounts = amounts.map((a) =>
-        a.replace(/[^\d.]/g, ""),
-      );
 
-      const txns =
-        content.match(/(?:txn|pay|order|case|disp)_[a-zA-Z0-9_-]+/gi) ?? [];
-      baseRecord.facts.transactionIds = Array.from(new Set(txns));
+      // Extract comprehensive entities and facts using multilingual NLP
+      const nlp = analyzeMultilingualDisputeText(content);
+      const amountsList: string[] = [];
+      for (const a of nlp.claimedAmounts) {
+        const rawDigits = a.normalizedInr.replace(/\.00$/, "");
+        if (!amountsList.includes(rawDigits)) amountsList.push(rawDigits);
+        if (!amountsList.includes(a.normalizedInr)) amountsList.push(a.normalizedInr);
+      }
+      baseRecord.facts.claimedAmounts = amountsList;
+      baseRecord.facts.transactionIds = nlp.transactionReferences;
+      baseRecord.facts.datesFound = nlp.datesFound;
+      baseRecord.facts.places = nlp.places;
+      baseRecord.facts.banksAndRails = nlp.banksAndRails;
+      baseRecord.facts.language = nlp.language;
+      baseRecord.facts.intent = nlp.intent;
 
-      const dates =
-        content.match(
-          /\b(?:\d{1,2}[-/.]\d{1,2}[-/.]\d{2,4}|\d{1,2}\s+(?:Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)[a-z]*\s+\d{2,4})\b/gi,
-        ) ?? [];
-      baseRecord.facts.datesFound = Array.from(new Set(dates));
+      if (type === "pdf") {
+        baseRecord.warnings.push(
+          "PDF document stream parsed. Extracted textual evidence is retained for verification.",
+        );
+      } else if (type === "image") {
+        baseRecord.warnings.push(
+          "Image evidence preprocessed with adaptive vision filter. Verify extracted details.",
+        );
+      }
 
       baseRecord.status = "complete";
       return baseRecord;
@@ -422,9 +459,22 @@ export function analyzeCrossFileEvidence(
 export async function parseEvidenceFile(
   file: File,
 ): Promise<EvidenceFileRecord> {
-  if (file.size > MAX_FILE_BYTES || detectFileType(file.name) === "unsupported")
+  const type = detectFileType(file.name);
+  if (type === "unsupported") {
     return processEvidenceFile(file.name, file.size, "");
+  }
+
+  const limit = type === "pdf" || type === "image" ? MAX_DOC_BYTES : MAX_FILE_BYTES;
+  if (file.size > limit) {
+    return processEvidenceFile(file.name, file.size, "");
+  }
+
   try {
+    if (type === "pdf" || type === "image") {
+      const extracted = await extractDocumentContent(file);
+      return processEvidenceFile(file.name, file.size, extracted.text);
+    }
+
     const content =
       typeof file.arrayBuffer === "function"
         ? new TextDecoder("utf-8", { fatal: true }).decode(
@@ -439,7 +489,7 @@ export async function parseEvidenceFile(
     return {
       ...record,
       status: "failed",
-      errorMessage: `Could not read UTF-8 evidence. Select the file again. ${error instanceof Error ? error.message : "Read failed."}`,
+      errorMessage: `Could not read evidence file. Select the file again. ${error instanceof Error ? error.message : "Read failed."}`,
     };
   }
 }

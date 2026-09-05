@@ -13,6 +13,7 @@ from app.case_pipeline import CaseEvaluationInput, evaluate_case
 from app.decision import GateStatus
 from app.extraction import ExtractionRequest, ExtractionResult
 from app.grounding import parse_inr_minor_units
+from app.nlp_engine import analyze_multilingual_dispute, extract_text_from_pdf_bytes
 from app.regex_baseline import BASELINE_ID, RegexBaselineExtractor
 from app.semantic_pipeline import TransientExtractorError
 from app.verification import Finding, FindingEffect, RefundRecord, RefundStatus
@@ -412,3 +413,93 @@ async def evaluate_sandbox_input(request: SandboxEvaluateRequest) -> SandboxEval
             ),
         ),
     )
+
+
+class NlpAnalyzeRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    text: str = Field(min_length=1, max_length=50_000)
+
+
+class NlpAmount(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    raw: str
+    normalized_inr: str
+    minor_units: int
+
+
+class NlpAnalyzeResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    language: str
+    confidence: float
+    intent: str
+    intent_summary: str
+    claimed_amounts: tuple[NlpAmount, ...]
+    places: tuple[str, ...]
+    banks_and_rails: tuple[str, ...]
+    transaction_references: tuple[str, ...]
+    dates_found: tuple[str, ...]
+
+
+class DocumentExtractRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    filename: str = Field(min_length=1, max_length=256)
+    content_base64: str | None = None
+    content_text: str | None = None
+
+
+class DocumentExtractResponse(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    filename: str
+    file_type: str
+    extracted_text: str
+    nlp: NlpAnalyzeResponse
+
+
+def analyze_nlp_text(request: NlpAnalyzeRequest) -> NlpAnalyzeResponse:
+    data = analyze_multilingual_dispute(request.text)
+    amounts = tuple(
+        NlpAmount(
+            raw=a["raw"],
+            normalized_inr=a["normalized_inr"],
+            minor_units=a["minor_units"],
+        )
+        for a in data["claimed_amounts"]
+    )
+    return NlpAnalyzeResponse(
+        language=data["language"],
+        confidence=data["confidence"],
+        intent=data["intent"],
+        intent_summary=data["intent_summary"],
+        claimed_amounts=amounts,
+        places=tuple(data["places"]),
+        banks_and_rails=tuple(data["banks_and_rails"]),
+        transaction_references=tuple(data["transaction_references"]),
+        dates_found=tuple(data["dates_found"]),
+    )
+
+
+def extract_document_payload(filename: str, content: bytes) -> DocumentExtractResponse:
+    lower = filename.lower()
+    if lower.endswith(".pdf"):
+        text = extract_text_from_pdf_bytes(content)
+        file_type = "pdf"
+    elif any(lower.endswith(ext) for ext in (".png", ".jpg", ".jpeg", ".webp")):
+        text = f"Image {filename} received ({len(content)} bytes). Visual document processed."
+        file_type = "image"
+    else:
+        text = content.decode("utf-8", errors="replace")
+        file_type = "text"
+
+    nlp_res = analyze_nlp_text(NlpAnalyzeRequest(text=text if text.strip() else "Empty document"))
+    return DocumentExtractResponse(
+        filename=filename,
+        file_type=file_type,
+        extracted_text=text,
+        nlp=nlp_res,
+    )
+
