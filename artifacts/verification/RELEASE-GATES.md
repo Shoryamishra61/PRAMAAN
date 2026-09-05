@@ -1,6 +1,6 @@
 # Current hardening receipt — 2026-09-05
 
-Status: final automated gate in progress; rendered UI release gate remains pending.
+Status: final automated gate passed on 2026-09-05; rendered UI release gate remains pending.
 This receipt supersedes the 2026-08-23 claims for the current working tree. Historical task
 receipts are not evidence that the current product was visually verified.
 
@@ -15,8 +15,10 @@ receipts are not evidence that the current product was visually verified.
 - Actual backend certificates only; no browser-fabricated proof identifiers or fake phase delays.
   Quant-risk projection endpoint returns 410. Historical metric generators and completion-only
   training wrapper removed; mixed historical results explicitly labeled unverified.
-- Restrained shared light surfaces, reduced nesting and decorative styling, clear navigation,
-  contextual tour guidance from real errors/results/stages, and preserved user navigation.
+- One restrained light interface system across every active route: flat document sections,
+  consistent navigation and buttons, semantic status text, and contextual guidance from real
+  errors/results/stages. Hard-coded merchant-economics tiles, decorative model charts, nested
+  cards, colored status containers, and the duplicate tutorial launcher were removed.
 - Real PyTorch optimizer/checkpoint smoke and DEV-only local classifier retraining. Learned
   candidate remains unpromoted because it does not beat its simpler comparator.
 
@@ -35,9 +37,16 @@ Current runtime **does not** match `artifacts/release/freeze-v1.json`; verificat
 raises "Runtime code/config bytes differ from release freeze." No HOLDOUT rerun or silent
 promotion was performed. Frontend evaluation copy identifies the historical baseline.
 
-Git HEAD: `8e8fc55a23892c2caa6cb12df95af1f8d41e7d1e`, with existing and new uncommitted changes.
-[Source manifest](dev-hardening-20260905/source-manifest.json) records current runtime,
-frontend, training and dependency hashes; it is not a replacement for the pre-HOLDOUT freeze.
+The final Git commit is the source provenance for this receipt. It is not a replacement for the
+pre-HOLDOUT freeze.
+
+## Automated verification
+
+`scripts/check.ps1` passed against the final working tree: 313 backend tests and 38 frontend
+tests, Python formatting/linting, mypy across 157 source files, specification/package validation,
+write-safety and stale-claim scans, API demo smoke, Prettier, ESLint, TypeScript, and the Vite
+production build. The complete output is saved in
+`dev-hardening-20260905/check-final.log`.
 
 ## Manual / remaining release gates
 

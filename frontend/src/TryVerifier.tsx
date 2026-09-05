@@ -413,20 +413,6 @@ export function TryVerifier() {
             changes a dispute.
           </span>
         </div>
-        <div className="guided-hero-actions" style={{ marginTop: "12px" }}>
-          <button
-            type="button"
-            className="tour-launch-chip"
-            data-tour="hero-launch-tour"
-            onClick={() => {
-              tutorial.startTour();
-            }}
-            aria-label="Start interactive product tutorial"
-          >
-            <Info size={15} aria-hidden="true" />
-            <span>Interactive Tutorial</span>
-          </button>
-        </div>
       </header>
 
       <nav className="journey-nav" aria-label="Case-checking steps">

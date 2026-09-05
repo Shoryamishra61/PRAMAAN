@@ -1,0 +1,592 @@
+/* Canonical product presentation. Page-specific files own layout details; this
+   layer enforces one restrained visual grammar across every route. */
+:root {
+  --canvas: #f7f8f7;
+  --surface: #ffffff;
+  --surface-muted: #f2f4f2;
+  --ink: #17211c;
+  --muted: #59655e;
+  --line: #d7ddd9;
+  --line-strong: #aeb9b2;
+  --accent: #17211c;
+  --pass: #21643d;
+  --review: #805b16;
+  --block: #9a3030;
+  --green: #21643d;
+  --green-soft: transparent;
+  --red-soft: transparent;
+  --amber-soft: transparent;
+  --radius-sm: 3px;
+  --radius-control: 3px;
+  --radius-panel: 3px;
+}
+
+html {
+  background: var(--canvas);
+}
+body {
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: var(--font-sans);
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button {
+  border-radius: 3px;
+}
+
+.unified-nav {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: #fff;
+  border-bottom: 1px solid var(--line);
+  box-shadow: none;
+}
+.unified-nav-inner {
+  min-height: 64px;
+  width: min(1280px, calc(100% - 32px));
+  margin: 0 auto;
+  gap: 24px;
+}
+.unified-brand {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 6px 0;
+}
+.brand-main-line strong {
+  color: var(--ink);
+  letter-spacing: -0.02em;
+}
+.brand-title-wrap small {
+  color: var(--muted);
+}
+.unified-nav-tabs {
+  gap: 18px;
+}
+.unified-nav-tabs button {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+.unified-nav-tabs button:hover {
+  background: transparent;
+  color: var(--ink);
+}
+.unified-nav-tabs button.active {
+  background: transparent;
+  border-color: var(--ink);
+  color: var(--ink);
+}
+.tour-nav-launch-btn,
+.tour-launch-chip {
+  min-height: 38px;
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: none;
+}
+.tour-nav-launch-btn:hover,
+.tour-launch-chip:hover {
+  background: var(--surface-muted);
+  transform: none;
+}
+.unified-nav-badge {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: 0;
+}
+
+.product-app,
+.proof-shell {
+  background: var(--canvas);
+}
+.product-page,
+.product-main,
+.evaluation-page,
+.guided-verifier,
+.debugger-workspace,
+.queue-shell {
+  width: min(1180px, calc(100% - 40px));
+  margin-inline: auto;
+}
+.app-header,
+.guided-hero,
+.debugger-hero,
+.evaluation-page > header {
+  display: block;
+  max-width: 780px;
+  min-height: 0;
+  padding: 32px 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+}
+.app-header h1,
+.guided-hero h1,
+.debugger-hero h1,
+.evaluation-page h1 {
+  margin: 4px 0 10px;
+  font-size: clamp(1.9rem, 3.5vw, 2.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.035em;
+}
+.eyebrow,
+.guided-kicker,
+.product-eyebrow,
+.section-kicker {
+  color: var(--muted);
+  font-size: 0.72rem;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+}
+.mode-badge {
+  display: inline-block;
+  margin-top: 14px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+  padding: 0;
+}
+.mode-badge > span {
+  display: none;
+}
+.guided-boundary {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 16px;
+  border: 0;
+  border-top: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+}
+
+.product-landing {
+  min-height: auto;
+  grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+  gap: 64px;
+  padding: 48px 0;
+}
+.product-landing h1 {
+  max-width: 760px;
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+.product-journey-preview,
+.product-complete-card {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.product-preview-head,
+.product-preview-step {
+  padding-inline: 0;
+}
+.product-preview-step {
+  border-bottom: 1px solid var(--line);
+}
+.product-step-number {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+}
+.product-truth-row {
+  gap: 12px 24px;
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+}
+.product-truth-row span,
+.product-status {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+}
+.product-status.product-pass {
+  color: var(--pass);
+}
+.product-status.product-review {
+  color: var(--review);
+}
+.product-status.product-block {
+  color: var(--block);
+}
+
+.product-primary,
+.guided-primary,
+.ds-btn-primary {
+  border: 1px solid var(--ink);
+  border-radius: 3px;
+  background: var(--ink);
+  color: #fff;
+  box-shadow: none;
+}
+.product-primary:hover,
+.guided-primary:hover,
+.ds-btn-primary:hover:not(:disabled) {
+  background: #303b35;
+  transform: none;
+}
+.product-secondary,
+.product-quiet,
+.product-exit,
+.repair-action,
+.card-btn,
+.sample-pill,
+.case-examples button {
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  background: #fff;
+  color: var(--ink);
+  box-shadow: none;
+}
+.product-quiet,
+.product-exit {
+  border-color: transparent;
+  background: transparent;
+}
+
+.product-progress {
+  border-block: 1px solid var(--line);
+  background: transparent;
+}
+.product-progress-item {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.product-progress-item.current {
+  background: transparent;
+  color: var(--ink);
+}
+.product-progress-dot {
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: #fff;
+}
+.product-progress-item.current .product-progress-dot,
+.product-progress-item.done .product-progress-dot {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #fff;
+}
+.product-stage {
+  gap: 48px;
+}
+.product-guide,
+.product-evidence-stage,
+.product-evidence-card,
+.product-guide-note,
+.product-safe-boundary,
+.product-conflict,
+.product-human-panel {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.product-guide {
+  border-right: 1px solid var(--line);
+  padding-right: 40px;
+}
+.product-guide-note {
+  border-top: 1px solid var(--line);
+  padding: 16px 0 0;
+}
+.product-card-head {
+  border-bottom: 1px solid var(--line);
+  padding: 0 0 14px;
+}
+.product-notice-cell,
+.product-compare-side,
+.product-ledger > div {
+  border-color: var(--line);
+  background: transparent;
+}
+.product-safe-boundary,
+.product-conflict {
+  border-top: 1px solid var(--line);
+  padding: 18px 0 0;
+}
+.product-actionbar {
+  border-top: 1px solid var(--line);
+  background: var(--canvas);
+}
+
+.journey-nav {
+  border-block: 1px solid var(--line);
+  background: transparent;
+}
+.journey-nav button {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+}
+.journey-nav button.active {
+  background: transparent;
+  color: var(--ink);
+  box-shadow: inset 0 -2px var(--ink);
+}
+.journey-nav button.complete {
+  background: transparent;
+  color: var(--ink);
+}
+.journey-nav button > span {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.guided-stage,
+.guided-input,
+.guided-mechanics,
+.layer-card,
+.decision-summary,
+.evidence-dropzone,
+.sample-drawer,
+.baseline-panel,
+.known-limit,
+.synthetic-warning,
+.not-measured,
+.artifact-proof,
+.evaluation-loading,
+.metric-grid,
+.metric-grid article {
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.guided-stage {
+  border: 0;
+}
+.guided-input,
+.guided-mechanics {
+  padding: 28px 0;
+  border: 0;
+}
+.case-examples {
+  border: 0;
+  border-top: 1px solid var(--line);
+  padding: 20px 0 0;
+}
+.case-examples button {
+  text-align: left;
+}
+.case-examples button.active {
+  border-color: var(--ink);
+  background: var(--surface-muted);
+}
+.evidence-dropzone {
+  border: 1px dashed var(--line-strong);
+  background: transparent;
+}
+.evidence-card {
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+}
+.file-status-badge {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.status,
+.ds-badge,
+.speed-badge-header,
+.dropzone-formats-badge,
+.tour-tooltip-badge {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding-inline: 0;
+  box-shadow: none;
+}
+.status-pass,
+.status-complete {
+  color: var(--pass);
+}
+.status-review,
+.status-warning {
+  color: var(--review);
+}
+.status-block,
+.status-failed {
+  color: var(--block);
+}
+.product-complete-icon,
+.product-grounding {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+}
+.layer-card {
+  border: 0;
+  border-top: 1px solid var(--line);
+  padding: 24px 0;
+}
+.layer-number {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--muted);
+}
+.decision-summary {
+  border: 0;
+  border-top: 1px solid var(--line);
+  padding: 24px 0;
+}
+.decision-summary > span {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.decision-summary.decision-pass {
+  color: var(--pass);
+}
+.decision-summary.decision-review {
+  color: var(--review);
+}
+.decision-summary.decision-block {
+  color: var(--block);
+}
+.safe-error,
+.inline-notice {
+  border: 0;
+  border-block: 1px solid currentColor;
+  border-radius: 0;
+  background: transparent;
+}
+
+.metric-grid {
+  display: grid;
+  border-block: 1px solid var(--line);
+}
+.metric-grid article {
+  border: 0;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 18px 18px 18px 0;
+}
+.metric-grid article:nth-child(3n) {
+  border-right: 0;
+}
+.metric-grid span {
+  color: var(--muted);
+}
+.synthetic-warning,
+.baseline-panel,
+.known-limit {
+  border: 0;
+  border-top: 1px solid var(--line);
+  padding: 24px 0;
+}
+.artifact-proof {
+  border-top: 1px solid var(--line);
+}
+
+.tour-tooltip-card {
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(18, 28, 22, 0.12);
+}
+.tour-contextual-notice {
+  border: 0;
+  border-left: 2px solid var(--ink);
+  border-radius: 0;
+  background: transparent;
+}
+.tour-progress-bar {
+  background: var(--line);
+}
+.tour-progress-fill {
+  background: var(--ink);
+}
+.tour-docked-pill {
+  border: 1px solid var(--line-strong);
+  border-radius: 3px;
+  background: #fff;
+}
+
+@media (max-width: 900px) {
+  .unified-nav-inner {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    padding-block: 10px;
+  }
+  .unified-nav-tabs {
+    order: 3;
+    width: 100%;
+    overflow-x: auto;
+  }
+  .unified-nav-badge {
+    display: none;
+  }
+  .product-landing,
+  .product-stage {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .product-guide {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    padding: 0 0 24px;
+  }
+}
+
+@media (max-width: 620px) {
+  .product-page,
+  .product-main,
+  .evaluation-page,
+  .guided-verifier,
+  .debugger-workspace,
+  .queue-shell {
+    width: min(100% - 28px, 1180px);
+  }
+  .unified-nav-actions {
+    margin-left: auto;
+  }
+  .brand-title-wrap small {
+    display: none;
+  }
+  .metric-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .metric-grid article:nth-child(3n) {
+    border-right: 1px solid var(--line);
+  }
+  .metric-grid article:nth-child(2n) {
+    border-right: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

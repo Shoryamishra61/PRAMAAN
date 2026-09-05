@@ -113,7 +113,7 @@ export function UnifiedNavigation({
             className={isEvalActive ? "active" : ""}
             onClick={() => handleNav("evaluation", "evaluation")}
           >
-            Generated evaluation
+            Evaluation
           </button>
           <button
             type="button"
@@ -122,7 +122,7 @@ export function UnifiedNavigation({
             className={isResearchActive ? "active" : ""}
             onClick={() => handleNav("research")}
           >
-            CARVE Research
+            Research
           </button>
           <button
             type="button"
@@ -148,11 +148,11 @@ export function UnifiedNavigation({
                 tutorialStartTour();
               }
             }}
-            title="Launch interactive element-level tutorial"
-            aria-label="Launch interactive product tutorial"
+            title="Open contextual guide"
+            aria-label="Open contextual guide"
           >
             <Info size={14} aria-hidden="true" />
-            <span>Interactive Guide</span>
+            <span>Guide</span>
           </button>
 
           <div className="unified-nav-badge">

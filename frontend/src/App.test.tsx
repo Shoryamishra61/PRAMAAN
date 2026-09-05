@@ -421,7 +421,7 @@ test("opens on the evidence debugger, exercises safe break cases, repairs the le
     ),
   ).toBeVisible();
 
-  fireEvent.click(screen.getByRole("button", { name: "Generated evaluation" }));
+  fireEvent.click(screen.getByRole("button", { name: "Evaluation" }));
   expect(
     await screen.findByRole("heading", {
       name: "Held-out evaluation",
@@ -604,13 +604,15 @@ test("shows the generated DEV tournament and exact evidence switching", async ()
   render(<App initialRoute="ai" />);
   expect(
     await screen.findByRole("heading", {
-      name: "Decision Engine",
+      name: "Why the simpler extractor remains in control",
     }),
   ).toBeVisible();
-  expect(screen.getByRole("heading", { name: "NOT PROMOTED" })).toBeVisible();
-  expect(screen.getByText("regex_nomination")).toBeVisible();
+  expect(screen.getByText(/not promoted/i)).toBeVisible();
+  expect(screen.getByText("regex-baseline-v1")).toBeVisible();
   expect(screen.getByText(/Your INR 2,500 refund was processed/)).toBeVisible();
-  expect(screen.getByRole("heading", { name: /Same evidence/ })).toBeVisible();
+  expect(
+    screen.getByRole("heading", { name: "Inspect an exact example" }),
+  ).toBeVisible();
   expect(screen.queryByText(/model confidence/i)).not.toBeInTheDocument();
 });
 
@@ -901,7 +903,7 @@ test("shows NOT YET MEASURED instead of placeholder evaluation values", async ()
   );
   render(<App initialRoute="workspace" />);
 
-  fireEvent.click(screen.getByRole("button", { name: "Evaluation" }));
+  fireEvent.click(screen.getAllByRole("button", { name: "Evaluation" })[0]);
 
   expect(
     await screen.findByRole("heading", { name: "NOT YET MEASURED" }),
@@ -978,7 +980,7 @@ test("renders measured values and provenance only from the saved artifact respon
   );
   render(<App initialRoute="workspace" />);
 
-  fireEvent.click(screen.getByRole("button", { name: "Evaluation" }));
+  fireEvent.click(screen.getAllByRole("button", { name: "Evaluation" })[0]);
 
   expect(
     await screen.findByRole("heading", { name: "Evaluation · fixture-run" }),

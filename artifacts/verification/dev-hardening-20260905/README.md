@@ -12,8 +12,8 @@ new held-out result. The frozen August artifact and HOLDOUT data remain unchange
 
 Before: `dev-hardening-20260905-revision.json`. After: `dev-refund-repair-20260905-final.json`.
 Each result has a SHA-256 sidecar and per-case predictions. Do not substitute DEV numbers for
-the historical HOLDOUT figures on the submission. Dirty Git HEAD alone cannot identify exact
-bytes; `source-manifest.json` records final runtime and training source hashes.
+the historical HOLDOUT figures on the submission. Use the committed source revision with the
+artifact SHA-256 sidecars when reproducing these results.
 
 Two of the false BLOCKs came from sentence segmentation truncating decimal amounts. Eight
 came from the aggregate-refund equality branch falling through to "no ledger match". Repairs
