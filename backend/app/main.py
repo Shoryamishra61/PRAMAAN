@@ -7,8 +7,8 @@ from pathlib import Path
 from time import perf_counter
 from uuid import uuid4
 
-from fastapi import FastAPI, Header, Query, Request
-from fastapi.responses import JSONResponse
+from fastapi import FastAPI, Header, Query, Request, Response
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.concurrency import run_in_threadpool
 
@@ -384,6 +384,19 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     dist_dir = Path(__file__).resolve().parents[2] / "frontend" / "dist"
     if dist_dir.is_dir():
+        index_file = dist_dir / "index.html"
+
+        @application.exception_handler(404)
+        async def custom_404_handler(request: Request, exc: Exception) -> Response:
+            if request.url.path.startswith("/api/"):
+                return JSONResponse(
+                    status_code=404,
+                    content={"error": {"code": "NOT_FOUND", "message": "Endpoint not found"}},
+                )
+            if index_file.is_file():
+                return FileResponse(str(index_file))
+            return JSONResponse(status_code=404, content={"detail": "Not Found"})
+
         application.mount("/", StaticFiles(directory=str(dist_dir), html=True), name="frontend")
 
     return application
