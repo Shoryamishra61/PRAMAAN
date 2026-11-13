@@ -1,6 +1,5 @@
 # PRAMAAN: Defensive Dispute Integrity Gate & Predeclared Verification Architecture
 
-**Razorpay AI Buildathon 2026 · Track 02: AI Risk Manager**  
 *A Provably Grounded Loss Verifier for "Refund Not Processed" Disputes in Indian BFSI*
 
 [![Defense Boundary](https://img.shields.io/badge/API%20Mutation-Strictly%20Read--Only%20(0%20Writes)-0284c7?style=flat-square)](scripts/check_no_razorpay_writes.py)
